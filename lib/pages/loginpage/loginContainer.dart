@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tim_app/pages/signup.dart';
-import 'package:tim_app/pages/try.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 

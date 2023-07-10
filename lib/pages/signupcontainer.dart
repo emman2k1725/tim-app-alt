@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
@@ -44,9 +45,8 @@ class _SignupContainerState extends State<SignupContainer> {
 
   //Phone number international coded
   TextEditingController phoneNumberController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
-
+  
   //city picker value
   String firstName = "";
   String lastName = "";
@@ -92,6 +92,7 @@ class _SignupContainerState extends State<SignupContainer> {
               const SizedBox(
                 height: 20,
               ),
+
               // Generated code for this Text Widget...
               const Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
@@ -104,6 +105,7 @@ class _SignupContainerState extends State<SignupContainer> {
                     letterSpacing: 1.5,
                     wordSpacing: 2.0,
                   ),
+
                 ),
               ),
               Row(
@@ -194,6 +196,7 @@ class _SignupContainerState extends State<SignupContainer> {
                   return null;
                 },
               ),
+
               const SizedBox(height: 16.0),
               TextFormField(
                   obscureText: _isObscure,
@@ -213,6 +216,7 @@ class _SignupContainerState extends State<SignupContainer> {
                       borderSide: const BorderSide(color: Colors.blue),
                       borderRadius:
                           BorderRadius.circular(20.0), // Set the border radius
+                      
                     ),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -267,6 +271,11 @@ class _SignupContainerState extends State<SignupContainer> {
                     );
                     registerWithEmailPassword(
                         email, password, phoneNumber, firstName, lastName);
+                                    Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardMainScreen()),
+                );
                   }
                   // Handle button press
                 },

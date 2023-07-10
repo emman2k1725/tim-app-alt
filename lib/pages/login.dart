@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-   @override
+  @override
   Widget build(BuildContext context) {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
@@ -21,13 +21,13 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Container(
             width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                   image: AssetImage(mainBg), 
-                ),
+            height: MediaQuery.sizeOf(context).height * 1.0,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(mainBg),
               ),
+            ),
             child: const Column(
               children: [
                 SizedBox(
@@ -40,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-
-  );
+    );
   }
 }
