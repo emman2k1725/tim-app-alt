@@ -2,6 +2,7 @@ import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 
@@ -41,21 +42,10 @@ class _SignupContainerState extends State<SignupContainer> {
     }
   }
 
-  //image picker
-  // File? _image;
-
-  // Future<void> _pickImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     _image = pickedImage != null ? File(pickedImage.path) : null;
-  //   });
-  // }
-
   //Phone number international coded
   TextEditingController phoneNumberController = TextEditingController();
-
+// Form validator
+  final _formKey = GlobalKey<FormState>();
   //city picker value
   String countryValue = "";
   String stateValue = "";
@@ -112,36 +102,39 @@ class _SignupContainerState extends State<SignupContainer> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'First Name',
-                      hintText: 'First Name',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue),
-                        borderRadius: BorderRadius.circular(
-                            20.0), // Set the border radius
+            Form(
+              key: _formKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'First Name',
+                        hintText: 'First Name',
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Set the border radius
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Last Name',
-                      hintText: 'Last Name',
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue),
-                        borderRadius: BorderRadius.circular(
-                            20.0), // Set the border radius
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Last Name',
+                        hintText: 'Last Name',
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Set the border radius
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 16.0),
             IntlPhoneField(
@@ -217,7 +210,11 @@ class _SignupContainerState extends State<SignupContainer> {
             CustomButton(
               text: 'Sign up',
               onPressed: () {
-                // Handle button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardMainScreen()),
+                );
               },
             ),
             const SizedBox(height: 16.0),

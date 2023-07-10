@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 
-
 void main() {
+  // setupLocator();
   runApp(const MyApp());
 }
 

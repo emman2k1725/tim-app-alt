@@ -8,3 +8,5 @@ const String mainBg = 'assets/images/bg.jpg';
 const String timHand = 'assets/images/Timhand.png';
 const String fbLogo = 'assets/images/fb.png';
 const String googleLogo = 'assets/images/googleLogo.png';
+
+const defaultPadding = 16.0;
