@@ -232,10 +232,6 @@ class _LoginContainerState extends State<LoginContainer> {
                             text: 'Sign in',
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
-                                );
                                 loginWithEmailPassword(
                                     email, password, context);
                               }

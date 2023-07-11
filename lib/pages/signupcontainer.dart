@@ -159,7 +159,7 @@ class _SignupContainerState extends State<SignupContainer> {
                 controller: phoneNumberController,
                 onChanged: (phone) {
                   // Handle phone number changes
-                  print(phone.completeNumber);
+                  phoneNumber = phone.completeNumber;
                 },
               ),
               TextFormField(
@@ -251,9 +251,6 @@ class _SignupContainerState extends State<SignupContainer> {
                 text: 'Sign up',
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
                     registerWithEmailPassword(email, password, phoneNumber,
                         firstName, lastName, context);
                   }
