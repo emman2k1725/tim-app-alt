@@ -4,6 +4,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
+import 'package:tim_app/widgets/customButtons.dart';
 
 class LoginContainer extends StatefulWidget {
   const LoginContainer({super.key});
@@ -11,6 +13,12 @@ class LoginContainer extends StatefulWidget {
   @override
   State<LoginContainer> createState() => _LoginContainerState();
 }
+
+bool _isObscure = true;
+final _formKey = GlobalKey<FormState>();
+
+String email = "";
+String password = "";
 
 class _LoginContainerState extends State<LoginContainer> {
   @override
@@ -20,7 +28,6 @@ class _LoginContainerState extends State<LoginContainer> {
       desktop: desktopContainer1(),
     );
   }
-
   //================ MOBILE ===============
 
   Widget mobileContainer1() {
@@ -117,6 +124,7 @@ class _LoginContainerState extends State<LoginContainer> {
                     height: 530,
                     color: Colors.white,
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -174,13 +182,33 @@ class _LoginContainerState extends State<LoginContainer> {
                                     20.0), // Set the border radius
                               ),
                             ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              } else {
+                                email = value;
+                                return null;
+                              }
+                            },
                           ),
 
                           const SizedBox(height: 16.0),
                           TextFormField(
+                            obscureText: _isObscure,
                             decoration: InputDecoration(
                               labelText: 'Password',
                               hintText: 'Enter your password',
+                              suffixIcon: IconButton(
+                                  icon: Icon(_isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  }),
                               border: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: Colors.blue),
@@ -188,28 +216,31 @@ class _LoginContainerState extends State<LoginContainer> {
                                     20.0), // Set the border radius
                               ),
                             ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              } else {
+                                password = value;
+                                return null;
+                              }
+                            },
                           ),
                           const SizedBox(height: 16.0),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue,
-                            ),
-                            height: 40,
-                            width: 150,
-                            child: TextButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.login_outlined,
-                                color: Colors.white,
-                              ),
-                              label: const Text(
-                                'Sign in',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                          CustomButton(
+                            text: 'Sign in',
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Processing Data')),
+                                );
+                                loginWithEmailPassword(
+                                    email, password, context);
+                              }
+                              // Handle button press
+                            },
                           ),
                           const SizedBox(height: 16.0),
                           Row(
