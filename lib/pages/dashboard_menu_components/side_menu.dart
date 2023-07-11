@@ -19,42 +19,37 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Dashboard",
-            svgSrc: "assets/icons/menu_dashboard.svg",
+            svgSrc: "/icons/dashboard.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Transaction",
-            svgSrc: "assets/icons/menu_tran.svg",
+            title: "Travel Plan",
+            svgSrc: "/icons/travel.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Task",
-            svgSrc: "assets/icons/menu_task.svg",
+            title: "Travel History",
+            svgSrc: "/icons/history.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Documents",
-            svgSrc: "assets/icons/menu_doc.svg",
+            title: "Trip Reviews",
+            svgSrc: "/icons/travel.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Store",
-            svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Notification",
-            svgSrc: "assets/icons/menu_notification.svg",
+            title: "Apply for Business",
+            svgSrc: "/icons/business.svg",
             press: () {},
           ),
           DrawerListTile(
             title: "Profile",
-            svgSrc: "assets/icons/menu_profile.svg",
+            svgSrc: "/icons/profile.svg",
             press: () {},
           ),
           DrawerListTile(
             title: "Settings",
-            svgSrc: "assets/icons/menu_setting.svg",
+            svgSrc: "/icons/settings.svg",
             press: () {},
           ),
         ],
@@ -83,7 +78,8 @@ class DrawerListTile extends StatelessWidget {
       leading: SvgPicture.asset(
         svgSrc,
         colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
-        height: 16,
+        height: 24,
+        width: 24, // Set the desired width
       ),
       title: Text(
         title,

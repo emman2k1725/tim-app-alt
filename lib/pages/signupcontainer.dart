@@ -46,7 +46,7 @@ class _SignupContainerState extends State<SignupContainer> {
   //Phone number international coded
   TextEditingController phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   //city picker value
   String firstName = "";
   String lastName = "";
@@ -62,18 +62,6 @@ class _SignupContainerState extends State<SignupContainer> {
         width: 800,
         height: 850,
         color: Colors.white,
-        //      decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(10.0), // Set the desired border radius
-        //   boxShadow: [
-        //     BoxShadow(
-        //       color: Colors.grey.withOpacity(0.5), // Set the shadow color
-        //       spreadRadius: 2.0, // Set the spread radius
-        //       blurRadius: 5.0, // Set the blur radius
-        //       offset: Offset(0, 3), // Set the offset
-        //     ),
-        //   ],
-        //   color: Colors.white, // Set the background color
-        // ),
         child: Form(
           key: _formKey,
           child: Column(
@@ -105,7 +93,6 @@ class _SignupContainerState extends State<SignupContainer> {
                     letterSpacing: 1.5,
                     wordSpacing: 2.0,
                   ),
-
                 ),
               ),
               Row(
@@ -216,7 +203,6 @@ class _SignupContainerState extends State<SignupContainer> {
                       borderSide: const BorderSide(color: Colors.blue),
                       borderRadius:
                           BorderRadius.circular(20.0), // Set the border radius
-                      
                     ),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -271,11 +257,11 @@ class _SignupContainerState extends State<SignupContainer> {
                     );
                     registerWithEmailPassword(
                         email, password, phoneNumber, firstName, lastName);
-                                    Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashboardMainScreen()),
-                );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DashboardMainScreen()),
+                    );
                   }
                   // Handle button press
                 },
