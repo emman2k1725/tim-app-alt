@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/utils/responsive.dart';
+import 'package:tim_app/pages/dashboard_menu_components/side_menu.dart';
+import 'package:tim_app/pages/profile/profile_screen.dart';
 
-import 'dashboard_menu_components/dashboard_screen.dart';
-import 'dashboard_menu_components/side_menu.dart';
+import '../utils/responsive.dart';
 
-class DashboardMainScreen extends StatelessWidget {
-  const DashboardMainScreen({super.key});
+class ProfiePage extends StatefulWidget {
+  const ProfiePage({super.key});
 
+  @override
+  State<ProfiePage> createState() => _ProfiePageState();
+}
+
+class _ProfiePageState extends State<ProfiePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,7 @@ class DashboardMainScreen extends StatelessWidget {
             const Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: DashboardScreen(),
+              child: ProfileScreen(),
             ),
           ],
         ),

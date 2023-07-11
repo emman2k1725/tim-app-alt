@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
-import 'package:tim_app/utils/responsive.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+import '../dashboard_menu_components/header.dart';
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class DashboardScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'Dashboard',
+                          'Profile',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
