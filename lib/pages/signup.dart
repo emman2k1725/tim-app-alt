@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/loginpage/loginContainer.dart';
-import 'package:tim_app/pages/signupcontainer.dart';
+import 'package:tim_app/pages/signup/signupcontainer.dart';
 import 'package:tim_app/utils/constants.dart';
 
 class SignupPage extends StatefulWidget {

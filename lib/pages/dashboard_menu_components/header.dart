@@ -42,8 +42,8 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10),
-      padding: EdgeInsets.symmetric(
+      margin: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 10 / 2,
       ),
@@ -59,9 +59,9 @@ class ProfileCard extends StatelessWidget {
             height: 38,
           ),
           if (!Responsive.isMobile(context))
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10 / 2),
-              child: const Text("Angelina Jolie"),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10 / 2),
+              child: Text("Angelina Jolie"),
             ),
           const Icon(Icons.keyboard_arrow_down),
         ],
@@ -89,8 +89,8 @@ class SearchField extends StatelessWidget {
         suffixIcon: InkWell(
           onTap: () {},
           child: Container(
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+            padding: const EdgeInsets.all(defaultPadding * 0.75),
+            margin: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: const BorderRadius.all(Radius.circular(10)),

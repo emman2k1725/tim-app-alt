@@ -12,47 +12,75 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: AppColors.primaryBg,
-      child: ListView(
-        children: [
-          DrawerHeader(
-            child: Image.asset(logo),
-          ),
-          DrawerListTile(
-            title: "Dashboard",
-            svgSrc: "/icons/dashboard.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Travel Plan",
-            svgSrc: "/icons/travel.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Travel History",
-            svgSrc: "/icons/history.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Trip Reviews",
-            svgSrc: "/icons/travel.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Apply for Business",
-            svgSrc: "/icons/business.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Profile",
-            svgSrc: "/icons/profile.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Settings",
-            svgSrc: "/icons/settings.svg",
-            press: () {},
-          ),
-        ],
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Image.asset(logo),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Dashboard",
+              svgSrc: "/icons/dashboard.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Travel Plan",
+              svgSrc: "/icons/travel.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Travel History",
+              svgSrc: "/icons/history.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Trip Reviews",
+              svgSrc: "/icons/travel.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Apply for Business",
+              svgSrc: "/icons/business.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: defaultPadding,
+            ),
+            const Divider(color: Colors.white70),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Profile",
+              svgSrc: "/icons/profile.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Settings",
+              svgSrc: "/icons/settings.svg",
+              press: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
