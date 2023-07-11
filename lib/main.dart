@@ -15,13 +15,18 @@ void main() async {
         appId: "1:1040048772960:web:3a998f289abfad940db005",
         measurementId: "G-4MZ3MT7SBR"),
   );
-  
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
