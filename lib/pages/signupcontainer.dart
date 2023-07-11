@@ -61,18 +61,6 @@ class _SignupContainerState extends State<SignupContainer> {
         width: 800,
         height: 850,
         color: Colors.white,
-        //      decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(10.0), // Set the desired border radius
-        //   boxShadow: [
-        //     BoxShadow(
-        //       color: Colors.grey.withOpacity(0.5), // Set the shadow color
-        //       spreadRadius: 2.0, // Set the spread radius
-        //       blurRadius: 5.0, // Set the blur radius
-        //       offset: Offset(0, 3), // Set the offset
-        //     ),
-        //   ],
-        //   color: Colors.white, // Set the background color
-        // ),
         child: Form(
           key: _formKey,
           child: Column(
