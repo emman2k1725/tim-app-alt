@@ -5,7 +5,6 @@ import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SignupContainer extends StatefulWidget {
   const SignupContainer({super.key});
@@ -24,7 +23,7 @@ class _SignupContainerState extends State<SignupContainer> {
   //Date picker
   TextEditingController _dateController = TextEditingController();
   DateTime? _selectedDate;
-  bool _isObscure = false;
+  bool _isObscure = true;
 
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -46,7 +45,7 @@ class _SignupContainerState extends State<SignupContainer> {
   //Phone number international coded
   TextEditingController phoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   //city picker value
   String firstName = "";
   String lastName = "";
@@ -105,7 +104,6 @@ class _SignupContainerState extends State<SignupContainer> {
                     letterSpacing: 1.5,
                     wordSpacing: 2.0,
                   ),
-
                 ),
               ),
               Row(
@@ -192,8 +190,8 @@ class _SignupContainerState extends State<SignupContainer> {
                     return 'Please enter your email';
                   } else {
                     email = value;
+                    return null;
                   }
-                  return null;
                 },
               ),
 
@@ -216,7 +214,6 @@ class _SignupContainerState extends State<SignupContainer> {
                       borderSide: const BorderSide(color: Colors.blue),
                       borderRadius:
                           BorderRadius.circular(20.0), // Set the border radius
-                      
                     ),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -269,13 +266,8 @@ class _SignupContainerState extends State<SignupContainer> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Processing Data')),
                     );
-                    registerWithEmailPassword(
-                        email, password, phoneNumber, firstName, lastName);
-                                    Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashboardMainScreen()),
-                );
+                    registerWithEmailPassword(email, password, phoneNumber,
+                        firstName, lastName, context);
                   }
                   // Handle button press
                 },
