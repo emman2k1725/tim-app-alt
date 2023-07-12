@@ -3,7 +3,6 @@ import 'package:tim_app/pages/containers/container1.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/navBar.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -22,13 +21,13 @@ class _HomeState extends State<Home> {
         children: [
           Container(
             width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                   image: AssetImage(mainBg), 
-                ),
+            height: MediaQuery.sizeOf(context).height * 1.0,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(mainBg),
               ),
+            ),
             child: const Column(
               children: [
                 NavBar(),
@@ -42,7 +41,6 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-
-  );
+    );
   }
 }
