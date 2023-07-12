@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+
+import 'controllers/menuAppController.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +40,14 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         primaryColor: AppColors.primary,
       ),
-      home: const Home(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuAppController(),
+          ),
+        ],
+        child: Home(),
+      ),
     );
   }
 }
