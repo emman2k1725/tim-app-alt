@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/try.dart';
 import 'package:tim_app/utils/constants.dart';
 
 import '../dashboard_menu_components/header.dart';
+import '../signup/signup_completion.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
