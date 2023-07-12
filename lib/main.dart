@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-
 import 'controllers/menuAppController.dart';
+import 'package:tim_app/routes/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
+    options: const FirebaseOptions(
         apiKey: "AIzaSyCpEGKr6xqRlgbc5ER3yzhZDkc9j67yERI",
         authDomain: "timdigital-4fe1b.firebaseapp.com",
         projectId: "timdigital-4fe1b",
@@ -30,10 +31,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+  final GoRouter _router = createRouter();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'TIM App',
       theme: ThemeData(
@@ -48,6 +50,19 @@ class _MyAppState extends State<MyApp> {
         ],
         child: Home(),
       ),
+      routeInformationProvider: _router.routeInformationProvider,
+      routerDelegate: _router.routerDelegate,
+      routeInformationParser: _router.routeInformationParser,
     );
+
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   title: 'TIM App',
+    //   theme: ThemeData(
+    //     brightness: Brightness.light,
+    //     primaryColor: AppColors.primary,
+    //   ),
+    //   home: const Home(),
+    // );
   }
 }
