@@ -331,28 +331,10 @@ class _LoginContainerState extends State<LoginContainer> {
                           ),
                         ],
                       ),
-                    ) // Generated code for this Image Widget...
-
-                    //  child: Column(
-                    //   children: [
-
-                    //     //    ClipRRect(
-                    //     //     borderRadius: BorderRadius.circular(8),
-                    //     //     child: Image.asset(
-                    //     //       logo,
-                    //     //       width: 100,
-                    //     //       fit: BoxFit.fitWidth,
-                    //     //     ),
-
-                    //     // )
-
-                    //   ],
-                    //  ),
-                    ),
+                    )),
               ),
             ]),
           ),
-
           SizedBox(
             height: 530,
             child: Padding(
@@ -371,14 +353,6 @@ class _LoginContainerState extends State<LoginContainer> {
               ),
             ),
           ),
-
-          //    Container(
-          //   height: 530,
-          //   decoration: const BoxDecoration(
-          //       image: DecorationImage(
-          //           image: AssetImage(timHand), fit: BoxFit.contain
-          //           ))
-          // ),
         ],
       ),
     );

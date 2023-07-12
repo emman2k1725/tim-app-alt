@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 
@@ -25,7 +26,11 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: "Dashboard",
               svgSrc: "/icons/dashboard.svg",
-              press: () {},
+              // selectedRoute: selectedRoute == '/',
+              press: () {
+                GoRouter.of(context).go('/dashboard');
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 10,
@@ -69,7 +74,10 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: "Profile",
               svgSrc: "/icons/profile.svg",
-              press: () {},
+              press: () {
+                GoRouter.of(context).go('/profile');
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 10,
@@ -89,19 +97,24 @@ class SideMenu extends StatelessWidget {
 class DrawerListTile extends StatelessWidget {
   const DrawerListTile({
     Key? key,
-    // For selecting those three line once press "Command+D"
     required this.title,
     required this.svgSrc,
     required this.press,
+    // required this.selectedRoute,
+    // required this.selectedRoute,
   }) : super(key: key);
 
   final String title, svgSrc;
+  // final String selectedRoute;
+
+  // final bool selectedRoute;
   final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: press,
+      // selected: selectedRoute,
       horizontalTitleGap: 0.0,
       leading: SvgPicture.asset(
         svgSrc,
