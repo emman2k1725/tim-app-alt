@@ -42,14 +42,6 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         primaryColor: AppColors.primary,
       ),
-      // home: MultiProvider(
-      //   providers: [
-      //     ChangeNotifierProvider(
-      //       create: (context) => MenuAppController(),
-      //     ),
-      //   ],
-      //   child: Home(),
-      // ),
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
       routeInformationParser: _router.routeInformationParser,

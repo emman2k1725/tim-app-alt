@@ -55,11 +55,11 @@ class _SignupContainerState extends State<SignupContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16.0),
         width: 800,
-        height: 850,
+        height: 650,
         color: Colors.white,
         child: Form(
           key: _formKey,
