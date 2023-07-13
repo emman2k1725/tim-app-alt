@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'controllers/menuAppController.dart';
 import 'package:tim_app/routes/router.dart';
 
 void main() async {
@@ -39,6 +41,14 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: AppColors.primary,
+      ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuAppController(),
+          ),
+        ],
+        child: Home(),
       ),
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
