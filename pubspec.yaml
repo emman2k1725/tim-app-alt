@@ -23,6 +23,7 @@ dependencies:
   go_router: ^9.0.3
   flutter_typeahead: ^4.6.2
   video_player: ^2.7.0
+  dropdown_button2: ^2.3.4
 
 dev_dependencies:
   flutter_test:

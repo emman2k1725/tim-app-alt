@@ -26,16 +26,16 @@ class _HomeState extends State<Home> {
             image: AssetImage(mainBg),
           ),
         ),
-        child: const SingleChildScrollView(
-              child: Column(
-                children: [
-                  const NavBar(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Container1(),
-                  ImageCarousel(),
-                ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const NavBar(),
+              const SizedBox(
+                height: 20,
+              ),
+              const Container1(),
+              ImageCarousel(),
+            ],
           ),
         ),
       ),
