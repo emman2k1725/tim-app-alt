@@ -4,8 +4,6 @@ import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 
-import '../../responsive.dart';
-
 class Container1 extends StatefulWidget {
   const Container1({Key? key}) : super(key: key);
 
