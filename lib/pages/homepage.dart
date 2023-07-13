@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/containers/container1.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/pages/containers/imagecarousel.dart';
 import 'package:tim_app/widgets/navBar.dart';
-
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,32 +17,63 @@ class _HomeState extends State<Home> {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                   image: AssetImage(mainBg), 
-                ),
-              ),
-            child: const Column(
-              children: [
-                NavBar(),
-                SizedBox(
-                  height: 20,
-                ),
-                Container1(),
-                // MainContent()
-              ],
-            ),
+      body: Container(
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: MediaQuery.sizeOf(context).height * 1.0,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(mainBg),
           ),
-        ],
-      ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              NavBar(),
+              SizedBox(
+                height: 100,
+              ),
+              Container1(),
 
-  );
+              ImageCarousel(),
+              // MainContent()
+            ],
+          ),
+        ),
+      ),
+    );
   }
+  // Widget build(BuildContext context) {
+  //   w = MediaQuery.of(context).size.width;
+  //   h = MediaQuery.of(context).size.height;
+  //   return Scaffold(
+  //     body: SingleChildScrollView(
+  //       child: Column(
+  //         mainAxisSize: MainAxisSize.max,
+  //         children: [
+  //           Container(
+  //             width: MediaQuery.sizeOf(context).width * 1.0,
+  //             height: MediaQuery.sizeOf(context).height * 1.0,
+  //             decoration: const BoxDecoration(
+  //               image: DecorationImage(
+  //                 fit: BoxFit.cover,
+  //                 image: AssetImage(mainBg),
+  //               ),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 NavBar(),
+  //                 SizedBox(
+  //                   height: 20,
+  //                 ),
+  //                 Container1(),
+  //                 ImageCarousel(),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

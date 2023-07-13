@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
-
 
 class Container1 extends StatefulWidget {
   const Container1({Key? key}) : super(key: key);
@@ -42,8 +40,11 @@ class _Container1State extends State<Container1> {
           Text(
             'Unforgettable \nExperiences Awaits',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white,
-                fontSize: w! / 10, fontWeight: FontWeight.bold, height: 1),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: w! / 10,
+                fontWeight: FontWeight.bold,
+                height: 1),
           ),
           const SizedBox(
             height: 5,
@@ -71,18 +72,17 @@ class _Container1State extends State<Container1> {
           SizedBox(
             height: 45,
             child: ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: Colors.black,
-                      elevation: 0,
-                      side: const BorderSide(
-                        width: 1.0,
-                        color: Colors.transparent,
-                      )),
-                  icon: const Icon(Icons.play_arrow_outlined),
-                  label: const Text('How it works')
-                  ),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.black,
+                    elevation: 0,
+                    side: const BorderSide(
+                      width: 1.0,
+                      color: Colors.transparent,
+                    )),
+                icon: const Icon(Icons.play_arrow_outlined),
+                label: const Text('How it works')),
           ),
           // ElevatedButton.icon(
           //       style: ButtonStyle(
@@ -110,7 +110,7 @@ class _Container1State extends State<Container1> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                 'Unforgettable \nExperiences Awaits',
+                  'Unforgettable \nExperiences Awaits',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: w! / 20,
@@ -121,7 +121,7 @@ class _Container1State extends State<Container1> {
                   height: 20,
                 ),
                 Text(
-                 'Capturing the Perfect Shots in Picture-Perfect Destinations',
+                  'Capturing the Perfect Shots in Picture-Perfect Destinations',
                   style: TextStyle(color: Colors.grey.shade400, fontSize: 16),
                 ),
                 const SizedBox(
@@ -129,39 +129,38 @@ class _Container1State extends State<Container1> {
                 ),
                 Row(
                   children: [
-                SizedBox(
-                  height: 60,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                  style: elevatedButtonStyle,
-                  onPressed: () {},
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(color: Colors.white),
-                  ),),
-                  ),
-                ),
+                    SizedBox(
+                      height: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ElevatedButton(
+                          style: elevatedButtonStyle,
+                          onPressed: () {},
+                          child: const Text(
+                            'Get Started',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
-                SizedBox(
-                  height: 45,
-                  child: ElevatedButton.icon(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            side: const BorderSide(
-                              width: 1.0,
-                              color: Colors.transparent,
-                            )),
-                        icon: const Icon(Icons.play_arrow_outlined),
-                        label: const Text('How it works')
-                        ),
-                ),
-
+                    SizedBox(
+                      height: 45,
+                      child: ElevatedButton.icon(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              side: const BorderSide(
+                                width: 1.0,
+                                color: Colors.transparent,
+                              )),
+                          icon: const Icon(Icons.play_arrow_outlined),
+                          label: const Text('How it works')),
+                    ),
                   ],
                 ),
               ],
@@ -169,12 +168,10 @@ class _Container1State extends State<Container1> {
           )),
           Expanded(
             child: Container(
-              height: 530,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(homepageTim), fit: BoxFit.contain
-                      ))
-            ),
+                height: 530,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(homepageTim), fit: BoxFit.contain))),
           ),
         ],
       ),
