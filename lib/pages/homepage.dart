@@ -17,32 +17,27 @@ class _HomeState extends State<Home> {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            width: MediaQuery.sizeOf(context).width * 1.0,
-            height: MediaQuery.sizeOf(context).height * 1.0,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(mainBg),
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const NavBar(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Container1(),
-                  ImageCarousel(),
-                ],
-              ),
-            ),
+      body: Container(
+        width: w,
+        height: h,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(mainBg),
           ),
-        ],
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const NavBar(),
+              const SizedBox(
+                height: 20,
+              ),
+              const Container1(),
+              ImageCarousel(),
+            ],
+          ),
+        ),
       ),
     );
   }

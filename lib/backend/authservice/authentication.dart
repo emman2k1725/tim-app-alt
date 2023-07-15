@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
+
+import '../../model/UserModel.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final userProfile = FirebaseFirestore.instance.collection('user_profile');
@@ -24,7 +27,7 @@ void registerWithEmailPassword(
     userID = userCredential.user!.uid;
     await userProfile.doc(userID).set({
       'email': email,
-      'firstNamme': firstName,
+      'firstName': firstName,
       'lastName': lastName,
       'mobileNumber': phoneNumber,
       'isRegistrationComplete': false,
@@ -51,16 +54,53 @@ void loginWithEmailPassword(
     UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
     User? user = result.user;
-    Navigator.pushReplacement(
+    final String? userID = user?.uid;
+
+    final userSnapshot = await userProfile.doc(userID).get();
+    if (userSnapshot.exists) {
+      // Store User Data from Firebase
+      final userData = userSnapshot.data();
+
+      // Store to Usermodel
+      final userDetails = UserModel(
+          userID: userID as String,
+          firstName: userData?['firstName'] as String,
+          lastName: userData?['lastName'] as String,
+          email: userData?['email'] as String,
+          hasBusiness: userData?['hasBusiness'] as bool,
+          isAdmin: userData?['isAdmin'] as bool,
+          isRegistrationComplete: userData?['isRegistrationComplete'] as bool,
+          phoneNumber: userData?['mobileNumber'] as String,
+          birthDate: userData?['birthDate'] as DateTime?,
+          favCruisine: userData?['favCruisine'] as String?,
+          favHangout: userData?['favHangout'] as String?,
+          nationality: userData?['nationality'] as String?,
+          gender: userData?['gender'] as String?);
+
+      if (userDetails.isRegistrationComplete == false) {
+        GoRouter.of(context).go('/profile');
+        Navigator.pop(context);
+      } else {
+        if (userDetails.isAdmin == true) {
+          // route to admin dashboard
+        } else {
+          GoRouter.of(context).go('/dashboard');
+          Navigator.pop(context);
+        }
+      }
+    }
+    /* Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const DashboardMainScreen()),
-    );
+    ); */
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           content: Text(authErrorHandler(
               parseFirebaseAuthExceptionMessage(input: e.message)))),
     );
+  } catch (e) {
+    debugPrint(e.toString());
   }
 }
 
