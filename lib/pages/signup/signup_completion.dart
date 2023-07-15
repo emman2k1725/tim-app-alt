@@ -1,11 +1,13 @@
 // Automatic FlutterFlow imports
-import 'package:country_state_city_picker/country_state_city_picker.dart';
+import 'dart:js_interop';
+
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
-
+import 'package:tim_app/backend/authservice/createUserProfile.dart';
 import 'package:tim_app/data/cuisine_data.dart';
 
 class StepperWidget extends StatefulWidget {
@@ -48,23 +50,51 @@ class _StepperWidgetState extends State<StepperWidget> {
     }
   }
 
+  String? _selectedValue;
+  Future<List<String>>? _dropdownCruisines;
+  Future<List<String>>? _dropdownHangouts;
+  Future<List<String>>? _dropdownTravelCat;
+
   //Editding COntroller
   final _formKey = GlobalKey<FormState>();
   TextEditingController phoneNumberController = TextEditingController();
   final controllerCuisine = TextEditingController();
   final controllerHangout = TextEditingController();
-
   String selectedOption = 'Budget';
   List<String> options = ['Business', 'Leisure', 'Family Group', 'Budget'];
 
+  void initState() {
+    super.initState();
+    _dropdownCruisines = FirebaseService.fetchDropdownItems('cruisines');
+    _dropdownHangouts = FirebaseService.fetchDropdownItems('hangout');
+    _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
+  }
+
   //city picker value
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
-  String address = "";
+  String? country = "";
+  String? state = "";
+  String? city = "";
+  String? building = "";
+  String? street = "";
+  String? postal = "";
+  String? cruisine = "";
+  String? hangout = "";
+  String? travellerCat = "";
 
   int currentStep = 0;
 
+  String? _validateToggleSelection(List<bool> selections) {
+    if (selectedGender != null) {
+      return null; // Valid selection
+    } else {
+      return 'Please select your gender'; // Invalid selection
+    }
+  }
+
+//Gender toggle
+  List<String> _genderChoice = <String>['Male', 'Female'];
+  List<bool> _selections = [false, false];
+  String? selectedGender;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,7 +122,6 @@ class _StepperWidgetState extends State<StepperWidget> {
                             Colors.white, // Set the background color of Step 1
                         child: Column(
                           children: [
-                            const SizedBox(height: 16.0),
                             const Text(
                               'Birthdate',
                               style: TextStyle(
@@ -112,6 +141,15 @@ class _StepperWidgetState extends State<StepperWidget> {
                                       20.0), // Set the border radius
                                 ),
                               ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your birthdate";
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             const SizedBox(height: 16.0),
                             Column(
@@ -124,45 +162,41 @@ class _StepperWidgetState extends State<StepperWidget> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 ToggleButtons(
-                                  isSelected: isSelected,
+                                  isSelected: _selections,
                                   onPressed: (index) {
                                     setState(() {
+                                      _selections[index] = !_selections[index];
                                       // Update the selected state of buttons
                                       for (int buttonIndex = 0;
-                                          buttonIndex < isSelected.length;
+                                          buttonIndex < _selections.length;
                                           buttonIndex++) {
-                                        isSelected[buttonIndex] =
+                                        _selections[buttonIndex] =
                                             (buttonIndex == index);
                                       }
+                                      selectedGender = _selections[index]
+                                          ? _genderChoice[index]
+                                          : '';
                                     });
                                   },
+                                  constraints: const BoxConstraints(
+                                    minHeight: 40.0,
+                                    minWidth: 80.0,
+                                  ),
                                   selectedColor: Colors.white,
                                   fillColor: Colors
                                       .blue, // Set the background color when a button is selected
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderColor: Colors.blue,
-                                  children: [
-                                    // Female button
-                                    Container(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
-                                        'Female',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                    // Male button
-                                    Container(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
-                                        'Male',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ], // Set the border color of buttons
+                                  children: _genderChoice.map((String value) {
+                                    return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(value));
+                                  }).toList(),
+                                ),
+                                const SizedBox(height: 8.0),
+                                Text(
+                                  _validateToggleSelection(_selections) ?? '',
+                                  style: TextStyle(color: Colors.red),
                                 ),
                                 const SizedBox(height: 16.0),
                                 const Text(
@@ -171,28 +205,27 @@ class _StepperWidgetState extends State<StepperWidget> {
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SelectState(
-                                  onCountryChanged: (value) {
-                                    setState(() {
-                                      countryValue = value;
-                                    });
-                                  },
-                                  onStateChanged: (value) {
-                                    setState(() {
-                                      stateValue = value;
-                                    });
-                                  },
-                                  onCityChanged: (value) {
-                                    setState(() {
-                                      cityValue = value;
-                                    });
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Building Address',
+                                    hintText: 'Room No./Bldg. No. ',
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.blue),
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), // Set the border radius
+                                    ),
+                                  ),
+                                  onSaved: (value) {
+                                    building = value;
                                   },
                                 ),
                                 const SizedBox(height: 16.0),
                                 TextFormField(
                                   decoration: InputDecoration(
-                                    labelText: 'Building Number',
-                                    hintText: 'Building Number',
+                                    labelText: 'Street Address',
+                                    hintText: 'Blk. No./Str No.',
                                     border: OutlineInputBorder(
                                       borderSide:
                                           const BorderSide(color: Colors.blue),
@@ -200,20 +233,98 @@ class _StepperWidgetState extends State<StepperWidget> {
                                           20.0), // Set the border radius
                                     ),
                                   ),
+                                  onSaved: (value) {
+                                    street = value;
+                                  },
                                 ),
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'State',
+                                      hintText: 'State/Province/Region',
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), // Set the border radius
+                                      ),
+                                    ),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter your State/Province/Region";
+                                      } else {
+                                        state = value;
+                                        return null;
+                                      }
+                                    }),
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'City',
+                                      hintText: 'City/Municipality/Town',
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), // Set the border radius
+                                      ),
+                                    ),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter your City/Municipality/Town";
+                                      } else {
+                                        city = value;
+                                        return null;
+                                      }
+                                    }),
                                 const SizedBox(height: 10.0),
                                 TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: 'Street Number',
-                                    hintText: 'Street Number',
-                                    border: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: Colors.blue),
-                                      borderRadius: BorderRadius.circular(
-                                          20.0), // Set the border radius
+                                    decoration: InputDecoration(
+                                      labelText: 'Postal code',
+                                      hintText: 'Postal Code',
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), // Set the border radius
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter your Postal code";
+                                      } else {
+                                        postal = value;
+                                        return null;
+                                      }
+                                    }),
+                                const SizedBox(height: 10.0),
+                                TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Country',
+                                      hintText: 'Country',
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.blue),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), // Set the border radius
+                                      ),
+                                    ),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter your Country";
+                                      } else {
+                                        country = value;
+                                        return null;
+                                      }
+                                    }),
                               ],
                             ),
                           ],
@@ -237,6 +348,7 @@ class _StepperWidgetState extends State<StepperWidget> {
                           const SizedBox(height: 16.0),
                           //dropdown
                           buildCuisine(),
+                          const SizedBox(height: 16.0),
                           const Text(
                             'Favorite Hangout Place',
                             style: TextStyle(
@@ -261,20 +373,32 @@ class _StepperWidgetState extends State<StepperWidget> {
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
-                          DropdownButton<String>(
-                            value: selectedOption,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedOption = newValue!;
-                              });
-                            },
-                            items: options
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                          FutureBuilder<List<String>>(
+                            future: _dropdownTravelCat,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+
+                              final dropdownItems = snapshot.data ?? [];
+
+                              return DropdownButton<String>(
+                                value: _selectedValue,
+                                items: dropdownItems.map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedValue = value;
+                                    travellerCat = _selectedValue;
+                                  });
+                                },
                               );
-                            }).toList(),
+                            },
                           ),
                         ],
                       ),
@@ -290,7 +414,12 @@ class _StepperWidgetState extends State<StepperWidget> {
                       return Row(
                         children: [
                           ElevatedButton(
-                            onPressed: continued,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Validation successful, perform the desired action
+                                debugPrint('Good to go');
+                              }
+                            },
                             child: Text('Submit'),
                           ),
                           SizedBox(width: 16.0),
@@ -328,54 +457,99 @@ class _StepperWidgetState extends State<StepperWidget> {
     );
   }
 
-  Widget buildCuisine() => TypeAheadFormField<String?>(
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: controllerCuisine,
-        decoration: InputDecoration(
-          labelText: 'Favorite Cuisine',
-          hintText: 'Choose Favorite Cuisine',
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue),
-            borderRadius: BorderRadius.circular(20.0), // Set the border radius
-          ),
-        ),
-      ),
-      //loading all the suggestions
-      suggestionsCallback: CuisineData.getSuggestions,
+  Widget buildCuisine() => FutureBuilder<List<String>>(
+        future: _dropdownCruisines,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
-      //displayig all the suggestion in a dropdown list
-      itemBuilder: (context, String? suggestion) => ListTile(
-            title: Text(suggestion!),
-          ),
-      //implement the suggestionselected so the typeAhead will works
-      //Will get the item that was clicked
-      onSuggestionSelected: (String? suggestion) {
-        controllerCuisine.text = suggestion!;
-      });
-  Widget buildHangout() => TypeAheadFormField<String?>(
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: controllerHangout,
-        decoration: InputDecoration(
-          labelText: 'Favorite Hangout Place',
-          hintText: 'Choose Favorite Hangout Place',
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue),
-            borderRadius: BorderRadius.circular(20.0), // Set the border radius
-          ),
-        ),
-      ),
-      //loading all the suggestions
-      suggestionsCallback: HangoutData.getSuggestions,
+          final dropdownItems = snapshot.data ?? [];
 
-      //displayig all the suggestion in a dropdown list
-      itemBuilder: (context, String? suggestion) => ListTile(
-            title: Text(suggestion!),
-          ),
-      //implement the suggestionselected so the typeAhead will works
-      //Will get the item that was clicked
-      onSuggestionSelected: (String? suggestion) {
-        controllerHangout.text = suggestion!;
-      });
+          return TypeAheadFormField<String>(
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: controllerCuisine,
+              decoration: InputDecoration(
+                labelText: 'Select an option',
+              ),
+            ),
+            suggestionsCallback: (pattern) async {
+              final lowercasePattern = pattern.toLowerCase();
+              return dropdownItems
+                  .where(
+                      (item) => item.toLowerCase().contains(lowercasePattern))
+                  .toList();
+            },
+            itemBuilder: (context, String suggestion) {
+              return ListTile(
+                title: Text(suggestion),
+              );
+            },
+            onSuggestionSelected: (String suggestion) {
+              setState(() {
+                _selectedValue = suggestion;
+                controllerCuisine.text = _selectedValue!;
+              });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select your favorite cruisine';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              cruisine = value;
+            },
+          );
+        },
+      );
+  Widget buildHangout() => FutureBuilder<List<String>>(
+        future: _dropdownHangouts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+
+          final dropdownItems = snapshot.data ?? [];
+
+          return TypeAheadFormField<String>(
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: controllerHangout,
+              decoration: InputDecoration(
+                labelText: 'Select an option',
+              ),
+            ),
+            suggestionsCallback: (pattern) async {
+              final lowercasePattern = pattern.toLowerCase();
+              return dropdownItems
+                  .where(
+                      (item) => item.toLowerCase().contains(lowercasePattern))
+                  .toList();
+            },
+            itemBuilder: (context, String suggestion) {
+              return ListTile(
+                title: Text(suggestion),
+              );
+            },
+            onSuggestionSelected: (String suggestion) {
+              controllerHangout.text = suggestion;
+              setState(() {
+                _selectedValue = suggestion;
+              });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select your favorite hangout place';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              hangout = value;
+            },
+          );
+        },
+      );
+
 // Stepper numbering
   switchStepsType() {
     setState(() => stepperType == StepperType.vertical
@@ -388,7 +562,12 @@ class _StepperWidgetState extends State<StepperWidget> {
   }
 
   continued() {
-    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+    final form = _formKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+    }
+    debugPrint(selectedGender);
   }
 
   cancel() {
