@@ -24,14 +24,8 @@ class _ImageCarouselState extends State<ImageCarousel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(child: SizedBox(height: 500, child: VideoPlayerScreen())),
-          Expanded(
-            child: OutlinedButtonContainer(
-              buttonText: 'How it Works',
-              onPressed: () {
-                // Button pressed action
-                print('Button Pressed');
-              },
-            ),
+          const Expanded(
+            child: ShadowButton(),
           ),
         ],
       ),

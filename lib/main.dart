@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/homepage.dart';
+import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -38,23 +39,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'TIM App',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: AppColors.primary,
-      ),
+      theme: AppTheme.lightTheme,
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
       routeInformationParser: _router.routeInformationParser,
     );
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   title: 'TIM App',
-    //   theme: ThemeData(
-    //     brightness: Brightness.light,
-    //     primaryColor: AppColors.primary,
-    //   ),
-    //   home: const Home(),
-    // );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tim_app/responsive.dart';
+import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
@@ -201,11 +202,7 @@ class _Container1State extends State<Container1> {
             children: [
               Text(
                 'Unforgettable \nExperiences Awaits',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: w! / 20,
-                    fontWeight: FontWeight.bold,
-                    height: 1),
+                style: AppTheme.getSecondaryTextStyle(50.0),
               ),
               const SizedBox(
                 height: 20,
@@ -258,7 +255,7 @@ class _Container1State extends State<Container1> {
         )),
         Expanded(
           child: Container(
-              height: 530,
+              height: 460,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(homepageTim), fit: BoxFit.contain))),
