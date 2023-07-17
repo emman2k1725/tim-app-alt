@@ -1,14 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+import '../containers/multidropdown.dart';
 
-  @override
+class DashboardScreen extends StatelessWidget {
+  DashboardScreen({super.key});
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
@@ -24,36 +27,43 @@ class DashboardScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 10),
-              const Header(),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child: Container(
-                        height: 300,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.white60.withOpacity(0.10),
-                                Colors.blue.withOpacity(0.10)
-                              ]),
-                          // color: Colors.white.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(width: 2, color: Colors.white10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              Multidropdown(title: 'dshaghgd'),
+              // MultiSelectDialogField(
+              //   items: _items,
+              //   listType: MultiSelectListType.CHIP,
+              //   selectedItemsTextStyle: TextStyle(color: Colors.black),
+              //   searchable: true,
+              //   // chipDisplay: MultiSelectChipDisplay.none(),
+              //   title: Text("Languages"),
+              //   selectedColor: Colors.blue,
+              //   decoration: BoxDecoration(
+              //     color: Colors.blue.withOpacity(0.1),
+              //     borderRadius: BorderRadius.all(Radius.circular(40)),
+              //     border: Border.all(
+              //       color: Colors.blue,
+              //       width: 2,
+              //     ),
+              //   ),
+              //   buttonIcon: Icon(
+              //     Icons.laptop,
+              //     color: Colors.blue,
+              //   ),
+              //   buttonText: Text(
+              //     "Your programming languages",
+              //     style: TextStyle(
+              //       color: Colors.blue[800],
+              //       fontSize: 16,
+              //     ),
+              //   ),
+              //   onConfirm: (results) {
+              //     _selectedLanguages = results;
+              //     print(_selectedLanguages);
+              //     _selectedLanguages.forEach((language) {
+              //       print('-----');
+              //       print(language.name);
+              //     });
+              //   },
+              // ),
             ],
           ),
         ),
