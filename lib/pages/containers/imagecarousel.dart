@@ -23,9 +23,66 @@ class _ImageCarouselState extends State<ImageCarousel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(child: SizedBox(height: 500, child: VideoPlayerScreen())),
-          const Expanded(
-            child: ShadowButton(),
+          Expanded(child: SizedBox(height: 300, child: VideoPlayerScreen())),
+          const SizedBox(
+            width: 100,
+          ),
+          Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  ShadowButton(
+                    icon: Icons.book_outlined,
+                    text: 'How It Works',
+                    onPressed: () {
+                      // Add your button onPressed logic here
+                    },
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  ShadowButton(
+                    icon: Icons.newspaper_outlined,
+                    text: 'Latest News',
+                    onPressed: () {
+                      // Add your button onPressed logic here
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  ShadowButton(
+                    icon: Icons.discount_outlined,
+                    text: 'Special Offer',
+                    onPressed: () {
+                      // Add your button onPressed logic here
+                    },
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  ShadowButton(
+                    icon: Icons.travel_explore_outlined,
+                    text: 'Travel Planning',
+                    onPressed: () {
+                      // Add your button onPressed logic here
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

@@ -65,6 +65,12 @@ class _SignupContainerState extends State<SignupContainer> {
           key: _formKey,
           child: Column(
             children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(30, 20, 0, 0),
                 child: ClipRRect(

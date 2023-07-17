@@ -29,7 +29,6 @@ class SideMenu extends StatelessWidget {
               // selectedRoute: selectedRoute == '/',
               press: () {
                 GoRouter.of(context).go('/dashboard');
-                Navigator.pop(context);
               },
             ),
             const SizedBox(
@@ -76,7 +75,6 @@ class SideMenu extends StatelessWidget {
               svgSrc: "/icons/profile.svg",
               press: () {
                 GoRouter.of(context).go('/profile');
-                Navigator.pop(context);
               },
             ),
             const SizedBox(
