@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -20,29 +22,34 @@ class DashboardScreen extends StatelessWidget {
               image: AssetImage(mainBg),
             ),
           ),
-          child: const Column(
+          child: Column(
             children: [
-              SizedBox(height: 10),
-              Header(),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
+              const Header(),
+              const SizedBox(height: 10),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Dashboard',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            wordSpacing: 2.0,
-                          ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: Container(
+                        height: 300,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white60.withOpacity(0.10),
+                                Colors.blue.withOpacity(0.10)
+                              ]),
+                          // color: Colors.white.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(width: 2, color: Colors.white10),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ],

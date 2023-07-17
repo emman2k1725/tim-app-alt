@@ -52,6 +52,28 @@ void registerWithEmailPassword(
 
 void loginWithEmailPassword(
     String email, String password, BuildContext context) async {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Logging in',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12.0,
+                letterSpacing: 1.5,
+                wordSpacing: 2.0,
+              ),
+            ),
+          ],
+        );
+      });
   try {
     UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
@@ -86,13 +108,11 @@ void loginWithEmailPassword(
 
       if (userDetails.isRegistrationComplete == false) {
         GoRouter.of(context).go('/profile');
-        Navigator.pop(context);
       } else {
         if (userDetails.isAdmin == true) {
           // route to admin dashboard
         } else {
           GoRouter.of(context).go('/dashboard');
-          Navigator.pop(context);
         }
       }
     }
