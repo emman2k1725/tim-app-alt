@@ -5,6 +5,7 @@ import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/login.dart';
+import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:tim_app/pages/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/about",
         builder: (context, state) => const AboutPage(),
+      ),
+      GoRoute(
+        path: "/media",
+        builder: (context, state) => const MediaPage(),
       ),
     ],
   );

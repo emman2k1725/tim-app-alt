@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/homepage.dart';
@@ -104,10 +105,11 @@ class _NavBarState extends State<NavBar> {
               context, MaterialPageRoute(builder: (context) => const Home()));
         }),
         navButton('About', () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AboutPage()));
+          GoRouter.of(context).go('/about');
         }),
-        navButton('Media', () {}),
+        navButton('Media', () {
+          GoRouter.of(context).go('/media');
+        }),
         navButton('Advertisement', () {}),
         SizedBox(
           height: 45,
