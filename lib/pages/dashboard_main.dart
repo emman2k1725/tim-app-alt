@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/utils/responsive.dart';
 
+import 'containers/multidropdown.dart';
 import 'dashboard_menu_components/dashboard_screen.dart';
 import 'dashboard_menu_components/side_menu.dart';
 
@@ -23,10 +24,10 @@ class DashboardMainScreen extends StatelessWidget {
                 // and it takes 1/6 part of the screen
                 child: SideMenu(),
               ),
-            const Expanded(
+            Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: DashboardScreen(),
+              child: Multidropdown(title: 'dsagsa'),
             ),
           ],
         ),
