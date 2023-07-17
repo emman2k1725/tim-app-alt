@@ -25,6 +25,7 @@ dependencies:
   video_player: ^2.7.0
   flutter_inset_box_shadow: ^1.0.8
   dropdown_button2: ^2.3.4
+  provider: ^6.0.1
 
 dev_dependencies:
   flutter_test:
