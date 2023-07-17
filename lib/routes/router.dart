@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/login.dart';
@@ -33,6 +34,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/profile",
         builder: (context, state) => const ProfiePage(),
+      ),
+      GoRoute(
+        path: "/about",
+        builder: (context, state) => const AboutPage(),
       ),
     ],
   );
