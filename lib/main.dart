@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'controllers/menuAppController.dart';
 import 'package:tim_app/routes/router.dart';
+import 'package:tim_app/model/UserProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,10 @@ void main() async {
         measurementId: "G-4MZ3MT7SBR"),
   );
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider<UserProvider>(
+    child: const MyApp(),
+    create: (_) => UserProvider(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
