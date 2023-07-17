@@ -61,13 +61,8 @@ class _Container1State extends State<Container1> {
             Center(
               child: Text(
                 'Unforgettable \nExperiences Awaits',
+                style: AppTheme.getSecondaryTextStyle(30.0),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: w! / 12,
-                  fontWeight: FontWeight.bold,
-                  height: 1,
-                ),
               ),
             ),
             const SizedBox(height: 5),
