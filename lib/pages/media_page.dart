@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/containers/media_container1.dart';
 
 import '../utils/constants.dart';
 import '../widgets/navBar.dart';
@@ -25,13 +26,14 @@ class _MediaPageState extends State<MediaPage> {
             image: AssetImage(mainBg),
           ),
         ),
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           child: Column(
             children: [
-              const NavBar(),
-              const SizedBox(
+              NavBar(),
+              SizedBox(
                 height: 20,
               ),
+              MediaContainer1(),
             ],
           ),
         ),
