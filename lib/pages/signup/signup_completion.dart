@@ -1,14 +1,14 @@
 // Automatic FlutterFlow imports
-import 'dart:js_interop';
-
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 import 'package:tim_app/backend/authservice/createUserProfile.dart';
-import 'package:tim_app/data/cuisine_data.dart';
+import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/model/UserProvider.dart';
 
 class StepperWidget extends StatefulWidget {
   const StepperWidget({
@@ -50,13 +50,17 @@ class _StepperWidgetState extends State<StepperWidget> {
     }
   }
 
-  String? _selectedValue;
+  String? _selectedCruisine;
+  String? _selectedHangout;
+  String? _selectedCat;
   Future<List<String>>? _dropdownCruisines;
   Future<List<String>>? _dropdownHangouts;
   Future<List<String>>? _dropdownTravelCat;
 
   //Editding COntroller
   final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
+
   TextEditingController phoneNumberController = TextEditingController();
   final controllerCuisine = TextEditingController();
   final controllerHangout = TextEditingController();
@@ -82,13 +86,21 @@ class _StepperWidgetState extends State<StepperWidget> {
   String? travellerCat = "";
 
   int currentStep = 0;
+  String genderMessage = "";
 
-  String? _validateToggleSelection(List<bool> selections) {
-    if (selectedGender != null) {
-      return null; // Valid selection
+  bool _validateToggleSelection(String? selectedGender) {
+    bool genderValid = false;
+    if (selectedGender == null) {
+      setState(() {
+        genderMessage = 'Please select your gender';
+      });
     } else {
-      return 'Please select your gender'; // Invalid selection
+      setState(() {
+        genderMessage = '';
+        genderValid = true;
+      });
     }
+    return genderValid;
   }
 
 //Gender toggle
@@ -101,23 +113,23 @@ class _StepperWidgetState extends State<StepperWidget> {
       width: 600,
       height: 600,
       color: Colors.white,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Expanded(
-              child: Stepper(
-                  elevation: 0, //Horizontal Impact
-                  type: StepperType.horizontal,
-                  physics: const ScrollPhysics(),
-                  currentStep: _currentStep,
-                  onStepTapped: (step) => tapped(step),
-                  onStepContinue: continued,
-                  onStepCancel: cancel,
-                  steps: <Step>[
-                    Step(
-                      title: const Text('Personal Information'),
-                      content: Container(
+      child: Column(
+        children: [
+          Expanded(
+            child: Stepper(
+                elevation: 0, //Horizontal Impact
+                type: StepperType.horizontal,
+                physics: const ScrollPhysics(),
+                currentStep: _currentStep,
+                onStepTapped: (step) => tapped(step),
+                onStepContinue: continued,
+                onStepCancel: cancel,
+                steps: <Step>[
+                  Step(
+                    title: const Text('Personal Information'),
+                    content: Form(
+                      key: _formKey,
+                      child: Container(
                         color:
                             Colors.white, // Set the background color of Step 1
                         child: Column(
@@ -175,7 +187,8 @@ class _StepperWidgetState extends State<StepperWidget> {
                                       }
                                       selectedGender = _selections[index]
                                           ? _genderChoice[index]
-                                          : '';
+                                          : null;
+                                      _validateToggleSelection(selectedGender);
                                     });
                                   },
                                   constraints: const BoxConstraints(
@@ -195,7 +208,7 @@ class _StepperWidgetState extends State<StepperWidget> {
                                 ),
                                 const SizedBox(height: 8.0),
                                 Text(
-                                  _validateToggleSelection(_selections) ?? '',
+                                  genderMessage,
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 const SizedBox(height: 16.0),
@@ -330,14 +343,17 @@ class _StepperWidgetState extends State<StepperWidget> {
                           ],
                         ),
                       ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 0
-                          ? StepState.complete
-                          : StepState.disabled,
                     ),
-                    Step(
-                      title: const Text('Interest'),
-                      content: Column(
+                    isActive: _currentStep >= 0,
+                    state: _currentStep >= 0
+                        ? StepState.complete
+                        : StepState.disabled,
+                  ),
+                  Step(
+                    title: const Text('Interest'),
+                    content: Form(
+                      key: _formKey1,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const Text(
@@ -358,101 +374,100 @@ class _StepperWidgetState extends State<StepperWidget> {
                           buildHangout(),
                         ],
                       ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 1
-                          ? StepState.complete
-                          : StepState.disabled,
                     ),
-                    Step(
-                      title: const Text('Other Information'),
-                      content: Column(
-                        children: <Widget>[
-                          const SizedBox(height: 16.0),
-                          const Text(
-                            'Travel Category',
-                            style: TextStyle(
-                                fontSize: 16.0, fontWeight: FontWeight.bold),
-                          ),
-                          FutureBuilder<List<String>>(
-                            future: _dropdownTravelCat,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
+                    isActive: _currentStep >= 0,
+                    state: _currentStep >= 1
+                        ? StepState.complete
+                        : StepState.disabled,
+                  ),
+                  Step(
+                    title: const Text('Other Information'),
+                    content: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 16.0),
+                        const Text(
+                          'Travel Category',
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                        ),
+                        FutureBuilder<List<String>>(
+                          future: _dropdownTravelCat,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            }
 
-                              final dropdownItems = snapshot.data ?? [];
+                            final dropdownItems = snapshot.data ?? [];
 
-                              return DropdownButton<String>(
-                                value: _selectedValue,
-                                items: dropdownItems.map((value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedValue = value;
-                                    travellerCat = _selectedValue;
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 2
-                          ? StepState.complete
-                          : StepState.disabled,
+                            return DropdownButton<String>(
+                              value: _selectedCat,
+                              items: dropdownItems.map((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCat = value;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                  controlsBuilder:
-                      (BuildContext context, ControlsDetails controls) {
-                    if (_currentStep >= 2) {
-                      return Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                // Validation successful, perform the desired action
-                                debugPrint('Good to go');
-                              }
-                            },
-                            child: Text('Submit'),
-                          ),
-                          SizedBox(width: 16.0),
-                          TextButton(
-                            onPressed: cancel,
-                            child: Text('Back'),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: Row(
-                            children: <Widget>[
-                              ElevatedButton(
-                                onPressed: continued,
-                                child: const Text('NEXT'),
-                              ),
-                              if (_currentStep != 0)
-                                TextButton(
-                                  onPressed: cancel,
-                                  child: const Text(
-                                    'BACK',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
+                    isActive: _currentStep >= 0,
+                    state: _currentStep >= 2
+                        ? StepState.complete
+                        : StepState.disabled,
+                  ),
+                ],
+                controlsBuilder:
+                    (BuildContext context, ControlsDetails controls) {
+                  if (_currentStep >= 2) {
+                    return Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              // Validation successful, perform the desired action
+                              submit();
+                            }
+                          },
+                          child: Text('Submit'),
+                        ),
+                        SizedBox(width: 16.0),
+                        TextButton(
+                          onPressed: cancel,
+                          child: Text('Back'),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: continued,
+                              child: const Text('NEXT'),
+                            ),
+                            if (_currentStep != 0)
+                              TextButton(
+                                onPressed: cancel,
+                                child: const Text(
+                                  'BACK',
+                                  style: TextStyle(color: Colors.grey),
                                 ),
-                            ],
-                          ));
-                    }
-                  }),
-            ),
-          ],
-        ),
+                              ),
+                          ],
+                        ));
+                  }
+                }),
+          ),
+        ],
       ),
     );
   }
@@ -487,10 +502,11 @@ class _StepperWidgetState extends State<StepperWidget> {
             },
             onSuggestionSelected: (String suggestion) {
               setState(() {
-                _selectedValue = suggestion;
-                controllerCuisine.text = _selectedValue!;
+                _selectedCruisine = suggestion;
+                controllerCuisine.text = _selectedCruisine!;
               });
             },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please select your favorite cruisine';
@@ -534,9 +550,11 @@ class _StepperWidgetState extends State<StepperWidget> {
             onSuggestionSelected: (String suggestion) {
               controllerHangout.text = suggestion;
               setState(() {
-                _selectedValue = suggestion;
+                _selectedHangout = suggestion;
+                controllerHangout.text = _selectedHangout!;
               });
             },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please select your favorite hangout place';
@@ -563,11 +581,27 @@ class _StepperWidgetState extends State<StepperWidget> {
 
   continued() {
     final form = _formKey.currentState;
-    if (form != null && form.validate()) {
-      form.save();
-      _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+    final form1 = _formKey1.currentState;
+
+    if (_currentStep == 0) {
+      bool toggleVal = _validateToggleSelection(selectedGender);
+      if (form != null && form.validate() && toggleVal == true) {
+        form.save();
+        _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+      }
+    } else if (_currentStep == 1) {
+      if (form1 != null && form1.validate()) {
+        form1.save();
+        _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+      }
     }
-    debugPrint(selectedGender);
+  }
+
+  submit() {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    UserModel? user = userProvider.user;
+    debugPrint(user?.userID);
   }
 
   cancel() {

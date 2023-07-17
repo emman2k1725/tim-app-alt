@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
+import 'package:tim_app/model/UserProvider.dart';
 
 import '../../model/UserModel.dart';
 
@@ -53,6 +55,9 @@ void loginWithEmailPassword(
   try {
     UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
+    UserProvider userProvider =
+        // ignore: use_build_context_synchronously
+        Provider.of<UserProvider>(context, listen: false);
     User? user = result.user;
     final String? userID = user?.uid;
 
@@ -62,7 +67,7 @@ void loginWithEmailPassword(
       final userData = userSnapshot.data();
 
       // Store to Usermodel
-      final userDetails = UserModel(
+      UserModel userDetails = UserModel(
           userID: userID as String,
           firstName: userData?['firstName'] as String,
           lastName: userData?['lastName'] as String,
@@ -77,6 +82,8 @@ void loginWithEmailPassword(
           nationality: userData?['nationality'] as String?,
           gender: userData?['gender'] as String?);
 
+      userProvider.setUser(userDetails);
+
       if (userDetails.isRegistrationComplete == false) {
         GoRouter.of(context).go('/profile');
         Navigator.pop(context);
@@ -89,10 +96,6 @@ void loginWithEmailPassword(
         }
       }
     }
-    /* Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const DashboardMainScreen()),
-    ); */
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
