@@ -7,6 +7,8 @@ import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 
+import '../../responsive.dart';
+
 class LoginContainer extends StatefulWidget {
   const LoginContainer({super.key});
 
@@ -23,9 +25,14 @@ String password = "";
 class _LoginContainerState extends State<LoginContainer> {
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: mobileContainer1(),
-      desktop: desktopContainer1(),
+    // return ScreenTypeLayout(
+    //   mobile: mobileContainer1(),
+    //   desktop: desktopContainer1(),
+    // );
+    return Center(
+      child: (Responsive.isDesktop(context))
+          ? desktopContainer1()
+          : mobileContainer1(),
     );
   }
   //================ MOBILE ===============
