@@ -101,8 +101,7 @@ class _NavBarState extends State<NavBar> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         navButton('Home', () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Home()));
+          GoRouter.of(context).go('/');
         }),
         navButton('About', () {
           GoRouter.of(context).go('/about');
