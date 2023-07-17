@@ -12,6 +12,8 @@ import 'package:tim_app/widgets/customButtons.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
+import '../../responsive.dart';
+
 class LoginContainer extends StatefulWidget {
   const LoginContainer({super.key});
 
@@ -29,9 +31,14 @@ class _LoginContainerState extends State<LoginContainer> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: mobileContainer1(),
-      desktop: desktopContainer1(),
+    // return ScreenTypeLayout(
+    //   mobile: mobileContainer1(),
+    //   desktop: desktopContainer1(),
+    // );
+    return Center(
+      child: (Responsive.isDesktop(context))
+          ? desktopContainer1()
+          : mobileContainer1(),
     );
   }
   //================ MOBILE ===============
