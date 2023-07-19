@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
+
+import '../../backend/firebase/UserDataProvider.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -41,6 +46,9 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    debugPrint(user?.firstName.toString());
     return Container(
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.symmetric(
@@ -59,9 +67,9 @@ class ProfileCard extends StatelessWidget {
             height: 38,
           ),
           if (!Responsive.isMobile(context))
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10 / 2),
-              child: Text("Angelina Jolie"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10 / 2),
+              child: Text(user?.firstName ?? 'user'),
             ),
           const Icon(Icons.keyboard_arrow_down),
         ],
