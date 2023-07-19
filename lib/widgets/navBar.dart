@@ -1,6 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:tim_app/pages/about_page.dart';
+import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -97,10 +100,16 @@ class _NavBarState extends State<NavBar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        navButton('Home'),
-        navButton('About'),
-        navButton('Media'),
-        navButton('Advertisement'),
+        navButton('Home', () {
+          GoRouter.of(context).go('/');
+        }),
+        navButton('About', () {
+          GoRouter.of(context).go('/about');
+        }),
+        navButton('Media', () {
+          GoRouter.of(context).go('/media');
+        }),
+        navButton('Advertisement', () {}),
         SizedBox(
           height: 45,
           child: ElevatedButton(
@@ -118,11 +127,11 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  Widget navButton(String text) {
+  Widget navButton(String text, void Function()? onPressed) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
         child: TextButton(
-            onPressed: () {},
+            onPressed: onPressed,
             child: Text(text,
                 style: const TextStyle(color: Colors.white, fontSize: 18))));
   }
