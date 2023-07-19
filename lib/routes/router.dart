@@ -1,13 +1,17 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+
+import 'package:tim_app/pages/apply_business/applyBusiness.dart';
+import 'package:tim_app/pages/apply_business/apply_business_main.dart';
+
 import 'package:tim_app/pages/about_page.dart';
+
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
-import 'package:tim_app/pages/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 GoRouter createRouter() {
@@ -31,6 +35,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/dashboard",
         builder: (context, state) => const DashboardMainScreen(),
+      ),
+      GoRoute(
+        path: "/apply-business",
+        builder: (context, state) => const ApplyBusinessMain(),
       ),
       GoRoute(
         path: "/profile",

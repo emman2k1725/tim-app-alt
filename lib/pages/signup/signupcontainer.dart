@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
+import 'package:tim_app/pages/signup/components/signup_interest.dart';
+import 'package:tim_app/pages/signup/signup_interest_main.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
@@ -256,10 +258,16 @@ class _SignupContainerState extends State<SignupContainer> {
               CustomButton(
                 text: 'Sign up',
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    registerWithEmailPassword(email, password, phoneNumber,
-                        firstName, lastName, context);
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InterestMain(),
+                    ),
+                  );
+                  // if (_formKey.currentState!.validate()) {
+                  //   registerWithEmailPassword(email, password, phoneNumber,
+                  //       firstName, lastName, context);
+                  // }
                   // Handle button press
                 },
               ),

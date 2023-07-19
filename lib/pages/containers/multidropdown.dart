@@ -73,18 +73,20 @@ class _MultidropdownState extends State<Multidropdown> {
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
               SizedBox(height: 40),
-              //################################################################################################
-              // Rounded blue MultiSelectDialogField
-              //################################################################################################
               MultiSelectDialogField(
                 chipDisplay: MultiSelectChipDisplay(
+                  shape: StadiumBorder(side: BorderSide(color: Colors.grey)),
+                  textStyle: TextStyle(
+                    fontSize: 16, // Adjust the font size as needed
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                   items: _items,
                   chipColor: Colors.blue,
-                  textStyle: TextStyle(color: Colors.white),
+
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(
                         0.2), // Set the background color of the chips
@@ -98,19 +100,10 @@ class _MultidropdownState extends State<Multidropdown> {
                   onTap: (item) {
                     // Handle chip tap event
                   },
+                  chipWidth: 100, // Adjust the width of the chips as needed
+                  height: 10, // Adjust the height of the chips as needed
                 ),
 
-                // MultiSelectChipDisplay(
-                //   items: _items,
-                //   chipColor: Colors.red,
-                //   textStyle: TextStyle(color: Colors.black),
-
-                //   onTap: (value) {
-                //     setState(() {
-                //       _selectedAnimals2.remove(value);
-                //     });
-                //   },
-                // ),
                 items: _items,
                 title: Text("Animals"),
                 searchable: true,
@@ -137,51 +130,6 @@ class _MultidropdownState extends State<Multidropdown> {
                 onConfirm: (results) {
                   //_selectedAnimals = results;
                 },
-              ),
-
-              //################################################################################################
-              // This MultiSelectBottomSheetField has no decoration, but is instead wrapped in a Container that has
-              // decoration applied. This allows the ChipDisplay to render inside the same Container.
-              //################################################################################################
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(.4),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
-                  ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    MultiSelectBottomSheetField(
-                      initialChildSize: 0.4,
-                      listType: MultiSelectListType.CHIP,
-                      searchable: true,
-                      buttonText: Text("Favorite Animals"),
-                      title: Text("Animals"),
-                      items: _items,
-                      onConfirm: (values) {
-                        _selectedAnimals2 = values.cast<Animal>();
-                      },
-                      chipDisplay: MultiSelectChipDisplay(
-                        onTap: (value) {
-                          setState(() {
-                            _selectedAnimals2.remove(value);
-                          });
-                        },
-                      ),
-                    ),
-                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
-                        ? Container(
-                            padding: EdgeInsets.all(10),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "None selected",
-                              style: TextStyle(color: Colors.black54),
-                            ))
-                        : Container(),
-                  ],
-                ),
               ),
             ],
           ),

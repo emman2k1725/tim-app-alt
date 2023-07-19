@@ -110,7 +110,7 @@ class _StepperWidgetState extends State<StepperWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
+      width: 800,
       height: 600,
       color: Colors.white,
       child: Column(
@@ -118,7 +118,7 @@ class _StepperWidgetState extends State<StepperWidget> {
           Expanded(
             child: Stepper(
                 elevation: 0, //Horizontal Impact
-                type: StepperType.horizontal,
+                type: StepperType.vertical,
                 physics: const ScrollPhysics(),
                 currentStep: _currentStep,
                 onStepTapped: (step) => tapped(step),
