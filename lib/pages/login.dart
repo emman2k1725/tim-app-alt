@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/pages/loginpage/loginContainer.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/navBar.dart';
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: Center(child: LoginContainer()),
+          child: Center(child: const LoginContainer()),
         ),
       ),
     );

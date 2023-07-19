@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/colors.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import '../../responsive.dart';
+import '../../utils/loading.dart';
 
 class LoginContainer extends StatefulWidget {
   const LoginContainer({super.key});
@@ -31,94 +34,8 @@ class _LoginContainerState extends State<LoginContainer> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    // return ScreenTypeLayout(
-    //   mobile: mobileContainer1(),
-    //   desktop: desktopContainer1(),
-    // );
-    return Center(
-      child: (Responsive.isDesktop(context))
-          ? desktopContainer1()
-          : mobileContainer1(),
-    );
-  }
-  //================ MOBILE ===============
-
-  Widget mobileContainer1() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
-      child: Column(
-        children: [
-          Container(
-            height: w! / 1.2,
-            width: w! / 1.2,
-            // decoration: const BoxDecoration(
-            //     image: DecorationImage(
-            //         image: AssetImage(homepageTim), fit: BoxFit.contain)),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Unforgettable \nExperiences Awaits',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: w! / 10,
-                fontWeight: FontWeight.bold,
-                height: 1),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            'Capturing the Perfect Shots in Picture-Perfect Destinations',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-            height: 45,
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(AppColors.primary)),
-                onPressed: () {},
-                child: const Text('Plan Now')),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 45,
-            child: ElevatedButton.icon(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.black,
-                    elevation: 0,
-                    side: const BorderSide(
-                      width: 1.0,
-                      color: Colors.transparent,
-                    )),
-                icon: const Icon(Icons.play_arrow_outlined),
-                label: const Text('How it works')),
-          ),
-          // ElevatedButton.icon(
-          //       style: ButtonStyle(
-          //           backgroundColor: Color(0x34E8E8E8)),
-          //       onPressed: () {},
-          //       icon: const Icon(Icons.play_arrow_outlined),
-          //       label: const Text('Plan Now')),
-        ],
-      ),
-    );
-  }
-
-  //============== DESKTOP =============
-
-  Widget desktopContainer1() {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     return Center(
       child: Container(
           height: 550,
@@ -304,11 +221,34 @@ class _LoginContainerState extends State<LoginContainer> {
                                     Center(
                                       child: CustomButton(
                                         text: 'Sign in',
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (_formKey.currentState!
                                               .validate()) {
-                                            loginWithEmailPassword(
-                                                email, password, context);
+                                            String result = await authProvider
+                                                .signIn(email, password);
+                                            if (result == 'success') {
+                                              showCustomLoadingDialog(
+                                                  context, 'Logging in...');
+                                              String userDataRes =
+                                                  await userProvider
+                                                      .getUserInfo(authProvider
+                                                          .user!.uid);
+                                              if (userDataRes == 'success') {
+                                                debugPrint(userProvider
+                                                    .userData?.firstName);
+                                                GoRouter.of(context)
+                                                    .go('/dashboard');
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content:
+                                                            Text(userDataRes)));
+                                              }
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(result)));
+                                            }
                                           }
                                           // Handle button press
                                         },
