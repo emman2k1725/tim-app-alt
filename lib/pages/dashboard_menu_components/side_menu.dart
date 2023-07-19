@@ -61,7 +61,9 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: "Apply for Business",
               svgSrc: "/icons/business.svg",
-              press: () {},
+              press: () {
+                GoRouter.of(context).go('/apply-business');
+              },
             ),
             const SizedBox(
               height: defaultPadding,

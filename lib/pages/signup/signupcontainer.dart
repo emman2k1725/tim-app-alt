@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
+import 'package:tim_app/pages/signup/components/signup_interest.dart';
+import 'package:tim_app/pages/signup/signup_interest_main.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
