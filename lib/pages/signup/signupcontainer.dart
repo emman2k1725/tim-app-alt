@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:tim_app/pages/dashboard_main.dart';
@@ -258,12 +259,7 @@ class _SignupContainerState extends State<SignupContainer> {
               CustomButton(
                 text: 'Sign up',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => InterestMain(),
-                    ),
-                  );
+                  GoRouter.of(context).go('/signup-interest');
                   // if (_formKey.currentState!.validate()) {
                   //   registerWithEmailPassword(email, password, phoneNumber,
                   //       firstName, lastName, context);
