@@ -14,6 +14,8 @@ import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/signup/signup_interest_main.dart';
+
 GoRouter createRouter() {
   return GoRouter(
     routes: [
@@ -39,6 +41,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/apply-business",
         builder: (context, state) => const ApplyBusinessMain(),
+      ),
+      GoRoute(
+        path: "/signup-interest",
+        builder: (context, state) => const InterestMain(),
       ),
       GoRoute(
         path: "/profile",

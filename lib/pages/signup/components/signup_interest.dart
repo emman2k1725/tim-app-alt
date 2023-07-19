@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
@@ -22,7 +23,7 @@ class InterestSignup extends StatefulWidget {
 class _InterestSignupState extends State<InterestSignup> {
   Color shadowColor = Colors.blueAccent;
 
-  static List<Animal> _animals = [
+  static final List<Animal> _animals = [
     Animal(id: 1, name: "Lion"),
     Animal(id: 2, name: "Flamingo"),
     Animal(id: 3, name: "Hippo"),
@@ -54,23 +55,21 @@ class _InterestSignupState extends State<InterestSignup> {
   final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
-  //List<Animal> _selectedAnimals = [];
-  List<Animal> _selectedAnimals2 = [];
-  List<Animal> _selectedAnimals3 = [];
-  //List<Animal> _selectedAnimals4 = [];
-  List<Animal> _selectedAnimals5 = [];
-  final _multiSelectKey = GlobalKey<FormFieldState>();
-  Future<List<String>>? _dropdownCruisines;
+
+  Future<List<String>>? _dropdownTravelCat;
+
+  String? _selectedCat;
+
   @override
   void initState() {
-    _selectedAnimals5 = _animals;
     super.initState();
+    _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
   }
 
   List<String> selectedItems = [];
 
   void showMinimumSelectionError() {
-    final snackBar = SnackBar(
+    const snackBar = SnackBar(
       content: Text('Please select at least 3 items and a minimum of 5 items.'),
       backgroundColor: Colors.red,
       duration: Duration(seconds: 2),
@@ -110,111 +109,291 @@ class _InterestSignupState extends State<InterestSignup> {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(width: 2, color: Colors.white10),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(children: [
-                          Container(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, right: 16.0),
-                            height: 530,
-                            child: MultiSelectDialogField(
-                              chipDisplay: MultiSelectChipDisplay(
-                                shape: const StadiumBorder(
-                                    side: BorderSide(color: Colors.grey)),
-                                textStyle: const TextStyle(
-                                  fontSize:
-                                      16, // Adjust the font size as needed
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                items: _items,
-                                chipColor: Colors.blue,
 
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(
-                                      0.2), // Set the background color of the chips
-                                  borderRadius: BorderRadius.circular(
-                                      10), // Set the border radius of the chips
-                                  border: Border.all(
-                                      color: Colors.blue,
-                                      width:
-                                          2), // Set the border color and width of the chips
-                                ),
-                                onTap: (item) {
-                                  // Handle chip tap event
-                                },
-                                chipWidth:
-                                    100, // Adjust the width of the chips as needed
-                                height:
-                                    10, // Adjust the height of the chips as needed
-                              ),
-
-                              items: _items,
-                              title: const Text("Cuisines"),
-                              searchable: true,
-                              // selectedColor: Colors.red,
-                              decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 2,
-                                ),
-                              ),
-                              buttonIcon: const Icon(
-                                Icons.fork_left_outlined,
-                                color: Colors.blue,
-                              ),
-                              buttonText: Text(
-                                "Favorite Cuisines",
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontSize: 12,
-                                ),
-                              ),
-                              onConfirm: (values) {
-                                if (values.length >= 3 && values.length <= 5) {
-                                  setState(() {
-                                    selectedItems = values.cast<String>();
-                                  });
-                                } else {
-                                  showMinimumSelectionError();
-                                }
-                              },
-                            ),
-                          ),
-                        ]),
+                  child: SingleChildScrollView(
+                    child: Column(children: [
+                      const SizedBox(
+                        height: 25,
                       ),
-                      SizedBox(
-                        height: 530,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(30.0),
-                            bottomRight: Radius.circular(30.0),
-                          ),
-                          child: Image.asset(
-                            timHand,
-                            fit: BoxFit.cover,
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Center(
+                          child: Text(
+                            'INTERESTS',
+                            style: AppTheme.getSecondaryTextStyle(25),
                           ),
                         ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Center(
+                          child: Text(
+                            'Share your interests with us, and TIM will create an extraordinary travel itinerary tailored to your adventure.',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                              letterSpacing: 1.5,
+                              wordSpacing: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      //start of cuisines
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  10, 10, 10, 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  border: Border.all(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                child: MultiSelectDialogField(
+                                  items: _items,
+                                  chipDisplay: MultiSelectChipDisplay(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    chipColor: Colors.blue,
+                                  ),
+                                  title: const Text("Cuisines"),
+                                  searchable: true,
+                                  buttonIcon: const Icon(
+                                    Icons.restaurant_outlined,
+                                    color: Colors.blue,
+                                  ),
+                                  buttonText: const Text(
+                                    "Favorite Cuisines",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  onConfirm: (values) {
+                                    if (values.length >= 3 &&
+                                        values.length <= 5) {
+                                      setState(() {
+                                        selectedItems = values.cast<String>();
+                                      });
+                                    } else {
+                                      showMinimumSelectionError();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          //start of favourite city
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  10, 10, 10, 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  border: Border.all(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                child: MultiSelectDialogField(
+                                  items: _items,
+                                  chipDisplay: MultiSelectChipDisplay(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    chipColor: Colors.blue,
+                                  ),
+                                  title: const Text("Cities"),
+                                  searchable: true,
+                                  buttonIcon: const Icon(
+                                    Icons.location_city_outlined,
+                                    color: Colors.blue,
+                                  ),
+                                  buttonText: const Text(
+                                    "Top 5 Cities",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  onConfirm: (values) {
+                                    if (values.length >= 3 &&
+                                        values.length <= 5) {
+                                      setState(() {
+                                        selectedItems = values.cast<String>();
+                                      });
+                                    } else {
+                                      showMinimumSelectionError();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      //Favorite Activity
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            10, 10, 10, 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.1),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            border: Border.all(
+                              color: Colors.blue,
+                              width: 2,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          child: MultiSelectDialogField(
+                            items: _items,
+                            chipDisplay: MultiSelectChipDisplay(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                              chipColor: Colors.blue,
+                            ),
+                            title: const Text("Activities"),
+                            searchable: true,
+                            buttonIcon: const Icon(
+                              Icons.restaurant_outlined,
+                              color: Colors.blue,
+                            ),
+                            buttonText: const Text(
+                              "Favorite Activities",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            onConfirm: (values) {
+                              if (values.length >= 3 && values.length <= 5) {
+                                setState(() {
+                                  selectedItems = values.cast<String>();
+                                });
+                              } else {
+                                showMinimumSelectionError();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      //category
+
+                      Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 10, 10, 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                const SizedBox(height: 16.0),
+                                const Text(
+                                  'Travel Category',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                FutureBuilder<List<String>>(
+                                  future: _dropdownTravelCat,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const CircularProgressIndicator();
+                                    }
+
+                                    final dropdownItems = snapshot.data ?? [];
+
+                                    return DropdownButton<String>(
+                                      value: _selectedCat,
+                                      items: dropdownItems.map((value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedCat = value;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          )),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            width: 200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: ElevatedButton(
+                                style: elevatedButtonStyle,
+                                onPressed: () {
+                                  //   GoRouter.of(context).go('/das');
+                                },
+                                child: const Text(
+                                  'Submit',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       )
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //     borderRadius: BorderRadius.only(
-                      //       topRight: Radius.circular(50.0),
-                      //       bottomRight: Radius.circular(50.0),
-                      //     ),
-                      //   ),
-                      //   height: 530,
-                      //   child: Image.asset(
-                      //     timHand,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
-                    ],
+                    ]),
                   ),
                 ))));
   }
