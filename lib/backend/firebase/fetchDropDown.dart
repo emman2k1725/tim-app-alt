@@ -10,6 +10,7 @@ List<String> _dropdownItems = [];
 
 class FirebaseService {
   static Future<List<String>> fetchDropdownItems(String whatCollection) async {
+    await Future.delayed(Duration(seconds: 2));
     final querySnapshot = await FirebaseFirestore.instance
         .collection('dropdownCollection')
         .doc(whatCollection)
