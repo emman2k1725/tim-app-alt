@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'backend/firebase/UserDataProvider.dart';
 import 'controllers/menuAppController.dart';
 import 'package:tim_app/routes/router.dart';
-import 'package:tim_app/model/UserProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +24,13 @@ void main() async {
         measurementId: "G-4MZ3MT7SBR"),
   );
 
-  runApp(ChangeNotifierProvider<UserProvider>(
-    child: const MyApp(),
-    create: (_) => UserProvider(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+      ChangeNotifierProvider<UserDataProvider>(
+          create: (_) => UserDataProvider()),
+    ],
+    child: MyApp(),
   ));
 }
 

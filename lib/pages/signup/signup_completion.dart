@@ -6,9 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
-import 'package:tim_app/backend/authservice/createUserProfile.dart';
-import 'package:tim_app/model/UserModel.dart';
-import 'package:tim_app/model/UserProvider.dart';
 
 class StepperWidget extends StatefulWidget {
   const StepperWidget({
@@ -433,7 +430,6 @@ class _StepperWidgetState extends State<StepperWidget> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               // Validation successful, perform the desired action
-                              submit();
                             }
                           },
                           child: Text('Submit'),
@@ -595,13 +591,6 @@ class _StepperWidgetState extends State<StepperWidget> {
         _currentStep < 2 ? setState(() => _currentStep += 1) : null;
       }
     }
-  }
-
-  submit() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    UserModel? user = userProvider.user;
-    debugPrint(user?.userID);
   }
 
   cancel() {
