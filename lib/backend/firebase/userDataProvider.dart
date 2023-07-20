@@ -21,7 +21,6 @@ class UserDataProvider with ChangeNotifier {
             userSnapshot.data() as Map<String, dynamic>;
         UserModel user = UserModel.fromMap(userData);
         setUserData(user);
-
         result = "success";
       }
     } catch (e) {

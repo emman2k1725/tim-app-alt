@@ -234,10 +234,12 @@ class _LoginContainerState extends State<LoginContainer> {
                                                       .getUserInfo(authProvider
                                                           .user!.uid);
                                               if (userDataRes == 'success') {
-                                                debugPrint(userProvider
-                                                    .userData?.firstName);
-                                                GoRouter.of(context)
-                                                    .go('/dashboard');
+                                                nagivateGateway(
+                                                    userProvider
+                                                        .userData!.isAdmin,
+                                                    userProvider.userData!
+                                                        .isRegistrationComplete,
+                                                    context);
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
@@ -392,5 +394,18 @@ class _LoginContainerState extends State<LoginContainer> {
                     ),
                   )))),
     );
+  }
+}
+
+void nagivateGateway(
+    bool? asAdmin, bool? isRegistrationComplete, BuildContext context) {
+  if (asAdmin == false) {
+    if (isRegistrationComplete == true) {
+      GoRouter.of(context).go('/signup-interest');
+    } else {
+      GoRouter.of(context).go('/dashboard');
+    }
+  } else {
+    // Admin
   }
 }
