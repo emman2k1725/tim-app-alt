@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/profile/profile_edit.dart';
+import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/pages/profile/profile_personal_info.dart';
 
 import '../../utils/constants.dart';
 
@@ -26,8 +28,8 @@ class _MyTabBarViewState extends State<MyTabBarView>
     TabController _tabController = TabController(length: 3, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: Container(
-        height: 500,
+      child: SizedBox(
+        height: 800,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -58,30 +60,38 @@ class _MyTabBarViewState extends State<MyTabBarView>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    EditableContainer(),
                     Container(
-                      child: TabBar(
-                          controller: _tabController,
-                          labelColor: Colors.black,
-                          unselectedLabelColor: Colors.white70,
-                          tabs: [
-                            Tab(
-                              text: "Personal Information",
-                            ),
-                            Tab(
-                              text: "Interests",
-                            )
-                          ]),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TabBar(
+                            controller: _tabController,
+                            isScrollable: true,
+                            labelPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.grey,
+                            tabs: [
+                              Tab(
+                                text: "Personal Information",
+                              ),
+                              Tab(
+                                text: "Interests",
+                              )
+                            ]),
+                      ),
                     ),
-                    Container(
-                      width: double.maxFinite,
-                      height: 300,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          Text("Hello"),
-                          Text("beh"),
-                        ],
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        width: double.maxFinite,
+                        height: 700,
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            UserProfileWidget(),
+                            const ProfileInterest(),
+                          ],
+                        ),
                       ),
                     )
                   ],

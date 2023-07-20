@@ -10,5 +10,6 @@ const String fbLogo = 'assets/images/fb.png';
 const String googleLogo = 'assets/images/googleLogo.png';
 const String mediaImg = 'images/media_img.png';
 const String beach = 'images/beach.jpeg';
+const String profile = 'images/profile.jpg';
 
 const defaultPadding = 16.0;

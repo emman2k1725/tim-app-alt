@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/apply_business/tabbar.dart';
 import 'package:tim_app/utils/constants.dart';
 
 import '../dashboard_menu_components/header.dart';
@@ -21,37 +22,10 @@ class ProfileScreen extends StatelessWidget {
               image: AssetImage(mainBg),
             ),
           ),
-          child: const Column(
-            children: [
-              SizedBox(height: 10),
-              Header(),
-              SizedBox(height: 10),
-              SingleChildScrollView(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Profile',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              wordSpacing: 2.0,
-                            ),
-                          ),
-                          StepperWidget(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+          child: const SingleChildScrollView(
+            child: Column(
+              children: [Header(), MyTabBarView()],
+            ),
           ),
         ),
       ),
