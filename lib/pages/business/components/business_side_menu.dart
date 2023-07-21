@@ -4,11 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 
-class SideMenu extends StatelessWidget {
-  const SideMenu({
-    Key? key,
-  }) : super(key: key);
+class BusinessSideMenu extends StatefulWidget {
+  const BusinessSideMenu({super.key});
 
+  @override
+  State<BusinessSideMenu> createState() => _BusinessSideMenuState();
+}
+
+class _BusinessSideMenuState extends State<BusinessSideMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,66 +26,53 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: "Dashboard",
               svgSrc: "/icons/dashboard.svg",
-              // selectedRoute: selectedRoute == '/',
+              press: () {
+                // GoRouter.of(context).go('/dashboard');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Advertisement",
+              svgSrc: "/icons/travel.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Special Offers",
+              svgSrc: "/icons/discount.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Business Details",
+              svgSrc: "/icons/business.svg",
+              press: () {
+                GoRouter.of(context).go('/business-details');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Payment",
+              svgSrc: "/icons/payment.svg",
+              press: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DrawerListTile(
+              title: "Go back to Account",
+              svgSrc: "/icons/logout.svg",
               press: () {
                 GoRouter.of(context).go('/dashboard');
               },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Travel Plan",
-              svgSrc: "/icons/travel.svg",
-              press: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Travel History",
-              svgSrc: "/icons/history.svg",
-              press: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Trip Reviews",
-              svgSrc: "/icons/travel.svg",
-              press: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Apply for Business",
-              svgSrc: "/icons/business.svg",
-              press: () {
-                GoRouter.of(context).go('/apply-business');
-              },
-            ),
-            const SizedBox(
-              height: defaultPadding,
-            ),
-            const Divider(color: Colors.white70),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Profile",
-              svgSrc: "/icons/profile.svg",
-              press: () {
-                GoRouter.of(context).go('/profile');
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DrawerListTile(
-              title: "Settings",
-              svgSrc: "/icons/settings.svg",
-              press: () {},
             ),
           ],
         ),

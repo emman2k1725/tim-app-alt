@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/colors.dart';
@@ -26,12 +24,12 @@ class Header extends StatelessWidget {
             onPressed: context.read<MenuAppController>().controlMenu,
           ),
         if (!Responsive.isMobile(context))
-          Text(
-            "Dashboard",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+          // Text(
+          //   "Dashboard",
+          //   style: Theme.of(context).textTheme.titleLarge,
+          // ),
+          if (!Responsive.isMobile(context))
+            Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
         const Expanded(child: SearchField()),
         const ProfileCard()
       ],
@@ -61,9 +59,24 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            logo,
-            height: 38,
+          ClipOval(
+            child: Container(
+              width: 50, // Set the desired width for the circular avatar
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.blue, // Set the color of the border
+                  width: 1.0, // Set the width of the border
+                ),
+                shape: BoxShape.circle,
+                image: const DecorationImage(
+                  image: AssetImage(
+                      profile), // Replace 'your_image.png' with the actual image path
+                  fit: BoxFit
+                      .cover, // Choose the appropriate fit option for your design
+                ),
+              ),
+            ),
           ),
           if (!Responsive.isMobile(context))
             Padding(
@@ -98,10 +111,10 @@ class SearchField extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(defaultPadding * 0.75),
             margin: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
+            // decoration: BoxDecoration(
+            //   color: Colors.grey,
+            //   borderRadius: const BorderRadius.all(Radius.circular(10)),
+            // ),
             child: SvgPicture.asset("/icons/search.svg"),
           ),
         ),
