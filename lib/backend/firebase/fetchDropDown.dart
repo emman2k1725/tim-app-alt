@@ -1,6 +1,4 @@
-import 'dart:html';
 
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Firebase Collection
@@ -10,7 +8,7 @@ List<String> _dropdownItems = [];
 
 class FirebaseService {
   static Future<List<String>> fetchDropdownItems(String whatCollection) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     final querySnapshot = await FirebaseFirestore.instance
         .collection('dropdownCollection')
         .doc(whatCollection)

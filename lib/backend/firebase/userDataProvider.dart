@@ -29,4 +29,26 @@ class UserDataProvider with ChangeNotifier {
 
     return result;
   }
+
+  updateUserInfo(
+      String userID,
+      List<String> favCruisine,
+      List<String> favActivities,
+      List<String> selectedCities,
+      String? travelCategory) async {
+    String result = "";
+    try {
+      await _firestore.doc(userID).update({
+        'favCruisine': favCruisine,
+        'favHangout': favActivities,
+        'topCities': selectedCities,
+        'travelCat': travelCategory,
+        'isRegistrationComplete': true
+      });
+      result = "success";
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
 }
