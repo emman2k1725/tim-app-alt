@@ -400,7 +400,7 @@ class _LoginContainerState extends State<LoginContainer> {
 void nagivateGateway(
     bool? asAdmin, bool? isRegistrationComplete, BuildContext context) {
   if (asAdmin == false) {
-    if (isRegistrationComplete == true) {
+    if (isRegistrationComplete == false) {
       GoRouter.of(context).go('/signup-interest');
     } else {
       GoRouter.of(context).go('/dashboard');
