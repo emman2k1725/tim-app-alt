@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../backend/authservice/authentication.dart';
+import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../model/UserModel.dart';
+import '../../services/validator_service.dart';
 
 class ModalAddress extends StatefulWidget {
   @override
@@ -8,10 +14,16 @@ class ModalAddress extends StatefulWidget {
 class _ModalAddressState extends State<ModalAddress> {
   final _formKey = GlobalKey<FormState>();
 
-  String _textValue = '';
+  String? _country;
+  String? _building;
+  String? _city;
+  String? _postal;
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
     return AlertDialog(
       title: Text('Edit Address'),
       content: Form(
@@ -33,7 +45,14 @@ class _ModalAddressState extends State<ModalAddress> {
                         ),
                       )),
                   onSaved: (value) {
-                    _textValue = value!;
+                    _country = value!;
+                    user?.address?['country'] = _country;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (containsNumber(value) == true) {
+                      return 'Please enter a valid country';
+                    }
                   },
                 ),
                 SizedBox(
@@ -49,7 +68,14 @@ class _ModalAddressState extends State<ModalAddress> {
                         ),
                       )),
                   onSaved: (value) {
-                    _textValue = value!;
+                    _city = value!;
+                    user?.address?['city'] = _city;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (containsNumber(value) == true) {
+                      return 'Please enter a valid city';
+                    }
                   },
                 ),
                 SizedBox(
@@ -65,7 +91,14 @@ class _ModalAddressState extends State<ModalAddress> {
                         ),
                       )),
                   onSaved: (value) {
-                    _textValue = value!;
+                    _postal = value!;
+                    user?.address?['postal'] = _postal;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (containsChar(value) == true) {
+                      return 'Please enter a valid postal code';
+                    }
                   },
                 ),
                 SizedBox(
@@ -81,7 +114,8 @@ class _ModalAddressState extends State<ModalAddress> {
                         ),
                       )),
                   onSaved: (value) {
-                    _textValue = value!;
+                    _building = value!;
+                    user?.address?['building'] = _building;
                   },
                 ),
               ],
@@ -100,7 +134,15 @@ class _ModalAddressState extends State<ModalAddress> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              Navigator.pop(context, _textValue);
+              if (_building != null ||
+                  _city != null ||
+                  _country != null ||
+                  _postal != null) {
+                userProvider.updateDocument(authProvider.user!.uid, user);
+                Navigator.pop(context);
+              } else {
+                Navigator.pop(context);
+              }
             }
           },
           child: Text('Submit'),

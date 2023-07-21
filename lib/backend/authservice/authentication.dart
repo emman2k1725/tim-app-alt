@@ -26,9 +26,18 @@ class AuthProvider with ChangeNotifier {
           mobileNumber: mobileNumber,
           isAdmin: false,
           isRegistrationComplete: false,
-          hasBusiness: false);
+          hasBusiness: false,
+          address: {
+            'building': '',
+            'street': '',
+            'city': '',
+            'state': '',
+            'postal': '',
+            'country': ''
+          });
       await _firestore.doc(_user!.uid).set(userModel.toMap());
       result = "success";
+      notifyListeners();
     } on FirebaseAuthException catch (e) {
       result =
           authErrorHandler(parseFirebaseAuthExceptionMessage(input: e.message));

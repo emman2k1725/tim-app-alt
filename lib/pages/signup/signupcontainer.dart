@@ -3,9 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/pages/dashboard_main.dart';
-import 'package:tim_app/pages/signup/components/signup_interest.dart';
-import 'package:tim_app/pages/signup/signup_interest_main.dart';
+import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
@@ -61,8 +59,7 @@ class _SignupContainerState extends State<SignupContainer> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -263,15 +260,16 @@ class _SignupContainerState extends State<SignupContainer> {
               const SizedBox(height: 16.0),
               CustomButton(
                 text: 'Sign up',
-
-
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     showCustomLoadingDialog(context, 'Signing up...');
                     String result = await authProvider.register(
                         email, password, firstName, lastName, phoneNumber);
                     if (result == 'success') {
-                      GoRouter.of(context).go('/login');
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Sign up sucessful! You can now login your account')));
+                      GoRouter.of(context).go('/');
                     } else {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(result)));

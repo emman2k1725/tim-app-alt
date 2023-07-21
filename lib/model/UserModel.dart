@@ -1,18 +1,19 @@
 class UserModel {
-  final String? firstName;
-  final String? lastName;
-  final String? email;
-  final bool? hasBusiness;
-  final bool? isAdmin;
-  final bool? isRegistrationComplete;
-  final DateTime? birthDate;
-  final String? mobileNumber;
-  final List<dynamic>? favCruisine;
-  final List<dynamic>? favHangout;
-  final List<dynamic>? topCities;
-  final String? travelCat;
-  final String? nationality;
-  final String? gender;
+  String? firstName;
+  String? lastName;
+  String? email;
+  bool? hasBusiness;
+  bool? isAdmin;
+  bool? isRegistrationComplete;
+  DateTime? birthDate;
+  String? mobileNumber;
+  List<dynamic>? favCruisine;
+  List<dynamic>? favHangout;
+  List<dynamic>? topCities;
+  String? travelCat;
+  String? nationality;
+  String? gender;
+  Map<String, dynamic>? address;
 
   UserModel({
     this.firstName,
@@ -29,7 +30,16 @@ class UserModel {
     this.topCities,
     this.gender,
     this.nationality,
+    this.address,
   });
+
+  void setFirstName(String? newFirstName) {
+    firstName = newFirstName;
+  }
+
+  void setLastName(String? newLastName) {
+    lastName = newLastName;
+  }
 
   // Factory method to create a user model from a map or JSON data
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -47,7 +57,8 @@ class UserModel {
         favHangout: map['favHangout'],
         topCities: map['topCities'],
         gender: map['gender'],
-        nationality: map['nationality']);
+        nationality: map['nationality'],
+        address: map['address']);
   }
 
   // Method to convert the user model to a map or JSON data
@@ -66,7 +77,8 @@ class UserModel {
       'favHangout': favHangout,
       'topCities': topCities,
       'gender': gender,
-      'nationality': nationality
+      'nationality': nationality,
+      'address': address
     };
   }
 }
