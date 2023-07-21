@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/pages/services/validator_service.dart';
+
+import '../../../backend/authservice/authentication.dart';
+import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../model/UserModel.dart';
 
 class ModalForm extends StatefulWidget {
   @override
@@ -9,10 +15,14 @@ class ModalForm extends StatefulWidget {
 class _ModalFormState extends State<ModalForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String _textValue = '';
+  String? _firstName;
+  String? _lastName;
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
     return AlertDialog(
       title: Text('Edit Personal Information'),
       content: Form(
@@ -33,8 +43,17 @@ class _ModalFormState extends State<ModalForm> {
                           color: Colors.blue,
                         ),
                       )),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (containsNumber(value) == true) {
+                      return 'Please enter a valid first name';
+                    }
+                  },
                   onSaved: (value) {
-                    _textValue = value!;
+                    _firstName = value;
+                    if (value != null) {
+                      user?.setFirstName(_firstName);
+                    }
                   },
                 ),
                 SizedBox(
@@ -49,8 +68,17 @@ class _ModalFormState extends State<ModalForm> {
                           color: Colors.blue,
                         ),
                       )),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (containsNumber(value) == true) {
+                      return 'Please enter a valid Last name';
+                    }
+                  },
                   onSaved: (value) {
-                    _textValue = value!;
+                    _lastName = value;
+                    if (value != null) {
+                      user?.setLastName(_lastName);
+                    }
                   },
                 ),
               ],
@@ -69,7 +97,12 @@ class _ModalFormState extends State<ModalForm> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              Navigator.pop(context, _textValue);
+              if (_firstName != null || _lastName != null) {
+                userProvider.updateDocument(authProvider.user!.uid, user);
+                Navigator.pop(context);
+              } else {
+                Navigator.pop(context);
+              }
             }
           },
           child: Text('Submit'),

@@ -36,9 +36,11 @@ class _LoginContainerState extends State<LoginContainer> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+
     return Center(
       child: Container(
           height: 550,
+          // May error dito kapag horizontal: w! / 10. Kapag bumabalik galing sa ibang page, nagiging null lamang ni variable: w
           margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
@@ -86,7 +88,7 @@ class _LoginContainerState extends State<LoginContainer> {
                                       color: Colors.white,
                                       icon: const Icon(Icons.arrow_back),
                                       onPressed: () {
-                                        Navigator.of(context).pop();
+                                        GoRouter.of(context).go('/');
                                       },
                                     ),
                                     Center(

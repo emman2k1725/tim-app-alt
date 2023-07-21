@@ -45,7 +45,19 @@ class UserDataProvider with ChangeNotifier {
         'travelCat': travelCategory,
         'isRegistrationComplete': true
       });
+      getUserInfo(userID);
       result = "success";
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
+
+  updateDocument(String userID, UserModel? newUserDocument) async {
+    String result = "";
+    try {
+      await _firestore.doc(userID).update(newUserDocument!.toMap());
+      getUserInfo(userID);
     } catch (e) {
       result = e.toString();
     }
