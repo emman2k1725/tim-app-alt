@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/pages/profile/components/profile_modal.dart';
 import 'package:tim_app/pages/profile/components/profile_modal_address.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
+
+import '../../backend/authservice/authentication.dart';
+import '../../backend/firebase/UserDataProvider.dart';
+import '../../model/UserModel.dart';
 
 class UserProfileWidget extends StatefulWidget {
   @override
@@ -12,6 +17,12 @@ class UserProfileWidget extends StatefulWidget {
 class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    String cityCountry =
+        user!.address?['city'] + ',' + user.address?['country'];
+    String buildingStreet =
+        user!.address?['building'] + ' ' + user.address?['street'];
     return Column(
       children: [
         const SizedBox(
@@ -53,11 +64,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 width: 10,
                 height: 15,
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'John Doe', // Replace with your name or text
+                    user.firstName ?? '', // Replace with your name or text
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -65,14 +76,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'johndoe@gmail.com', // Replace with your name or text
+                    user?.email ?? '', // Replace with your name or text
                     style: TextStyle(
                       fontSize: 15.0,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Toronto, Canada', // Replace with your name or text
+                    cityCountry ?? '', // Replace with your name or text
                     style: TextStyle(
                       fontSize: 15.0,
                     ),
@@ -120,7 +131,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              const Row(
+              Row(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +147,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        'John', // Replace with your name or text
+                        user?.firstName ?? '', // Replace with your name or text
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
@@ -156,9 +167,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       Text(
-                        'Doe', // Replace with your name or text
+                        user?.lastName ?? '', // Replace with your name or text
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
@@ -167,7 +178,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              const Row(
+              Row(
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -181,9 +192,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       Text(
-                        'johndoe@gmail.com',
+                        user?.email ?? '',
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
@@ -205,7 +216,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        '+639924837289', // Replace with your name or text
+                        user?.mobileNumber ??
+                            '', // Replace with your name or text
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
@@ -255,7 +267,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -273,7 +285,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        'United Kingdon', // Replace with your name or text
+                        user.address?['country'] ??
+                            '', // Replace with your name or text
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
@@ -294,7 +307,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        'Leeds, London', // Replace with your name or text
+                        user.address?['city'] ??
+                            '', // Replace with your name or text
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
@@ -313,7 +327,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -331,7 +345,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        'ERT 2154',
+                        user.address?['postal'] ?? '',
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
@@ -351,7 +365,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        'East London 1', // Replace with your name or text
+                        buildingStreet ?? '', // Replace with your name or text
                         style: TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),

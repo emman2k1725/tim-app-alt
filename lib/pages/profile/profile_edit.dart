@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../backend/firebase/UserDataProvider.dart';
+import '../../model/UserModel.dart';
 
 class EditableContainer extends StatefulWidget {
   const EditableContainer({super.key});
@@ -19,6 +23,8 @@ class _EditableContainerState extends State<EditableContainer> {
 
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(

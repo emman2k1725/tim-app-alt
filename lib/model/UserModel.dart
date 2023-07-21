@@ -1,24 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
-  final String? firstName;
-  final String? lastName;
-  final String? email;
-  final bool? hasBusiness;
-  final bool? isAdmin;
-  final bool? isRegistrationComplete;
-  final DateTime? birthDate;
-  final String? mobileNumber;
-  final String? favCruisine;
-  final String? favHangout;
-  final String? travelCat;
-  final String? nationality;
-  final String? gender;
+  
+  String? firstName;
+  String? lastName;
+  String? email;
+  bool? hasBusiness;
+  bool? isAdmin;
+  bool? isRegistrationComplete;
+  DateTime? birthDate;
+  String? mobileNumber;
+  List<dynamic>? favCruisine;
+  List<dynamic>? favHangout;
+  List<dynamic>? topCities;
+  String? travelCat;
+  String? nationality;
+  String? gender;
+  Map<String, dynamic>? address;
 
   UserModel({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
+    this.firstName,
+    this.lastName,
+    this.email,
     this.hasBusiness,
     this.isAdmin,
     this.isRegistrationComplete,
@@ -27,9 +28,19 @@ class UserModel {
     this.birthDate,
     this.favCruisine,
     this.favHangout,
+    this.topCities,
     this.gender,
     this.nationality,
+    this.address,
   });
+
+  void setFirstName(String? newFirstName) {
+    firstName = newFirstName;
+  }
+
+  void setLastName(String? newLastName) {
+    lastName = newLastName;
+  }
 
   // Factory method to create a user model from a map or JSON data
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -45,8 +56,10 @@ class UserModel {
         birthDate: map['birthDate'],
         favCruisine: map['favCruisine'],
         favHangout: map['favHangout'],
+        topCities: map['topCities'],
         gender: map['gender'],
-        nationality: map['nationality']);
+        nationality: map['nationality'],
+        address: map['address']);
   }
 
   // Method to convert the user model to a map or JSON data
@@ -63,8 +76,10 @@ class UserModel {
       'birthDate': birthDate,
       'favCruisine': favCruisine,
       'favHangout': favHangout,
+      'topCities': topCities,
       'gender': gender,
-      'nationality': nationality
+      'nationality': nationality,
+      'address': address
     };
   }
 }

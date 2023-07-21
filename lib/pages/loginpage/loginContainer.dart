@@ -36,9 +36,11 @@ class _LoginContainerState extends State<LoginContainer> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+
     return Center(
       child: Container(
           height: 550,
+          // May error dito kapag horizontal: w! / 10. Kapag bumabalik galing sa ibang page, nagiging null lamang ni variable: w
           margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
@@ -86,7 +88,7 @@ class _LoginContainerState extends State<LoginContainer> {
                                       color: Colors.white,
                                       icon: const Icon(Icons.arrow_back),
                                       onPressed: () {
-                                        Navigator.of(context).pop();
+                                        GoRouter.of(context).go('/');
                                       },
                                     ),
                                     Center(
@@ -234,10 +236,12 @@ class _LoginContainerState extends State<LoginContainer> {
                                                       .getUserInfo(authProvider
                                                           .user!.uid);
                                               if (userDataRes == 'success') {
-                                                debugPrint(userProvider
-                                                    .userData?.firstName);
-                                                GoRouter.of(context)
-                                                    .go('/dashboard');
+                                                nagivateGateway(
+                                                    userProvider
+                                                        .userData!.isAdmin,
+                                                    userProvider.userData!
+                                                        .isRegistrationComplete,
+                                                    context);
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
@@ -392,5 +396,18 @@ class _LoginContainerState extends State<LoginContainer> {
                     ),
                   )))),
     );
+  }
+}
+
+void nagivateGateway(
+    bool? asAdmin, bool? isRegistrationComplete, BuildContext context) {
+  if (asAdmin == false) {
+    if (isRegistrationComplete == false) {
+      GoRouter.of(context).go('/signup-interest');
+    } else {
+      GoRouter.of(context).go('/dashboard');
+    }
+  } else {
+    // Admin
   }
 }

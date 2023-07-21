@@ -46,7 +46,6 @@ class ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
-    debugPrint(user?.firstName.toString());
     return Container(
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.symmetric(

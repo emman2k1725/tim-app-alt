@@ -21,13 +21,46 @@ class UserDataProvider with ChangeNotifier {
             userSnapshot.data() as Map<String, dynamic>;
         UserModel user = UserModel.fromMap(userData);
         setUserData(user);
-
         result = "success";
       }
     } catch (e) {
       result = e.toString();
     }
 
+    return result;
+  }
+
+  updateUserInfo(
+      String userID,
+      List<String> favCruisine,
+      List<String> favActivities,
+      List<String> selectedCities,
+      String? travelCategory) async {
+    String result = "";
+    try {
+      await _firestore.doc(userID).update({
+        'favCruisine': favCruisine,
+        'favHangout': favActivities,
+        'topCities': selectedCities,
+        'travelCat': travelCategory,
+        'isRegistrationComplete': true
+      });
+      getUserInfo(userID);
+      result = "success";
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
+
+  updateDocument(String userID, UserModel? newUserDocument) async {
+    String result = "";
+    try {
+      await _firestore.doc(userID).update(newUserDocument!.toMap());
+      getUserInfo(userID);
+    } catch (e) {
+      result = e.toString();
+    }
     return result;
   }
 }

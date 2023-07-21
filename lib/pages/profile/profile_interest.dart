@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/pages/profile/components/profile_modal_interest.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
+
+import '../../backend/firebase/UserDataProvider.dart';
+import '../../model/UserModel.dart';
 
 class ProfileInterest extends StatefulWidget {
   const ProfileInterest({super.key});
@@ -10,27 +14,13 @@ class ProfileInterest extends StatefulWidget {
 }
 
 class _ProfileInterestState extends State<ProfileInterest> {
-  final List<String> cruisines = [
-    'Mexican',
-    'Tacos',
-    'Enchiladas',
-    'Guacamole'
-  ];
-  final List<String> cities = [
-    'New York City',
-    'Statue of Liberty',
-    'Central Park',
-    'Times Square'
-  ];
-  final List<String> activities = [
-    'Photography',
-    'Pictures',
-    'Memories',
-    'Capture'
-  ];
-
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    final List<dynamic>? cruisines = user?.favCruisine;
+    final List<dynamic>? cities = user?.topCities;
+    final List<dynamic>? activities = user?.favHangout;
     return Column(
       children: [
         const SizedBox(
@@ -76,7 +66,7 @@ class _ProfileInterestState extends State<ProfileInterest> {
                     child: Wrap(
                       spacing: 8.0,
                       runSpacing: 8.0,
-                      children: cruisines
+                      children: cruisines!
                           .map((tag) => Chip(
                                 label: Text(
                                   tag,
@@ -146,7 +136,7 @@ class _ProfileInterestState extends State<ProfileInterest> {
                     child: Wrap(
                       spacing: 8.0,
                       runSpacing: 8.0,
-                      children: cities
+                      children: cities!
                           .map((tag) => Chip(
                                 label: Text(
                                   tag,
@@ -217,7 +207,7 @@ class _ProfileInterestState extends State<ProfileInterest> {
                     child: Wrap(
                       spacing: 8.0,
                       runSpacing: 8.0,
-                      children: activities
+                      children: activities!
                           .map((tag) => Chip(
                                 label: Text(
                                   tag,
