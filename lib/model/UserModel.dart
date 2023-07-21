@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
   final String? firstName;
   final String? lastName;
@@ -9,16 +7,17 @@ class UserModel {
   final bool? isRegistrationComplete;
   final DateTime? birthDate;
   final String? mobileNumber;
-  final String? favCruisine;
-  final String? favHangout;
+  final List<dynamic>? favCruisine;
+  final List<dynamic>? favHangout;
+  final List<dynamic>? topCities;
   final String? travelCat;
   final String? nationality;
   final String? gender;
 
   UserModel({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
+    this.firstName,
+    this.lastName,
+    this.email,
     this.hasBusiness,
     this.isAdmin,
     this.isRegistrationComplete,
@@ -27,6 +26,7 @@ class UserModel {
     this.birthDate,
     this.favCruisine,
     this.favHangout,
+    this.topCities,
     this.gender,
     this.nationality,
   });
@@ -45,6 +45,7 @@ class UserModel {
         birthDate: map['birthDate'],
         favCruisine: map['favCruisine'],
         favHangout: map['favHangout'],
+        topCities: map['topCities'],
         gender: map['gender'],
         nationality: map['nationality']);
   }
@@ -63,6 +64,7 @@ class UserModel {
       'birthDate': birthDate,
       'favCruisine': favCruisine,
       'favHangout': favHangout,
+      'topCities': topCities,
       'gender': gender,
       'nationality': nationality
     };
