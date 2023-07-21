@@ -18,7 +18,9 @@ class _AboutContainer1State extends State<AboutContainer1> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 5),
+      margin: EdgeInsets.symmetric(
+          horizontal: Responsive.isDesktop(context) ? w! / 10 : w! / 20,
+          vertical: 5),
       child: Responsive.isDesktop(context)
           ? desktopContainer1()
           : mobileContainer1(),
@@ -119,7 +121,7 @@ class _AboutContainer1State extends State<AboutContainer1> {
   //================ MOBILE ===============
   Widget mobileContainer1() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 5),
+      // margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 5),
       child: SingleChildScrollView(
         child: Column(
           children: [

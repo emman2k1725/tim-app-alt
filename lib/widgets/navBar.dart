@@ -240,13 +240,13 @@ abstract class MenuItems {
   static void onChanged(BuildContext context, MenuItem item) {
     switch (item) {
       case MenuItems.home:
-        //Do something
+        GoRouter.of(context).go('/');
         break;
       case MenuItems.about:
-        //Do something
+        GoRouter.of(context).go('/about');
         break;
       case MenuItems.media:
-        //Do something
+        GoRouter.of(context).go('/media');
         break;
       case MenuItems.advertisement:
         //Do something
