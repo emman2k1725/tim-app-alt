@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../model/UserModel.dart';
 
@@ -21,7 +19,7 @@ class AuthProvider with ChangeNotifier {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       _user = userCredential.user;
-      UserModel _userModel = UserModel(
+      UserModel userModel = UserModel(
           firstName: firstName,
           lastName: lastName,
           email: email,
@@ -29,7 +27,7 @@ class AuthProvider with ChangeNotifier {
           isAdmin: false,
           isRegistrationComplete: false,
           hasBusiness: false);
-
+      await _firestore.doc(_user!.uid).set(userModel.toMap());
       result = "success";
     } on FirebaseAuthException catch (e) {
       result =
