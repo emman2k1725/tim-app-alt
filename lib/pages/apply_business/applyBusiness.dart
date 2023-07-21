@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/widgets/appbar.dart';
+
+import 'components/stepper_business.dart';
 
 class ApplyBusiness extends StatefulWidget {
   const ApplyBusiness({super.key});
@@ -13,8 +16,9 @@ class ApplyBusiness extends StatefulWidget {
 class _ApplyBusinessState extends State<ApplyBusiness> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: CustomAppBar(title: 'Custom AppBar'),
+      body: SingleChildScrollView(
         primary: false,
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
@@ -25,14 +29,15 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: const Column(
-            children: [
-              Header(),
-              SizedBox(
-                height: 30,
-              ),
-              MyTabBarView(),
-            ],
+          child: const SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                StepperWidget()
+              ],
+            ),
           ),
         ),
       ),

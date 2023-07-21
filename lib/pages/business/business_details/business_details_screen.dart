@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/apply_business/tabbar.dart';
+import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class BusinessDetailsScreen extends StatelessWidget {
+  const BusinessDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           child: const SingleChildScrollView(
             child: Column(
-              children: [MyTabBarView()],
+              children: [BusinessTabBarView()],
             ),
           ),
         ),

@@ -6,6 +6,7 @@ import 'package:tim_app/pages/apply_business/applyBusiness.dart';
 import 'package:tim_app/pages/apply_business/apply_business_main.dart';
 
 import 'package:tim_app/pages/about_page.dart';
+import 'package:tim_app/pages/business/components/Business_dashboard.dart';
 
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
@@ -14,6 +15,7 @@ import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/business/business_details/business_details_main.dart';
 import '../pages/signup/signup_interest_main.dart';
 
 GoRouter createRouter() {
@@ -57,6 +59,16 @@ GoRouter createRouter() {
       GoRoute(
         path: "/media",
         builder: (context, state) => const MediaPage(),
+      ),
+
+      //business dashboard routes
+      GoRoute(
+        path: "/business-dashboard",
+        builder: (context, state) => const BusinessMainScreen(),
+      ),
+      GoRoute(
+        path: "/business-details",
+        builder: (context, state) => const BusinessDetailsMain(),
       ),
     ],
   );
