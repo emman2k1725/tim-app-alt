@@ -20,7 +20,7 @@ class _MediaContainer1State extends State<MediaContainer1> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-          horizontal: Responsive.isDesktop(context) ? w! / 10 : w! / 20,
+          horizontal: Responsive.isDesktop(context) ? w! / 10 : w! / 30,
           vertical: 5),
       child: Responsive.isDesktop(context)
           ? desktopContainer1()

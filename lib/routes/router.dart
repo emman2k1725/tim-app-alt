@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/pages/advertise_page.dart';
 
 import 'package:tim_app/pages/apply_business/applyBusiness.dart';
 import 'package:tim_app/pages/apply_business/apply_business_main.dart';
@@ -59,6 +60,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/media",
         builder: (context, state) => const MediaPage(),
+      ),
+      GoRoute(
+        path: "/advertise",
+        builder: (context, state) => const AdvertisePage(),
       ),
 
       //business dashboard routes
