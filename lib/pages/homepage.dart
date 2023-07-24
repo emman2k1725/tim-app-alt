@@ -34,7 +34,13 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
               const Container1(),
+              const SizedBox(
+                height: 40,
+              ),
               ImageCarousel(),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
