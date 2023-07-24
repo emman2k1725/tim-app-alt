@@ -10,6 +10,6 @@ bool containsChar(String? input) {
   if (input == null) {
     return false;
   }
-  final RegExp regex = RegExp(r'^[a-z]+$');
+  final RegExp regex = RegExp(r'\D');
   return regex.hasMatch(input);
 }

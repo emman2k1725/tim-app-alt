@@ -11,14 +11,6 @@ class StepperTwo extends StatefulWidget {
 }
 
 class _StepperTwoState extends State<StepperTwo> {
-  //Phone number international coded
-  TextEditingController phoneNumberController = TextEditingController();
-
-  //city picker value
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
-  String address = "";
   @override
   Widget build(BuildContext context) {
     return Container(
