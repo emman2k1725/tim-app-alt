@@ -75,7 +75,9 @@ class TabletButtonContainers extends StatelessWidget {
             ShadowButton(
               icon: Icons.newspaper_outlined,
               text: 'Latest News',
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).go('/latest-news');
+              },
             ),
           ],
         ),
@@ -124,7 +126,9 @@ class MobileButtonContainers extends StatelessWidget {
         ShadowButton(
           icon: Icons.newspaper_outlined,
           text: 'Latest News',
-          onPressed: () {},
+          onPressed: () {
+            GoRouter.of(context).go('/latest-news');
+          },
         ),
         SizedBox(height: 40),
         ShadowButton(
