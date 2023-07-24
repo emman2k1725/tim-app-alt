@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/containers/videoplayer.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -64,7 +65,9 @@ class TabletButtonContainers extends StatelessWidget {
             ShadowButton(
               icon: Icons.book_outlined,
               text: 'How It Works',
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).go('/how-it-works');
+              },
             ),
             const SizedBox(
               width: 50,
@@ -113,7 +116,9 @@ class MobileButtonContainers extends StatelessWidget {
         ShadowButton(
           icon: Icons.book_outlined,
           text: 'How It Works',
-          onPressed: () {},
+          onPressed: () {
+            GoRouter.of(context).go('/how-it-works');
+          },
         ),
         SizedBox(height: 40),
         ShadowButton(

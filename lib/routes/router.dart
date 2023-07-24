@@ -11,6 +11,7 @@ import 'package:tim_app/pages/business/components/Business_dashboard.dart';
 
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
+import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
@@ -64,6 +65,10 @@ GoRouter createRouter() {
       GoRoute(
         path: "/advertise",
         builder: (context, state) => const AdvertisePage(),
+      ),
+      GoRoute(
+        path: "/how-it-works",
+        builder: (context, state) => const HowItWorksPage(),
       ),
 
       //business dashboard routes
