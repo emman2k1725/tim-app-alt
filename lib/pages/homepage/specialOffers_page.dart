@@ -54,25 +54,39 @@ class _SpecialOffersPageState extends State<SpecialOffersPage> {
   }
 }
 
-class DesktopContainer1 extends StatelessWidget {
+class DesktopContainer1 extends StatefulWidget {
   const DesktopContainer1({super.key});
+
+  @override
+  State<DesktopContainer1> createState() => _DesktopContainer1State();
+}
+
+class _DesktopContainer1State extends State<DesktopContainer1> {
+  final List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.yellow,
+    Colors.teal,
+    Colors.pink,
+    Colors.cyan,
+  ];
+
+  int itemsPerPage = 2;
+  int currentPage = 1;
+
+  List<Color> get paginatedItems {
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = startIndex + itemsPerPage;
+    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
+  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final List<Color> colors = [
-      Colors.red,
-      Colors.green,
-      Colors.blue,
-      Colors.orange,
-      Colors.purple,
-      Colors.yellow,
-      Colors.teal,
-      Colors.pink,
-      Colors.cyan,
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,102 +118,117 @@ class DesktopContainer1 extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          child: Column(
-            children: List.generate((colors.length / 3).ceil(), (row) {
-              return Row(
-                children: List.generate(2, (index) {
-                  final colorIndex = (row * 2) + index;
-                  if (colorIndex < colors.length) {
-                    return Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                height: h / 2.5,
-                                color: colors[colorIndex],
-                                child: Center(
-                                  child: Text(
-                                    "Offer Images",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: (paginatedItems.length / 2).ceil(),
+          itemBuilder: (context, index) {
+            final startIndex = index * 2;
+            final endIndex = startIndex + 2;
+            final currentPageItems = paginatedItems.sublist(
+                startIndex, endIndex.clamp(0, paginatedItems.length));
+
+            return Row(
+              children: currentPageItems.map((item) {
+                return Expanded(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: h / 2.5,
+                            color: item,
+                            child: Center(
+                              child: Text(
+                                "Offer Images",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                height: h / 2.5,
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 250,
-                                        child: Text(
-                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                                          textAlign: TextAlign.justify,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: SizedBox(
-                                          width: 250,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                'View',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                      Icons
-                                                          .arrow_forward_ios_rounded,
-                                                      color: Colors.black,
-                                                      size: 15)),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 25,
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                        child: Container()); // Empty container for spacing
-                  }
-                }),
-              );
-            }),
-          ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: h / 2.5,
+                            color: Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 250,
+                                    child: Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.black),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: SizedBox(
+                                      width: 250,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'View',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                  Icons
+                                                      .arrow_forward_ios_rounded,
+                                                  color: Colors.black,
+                                                  size: 15)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 25,
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed:
+                  currentPage > 1 ? () => setState(() => currentPage--) : null,
+              child: Icon(Icons.arrow_back),
+            ),
+            SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: paginatedItems.length == itemsPerPage
+                  ? () => setState(() => currentPage++)
+                  : null,
+              child: Icon(Icons.arrow_forward),
+            ),
+          ],
         ),
       ],
     );
