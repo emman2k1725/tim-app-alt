@@ -54,25 +54,39 @@ class _LatestNewsPageState extends State<LatestNewsPage> {
   }
 }
 
-class DesktopContainer1 extends StatelessWidget {
+class DesktopContainer1 extends StatefulWidget {
   const DesktopContainer1({super.key});
+
+  @override
+  State<DesktopContainer1> createState() => _DesktopContainer1State();
+}
+
+class _DesktopContainer1State extends State<DesktopContainer1> {
+  final List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.yellow,
+    Colors.teal,
+    Colors.pink,
+    Colors.cyan,
+  ];
+
+  int itemsPerPage = 3;
+  int currentPage = 1;
+
+  List<Color> get paginatedItems {
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = startIndex + itemsPerPage;
+    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
+  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final List<Color> colors = [
-      Colors.red,
-      Colors.green,
-      Colors.blue,
-      Colors.orange,
-      Colors.purple,
-      Colors.yellow,
-      Colors.teal,
-      Colors.pink,
-      Colors.cyan,
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,112 +118,142 @@ class DesktopContainer1 extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          child: Column(
-            children: List.generate((colors.length / 3).ceil(), (row) {
-              return Row(
-                children: List.generate(3, (index) {
-                  final colorIndex = (row * 3) + index;
-                  if (colorIndex < colors.length) {
-                    return Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 180,
-                              color: colors[colorIndex],
-                              child: Center(
-                                child: Text(
-                                  "News Images",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Nature in numbers",
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: (paginatedItems.length / 3).ceil(),
+          itemBuilder: (context, index) {
+            final startIndex = index * 3;
+            final endIndex = startIndex + 3;
+            final currentPageItems = paginatedItems.sublist(
+                startIndex, endIndex.clamp(0, paginatedItems.length));
+
+            return Row(
+              children: currentPageItems.map((item) {
+                return Expanded(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 180,
+                          color: item,
+                          child: Center(
+                            child: Text(
+                              "News Images",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Nature in numbers",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "DEC 21, 2012 | Admin | 2 comments",
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Continue reading",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
                                   color: Colors.white),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "DEC 21, 2012 | Admin | 2 comments",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                              textAlign: TextAlign.justify,
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Continue reading",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.white),
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 15,
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 15),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 15,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                        child: Container()); // Empty container for spacing
-                  }
-                }),
-              );
-            }),
-          ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed:
+                  currentPage > 1 ? () => setState(() => currentPage--) : null,
+              child: Icon(Icons.arrow_back),
+            ),
+            SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: currentPage * itemsPerPage < colors.length
+                  ? () => setState(() {
+                        currentPage++;
+                      })
+                  : null,
+              child: Icon(Icons.arrow_forward),
+            ),
+          ],
         ),
       ],
     );
   }
 }
 
-class TabletContainer1 extends StatelessWidget {
+class TabletContainer1 extends StatefulWidget {
   const TabletContainer1({super.key});
+
+  @override
+  State<TabletContainer1> createState() => _TabletContainer1State();
+}
+
+class _TabletContainer1State extends State<TabletContainer1> {
+  final List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.yellow,
+    Colors.teal,
+    Colors.pink,
+    Colors.cyan,
+  ];
+
+  int itemsPerPage = 2;
+  int currentPage = 1;
+
+  List<Color> get paginatedItems {
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = startIndex + itemsPerPage;
+    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
+  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final List<Color> colors = [
-      Colors.red,
-      Colors.green,
-      Colors.blue,
-      Colors.orange,
-      Colors.purple,
-      Colors.yellow,
-      Colors.teal,
-      Colors.pink,
-      Colors.cyan,
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -238,112 +282,142 @@ class TabletContainer1 extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          child: Column(
-            children: List.generate((colors.length / 2).ceil(), (row) {
-              return Row(
-                children: List.generate(2, (index) {
-                  final colorIndex = (row * 2) + index;
-                  if (colorIndex < colors.length) {
-                    return Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 180,
-                              color: colors[colorIndex],
-                              child: Center(
-                                child: Text(
-                                  "News Images",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Nature in numbers",
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: (paginatedItems.length / 2).ceil(),
+          itemBuilder: (context, index) {
+            final startIndex = index * 2;
+            final endIndex = startIndex + 2;
+            final currentPageItems = paginatedItems.sublist(
+                startIndex, endIndex.clamp(0, paginatedItems.length));
+
+            return Row(
+              children: currentPageItems.map((item) {
+                return Expanded(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 180,
+                          color: item,
+                          child: Center(
+                            child: Text(
+                              "News Images",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Nature in numbers",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "DEC 21, 2012 | Admin | 2 comments",
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Continue reading",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
                                   color: Colors.white),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "DEC 21, 2012 | Admin | 2 comments",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                              textAlign: TextAlign.justify,
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Continue reading",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.white),
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 15,
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 15),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 15,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                        child: Container()); // Empty container for spacing
-                  }
-                }),
-              );
-            }),
-          ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed:
+                  currentPage > 1 ? () => setState(() => currentPage--) : null,
+              child: Icon(Icons.arrow_back),
+            ),
+            SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: currentPage * itemsPerPage < colors.length
+                  ? () => setState(() {
+                        currentPage++;
+                      })
+                  : null,
+              child: Icon(Icons.arrow_forward),
+            ),
+          ],
         ),
       ],
     );
   }
 }
 
-class MobileContainer1 extends StatelessWidget {
+class MobileContainer1 extends StatefulWidget {
   const MobileContainer1({super.key});
+
+  @override
+  State<MobileContainer1> createState() => _MobileContainer1State();
+}
+
+class _MobileContainer1State extends State<MobileContainer1> {
+  final List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.yellow,
+    Colors.teal,
+    Colors.pink,
+    Colors.cyan,
+  ];
+
+  int itemsPerPage = 1;
+  int currentPage = 1;
+
+  List<Color> get paginatedItems {
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = startIndex + itemsPerPage;
+    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
+  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final List<Color> colors = [
-      Colors.red,
-      Colors.green,
-      Colors.blue,
-      Colors.orange,
-      Colors.purple,
-      Colors.yellow,
-      Colors.teal,
-      Colors.pink,
-      Colors.cyan,
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -372,87 +446,98 @@ class MobileContainer1 extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          child: Column(
-            children: List.generate((colors.length / 2).ceil(), (row) {
-              return Row(
-                children: List.generate(1, (index) {
-                  final colorIndex = (row * 1) + index;
-                  if (colorIndex < colors.length) {
-                    return Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 180,
-                              color: colors[colorIndex],
-                              child: Center(
-                                child: Text(
-                                  "News Images",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Nature in numbers",
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: paginatedItems.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 180,
+                          color: paginatedItems[index],
+                          child: Center(
+                            child: Text(
+                              "News Images",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Nature in numbers",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "DEC 21, 2012 | Admin | 2 comments",
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Continue reading",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
                                   fontSize: 15,
+                                  fontStyle: FontStyle.italic,
                                   color: Colors.white),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "DEC 21, 2012 | Admin | 2 comments",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                              textAlign: TextAlign.justify,
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Continue reading",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.white),
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 15,
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 15),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 15,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                        child: Container()); // Empty container for spacing
-                  }
-                }),
-              );
-            }),
-          ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed:
+                  currentPage > 1 ? () => setState(() => currentPage--) : null,
+              child: Icon(Icons.arrow_back),
+            ),
+            SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: currentPage * itemsPerPage < colors.length
+                  ? () => setState(() {
+                        currentPage++;
+                      })
+                  : null,
+              child: Icon(Icons.arrow_forward),
+            ),
+          ],
         ),
       ],
     );
