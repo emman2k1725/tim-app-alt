@@ -90,7 +90,9 @@ class TabletButtonContainers extends StatelessWidget {
             ShadowButton(
               icon: Icons.discount_outlined,
               text: 'Special Offer',
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).go('/special-offers');
+              },
             ),
             const SizedBox(
               width: 50,
@@ -134,7 +136,9 @@ class MobileButtonContainers extends StatelessWidget {
         ShadowButton(
           icon: Icons.discount_outlined,
           text: 'Special Offer',
-          onPressed: () {},
+          onPressed: () {
+            GoRouter.of(context).go('/special-offers');
+          },
         ),
         SizedBox(height: 40),
         ShadowButton(
