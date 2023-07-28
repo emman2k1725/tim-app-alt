@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../backend/firebase/businessDataProvider.dart';
 import '../../../backend/firebase/fetchDropDown.dart';
 import '../../../model/BusinessModel.dart';
 
 class BUsinessDropdown extends StatefulWidget {
-  const BUsinessDropdown({super.key});
+  final BusinessModel? businessModel;
+  const BUsinessDropdown({super.key, required this.businessModel});
   @override
   _BUsinessDropdownState createState() => _BUsinessDropdownState();
 }
@@ -15,22 +13,19 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
   String? selectedBusinessSector;
   String? selectedCruisine;
   Future<List<String>>? _dropdownCruisines;
-  Future<List<String>>? _dropdownTravelCat;
+  // Future<List<String>>? _dropdownTravelCat;
   Future<List<String>>? _dropdownSector;
 
   @override
   void initState() {
     super.initState();
-    _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
+    // _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
     _dropdownCruisines = FirebaseService.fetchDropdownItems('cruisines');
     _dropdownSector = FirebaseService.fetchDropdownItems('hangout');
   }
 
   @override
   Widget build(BuildContext context) {
-    BusinessDataProvider businessProvider =
-        Provider.of<BusinessDataProvider>(context);
-    BusinessModel? business = businessProvider.businessData;
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
@@ -79,9 +74,10 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
                   if (value == null || value.isEmpty) {
                     return 'Please select business sector';
                   }
+                  return null;
                 },
                 onSaved: (value) {
-                  business?.businessSector = value;
+                  widget.businessModel?.businessSector = value;
                 },
               );
             },
@@ -98,7 +94,7 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
                   List<String> fetchedItems = snapshot.data ?? [];
                   return DropdownButtonFormField<String>(
                     value: selectedCruisine,
-                    items: fetchedItems!.map((cruisine) {
+                    items: fetchedItems.map((cruisine) {
                       return DropdownMenuItem<String>(
                         value: cruisine,
                         child: Text(cruisine),
@@ -121,9 +117,10 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
                       if (value == null || value.isEmpty) {
                         return 'Please select cruisine';
                       }
+                      return null;
                     },
                     onSaved: (value) {
-                      business?.cruisine = value;
+                      widget.businessModel?.cruisine = value;
                     },
                   );
                 }),

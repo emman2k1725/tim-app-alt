@@ -7,7 +7,7 @@ class BusinessDataProvider with ChangeNotifier {
   BusinessModel? _businessData;
   BusinessModel? get businessData => _businessData;
 
-  void setUserData(BusinessModel businessData) {
+  void setData(BusinessModel businessData) {
     _businessData = businessData;
     notifyListeners();
   }
