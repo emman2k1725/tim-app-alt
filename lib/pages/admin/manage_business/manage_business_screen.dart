@@ -3,25 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
-import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
-import 'package:tim_app/pages/profile/profile_personal_info.dart';
 
-class BusinessTabBarView extends StatefulWidget {
-  const BusinessTabBarView({super.key});
+class ManageBusinessScreen extends StatefulWidget {
+  const ManageBusinessScreen({super.key});
 
   @override
-  _BusinessTabBarViewState createState() => _BusinessTabBarViewState();
+  State<ManageBusinessScreen> createState() => _ManageBusinessScreenState();
 }
 
-class _BusinessTabBarViewState extends State<BusinessTabBarView>
+class _ManageBusinessScreenState extends State<ManageBusinessScreen>
     with TickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
-  }
-
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
@@ -72,13 +64,13 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "Business Details",
+                                text: "Pending Application",
                               ),
                               Tab(
-                                text: "Business Profile",
+                                text: "Approved Business",
                               ),
                               Tab(
-                                text: "Operating Hours",
+                                text: "Declined Business",
                               )
                             ]),
                       ),
@@ -91,8 +83,8 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            DetailsTabbar(),
                             PaginatedDataTableDemo(),
+                            DetailsTabbar(),
                             const ProfileInterest(),
                           ],
                         ),

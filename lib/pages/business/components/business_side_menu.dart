@@ -12,6 +12,8 @@ class BusinessSideMenu extends StatefulWidget {
 }
 
 class _BusinessSideMenuState extends State<BusinessSideMenu> {
+  String _selectedTitle = "Dashboard"; // Default selected title
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,57 +29,74 @@ class _BusinessSideMenuState extends State<BusinessSideMenu> {
               title: "Dashboard",
               svgSrc: "/icons/dashboard.svg",
               press: () {
-                // GoRouter.of(context).go('/dashboard');
+                _selectItem("Dashboard");
+                GoRouter.of(context).go('/business-dashboard');
+
+                setState(() {
+                  _selectedTitle = "Dashboard";
+                });
               },
+              selected: _selectedTitle == "Dashboard",
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             DrawerListTile(
               title: "Advertisement",
               svgSrc: "/icons/travel.svg",
-              press: () {},
+              press: () {
+                _selectItem("Advertisement");
+              },
+              selected: _selectedTitle == "Advertisement",
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             DrawerListTile(
               title: "Special Offers",
               svgSrc: "/icons/discount.svg",
-              press: () {},
+              press: () {
+                _selectItem("Offers");
+              },
+              selected: _selectedTitle == "Offers",
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             DrawerListTile(
               title: "Business Details",
               svgSrc: "/icons/business.svg",
               press: () {
-                GoRouter.of(context).go('/business-details');
+                _selectItem("BusinessDetails");
+                GoRouter.of(context).go('/About');
+                setState(() {
+                  _selectedTitle = "BusinessDetails";
+                });
               },
+              selected: _selectedTitle == "BusinessDetails",
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             DrawerListTile(
               title: "Payment",
               svgSrc: "/icons/payment.svg",
-              press: () {},
-            ),
-            const SizedBox(
-              height: 10,
+              press: () {
+                _selectItem("Payment");
+              },
+              selected: _selectedTitle == "Payment",
             ),
             DrawerListTile(
-              title: "Go back to Account",
+              title: "Logout",
               svgSrc: "/icons/logout.svg",
               press: () {
-                GoRouter.of(context).go('/dashboard');
+                _selectItem("Logout");
+                GoRouter.of(context).go('/homepage');
               },
+              selected: _selectedTitle == "Logout",
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _selectItem(String title) {
+    setState(() {
+      _selectedTitle = title;
+    });
   }
 }
 
@@ -87,31 +106,33 @@ class DrawerListTile extends StatelessWidget {
     required this.title,
     required this.svgSrc,
     required this.press,
-    // required this.selectedRoute,
-    // required this.selectedRoute,
+    required this.selected,
   }) : super(key: key);
 
   final String title, svgSrc;
-  // final String selectedRoute;
-
-  // final bool selectedRoute;
   final VoidCallback press;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: press,
-      // selected: selectedRoute,
+      selected: selected,
       horizontalTitleGap: 0.0,
       leading: SvgPicture.asset(
         svgSrc,
-        colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+        colorFilter: ColorFilter.mode(
+          selected
+              ? Colors.blue
+              : Colors.white54, // Change icon color based on selected state
+          BlendMode.srcIn,
+        ),
         height: 18,
-        width: 18, // Set the desired width
+        width: 18,
       ),
       title: Text(
         title,
-        style: const TextStyle(color: Colors.white54),
+        style: TextStyle(color: selected ? Colors.blue : Colors.white54),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
+import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/pages/profile/components/profile_modal.dart';
 import 'package:tim_app/pages/profile/components/profile_modal_address.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -135,100 +137,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20.0),
-              const Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'First Name', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'John', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 200.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Last Name', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'Doe', // Replace with your name or text
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              const Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Email address',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'johndoe@gmail.com',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 200.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Phone Number', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        '+639924837289', // Replace with your name or text
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              ImageRowPage(),
             ],
           ),
         ),
@@ -248,10 +157,9 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Address', // Replace with your name or text
+                    'Google Maps and social links', // Replace with your name or text
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -270,119 +178,18 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20.0),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Country', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'United Kingdon', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: const Text(
+                  'To feature links on your profile, set the audience to Public.', // Replace with your name or text
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'City', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'Leeds, London', // Replace with your name or text
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                ],
+                ),
               ),
               const SizedBox(height: 20.0),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Postal Code',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'ERT 2154',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Building Address', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'East London 1', // Replace with your name or text
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                ],
-              ),
+              BusinessLinks(),
             ],
           ),
         ),

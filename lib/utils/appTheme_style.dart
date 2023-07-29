@@ -4,7 +4,7 @@ class AppTheme {
   static TextStyle getSecondaryTextStyle(double fontSize) {
     return TextStyle(
       fontFamily: 'Researcher',
-      fontSize: 14.0,
+      fontSize: fontSize,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     );
