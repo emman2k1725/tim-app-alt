@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
+import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
+import 'package:tim_app/pages/admin/content_management/admin_manage_special_offer.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
+import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
 
 import 'package:tim_app/pages/apply_business/apply_business_main.dart';
 import 'package:tim_app/pages/business/advertisement/business_advertisement_main.dart';
@@ -73,6 +76,10 @@ GoRouter createRouter() {
         path: "/admin-dashboard",
         builder: (context, state) => const AdminMain(),
       ),
+      GoRoute(
+        path: "/admin-manage-content",
+        builder: (context, state) => const AdminMain(),
+      ),
       // GoRoute(
       //   path: "/business-details",
       //   builder: (context, state) => AboutPage(),
@@ -108,6 +115,8 @@ GoRouter createRouter() {
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
+final travellerKey = GlobalKey<NavigatorState>(debugLabel: 'travellerKey');
+final contentKey = GlobalKey<NavigatorState>(debugLabel: 'contentKey');
 
 final goRouter = GoRouter(
   initialLocation: '/admin-dashboard',
@@ -151,6 +160,42 @@ final goRouter = GoRouter(
                 GoRoute(
                   path: 'details',
                   builder: (context, state) => const DetailsScreen(label: 'B'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travellerKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-manage-travellers',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ManageTravellerMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) => const DetailsScreen(label: 'B'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: contentKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-manage-content',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ContentManagementMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'offer',
+                  builder: (context, state) => const ManageSpecialOffer(),
                 ),
               ],
             ),
