@@ -237,10 +237,10 @@ class _StepperOneState extends State<StepperOne> {
                 onChanged: (phone) {
                   phoneNumber = phone.completeNumber;
                   countryCode = phone.countryCode;
-                  //widget.businessModel?.businessPhoneNumber?['number'] =
-                  //phone.completeNumber;
-                  //widget.businessModel?.businessPhoneNumber?['countryCode'] =
-                  //phone.countryCode;
+                  widget.businessModel?.businessPhoneNumber?['number'] =
+                      phoneNumber;
+                  widget.businessModel?.businessPhoneNumber?['countryCode'] =
+                      countryCode;
                 }),
 
             BUsinessDropdown(businessModel: widget.businessModel),

@@ -72,10 +72,10 @@ class _StepperWidgetState extends State<StepperWidget> {
                     formKey1.currentState!.save();
                     formKey2.currentState!.save();
                     formKey3.currentState!.save();
-                    debugPrint('sa labas');
-                    debugPrint(business.businessPhoneNumber.toString());
-                    debugPrint(business.businessAddress.toString());
-                    /* business.firstName = userProvider.userData?.firstName;
+                    //debugPrint('sa labas');
+                    //debugPrint(business.businessPhoneNumber.toString());
+                    //debugPrint(business.businessAddress.toString());
+                    business.firstName = userProvider.userData?.firstName;
                     business.lastName = userProvider.userData?.lastName;
                     business.businessOwner = user.user?.uid;
 
@@ -91,7 +91,7 @@ class _StepperWidgetState extends State<StepperWidget> {
                     String? result = await applyBusiness(business);
                     if (result == 'success') {
                       GoRouter.of(context).go('/dashboard');
-                    } */
+                    }
                     // ADD Navigation: fix missing parameters in firestore (businessAddress, hours, links, phonenumber, businessSector, status)
                   }
                 }
