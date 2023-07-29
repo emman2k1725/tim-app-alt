@@ -1,21 +1,23 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/business/advertisement/components/business_ads_dialog.dart';
+import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
 import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
+import 'package:tim_app/widgets/customAddButton.dart';
 
-class BusinessTabBarView extends StatefulWidget {
-  const BusinessTabBarView({super.key});
+class BusinessAdsScreen extends StatefulWidget {
+  const BusinessAdsScreen({super.key});
 
   @override
-  _BusinessTabBarViewState createState() => _BusinessTabBarViewState();
+  _BusinessAdsScreenViewState createState() => _BusinessAdsScreenViewState();
 }
 
-class _BusinessTabBarViewState extends State<BusinessTabBarView>
-    with TickerProviderStateMixin {
+class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
   @override
   void initState() {
     super.initState();
@@ -25,7 +27,6 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -60,44 +61,25 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Container(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                            controller: _tabController,
-                            isScrollable: true,
-                            labelPadding:
-                                const EdgeInsets.only(left: 20, right: 20),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.grey,
-                            tabs: [
-                              Tab(
-                                text: "Business Details",
-                              ),
-                              Tab(
-                                text: "Business Profile",
-                              ),
-                              Tab(
-                                text: "Operating Hours",
-                              )
-                            ]),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        width: double.maxFinite,
-                        height: 700,
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            DetailsTabbar(),
-                            PaginatedDataTableDemo(),
-                            const ProfileInterest(),
-                          ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        AddButton(
+                          buttonText: 'Add new ads',
+                          icon: Icons.add,
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CreateAdsDialog(),
+                            );
+                          },
                         ),
-                      ),
-                    )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    const BusinessAdsTable(),
                   ],
                 ),
               ),
