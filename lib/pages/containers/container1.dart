@@ -22,7 +22,9 @@ class _Container1State extends State<Container1> {
       desktop: desktopContainer1(),
     );*/
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 5),
+      margin: EdgeInsets.symmetric(
+          horizontal: Responsive.isDesktop(context) ? w! / 10 : w! / 20,
+          vertical: 5),
       child: Responsive.isDesktop(context)
           ? desktopContainer1()
           : mobileContainer1(),

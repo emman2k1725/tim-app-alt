@@ -5,6 +5,8 @@ import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
+import 'package:tim_app/pages/advertise_page.dart';
+
 
 import 'package:tim_app/pages/apply_business/apply_business_main.dart';
 import 'package:tim_app/pages/business/advertisement/business_advertisement_main.dart';
@@ -18,6 +20,9 @@ import 'package:tim_app/pages/business/special_offers/business_special_offers_ma
 
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
+import 'package:tim_app/pages/homepage/howItWorks_page.dart';
+import 'package:tim_app/pages/homepage/latestNews_page.dart';
+import 'package:tim_app/pages/homepage/specialOffers_page.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
@@ -66,6 +71,22 @@ GoRouter createRouter() {
       GoRoute(
         path: "/media",
         builder: (context, state) => const MediaPage(),
+      ),
+      GoRoute(
+        path: "/advertise",
+        builder: (context, state) => const AdvertisePage(),
+      ),
+      GoRoute(
+        path: "/how-it-works",
+        builder: (context, state) => const HowItWorksPage(),
+      ),
+      GoRoute(
+        path: "/latest-news",
+        builder: (context, state) => const LatestNewsPage(),
+      ),
+      GoRoute(
+        path: "/special-offers",
+        builder: (context, state) => const SpecialOffersPage(),
       ),
 
       //business dashboard routes

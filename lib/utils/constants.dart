@@ -16,5 +16,10 @@ const String businessProfile = 'images/businessLogo.jpg';
 const String sample1 = 'images/sample1.jpg';
 const String sample2 = 'images/sample2.jpg';
 const String sample3 = 'images/sample3.jpg';
+const String homepageAdvert = 'images/homepage_advert.jpg';
+const String subpageAdvert = 'images/subpage_advert.png';
+const String newsletterAdvert = 'images/newsletter_advert.jpeg';
+const String mobileAppAdvert = 'images/mobileApp_advert.png';
+
 
 const defaultPadding = 16.0;
