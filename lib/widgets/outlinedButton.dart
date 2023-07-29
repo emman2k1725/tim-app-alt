@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
+import '../responsive.dart';
+
 class ShadowButton extends StatefulWidget {
   final IconData icon;
   final String text;
@@ -31,8 +33,8 @@ class _ShadowButtonState extends State<ShadowButton> {
         isPressed = false;
       }),
       child: Container(
-        width: 200.0,
-        height: 100.0,
+        width: Responsive.isDesktop(context) ? 200.0 : 170.0,
+        height: Responsive.isDesktop(context) ? 100.0 : 90.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
@@ -76,7 +78,7 @@ class _ShadowButtonState extends State<ShadowButton> {
                 widget.text,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24.0,
+                  fontSize: Responsive.isDesktop(context) ? 24.0 : 18.0,
                   shadows: [
                     for (double i = 1; i < (isPressed ? 8 : 4); i++)
                       Shadow(
