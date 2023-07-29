@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/apply_business/components/business_opening_hour.dart';
+import '../../../model/BusinessModel.dart';
 
 class OperatingHours {
   TimeOfDay openingTime;
@@ -9,7 +9,10 @@ class OperatingHours {
 }
 
 class StepperThree extends StatefulWidget {
-  const StepperThree({super.key});
+  final BusinessModel? businessModel;
+  final GlobalKey<FormState> formKey;
+  const StepperThree(
+      {super.key, required this.formKey, required this.businessModel});
 
   @override
   State<StepperThree> createState() => _StepperThreeState();
@@ -29,48 +32,64 @@ class _StepperThreeState extends State<StepperThree> {
   List<OperatingHours> operatingHoursList = List.generate(
       7,
       (index) => OperatingHours(
-          openingTime: TimeOfDay.now(), closingTime: TimeOfDay.now()));
+          openingTime: const TimeOfDay(hour: 8, minute: 0),
+          closingTime: const TimeOfDay(hour: 21, minute: 0)));
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 900,
-      height: 700,
-      color: Colors.white,
-      child: ListView.builder(
-        itemCount: daysOfWeek.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(daysOfWeek[index]),
-            ),
-            subtitle: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+    return Form(
+      key: widget.formKey,
+      child: Container(
+        width: 900,
+        height: 700,
+        color: Colors.white,
+        child: ListView.builder(
+          itemCount: daysOfWeek.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(daysOfWeek[index]),
+              ),
+              subtitle: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: buildTimePicker(
+                          'Opening', operatingHoursList[index].openingTime,
+                          (time) {
+                        setState(() {
+                          operatingHoursList[index].openingTime = time;
+                          String? hour = time.hour.toString().padLeft(2, '0');
+                          String? min = time.minute.toString().padRight(2, '0');
+                          String? cleanTime = '$hour:$min';
+                          widget.businessModel
+                                  ?.businessHours?[daysOfWeek[index]]![0] =
+                              cleanTime;
+                        });
+                      }),
+                    ),
+                  ),
+                  Expanded(
                     child: buildTimePicker(
-                        'Opening', operatingHoursList[index].openingTime,
+                        'Closing', operatingHoursList[index].closingTime,
                         (time) {
                       setState(() {
-                        operatingHoursList[index].openingTime = time;
+                        operatingHoursList[index].closingTime = time;
+                        String? hour = time.hour.toString().padLeft(2, '0');
+                        String? min = time.minute.toString().padRight(2, '0');
+                        String? cleanTime = '$hour:$min';
+                        widget.businessModel
+                            ?.businessHours?[daysOfWeek[index]]![1] = cleanTime;
                       });
                     }),
                   ),
-                ),
-                Expanded(
-                  child: buildTimePicker(
-                      'Closing', operatingHoursList[index].closingTime, (time) {
-                    setState(() {
-                      operatingHoursList[index].closingTime = time;
-                    });
-                  }),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
