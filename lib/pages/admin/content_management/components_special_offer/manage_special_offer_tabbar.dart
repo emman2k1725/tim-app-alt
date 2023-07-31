@@ -92,7 +92,7 @@ class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
                           controller: _tabController,
                           children: [
                             ManageOfferTable(),
-                            PaginatedDataTableDemo(),
+                            BusinessApplicationTable(),
                             const ProfileInterest(),
                           ],
                         ),
