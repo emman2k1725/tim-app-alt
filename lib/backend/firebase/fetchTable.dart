@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+Future<List<Map<String, dynamic>>> fetchData(String collection) async {
+  CollectionReference itemsCollection =
+      FirebaseFirestore.instance.collection(collection);
 
-  Stream<QuerySnapshot> getPaginatedDataStream(int itemsPerPage) {
-    return _firestore
-        .collection('your_collection')
-        .limit(itemsPerPage)
-        .snapshots();
-  }
+  QuerySnapshot querySnapshot = await itemsCollection.get();
+  return querySnapshot.docs
+      .map((doc) => doc.data() as Map<String, dynamic>)
+      .toList();
 }
