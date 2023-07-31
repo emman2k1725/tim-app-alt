@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../responsive.dart';
 
 class BusinessLinks extends StatelessWidget {
-  const BusinessLinks({super.key});
+  final Map<String, dynamic> item;
+  const BusinessLinks({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,12 @@ class BusinessLinks extends StatelessWidget {
     );
   }
 
-  // Function to launch the Instagram profile link
+   // Function to launch the Instagram profile link
   void launchInstagramProfile(String url) async {}
+  void launchFacebookProfile(String url) async {}
+  void launchGoogleMap(String url) async {}
 
-  Widget desktopContainer() {
+   Widget desktopContainer() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -34,10 +37,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(width: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchFacebookProfile(item['businessLinks']['facebook']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['facebook'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -60,10 +63,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchInstagramProfile(item['businessLinks']['instagram']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['instagram'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -86,10 +89,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(width: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchGoogleMap(item['businessLinks']['googleMap']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['googleMap'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -118,10 +121,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(width: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchFacebookProfile(item['businessLinks']['facebook']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['facebook'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -144,10 +147,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchInstagramProfile(item['businessLinks']['instagram']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['instagram'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -170,10 +173,10 @@ class BusinessLinks extends StatelessWidget {
             SizedBox(width: 10),
             GestureDetector(
               onTap: () {
-                launchInstagramProfile('https://johndoe.com/');
+                launchGoogleMap(item['businessLinks']['googleMap']);
               },
               child: Text(
-                ' https://johndoe.com/',
+                item['businessLinks']['googleMap'],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
