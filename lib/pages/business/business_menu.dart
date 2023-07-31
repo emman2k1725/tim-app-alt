@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 class BusinessMenu extends StatefulWidget {
   const BusinessMenu({super.key});
@@ -43,7 +44,18 @@ class ScaffoldWithNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 450) {
+      return Responsive.isDesktop(context)
+          ? ScaffoldWithNavigationRail(
+              body: navigationShell,
+              selectedIndex: navigationShell.currentIndex,
+              onDestinationSelected: _goBranch,
+            )
+          : ScaffoldWithNavigationBar(
+              body: navigationShell,
+              selectedIndex: navigationShell.currentIndex,
+              onDestinationSelected: _goBranch,
+            );
+      /*if (constraints.maxWidth < 450) {
         return ScaffoldWithNavigationBar(
           body: navigationShell,
           selectedIndex: navigationShell.currentIndex,
@@ -55,7 +67,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: _goBranch,
         );
-      }
+      }*/
     });
   }
 }
@@ -77,9 +89,49 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: const [
-          NavigationDestination(label: 'Section D', icon: Icon(Icons.home)),
-          NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
+        destinations: [
+          NavigationDestination(
+            label: '',
+            tooltip: 'Dashboard',
+            icon: SvgPicture.asset(
+              "/icons/dashboard.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Advertisement',
+            icon: SvgPicture.asset(
+              "/icons/travel.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Special Offers',
+            icon: SvgPicture.asset(
+              "/icons/discount.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Business Details',
+            icon: SvgPicture.asset(
+              "/icons/business.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Payment',
+            icon: SvgPicture.asset(
+              "/icons/payment.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Logout',
+            icon: SvgPicture.asset(
+              "/icons/logout.svg",
+            ),
+          ),
         ],
         onDestinationSelected: onDestinationSelected,
       ),
