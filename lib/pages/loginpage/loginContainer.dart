@@ -408,6 +408,6 @@ void nagivateGateway(
       GoRouter.of(context).go('/dashboard');
     }
   } else {
-    // Admin
+    GoRouter.of(context).go('/admin-dashboard');
   }
 }

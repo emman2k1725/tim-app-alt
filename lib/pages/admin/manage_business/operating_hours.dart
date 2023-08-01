@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OperatingHoursPopup extends StatelessWidget {
-  final List<Map<String, String>> operatingHours;
+  final Map<String, dynamic> operatingHours;
 
   OperatingHoursPopup({required this.operatingHours});
 
@@ -15,11 +15,13 @@ class OperatingHoursPopup extends StatelessWidget {
           shrinkWrap: true,
           itemCount: operatingHours.length,
           itemBuilder: (context, index) {
+            String key = operatingHours.keys.elementAt(index);
+            dynamic value = operatingHours[key];
             return ListTile(
-              title: Text(operatingHours[index]['day'] ?? ''),
+              title: Text(key ?? ''),
               subtitle: Text(
-                'Opening: ${operatingHours[index]['openingTime'] ?? ''}\n'
-                'Closing: ${operatingHours[index]['closingTime'] ?? ''}',
+                'Opening: ${value[0] ?? ''}\n'
+                'Closing: ${value[1] ?? ''}',
               ),
             );
           },
@@ -38,13 +40,8 @@ class OperatingHoursPopup extends StatelessWidget {
 }
 
 class OperatingHours extends StatelessWidget {
-  final List<Map<String, String>> operatingHours = [
-    {'day': 'Monday', 'openingTime': '8:00 AM', 'closingTime': '6:00 PM'},
-    {'day': 'Tuesday', 'openingTime': '9:00 AM', 'closingTime': '7:00 PM'},
-    {'day': 'Wednesday', 'openingTime': '8:30 AM', 'closingTime': '5:30 PM'},
-    // Add more days and times as needed
-  ];
-
+  final Map<String, dynamic> operatingHours;
+  OperatingHours({required this.operatingHours});
   void _showOperatingHoursPopup(BuildContext context) {
     showDialog(
       context: context,
