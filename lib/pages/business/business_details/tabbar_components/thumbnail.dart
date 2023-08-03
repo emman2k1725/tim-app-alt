@@ -22,12 +22,13 @@ class ImageRowPage extends StatelessWidget {
         ? item['businessImages']['image3']
         : defaultImage;
     return Center(
-      child:
-          Responsive.isMobile(context) ? mobileContainer() : desktopContainer(),
+      child: Responsive.isMobile(context)
+          ? mobileContainer(image1, image2, image3)
+          : desktopContainer(image1, image2, image3),
     );
   }
 
-  Widget desktopContainer() {
+  Widget desktopContainer(String image1, String image2, String image3) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -71,7 +72,7 @@ class ImageRowPage extends StatelessWidget {
     );
   }
 
-  Widget mobileContainer() {
+  Widget mobileContainer(String image1, String image2, String image3) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(

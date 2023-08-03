@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,7 +10,10 @@ import 'package:tim_app/pages/business/business_details/tabbar_components/pagina
 import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
+
+import '../business_table_mobile.dart';
 
 class BusinessAdsScreen extends StatefulWidget {
   const BusinessAdsScreen({super.key});
@@ -18,6 +23,14 @@ class BusinessAdsScreen extends StatefulWidget {
 }
 
 class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
+  String? selectedValue;
+
+  void _onItemSelected(String? value) {
+    setState(() {
+      selectedValue = value; // Update the selected value in Class B
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,32 +70,34 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(width: 2, color: Colors.white10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add new ads',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateAdsDialog(),
-                            );
-                          },
-                        ),
-                      ],
+              child: Responsive.isMobile(context)
+                  ? BusinessDetailsListView()
+                  : Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddButton(
+                                buttonText: 'Add new ads',
+                                icon: Icons.add,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CreateAdsDialog(),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          BusinessAdsTable(),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    const BusinessAdsTable(),
-                  ],
-                ),
-              ),
             ),
           ),
         ),
