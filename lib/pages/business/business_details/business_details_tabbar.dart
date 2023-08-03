@@ -92,7 +92,7 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                           controller: _tabController,
                           children: [
                             DetailsTabbar(),
-                            PaginatedDataTableDemo(),
+                            BusinessApplicationTable(),
                             const ProfileInterest(),
                           ],
                         ),
