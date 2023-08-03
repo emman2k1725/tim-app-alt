@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/businessDataProvider.dart';
-import 'package:tim_app/model/UserModel.dart';
-import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
-import 'package:tim_app/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'backend/firebase/UserDataProvider.dart';
-import 'controllers/menuAppController.dart';
 import 'package:tim_app/routes/router.dart';
 
 void main() async {

@@ -84,7 +84,7 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                           controller: _tabController,
                           children: [
                             PaginatedDataTableDemo(),
-                            DetailsTabbar(),
+                            PaginatedDataTableDemo(),
                             const ProfileInterest(),
                           ],
                         ),

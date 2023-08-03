@@ -1,20 +1,20 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_special_offer_table.dart';
-
+import 'package:tim_app/pages/admin/content_management/components_advertisement/manage_advertisement_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 
-class SpecialOfferTabBarView extends StatefulWidget {
-  const SpecialOfferTabBarView({super.key});
+class ManageAdvertisementTabBarView extends StatefulWidget {
+  const ManageAdvertisementTabBarView({super.key});
 
   @override
-  _SpecialOfferTabBarViewState createState() => _SpecialOfferTabBarViewState();
+  _ManageAdvertisementTabBarViewState createState() =>
+      _ManageAdvertisementTabBarViewState();
 }
 
-class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
-    with TickerProviderStateMixin {
+class _ManageAdvertisementTabBarViewState
+    extends State<ManageAdvertisementTabBarView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -44,13 +44,13 @@ class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
                     )
                 ],
                 gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white60.withOpacity(0.10),
-                    Colors.blue.withOpacity(0.10),
-                  ],
-                ),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white60.withOpacity(0.10),
+                      Colors.blue.withOpacity(0.10)
+                    ]),
+                // color: Colors.white.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(width: 2, color: Colors.white10),
               ),
@@ -89,7 +89,7 @@ class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            ManageOfferTable(),
+                            ManageAdvertisementTable(),
                             PaginatedDataTableDemo(),
                             const ProfileInterest(),
                           ],

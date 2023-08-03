@@ -101,20 +101,17 @@ class _PaginatedDataTableDemoState extends State<PaginatedDataTableDemo> {
                     children: [
                       ClipOval(
                         child: Container(
-                          width:
-                              100, // Set the desired width for the circular avatar
+                          width: 100,
                           height: 80,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.blue, // Set the color of the border
-                              width: 1.0, // Set the width of the border
+                              color: Colors.blue,
+                              width: 1.0,
                             ),
                             shape: BoxShape.circle,
                             image: const DecorationImage(
-                              image: AssetImage(
-                                  businessProfile), // Replace 'your_image.png' with the actual image path
-                              fit: BoxFit
-                                  .cover, // Choose the appropriate fit option for your design
+                              image: AssetImage(businessProfile),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -127,7 +124,7 @@ class _PaginatedDataTableDemoState extends State<PaginatedDataTableDemo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Seafood Overload', // Replace with your name or text
+                            'Seafood Overload',
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,

@@ -23,8 +23,6 @@ class _AdminMainState extends State<AdminMain> {
   }
 }
 
-// Stateful navigation based on:
-// https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 class ScaffoldWithNestedNavigation extends StatelessWidget {
   const ScaffoldWithNestedNavigation({
     Key? key,
@@ -37,8 +35,6 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
     navigationShell.goBranch(
       index,
       // navigating to the initial location when tapping the item that is
-      // already active. This example demonstrates how to support this behavior,
-      // using the initialLocation parameter of goBranch.
       initialLocation: index == navigationShell.currentIndex,
     );
   }

@@ -21,5 +21,4 @@ const String subpageAdvert = 'images/subpage_advert.png';
 const String newsletterAdvert = 'images/newsletter_advert.jpeg';
 const String mobileAppAdvert = 'images/mobileApp_advert.png';
 
-
 const defaultPadding = 16.0;

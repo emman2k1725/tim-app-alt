@@ -4,7 +4,9 @@ import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
+import 'package:tim_app/pages/admin/content_management/admin_manage_advertisement.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_special_offer.dart';
+import 'package:tim_app/pages/admin/content_management/manage_news/manage_news_main.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
@@ -216,6 +218,14 @@ final goRouter = GoRouter(
                 GoRoute(
                   path: 'offer',
                   builder: (context, state) => const ManageSpecialOffer(),
+                ),
+                GoRoute(
+                  path: 'advertisement',
+                  builder: (context, state) => const ManageAdvertisement(),
+                ),
+                GoRoute(
+                  path: 'news',
+                  builder: (context, state) => const ManageNewsScreenMain(),
                 ),
               ],
             ),
