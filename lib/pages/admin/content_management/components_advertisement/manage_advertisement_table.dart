@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/utils/constants.dart';
-import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
-class ManageOfferTable extends StatefulWidget {
-  const ManageOfferTable({super.key});
+class ManageAdvertisementTable extends StatefulWidget {
+  const ManageAdvertisementTable({super.key});
 
   @override
-  _ManageOfferTableState createState() => _ManageOfferTableState();
+  _ManageAdvertisementTableState createState() =>
+      _ManageAdvertisementTableState();
 }
 
-class _ManageOfferTableState extends State<ManageOfferTable> {
+class _ManageAdvertisementTableState extends State<ManageAdvertisementTable> {
   late int rowsPerPage = 10;
   List<DataRow> dataRows = [];
 
@@ -31,16 +31,8 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
                 color: Colors.blue,
                 icon: const Icon(Icons.image),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SuccessDialog();
-                    },
-                  );
+                  actionImage(index);
                 },
-                // onPressed: () {
-                //   actionImage(index);
-                // },
               ),
               IconButton(
                 color: Colors.redAccent,
@@ -80,11 +72,12 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
   }
 
   void actionImage(int rowIndex) {
+    // Show a pop-up dialog with the selected row data
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Special Offers Image'),
+          title: const Text('Advertisement Image'),
           actions: [
             ElevatedButton.icon(
               onPressed: () {
@@ -120,7 +113,7 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Special Offer Application'),
+          title: const Text('Advertisement Application'),
           actions: [
             ElevatedButton.icon(
               onPressed: () {
@@ -156,7 +149,7 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Special Offer Application'),
+          title: const Text('Advertisement Application'),
           actions: [
             ElevatedButton.icon(
               onPressed: () {

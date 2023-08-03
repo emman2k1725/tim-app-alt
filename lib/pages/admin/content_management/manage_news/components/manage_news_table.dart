@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/utils/constants.dart';
-import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
-class ManageOfferTable extends StatefulWidget {
-  const ManageOfferTable({super.key});
+class ManageNewsTable extends StatefulWidget {
+  const ManageNewsTable({super.key});
 
   @override
-  _ManageOfferTableState createState() => _ManageOfferTableState();
+  _ManageNewsTableState createState() => _ManageNewsTableState();
 }
 
-class _ManageOfferTableState extends State<ManageOfferTable> {
+class _ManageNewsTableState extends State<ManageNewsTable> {
   late int rowsPerPage = 10;
   List<DataRow> dataRows = [];
 
@@ -31,16 +30,8 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
                 color: Colors.blue,
                 icon: const Icon(Icons.image),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SuccessDialog();
-                    },
-                  );
+                  actionImage(index);
                 },
-                // onPressed: () {
-                //   actionImage(index);
-                // },
               ),
               IconButton(
                 color: Colors.redAccent,
@@ -84,7 +75,7 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Special Offers Image'),
+          title: const Text('News Letter Image'),
           actions: [
             ElevatedButton.icon(
               onPressed: () {
@@ -156,31 +147,31 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Special Offer Application'),
+          title: const Text('Ads Image'),
           actions: [
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back),
-              label: Text('Back'),
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
               icon: Icon(Icons.check),
-              label: Text('Approve'),
+              label: Text('Okay'),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
             ),
           ],
-          content: const Row(
-            children: [
-              Icon(Icons.notification_important_outlined),
-              Text('Do you wish to proceed with approving this application?'),
-            ],
+          content: Container(
+            height: 200,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue, // Set the border color to blue
+                width: 2.0, // Set the border width
+              ),
+            ),
+            child: Image.asset(
+              logo, // Replace this with the actual image path
+              width: 800,
+              height: 90,
+            ),
           ),
         );
       },
@@ -191,33 +182,20 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: PaginatedDataTable(
+        // ... existing code ...
+
         columns: [
           DataColumn(
             label: Row(
               children: [
-                const Text('Company Name'),
-                if (_sortColumnIndex == 2)
-                  Icon(_sortAscending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward),
-              ],
-            ),
-            tooltip: 'Company Name',
-            onSort: (columnIndex, ascending) {
-              _sortData(columnIndex, ascending);
-            },
-          ),
-          DataColumn(
-            label: Row(
-              children: [
-                const Text('Title'),
+                const Text('News Title'),
                 if (_sortColumnIndex == 0)
                   Icon(_sortAscending
                       ? Icons.arrow_upward
                       : Icons.arrow_downward),
               ],
             ),
-            tooltip: 'Title',
+            tooltip: 'News Title',
             onSort: (columnIndex, ascending) {
               _sortData(columnIndex, ascending);
             },
@@ -225,14 +203,14 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
           DataColumn(
             label: Row(
               children: [
-                const Text('Offer Code'),
+                const Text('Date posted'),
                 if (_sortColumnIndex == 1)
                   Icon(_sortAscending
                       ? Icons.arrow_upward
                       : Icons.arrow_downward),
               ],
             ),
-            tooltip: 'Offer Code',
+            tooltip: 'Date posted',
             onSort: (columnIndex, ascending) {
               _sortData(columnIndex, ascending);
             },
@@ -240,23 +218,40 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
           DataColumn(
             label: Row(
               children: [
-                const Text('Description'),
+                const Text('Time posted'),
                 if (_sortColumnIndex == 2)
                   Icon(_sortAscending
                       ? Icons.arrow_upward
                       : Icons.arrow_downward),
               ],
             ),
-            tooltip: 'Description',
+            tooltip: 'Time posted',
+            onSort: (columnIndex, ascending) {
+              _sortData(columnIndex, ascending);
+            },
+          ),
+          DataColumn(
+            label: Row(
+              children: [
+                const Text('Link'),
+                if (_sortColumnIndex == 2)
+                  Icon(_sortAscending
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward),
+              ],
+            ),
+            tooltip: 'Link',
             onSort: (columnIndex, ascending) {
               _sortData(columnIndex, ascending);
             },
           ),
           const DataColumn(
             label: Text('Action'),
+            // Hide the default tooltip by setting it to an empty string
             tooltip: '',
           ),
         ],
+
         source: _MyDataTableSource(dataRows, _sortColumnIndex, _sortAscending),
       ),
     );

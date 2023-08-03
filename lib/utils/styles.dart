@@ -15,3 +15,22 @@ ButtonStyle elevatedButtonStyle = ButtonStyle(
     shape: MaterialStateProperty.all(RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     )));
+
+class AppTextstyle {
+  static const TextStyle headerTextStyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
+  static const TextStyle bodyTextStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.grey,
+  );
+
+  static const TextStyle linkTextStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.blue,
+    decoration: TextDecoration.underline,
+  );
+}

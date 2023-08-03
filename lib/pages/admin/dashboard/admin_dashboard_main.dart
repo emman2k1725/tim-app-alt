@@ -29,7 +29,12 @@ class _AdminDashboardMainState extends State<AdminDashboardMain> {
           ),
           child: const SingleChildScrollView(
             child: Column(
-              children: [AdminDashboardScreen()],
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                AdminDashboardScreen()
+              ],
             ),
           ),
         ),
