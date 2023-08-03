@@ -6,6 +6,8 @@ import 'package:tim_app/pages/business/business_details/tabbar_components/thumbn
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 
+import '../../../../utils/loading.dart';
+
 class BusinessApplicationTable extends StatefulWidget {
   const BusinessApplicationTable({super.key});
 
@@ -122,8 +124,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
         title: const Text('Business Details'),
         actions: [
           ElevatedButton.icon(
-            onPressed: () {
-              // Implement approve logic here
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Approved');
+              evaluateResult(result, context);
             },
             icon: Icon(Icons.check),
             label: Text('Approve'),
@@ -132,8 +137,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
           ),
           SizedBox(width: 8), // Add some space between the buttons
           ElevatedButton.icon(
-            onPressed: () {
-              // Implement decline logic here
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Declined');
+              evaluateResult(result, context);
             },
             icon: Icon(Icons.close),
             label: Text('Decline'),
@@ -427,7 +435,10 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                     BusinessLinks(item: item),
                     SizedBox(height: 20.0),
                     Align(
-                        alignment: Alignment.topLeft, child: OperatingHours()),
+                        alignment: Alignment.topLeft,
+                        child: OperatingHours(
+                          operatingHours: item['businessHours'],
+                        )),
                   ],
                 ),
               ),
@@ -437,4 +448,12 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
       );
     },
   );
+}
+
+void evaluateResult(String result, BuildContext context) {
+  Navigator.pop(context);
+  Navigator.pop(context);
+  if (result != 'success') {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+  }
 }

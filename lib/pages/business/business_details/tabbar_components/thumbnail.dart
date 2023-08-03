@@ -12,15 +12,9 @@ class ImageRowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String defaultImage = 'assets/images/empty-placeholder.png';
-    String image1 = item['businessImages']['image1'] != null
-        ? item['businessImages']['image1']
-        : defaultImage;
-    String image2 = item['businessImages']['image2'] != null
-        ? item['businessImages']['image2']
-        : defaultImage;
-    String image3 = item['businessImages']['image3'] != null
-        ? item['businessImages']['image3']
-        : defaultImage;
+    String image1 = item['businessImages']['image1'] ?? defaultImage;
+    String image2 = item['businessImages']['image2'] ?? defaultImage;
+    String image3 = item['businessImages']['image3'] ?? defaultImage;
     return Center(
       child: Responsive.isMobile(context)
           ? mobileContainer(image1, image2, image3)
@@ -38,7 +32,7 @@ class ImageRowPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Image.network(
-            'assets/images/sample1.jpg',
+            image1,
             fit: BoxFit.fill, // Set the fit option here
             width: 160,
             height: 130,
@@ -50,7 +44,7 @@ class ImageRowPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Image.network(
-            'assets/images/sample2.jpg',
+            image2,
             fit: BoxFit.fill, // Set the fit option here
             width: 160,
             height: 130,
@@ -62,7 +56,7 @@ class ImageRowPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Image.network(
-            'assets/images/sample3.jpg',
+            image3,
             fit: BoxFit.fill, // Set the fit option here
             width: 160,
             height: 130,
