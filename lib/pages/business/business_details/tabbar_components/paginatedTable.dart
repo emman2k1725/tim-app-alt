@@ -106,6 +106,98 @@ class _MyDataTableSource extends DataTableSource {
     ]);
   }
 
+  @override
+  int get rowCount => data.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
+void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Business Details'),
+        actions: [
+          ElevatedButton.icon(
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Approved');
+              evaluateResult(result, context);
+            },
+            icon: Icon(Icons.check),
+            label: Text('Approve'),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
+          ),
+          SizedBox(width: 8), // Add some space between the buttons
+          ElevatedButton.icon(
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Declined');
+              evaluateResult(result, context);
+            },
+            icon: Icon(Icons.close),
+            label: Text('Decline'),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, padding: EdgeInsets.all(20)),
+          ),
+        ],
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.maxFinite,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    ClipOval(
+                      child: Container(
+                        width:
+                            100, // Set the desired width for the circular avatar
+                        height: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue, // Set the color of the border
+                            width: 1.0, // Set the width of the border
+                          ),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: Image.network(item['businessImages']
+                                        ['logo'] ??
+                                    'assets/images/empty-placeholder.png')
+                                .image, // Replace 'your_image.png' with the actual image path
+                            fit: BoxFit
+                                .cover, // Choose the appropriate fit option for your design
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                      height: 15,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['businessName']
+                              .toString(), // Replace with your name or text
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 8.0),
