@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/admin/content_management/components_advertisement/manage_advertisement_table.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
+import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 
 class ManageAdvertisementTabBarView extends StatefulWidget {
@@ -90,7 +90,8 @@ class _ManageAdvertisementTabBarViewState
                           controller: _tabController,
                           children: [
                             ManageAdvertisementTable(),
-                            PaginatedDataTableDemo(),
+                            const ProfileInterest(),
+                            // PaginatedDataTableDemo(),
                             const ProfileInterest(),
                           ],
                         ),

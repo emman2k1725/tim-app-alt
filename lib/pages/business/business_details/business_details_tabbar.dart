@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/business/business_details/tabbar_components/business_reviews.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
+import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
@@ -72,14 +73,11 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "Business Details",
-                              ),
-                              Tab(
                                 text: "Business Profile",
                               ),
                               Tab(
-                                text: "Operating Hours",
-                              )
+                                text: "Business Reviews",
+                              ),
                             ]),
                       ),
                     ),
@@ -90,11 +88,7 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [
-                            DetailsTabbar(),
-                            BusinessApplicationTable(),
-                            const ProfileInterest(),
-                          ],
+                          children: [DetailsTabbar(), BusinessReview()],
                         ),
                       ),
                     )
