@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
@@ -20,6 +21,8 @@ import 'package:tim_app/pages/business/business_details/business_details_screen.
 import 'package:tim_app/pages/business/business_menu.dart';
 
 import 'package:tim_app/pages/business/components/Business_dashboard.dart';
+import 'package:tim_app/pages/business/payment/business_payment.dart';
+import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
 
 import 'package:tim_app/pages/dashboard_main.dart';
@@ -139,6 +142,7 @@ final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final travellerKey = GlobalKey<NavigatorState>(debugLabel: 'travellerKey');
 final contentKey = GlobalKey<NavigatorState>(debugLabel: 'contentKey');
+final accountKey = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
 
 final goRouter = GoRouter(
   initialLocation: '/admin-dashboard',
@@ -228,6 +232,19 @@ final goRouter = GoRouter(
                   builder: (context, state) => const ManageNewsScreenMain(),
                 ),
               ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: accountKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-account',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminAccountMain(),
+              ),
+              routes: [],
             ),
           ],
         ),
@@ -336,7 +353,7 @@ final businessRouter = GoRouter(
             GoRoute(
               path: '/business-payment',
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessSpecialOfferScreen(),
+                child: BusinessPaymentScreen(),
               ),
               // routes: [
               //   GoRoute(
