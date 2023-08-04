@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/UserModel.dart';
 
-class AuthProvider with ChangeNotifier {
+class Authenticate {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance.collection('user_profile');
 
@@ -37,7 +37,6 @@ class AuthProvider with ChangeNotifier {
           });
       await _firestore.doc(_user!.uid).set(userModel.toMap());
       result = "success";
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       result =
           authErrorHandler(parseFirebaseAuthExceptionMessage(input: e.message));
@@ -55,8 +54,8 @@ class AuthProvider with ChangeNotifier {
           email: email, password: password);
       _user = userCredential.user;
       result = "success";
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       result =
           authErrorHandler(parseFirebaseAuthExceptionMessage(input: e.message));
     }
@@ -66,7 +65,6 @@ class AuthProvider with ChangeNotifier {
   Future<void> signOut() async {
     await _auth.signOut();
     _user = null;
-    notifyListeners();
   }
 }
 

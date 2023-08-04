@@ -350,7 +350,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Logout',
+                    'Back to Traveller',
                     style: TextStyle(
                       color: Colors.white,
                     ),

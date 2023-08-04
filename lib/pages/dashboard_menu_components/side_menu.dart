@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
+
+import '../../backend/firebase/userDataProvider.dart';
+import '../../model/UserModel.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -11,6 +15,9 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
+    userDataProvider.loadDataFromSharedPref();
+    UserModel? user = userDataProvider.userData;
     return Drawer(
       backgroundColor: AppColors.primaryBg,
       child: Container(
@@ -55,13 +62,21 @@ class SideMenu extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            DrawerListTile(
-              title: "Apply for Business",
-              svgSrc: "/icons/business.svg",
-              press: () {
-                GoRouter.of(context).go('/apply-business');
-              },
-            ),
+            user?.hasBusiness == false
+                ? DrawerListTile(
+                    title: "Apply for Business",
+                    svgSrc: "/icons/business.svg",
+                    press: () {
+                      GoRouter.of(context).go('/apply-business');
+                    },
+                  )
+                : DrawerListTile(
+                    title: "Manage Business",
+                    svgSrc: "/icons/business.svg",
+                    press: () {
+                      GoRouter.of(context).go('/business-dashboard');
+                    },
+                  ),
             const SizedBox(
               height: defaultPadding,
             ),

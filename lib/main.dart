@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/businessDataProvider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/routes/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  UserDataProvider userDataProvider = UserDataProvider();
+  await userDataProvider.loadDataFromSharedPref();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
         apiKey: "AIzaSyCpEGKr6xqRlgbc5ER3yzhZDkc9j67yERI",
@@ -23,11 +24,10 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
       ChangeNotifierProvider<UserDataProvider>(
-          create: (_) => UserDataProvider()),
+          create: (context) => UserDataProvider()),
       ChangeNotifierProvider<BusinessDataProvider>(
-          create: (_) => BusinessDataProvider()),
+          create: (context) => BusinessDataProvider()),
     ],
     child: MyApp(),
   ));

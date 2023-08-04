@@ -8,10 +8,10 @@ import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
-
-import '../../../backend/authservice/authentication.dart';
-import '../../../backend/firebase/UserDataProvider.dart';
-import '../../containers/multidropdown.dart';
+import '../../../backend/firebase/firebaseService.dart';
+import '../../../backend/firebase/userDataProvider.dart';
+import '../../../backend/shared-preferences/sharedPreferenceService.dart';
+import '../../../model/UserModel.dart';
 
 class InterestSignup extends StatefulWidget {
   const InterestSignup({super.key});
@@ -53,8 +53,9 @@ class _InterestSignupState extends State<InterestSignup> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    userProvider.loadDataFromSharedPref();
+    UserModel? user = userProvider.userData;
     return Container(
         height: 550,
         margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
@@ -409,21 +410,34 @@ class _InterestSignupState extends State<InterestSignup> {
                               padding: const EdgeInsets.all(10.0),
                               child: ElevatedButton(
                                 style: elevatedButtonStyle,
-                                onPressed: () async {
+                                onPressed: () {
                                   if (validationCheck(
                                           selectedCruisines,
                                           selectedCities,
                                           selectedInterests,
                                           _selectedCat) ==
                                       true) {
-                                    String result =
-                                        await userProvider.updateUserInfo(
-                                            authProvider.user!.uid,
-                                            selectedCruisines,
-                                            selectedInterests,
-                                            selectedCities,
-                                            _selectedCat);
-                                    evaluateResult(result, context);
+                                    user?.favCruisine = selectedCruisines;
+                                    user?.favHangout = selectedInterests;
+                                    user?.topCities = selectedCities;
+                                    user?.travelCat = _selectedCat!;
+                                    user?.isRegistrationComplete = true;
+
+                                    updateUserDocument(user?.docID, user)
+                                        .then((value) {
+                                      if (value == 'success') {
+                                        PrefService pref = PrefService();
+                                        UserModel updatedUserModel;
+                                        fetchDocumentbyID(
+                                                user?.docID, 'user_profile')
+                                            .then((userData) {
+                                          updatedUserModel =
+                                              UserModel.fromMap(userData);
+                                          pref.createCache(updatedUserModel);
+                                        });
+                                        evaluateResult(value, context);
+                                      }
+                                    });
                                   } else {
                                     const snackBar = SnackBar(
                                       content: Text(

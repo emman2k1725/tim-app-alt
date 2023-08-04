@@ -34,7 +34,6 @@ class _StepperWidgetState extends State<StepperWidget> {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    AuthProvider user = Provider.of<AuthProvider>(context);
     BusinessModel? business = BusinessModel.withDefaultValues();
     return Container(
       width: 900,
@@ -77,6 +76,7 @@ class _StepperWidgetState extends State<StepperWidget> {
                     //debugPrint(business.businessAddress.toString());
                     business.firstName = userProvider.userData?.firstName;
                     business.lastName = userProvider.userData?.lastName;
+                    var user;
                     business.businessOwner = user.user?.uid;
 
                     business.businessImages?['logo'] = await uploadImage(

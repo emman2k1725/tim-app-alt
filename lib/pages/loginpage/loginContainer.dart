@@ -1,20 +1,22 @@
+import 'dart:convert';
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
-import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
-import '../../responsive.dart';
+import '../../backend/firebase/firebaseService.dart';
 import '../../utils/loading.dart';
 
 class LoginContainer extends StatefulWidget {
@@ -34,9 +36,7 @@ class _LoginContainerState extends State<LoginContainer> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-
+    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
     return Center(
       child: Container(
           height: 550,
@@ -226,33 +226,12 @@ class _LoginContainerState extends State<LoginContainer> {
                                         onPressed: () async {
                                           if (_formKey.currentState!
                                               .validate()) {
-                                            String result = await authProvider
-                                                .signIn(email, password);
-                                            if (result == 'success') {
-                                              showCustomLoadingDialog(
-                                                  context, 'Logging in...');
-                                              String userDataRes =
-                                                  await userProvider
-                                                      .getUserInfo(authProvider
-                                                          .user!.uid);
-                                              if (userDataRes == 'success') {
-                                                nagivateGateway(
-                                                    userProvider
-                                                        .userData!.isAdmin,
-                                                    userProvider.userData!
-                                                        .isRegistrationComplete,
-                                                    context);
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content:
-                                                            Text(userDataRes)));
-                                              }
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(result)));
-                                            }
+                                            showCustomLoadingDialog(
+                                                context, 'Logging in...');
+                                            loginFunction(
+                                                email, password, context);
+                                            userDataProvider
+                                                .loadDataFromSharedPref();
                                           }
                                           // Handle button press
                                         },
@@ -379,23 +358,30 @@ class _LoginContainerState extends State<LoginContainer> {
                             ),
                           ),
                         )
-                        // Container(
-                        //   decoration: const BoxDecoration(
-                        //     borderRadius: BorderRadius.only(
-                        //       topRight: Radius.circular(50.0),
-                        //       bottomRight: Radius.circular(50.0),
-                        //     ),
-                        //   ),
-                        //   height: 530,
-                        //   child: Image.asset(
-                        //     timHand,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
                       ],
                     ),
                   )))),
     );
+  }
+}
+
+void loginFunction(String email, String password, BuildContext context) async {
+  Authenticate _auth = Authenticate();
+  SharedPreferences preference = await SharedPreferences.getInstance();
+  String? authResult = await _auth.signIn(email, password);
+  if (authResult == 'success') {
+    fetchDocumentbyID(_auth.user!.uid, 'user_profile').then((value) async {
+      UserModel userData = UserModel.fromMap(value);
+      preference.setString('user', jsonEncode(userData.toJson()));
+      nagivateGateway(
+          userData.isAdmin, userData.isRegistrationComplete, context);
+    });
+  } else {
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(authResult!)));
   }
 }
 

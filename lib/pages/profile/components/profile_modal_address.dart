@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/authservice/authentication.dart';
-import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../backend/firebase/firebaseService.dart';
+import '../../../backend/firebase/userDataProvider.dart';
+import '../../../backend/shared-preferences/sharedPreferenceService.dart';
 import '../../../model/UserModel.dart';
 import '../../services/validator_service.dart';
 
@@ -21,11 +22,10 @@ class _ModalAddressState extends State<ModalAddress> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
     return AlertDialog(
-      title: Text('Edit Address'),
+      title: const Text('Edit Address'),
       content: Form(
         key: _formKey,
         child: Container(
@@ -40,13 +40,15 @@ class _ModalAddressState extends State<ModalAddress> {
                       labelText: 'Country',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.blue,
                         ),
                       )),
                   onSaved: (value) {
                     _country = value!;
-                    user?.address?['country'] = _country;
+                    if (value.isNotEmpty) {
+                      user?.address?['country'] = _country;
+                    }
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -55,7 +57,7 @@ class _ModalAddressState extends State<ModalAddress> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -63,13 +65,15 @@ class _ModalAddressState extends State<ModalAddress> {
                       labelText: 'City',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.blue,
                         ),
                       )),
                   onSaved: (value) {
                     _city = value!;
-                    user?.address?['city'] = _city;
+                    if (value.isNotEmpty) {
+                      user?.address?['city'] = _city;
+                    }
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -78,7 +82,7 @@ class _ModalAddressState extends State<ModalAddress> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -86,13 +90,15 @@ class _ModalAddressState extends State<ModalAddress> {
                       labelText: 'Postal Code',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.blue,
                         ),
                       )),
                   onSaved: (value) {
                     _postal = value!;
-                    user?.address?['postal'] = _postal;
+                    if (value.isNotEmpty) {
+                      user?.address?['postal'] = _postal;
+                    }
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -101,7 +107,7 @@ class _ModalAddressState extends State<ModalAddress> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -109,13 +115,15 @@ class _ModalAddressState extends State<ModalAddress> {
                       labelText: 'Building Address',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.blue,
                         ),
                       )),
                   onSaved: (value) {
-                    _building = value!;
-                    user?.address?['building'] = _building;
+                    _building = value;
+                    if (value!.isNotEmpty) {
+                      user?.address?['building'] = _building;
+                    }
                   },
                 ),
               ],
@@ -128,24 +136,33 @@ class _ModalAddressState extends State<ModalAddress> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              if (_building != null ||
-                  _city != null ||
-                  _country != null ||
-                  _postal != null) {
-                userProvider.updateDocument(authProvider.user!.uid, user);
+              if (_building!.isNotEmpty ||
+                  _city!.isNotEmpty ||
+                  _country!.isNotEmpty ||
+                  _postal!.isNotEmpty) {
+                updateUserDocument(user!.docID, user).then((value) {
+                  if (value == 'success') {
+                    PrefService pref = PrefService();
+                    UserModel updatedUserModel;
+                    fetchDocumentbyID(user.docID, 'user_profile').then((value) {
+                      updatedUserModel = UserModel.fromMap(value);
+                      pref.createCache(updatedUserModel);
+                    });
+                  }
+                });
                 Navigator.pop(context);
               } else {
                 Navigator.pop(context);
               }
             }
           },
-          child: Text('Submit'),
+          child: const Text('Submit'),
         ),
       ],
     );

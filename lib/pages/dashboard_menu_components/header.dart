@@ -1,13 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
-
-import '../../backend/firebase/UserDataProvider.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -37,15 +38,27 @@ class Header extends StatelessWidget {
   }
 }
 
-class ProfileCard extends StatelessWidget {
+class ProfileCard extends StatefulWidget {
   const ProfileCard({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ProfileCard> createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
+    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
+    userDataProvider.loadDataFromSharedPref();
+    UserModel? user = userDataProvider.userData;
+
     return Container(
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.symmetric(
@@ -81,7 +94,7 @@ class ProfileCard extends StatelessWidget {
           if (!Responsive.isMobile(context))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10 / 2),
-              child: Text(user?.firstName ?? 'user'),
+              child: Text(user!.firstName ?? 'User'),
             ),
           const Icon(Icons.keyboard_arrow_down),
         ],

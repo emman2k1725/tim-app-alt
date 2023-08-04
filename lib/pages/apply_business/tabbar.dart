@@ -25,7 +25,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -70,7 +70,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
                                 const EdgeInsets.only(left: 20, right: 20),
                             labelColor: Colors.white,
                             unselectedLabelColor: Colors.grey,
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 text: "Personal Information",
                               ),
@@ -87,9 +87,9 @@ class _MyTabBarViewState extends State<MyTabBarView>
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [
+                          children: const [
                             UserProfileWidget(),
-                            const ProfileInterest(),
+                            ProfileInterest(),
                           ],
                         ),
                       ),

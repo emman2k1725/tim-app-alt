@@ -59,7 +59,6 @@ class _SignupContainerState extends State<SignupContainer> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -263,7 +262,8 @@ class _SignupContainerState extends State<SignupContainer> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     showCustomLoadingDialog(context, 'Signing up...');
-                    String result = await authProvider.register(
+                    Authenticate auth = Authenticate();
+                    String result = await auth.register(
                         email, password, firstName, lastName, phoneNumber);
                     if (result == 'success') {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

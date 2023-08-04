@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/pages/containers/multidropdown.dart';
-
-import '../../../backend/authservice/authentication.dart';
-import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../backend/firebase/firebaseService.dart';
+import '../../../backend/firebase/userDataProvider.dart';
 import '../../../backend/firebase/fetchDropDown.dart';
+import '../../../backend/shared-preferences/sharedPreferenceService.dart';
 import '../../../model/UserModel.dart';
+import '../../../utils/loading.dart';
 
 class ModalInterestCruisine extends StatefulWidget {
   const ModalInterestCruisine({super.key});
@@ -37,7 +37,6 @@ class _ModalInterestCruisineState extends State<ModalInterestCruisine> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
     return AlertDialog(
@@ -102,11 +101,23 @@ class _ModalInterestCruisineState extends State<ModalInterestCruisine> {
         ),
         ElevatedButton(
           onPressed: () {
+            showCustomLoadingDialog(context, 'Updating profile...');
             if (selectedCruisines.isEmpty || selectedCruisines.length < 3) {
               Navigator.pop(context);
+              showMinimumSelectionError();
             } else {
               user?.favCruisine = selectedCruisines;
-              userProvider.updateDocument(authProvider.user!.uid, user);
+              updateUserDocument(user?.docID, user).then((value) {
+                if (value == 'success') {
+                  PrefService pref = PrefService();
+                  UserModel updatedUserModel;
+                  fetchDocumentbyID(user?.docID, 'user_profile').then((value) {
+                    updatedUserModel = UserModel.fromMap(value);
+                    pref.createCache(updatedUserModel);
+                  });
+                }
+              });
+              Navigator.pop(context);
               Navigator.pop(context);
             }
           },
@@ -146,7 +157,6 @@ class _ModalInterestCityState extends State<ModalInterestCity> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
     return AlertDialog(
@@ -211,11 +221,22 @@ class _ModalInterestCityState extends State<ModalInterestCity> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (selectedCities.isEmpty || selectedCities.length < 5) {
-              Navigator.pop(context);
+            if (selectedCities.isEmpty ||
+                selectedCities.length < 5 ||
+                selectedCities.length > 5) {
+              showMinimumSelectionError();
             } else {
               user?.topCities = selectedCities;
-              userProvider.updateDocument(authProvider.user!.uid, user);
+              updateUserDocument(user?.docID, user).then((value) {
+                if (value == 'success') {
+                  PrefService pref = PrefService();
+                  UserModel updatedUserModel;
+                  fetchDocumentbyID(user?.docID, 'user_profile').then((value) {
+                    updatedUserModel = UserModel.fromMap(value);
+                    pref.createCache(updatedUserModel);
+                  });
+                }
+              });
               Navigator.pop(context);
             }
           },
@@ -255,7 +276,6 @@ class _ModalInterestActivityState extends State<ModalInterestActivity> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
 
@@ -322,11 +342,22 @@ class _ModalInterestActivityState extends State<ModalInterestActivity> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (selectedInterests.isEmpty || selectedInterests.length < 3) {
-              Navigator.pop(context);
+            if (selectedInterests.isEmpty ||
+                selectedInterests.length < 3 ||
+                selectedInterests.length > 5) {
+              showMinimumSelectionError();
             } else {
               user?.favHangout = selectedInterests;
-              userProvider.updateDocument(authProvider.user!.uid, user);
+              updateUserDocument(user?.docID, user).then((value) {
+                if (value == 'success') {
+                  PrefService pref = PrefService();
+                  UserModel updatedUserModel;
+                  fetchDocumentbyID(user?.docID, 'user_profile').then((value) {
+                    updatedUserModel = UserModel.fromMap(value);
+                    pref.createCache(updatedUserModel);
+                  });
+                }
+              });
               Navigator.pop(context);
             }
           },

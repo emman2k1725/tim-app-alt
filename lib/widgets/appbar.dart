@@ -7,7 +7,7 @@ import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
-import '../../backend/firebase/UserDataProvider.dart';
+import '../../backend/firebase/userDataProvider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -21,7 +21,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
-    debugPrint(user?.firstName.toString());
     return AppBar(
       backgroundColor: AppColors.primaryBg,
       elevation: 2,

@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/shared-preferences/sharedPreferenceService.dart';
 import 'package:tim_app/pages/services/validator_service.dart';
 
-import '../../../backend/authservice/authentication.dart';
-import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../backend/firebase/userDataProvider.dart';
+import '../../../backend/firebase/firebaseService.dart';
 import '../../../model/UserModel.dart';
+import '../../../utils/loading.dart';
 
 class ModalForm extends StatefulWidget {
   @override
@@ -15,14 +19,18 @@ class ModalForm extends StatefulWidget {
 class _ModalFormState extends State<ModalForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _firstName;
-  String? _lastName;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
+    String? _firstName;
+    String? _lastName;
+
     return AlertDialog(
       title: Text('Edit Personal Information'),
       content: Form(
@@ -51,7 +59,7 @@ class _ModalFormState extends State<ModalForm> {
                   },
                   onSaved: (value) {
                     _firstName = value;
-                    if (value != null) {
+                    if (value!.isNotEmpty) {
                       user?.setFirstName(_firstName);
                     }
                   },
@@ -76,7 +84,7 @@ class _ModalFormState extends State<ModalForm> {
                   },
                   onSaved: (value) {
                     _lastName = value;
-                    if (value != null) {
+                    if (value!.isNotEmpty) {
                       user?.setLastName(_lastName);
                     }
                   },
@@ -94,111 +102,30 @@ class _ModalFormState extends State<ModalForm> {
           child: Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            showCustomLoadingDialog(context, 'Updating profile...');
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              if (_firstName != null || _lastName != null) {
-                userProvider.updateDocument(authProvider.user!.uid, user);
-                Navigator.pop(context);
-              } else {
-                Navigator.pop(context);
+              if (_firstName!.isNotEmpty || _lastName!.isNotEmpty) {
+                updateUserDocument(user?.docID, user).then((value) {
+                  if (value == 'success') {
+                    PrefService pref = PrefService();
+                    UserModel updatedUserModel;
+                    fetchDocumentbyID(user?.docID, 'user_profile')
+                        .then((value) {
+                      updatedUserModel = UserModel.fromMap(value);
+                      pref.createCache(updatedUserModel);
+                    });
+                  }
+                });
               }
+              Navigator.pop(context);
+              Navigator.pop(context);
             }
           },
-          child: Text('Submit'),
+          child: const Text('Submit'),
         ),
       ],
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<String> selectedItems = [];
-  final _items = ['Italian', 'Mexican', 'Indian', 'Chinese', 'Thai'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MultiSelectDialogField in Modal'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('Select Cuisines'),
-                content: MultiSelectDialogField(
-                  items: _items
-                      .map((item) => MultiSelectItem<String>(item, item))
-                      .toList(),
-                  chipDisplay: MultiSelectChipDisplay(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    chipColor: Colors.blue,
-                  ),
-                  title: const Text("Cuisines"),
-                  searchable: true,
-                  buttonIcon: const Icon(
-                    Icons.restaurant_outlined,
-                    color: Colors.blue,
-                  ),
-                  buttonText: const Text(
-                    "Favorite Cuisines",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                  initialValue: selectedItems,
-                  onConfirm: (values) {
-                    if (values.length >= 3 && values.length <= 5) {
-                      setState(() {
-                        selectedItems = values.cast<String>();
-                      });
-                      Navigator.pop(
-                          context); // Close the dialog after selection
-                    } else {
-                      showMinimumSelectionError();
-                    }
-                  },
-                ),
-              ),
-            );
-          },
-          child: Text('Open Modal'),
-        ),
-      ),
-    );
-  }
-
-  void showMinimumSelectionError() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Error'),
-        content: Text('Please select 3 to 5 cuisines.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
     );
   }
 }
