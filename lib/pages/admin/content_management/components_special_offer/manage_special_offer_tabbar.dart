@@ -2,11 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_special_offer_table.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
+
 import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
-import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
-import 'package:tim_app/pages/profile/profile_personal_info.dart';
 
 class SpecialOfferTabBarView extends StatefulWidget {
   const SpecialOfferTabBarView({super.key});
@@ -46,13 +44,13 @@ class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
                     )
                 ],
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white60.withOpacity(0.10),
-                      Colors.blue.withOpacity(0.10)
-                    ]),
-                // color: Colors.white.withOpacity(0.3),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white60.withOpacity(0.10),
+                    Colors.blue.withOpacity(0.10),
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(width: 2, color: Colors.white10),
               ),

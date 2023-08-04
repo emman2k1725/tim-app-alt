@@ -5,6 +5,9 @@ import 'package:tim_app/pages/business/special_offers/components/business_offer_
 import 'package:tim_app/pages/business/special_offers/components/business_offer_table.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
+import '../../../responsive.dart';
+import '../business_table_mobile.dart';
+
 class BusinessOfferScreen extends StatefulWidget {
   const BusinessOfferScreen({super.key});
 
@@ -53,7 +56,35 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(width: 2, color: Colors.white10),
               ),
-              child: Padding(
+              child: Responsive.isMobile(context)
+                  ? BusinessDetailsListView()
+                  : Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddButton(
+                                buttonText: 'Add new ads',
+                                icon: Icons.add,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CreateOfferDialog(),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          BusinessOfferTable(),
+                        ],
+                      ),
+                    ),
+              /*Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
@@ -78,7 +109,7 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                     const BusinessOfferTable(),
                   ],
                 ),
-              ),
+              ),*/
             ),
           ),
         ),

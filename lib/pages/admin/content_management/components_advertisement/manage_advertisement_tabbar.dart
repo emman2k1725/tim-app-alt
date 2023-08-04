@@ -1,19 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
+import 'package:tim_app/pages/admin/content_management/components_advertisement/manage_advertisement_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/paginatedTable.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 
-class ManageBusinessScreen extends StatefulWidget {
-  const ManageBusinessScreen({super.key});
+class ManageAdvertisementTabBarView extends StatefulWidget {
+  const ManageAdvertisementTabBarView({super.key});
 
   @override
-  State<ManageBusinessScreen> createState() => _ManageBusinessScreenState();
+  _ManageAdvertisementTabBarViewState createState() =>
+      _ManageAdvertisementTabBarViewState();
 }
 
-class _ManageBusinessScreenState extends State<ManageBusinessScreen>
-    with TickerProviderStateMixin {
+class _ManageAdvertisementTabBarViewState
+    extends State<ManageAdvertisementTabBarView> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
@@ -64,13 +70,13 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "Pending Application",
+                                text: "Pending Offers",
                               ),
                               Tab(
-                                text: "Approved Business",
+                                text: "Approved Offers",
                               ),
                               Tab(
-                                text: "Declined Business",
+                                text: "Declined Offers",
                               )
                             ]),
                       ),
@@ -83,9 +89,8 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-
-                            BusinessApplicationTable(),
-                            DetailsTabbar(),
+                            ManageAdvertisementTable(),
+                            PaginatedDataTableDemo(),
                             const ProfileInterest(),
                           ],
                         ),
