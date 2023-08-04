@@ -1,20 +1,26 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/account/components/business_account_table.dart';
+import 'package:tim_app/pages/admin/account/components/traveller_account_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_approved_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
+import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/widgets/customAddButton.dart';
 
-class ManageBusinessScreen extends StatefulWidget {
-  const ManageBusinessScreen({super.key});
+import 'components/admin_account_table.dart';
+
+class AdminAccountScreen extends StatefulWidget {
+  const AdminAccountScreen({super.key});
 
   @override
-  State<ManageBusinessScreen> createState() => _ManageBusinessScreenState();
+  State<AdminAccountScreen> createState() => _AdminAccountScreenState();
 }
 
-class _ManageBusinessScreenState extends State<ManageBusinessScreen>
+class _AdminAccountScreenState extends State<AdminAccountScreen>
     with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
@@ -54,6 +60,24 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        AddButton(
+                          buttonText: 'Add Admin Account',
+                          icon: Icons.add,
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CreateOfferDialog(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -66,13 +90,13 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "Pending Application",
+                                text: "Admin Accounts",
                               ),
                               Tab(
-                                text: "Approved Business",
+                                text: "Business Accounts",
                               ),
                               Tab(
-                                text: "Declined Business",
+                                text: "Travellers Accounts",
                               )
                             ]),
                       ),
@@ -85,9 +109,9 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            BusinessApplicationTable(),
-                            BusinessApprovedTable(),
-                            BusinessDeclinedTable(),
+                            AdminAccountTable(),
+                            BusinessAccountTable(),
+                            TravellerAccountTable(),
                           ],
                         ),
                       ),

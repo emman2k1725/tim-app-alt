@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
-import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 
 import '../../../../utils/loading.dart';
@@ -30,13 +28,21 @@ class _BusinessApplicationTableState extends State<BusinessApplicationTable> {
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
           return PaginatedDataTable(
-            header: Text('Items'),
+            header: Text(
+              'Business Application',
+              style: TextStyle(color: Colors.lightBlueAccent),
+            ),
             rowsPerPage: rowsPerPage,
             columns: [
               DataColumn(
                 label: Row(
                   children: [
-                    const Text('Business Name'),
+                    const Text(
+                      'Business Name',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
                 tooltip: 'Business Name',
@@ -44,7 +50,12 @@ class _BusinessApplicationTableState extends State<BusinessApplicationTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text('Business Email'),
+                    const Text(
+                      'Business Email',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
                 tooltip: 'Business Email',
@@ -52,17 +63,32 @@ class _BusinessApplicationTableState extends State<BusinessApplicationTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text('Business Sector'),
+                    const Text(
+                      'Business Sector',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
                 tooltip: 'Business Sector',
               ),
               DataColumn(
-                label: Text('Country'),
+                label: Text(
+                  'Country',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 tooltip: 'Country',
               ),
               const DataColumn(
-                label: Text('Action'),
+                label: Text(
+                  'Action',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 tooltip: '',
               ),
               // Add more columns as needed
@@ -96,7 +122,7 @@ class _MyDataTableSource extends DataTableSource {
       DataCell(Text(item['businessAddress']['country'].toString())),
       DataCell(
         IconButton(
-          icon: const Icon(Icons.view_carousel_outlined),
+          icon: const Icon(Icons.visibility),
           onPressed: () {
             // Call the onActionIconSelected callback when the icon is clicked
             _showRowDialog(item, context);
