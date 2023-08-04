@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: Center(child: const LoginContainer()),
+          child: const Center(child: LoginContainer()),
         ),
       ),
     );

@@ -1,5 +1,5 @@
 class UserModel {
-  
+  String? docID;
   String? firstName;
   String? lastName;
   String? email;
@@ -17,6 +17,7 @@ class UserModel {
   Map<String, dynamic>? address;
 
   UserModel({
+    this.docID,
     this.firstName,
     this.lastName,
     this.email,
@@ -45,6 +46,7 @@ class UserModel {
   // Factory method to create a user model from a map or JSON data
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+        docID: map['docID'],
         firstName: map['firstName'],
         lastName: map['lastName'],
         email: map['email'],
@@ -65,6 +67,27 @@ class UserModel {
   // Method to convert the user model to a map or JSON data
   Map<String, dynamic> toMap() {
     return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'hasBusiness': hasBusiness,
+      'isAdmin': isAdmin,
+      'isRegistrationComplete': isRegistrationComplete,
+      'mobileNumber': mobileNumber,
+      'travelCat': travelCat,
+      'birthDate': birthDate,
+      'favCruisine': favCruisine,
+      'favHangout': favHangout,
+      'topCities': topCities,
+      'gender': gender,
+      'nationality': nationality,
+      'address': address
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'docID': docID,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

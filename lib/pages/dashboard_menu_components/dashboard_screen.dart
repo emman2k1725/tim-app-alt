@@ -20,9 +20,9 @@ class DashboardScreen extends StatelessWidget {
             image: AssetImage(mainBg),
           ),
         ),
-        child: SingleChildScrollView(
-          child: const Column(
-            children: [Header()],
+        child: const SingleChildScrollView(
+          child: Column(
+            children: [],
           ),
         ),
       ),

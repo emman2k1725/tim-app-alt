@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../backend/firebase/UserDataProvider.dart';
 import '../../model/UserModel.dart';
@@ -14,6 +17,19 @@ class EditableContainer extends StatefulWidget {
 class _EditableContainerState extends State<EditableContainer> {
   bool _isEditing = false;
   TextEditingController _textEditingController = TextEditingController();
+  UserModel? user;
+  void getUserData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+    });
+  }
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
 
   @override
   void dispose() {
@@ -23,8 +39,6 @@ class _EditableContainerState extends State<EditableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(

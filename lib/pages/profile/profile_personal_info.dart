@@ -4,17 +4,22 @@ import 'package:tim_app/pages/profile/components/profile_modal.dart';
 import 'package:tim_app/pages/profile/components/profile_modal_address.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
-
-import '../../backend/authservice/authentication.dart';
-import '../../backend/firebase/UserDataProvider.dart';
+import '../../backend/firebase/userDataProvider.dart';
 import '../../model/UserModel.dart';
 
 class UserProfileWidget extends StatefulWidget {
+  const UserProfileWidget({super.key});
+
   @override
   _UserProfileWidgetState createState() => _UserProfileWidgetState();
 }
 
 class _UserProfileWidgetState extends State<UserProfileWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
@@ -22,7 +27,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     String cityCountry =
         user!.address?['city'] + ',' + user.address?['country'];
     String buildingStreet =
-        user!.address?['building'] + ' ' + user.address?['street'];
+        user.address?['building'] + ' ' + user.address?['street'];
     return Column(
       children: [
         const SizedBox(
@@ -69,22 +74,22 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 children: [
                   Text(
                     user.firstName ?? '', // Replace with your name or text
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    user?.email ?? '', // Replace with your name or text
-                    style: TextStyle(
+                    user.email ?? '', // Replace with your name or text
+                    style: const TextStyle(
                       fontSize: 15.0,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    cityCountry ?? '', // Replace with your name or text
-                    style: TextStyle(
+                    cityCountry, // Replace with your name or text
+                    style: const TextStyle(
                       fontSize: 15.0,
                     ),
                   ),
@@ -137,7 +142,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'First Name', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -147,19 +152,19 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        user?.firstName ?? '', // Replace with your name or text
-                        style: TextStyle(
+                        user.firstName ?? '', // Replace with your name or text
+                        style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 200.0),
+                  const SizedBox(width: 200.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Last Name', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -167,10 +172,10 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
-                        user?.lastName ?? '', // Replace with your name or text
-                        style: TextStyle(
+                        user.lastName ?? '', // Replace with your name or text
+                        style: const TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -184,7 +189,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Email address',
                         style: TextStyle(
                           color: Colors.grey,
@@ -192,21 +197,21 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
-                        user?.email ?? '',
-                        style: TextStyle(
+                        user.email ?? '',
+                        style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 200.0),
+                  const SizedBox(width: 200.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Phone Number', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -216,9 +221,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        user?.mobileNumber ??
+                        user.mobileNumber ??
                             '', // Replace with your name or text
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -275,7 +280,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Country', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -287,7 +292,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       Text(
                         user.address?['country'] ??
                             '', // Replace with your name or text
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
@@ -297,7 +302,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'City', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -309,17 +314,17 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       Text(
                         user.address?['city'] ??
                             '', // Replace with your name or text
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  Column(
+                  const Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
                   ),
-                  Column(
+                  const Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
@@ -335,7 +340,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Postal Code',
                         style: TextStyle(
                           color: Colors.grey,
@@ -346,7 +351,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       const SizedBox(height: 10.0),
                       Text(
                         user.address?['postal'] ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
@@ -355,7 +360,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Building Address', // Replace with your name or text
                         style: TextStyle(
                           color: Colors.grey,
@@ -366,16 +371,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       const SizedBox(height: 10.0),
                       Text(
                         buildingStreet ?? '', // Replace with your name or text
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
                   ),
