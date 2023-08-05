@@ -1,19 +1,19 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/pages/apply_business/components/stepper_one.dart';
 import 'package:tim_app/pages/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/apply_business/components/stepper_two.dart';
 
-import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../backend/firebase/userDataProvider.dart';
 import '../../../backend/firebase/applyBusiness.dart';
 import '../../../utils/loading.dart';
 
 class StepperWidget extends StatefulWidget {
-  const StepperWidget({Key? key}) : super(key: key);
+  const StepperWidget({
+    super.key,
+  });
 
   @override
   _StepperWidgetState createState() => _StepperWidgetState();
@@ -71,13 +71,9 @@ class _StepperWidgetState extends State<StepperWidget> {
                     formKey1.currentState!.save();
                     formKey2.currentState!.save();
                     formKey3.currentState!.save();
-                    //debugPrint('sa labas');
-                    //debugPrint(business.businessPhoneNumber.toString());
-                    //debugPrint(business.businessAddress.toString());
                     business.firstName = userProvider.userData?.firstName;
                     business.lastName = userProvider.userData?.lastName;
-                    var user;
-                    business.businessOwner = user.user?.uid;
+                    business.businessOwner = userProvider.userData?.docID;
 
                     business.businessImages?['logo'] = await uploadImage(
                         business.pickedLogo, business.businessName);
@@ -90,6 +86,7 @@ class _StepperWidgetState extends State<StepperWidget> {
 
                     String? result = await applyBusiness(business);
                     if (result == 'success') {
+                      // ignore: use_build_context_synchronously
                       GoRouter.of(context).go('/dashboard');
                     }
                     // ADD Navigation: fix missing parameters in firestore (businessAddress, hours, links, phonenumber, businessSector, status)

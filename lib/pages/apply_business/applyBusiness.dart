@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/pages/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -17,7 +19,7 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Custom AppBar'),
+      appBar: const CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(
