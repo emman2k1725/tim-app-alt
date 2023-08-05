@@ -24,6 +24,7 @@ import 'package:tim_app/pages/business/components/Business_dashboard.dart';
 import 'package:tim_app/pages/business/payment/business_payment.dart';
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
+import 'package:tim_app/pages/cityGuide_page.dart';
 
 import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
@@ -35,6 +36,7 @@ import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/about_page.dart';
 import '../pages/signup/signup_interest_main.dart';
 
 GoRouter createRouter() {
@@ -71,10 +73,10 @@ GoRouter createRouter() {
         path: "/profile",
         builder: (context, state) => const ProfiePage(),
       ),
-      // GoRoute(
-      //   path: "/about",
-      //   builder: (context, state) => const AboutPage(),
-      // ),
+      GoRoute(
+        path: "/about",
+        builder: (context, state) => const AboutPage(),
+      ),
       GoRoute(
         path: "/media",
         builder: (context, state) => const MediaPage(),
@@ -95,6 +97,10 @@ GoRouter createRouter() {
         path: "/special-offers",
         builder: (context, state) => const SpecialOffersPage(),
       ),
+      GoRoute(
+        path: "/city-guide",
+        builder: (context, state) => const CityGuidePage(),
+      ),
 
       //business dashboard routes
       GoRoute(
@@ -105,10 +111,6 @@ GoRouter createRouter() {
         path: "/admin-manage-content",
         builder: (context, state) => const AdminMain(),
       ),
-      // GoRoute(
-      //   path: "/business-details",
-      //   builder: (context, state) => AboutPage(),
-      // ),
 
       // business routing
       GoRoute(
