@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:tim_app/pages/apply_business/components/business_sector_dropdown.dart';
 import 'package:tim_app/pages/services/validator_service.dart';
@@ -19,11 +18,6 @@ class StepperOne extends StatefulWidget {
 }
 
 String? phoneNumber, countryCode;
-
-void display() {
-  debugPrint(phoneNumber);
-  debugPrint(countryCode);
-}
 
 class _StepperOneState extends State<StepperOne> {
   @override
@@ -86,9 +80,9 @@ class _StepperOneState extends State<StepperOne> {
             const SizedBox(
               height: 20,
             ),
-            Align(
+            const Align(
               alignment: Alignment.topLeft,
-              child: const Text(
+              child: Text(
                 'Business Address',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
