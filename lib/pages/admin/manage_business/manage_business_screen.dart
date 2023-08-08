@@ -94,17 +94,26 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                               ? BusinessApplicationTable()
                               : AdminTableListView(
                                   tableTitle: 'Business Application',
-                                  tableTitleColor: Colors.lightBlueAccent),
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
                           Responsive.isDesktop(context)
                               ? BusinessApprovedTable()
                               : AdminTableListView(
                                   tableTitle: 'Approved Business',
-                                  tableTitleColor: Colors.green),
+                                  tableTitleColor: Colors.green,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
                           Responsive.isDesktop(context)
                               ? BusinessDeclinedTable()
                               : AdminTableListView(
                                   tableTitle: 'Declined Business',
-                                  tableTitleColor: Colors.red),
+                                  tableTitleColor: Colors.red,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
                         ],
                       ),
                     )
