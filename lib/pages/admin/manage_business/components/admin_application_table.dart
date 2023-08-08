@@ -27,73 +27,75 @@ class _BusinessApplicationTableState extends State<BusinessApplicationTable> {
           return Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return PaginatedDataTable(
-            header: Text(
-              'Business Application',
-              style: TextStyle(color: Colors.lightBlueAccent),
+          return SingleChildScrollView(
+            child: PaginatedDataTable(
+              header: Text(
+                'Business Application',
+                style: TextStyle(color: Colors.lightBlueAccent),
+              ),
+              rowsPerPage: rowsPerPage,
+              columns: [
+                DataColumn(
+                  label: Row(
+                    children: [
+                      const Text(
+                        'Business Name',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Business Name',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      const Text(
+                        'Business Email',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Business Email',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      const Text(
+                        'Business Sector',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Business Sector',
+                ),
+                DataColumn(
+                  label: Text(
+                    'Country',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  tooltip: 'Country',
+                ),
+                const DataColumn(
+                  label: Text(
+                    'Action',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  tooltip: '',
+                ),
+                // Add more columns as needed
+              ],
+              source: _MyDataTableSource(data, context),
             ),
-            rowsPerPage: rowsPerPage,
-            columns: [
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Business Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Business Name',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Business Email',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Business Email',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Business Sector',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Business Sector',
-              ),
-              DataColumn(
-                label: Text(
-                  'Country',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: 'Country',
-              ),
-              const DataColumn(
-                label: Text(
-                  'Action',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: '',
-              ),
-              // Add more columns as needed
-            ],
-            source: _MyDataTableSource(data, context),
           );
         } else {
           return Center(child: Text('No data found'));
