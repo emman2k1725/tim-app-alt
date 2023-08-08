@@ -4,12 +4,20 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/customAddButton.dart';
+import '../business/advertisement/components/business_ads_dialog.dart';
 
 class AdminTableListView extends StatefulWidget {
   final String tableTitle;
   final Color tableTitleColor;
+  final bool showAddButton;
+  final String addButtonToolTip;
+
   const AdminTableListView(
-      {super.key, required this.tableTitle, required this.tableTitleColor});
+      {super.key,
+      required this.tableTitle,
+      required this.tableTitleColor,
+      required this.showAddButton,
+      required this.addButtonToolTip});
 
   @override
   State<AdminTableListView> createState() => _AdminTableListViewState();
@@ -46,9 +54,31 @@ class _AdminTableListViewState extends State<AdminTableListView> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  widget.tableTitle, //'Business Application',
-                  style: TextStyle(color: widget.tableTitleColor, fontSize: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Row(
+                    mainAxisAlignment: widget.showAddButton == false
+                        ? MainAxisAlignment.center
+                        : MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.tableTitle, //'Business Application',
+                        style: TextStyle(
+                            color: widget.tableTitleColor, fontSize: 20),
+                      ),
+                      widget.showAddButton == false
+                          ? SizedBox(height: 0)
+                          : AddButton2(
+                              toolTip: widget.addButtonToolTip,
+                              icon: Icons.add,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CreateAdsDialog(),
+                                );
+                              })
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 30,
