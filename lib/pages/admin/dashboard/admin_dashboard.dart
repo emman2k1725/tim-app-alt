@@ -470,7 +470,6 @@ class _TabletScreenSizeState extends State<TabletScreenSize> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: h,
       width: 850,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
@@ -860,7 +859,6 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: h,
       width: 850,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
