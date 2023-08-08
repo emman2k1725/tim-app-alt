@@ -2,6 +2,7 @@
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 import '../../widgets/customAddButton.dart';
 import '../business/advertisement/components/business_ads_dialog.dart';
@@ -64,7 +65,8 @@ class _AdminTableListViewState extends State<AdminTableListView> {
                       Text(
                         widget.tableTitle, //'Business Application',
                         style: TextStyle(
-                            color: widget.tableTitleColor, fontSize: 20),
+                            color: widget.tableTitleColor,
+                            fontSize: Responsive.isMobile(context) ? 15 : 20),
                       ),
                       widget.showAddButton == false
                           ? SizedBox(height: 0)
