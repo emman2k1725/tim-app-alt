@@ -4,6 +4,7 @@ import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
+import 'package:tim_app/pages/admin/admin_more_page.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_advertisement.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_special_offer.dart';
@@ -139,6 +140,7 @@ GoRouter createRouter() {
   );
 }
 
+// ======== ADMIN DESKTOP ========
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
@@ -247,6 +249,134 @@ final goRouter = GoRouter(
                 child: AdminAccountMain(),
               ),
               routes: [],
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);
+
+// ======== MOBILE DESKTOP ========
+final _rootNavigatorKeyMobile = GlobalKey<NavigatorState>();
+final _shellNavigatorAKeyMobile =
+    GlobalKey<NavigatorState>(debugLabel: 'shellAMobile');
+final _shellNavigatorBKeyMobile =
+    GlobalKey<NavigatorState>(debugLabel: 'shellBMobile');
+final travellerKeyMobile =
+    GlobalKey<NavigatorState>(debugLabel: 'travellerKeyMobile');
+final contentKeyMobile =
+    GlobalKey<NavigatorState>(debugLabel: 'contentKeyMobile');
+final accountKeyMobile = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
+final moreKeyMobile = GlobalKey<NavigatorState>(debugLabel: 'moreKeyMobile');
+
+final goRouterMobile = GoRouter(
+  initialLocation: '/admin-dashboard',
+  navigatorKey: _rootNavigatorKeyMobile,
+  debugLogDiagnostics: true,
+  routes: [
+    // Stateful navigation based on:
+    // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorAKeyMobile,
+          routes: [
+            GoRoute(
+              path: '/admin-dashboard',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminDashboardMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) => const DetailsScreen(label: 'A'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorBKeyMobile,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-manage-business',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ManageBusinessMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) => const DetailsScreen(label: 'B'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travellerKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-manage-travellers',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ManageTravellerMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) => const DetailsScreen(label: 'B'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: moreKeyMobile,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-more',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminMorePage(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) => const DetailsScreen(label: 'B'),
+                ),
+                /*GoRoute(
+                  path: '/admin-manage-content',
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: ContentManagementMain(),
+                  ),
+                  routes: [
+                    GoRoute(
+                      path: 'offer',
+                      builder: (context, state) => const ManageSpecialOffer(),
+                    ),
+                    GoRoute(
+                      path: 'advertisement',
+                      builder: (context, state) => const ManageAdvertisement(),
+                    ),
+                    GoRoute(
+                      path: 'news',
+                      builder: (context, state) => const ManageNewsScreenMain(),
+                    ),
+                  ],
+                ),
+                GoRoute(
+                  path: '/admin-account',
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: AdminAccountMain(),
+                  ),
+                  routes: [],
+                ),*/
+              ],
             ),
           ],
         ),
