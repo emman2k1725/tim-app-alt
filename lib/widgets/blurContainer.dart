@@ -78,10 +78,7 @@ class BlurContainer extends StatelessWidget {
   final Widget childColumn;
 
   const BlurContainer(
-      {Key? key,
-      required this.height,
-      required this.width,
-      required this.childColumn})
+      {Key? key, this.height, this.width, required this.childColumn})
       : super(key: key);
 
   @override

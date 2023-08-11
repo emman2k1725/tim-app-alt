@@ -70,120 +70,104 @@ class DesktopContainer1 extends StatelessWidget {
       'Item 4',
       'Item 5',
       'Item 6',
+      'Item 7',
+      'Item 8',
+      'Item 9',
+      'Item 10',
+      'Item 11',
+      'Item 12',
       // Add more items as needed
     ];
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
       children: [
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'How It Works',
-                style: AppTheme.getSecondaryTextStyle(50.0),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'PRICING AND TIMELINE',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 40),
-              SizedBox(
-                width: w / 4,
-                child: const Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              const Divider(
-                color: Colors.white,
-              ),
-              SizedBox(height: 20),
-              Wrap(
-                spacing: 10.0, // Adjust spacing between containers horizontally
-                runSpacing:
-                    10.0, // Adjust spacing between containers vertically
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (int i = 0; i < dataList.length; i += 2)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: h / 6,
-                                width: w / 4,
-                                padding: EdgeInsets.all(5.0),
-                                color: Colors.grey.shade300,
-                                child: Text(""),
-                              ),
-                              SizedBox(height: 5),
-                              Container(
-                                width: w / 4,
-                                padding: EdgeInsets.all(5.0),
-                                color: Colors.grey.shade100,
-                                child: Text(
-                                  "Image\nGraphic Design",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        if (i + 1 < dataList.length)
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: h / 6,
-                                  width: w / 4,
-                                  padding: EdgeInsets.all(5.0),
-                                  color: Colors.grey.shade300,
-                                  child: Text(""),
-                                ),
-                                SizedBox(height: 5),
-                                Container(
-                                  width: w / 4,
-                                  padding: EdgeInsets.all(5.0),
-                                  color: Colors.grey.shade100,
-                                  child: Text(
-                                    "Image\nGraphic Design",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
-                      ],
+                  Text(
+                    'How It Works',
+                    style: AppTheme.getSecondaryTextStyle(50.0),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'PRICING AND TIMELINE',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 40),
+                  SizedBox(
+                    width: w / 4,
+                    child: const Text(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
+                  ),
+                  SizedBox(height: 20),
+                  const Divider(
+                    color: Colors.white,
+                  ),
                 ],
               ),
-            ],
+            ),
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 100.0),
+                  child: SizedBox(height: 350, child: VideoPlayerScreen()),
+                )),
+          ],
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        IntrinsicWidth(
+          child: Wrap(
+            // spacing: 10.0, // Adjust spacing between containers horizontally
+            // runSpacing: 10.0, // Adjust spacing between containers vertically
+            alignment: WrapAlignment.spaceAround,
+            children: List.generate(dataList.length, (index) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: h / 3,
+                        width: w / 5,
+                        padding: EdgeInsets.all(5.0),
+                        color: Colors.grey.shade300,
+                        child: Text(""),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        width: w / 5,
+                        padding: EdgeInsets.all(5.0),
+                        color: Colors.grey.shade100,
+                        child: Text(
+                          "Image\nGraphic Design",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
         ),
-        Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 100.0),
-              child: SizedBox(height: 350, child: VideoPlayerScreen()),
-            )),
       ],
     );
   }
@@ -240,7 +224,42 @@ class TabletContainer1 extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(height: 20),
-          Wrap(
+          IntrinsicWidth(
+            child: Wrap(
+              // spacing: 10.0, // Adjust spacing between containers horizontally
+              // runSpacing: 10.0, // Adjust spacing between containers vertically
+              alignment: WrapAlignment.spaceAround,
+              children: List.generate(dataList.length, (index) {
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: h / 4,
+                          width: w / 4,
+                          padding: EdgeInsets.all(5.0),
+                          color: Colors.grey.shade300,
+                          child: Text(""),
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          width: w / 4,
+                          padding: EdgeInsets.all(5.0),
+                          color: Colors.grey.shade100,
+                          child: Text(
+                            "Image\nGraphic Design",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          /*Wrap(
             spacing: 10.0, // Adjust spacing between containers horizontally
             runSpacing: 10.0, // Adjust spacing between containers vertically
             children: [
@@ -301,7 +320,7 @@ class TabletContainer1 extends StatelessWidget {
                   ],
                 ),
             ],
-          ),
+          ),*/
         ],
       ),
     );
