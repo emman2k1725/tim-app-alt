@@ -26,6 +26,7 @@ class _AdminAccountTableState extends State<AdminAccountTable> {
           return Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
+
           return PaginatedDataTable(
             header: Text(
               'Admin Account',
@@ -85,6 +86,7 @@ class _AdminAccountTableState extends State<AdminAccountTable> {
               // Add more columns as needed
             ],
             source: _MyDataTableSource(data, context),
+
           );
         } else {
           return Center(child: Text('No data found'));

@@ -1,9 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
+
+import '../../responsive.dart';
 
 class AdminMain extends StatefulWidget {
   const AdminMain({super.key});
@@ -16,7 +20,7 @@ class _AdminMainState extends State<AdminMain> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: goRouter,
+      routerConfig: Responsive.isDesktop(context) ? goRouter : goRouterMobile,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.indigo),
     );
@@ -42,7 +46,18 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 450) {
+      return Responsive.isDesktop(context)
+          ? ScaffoldWithNavigationRail(
+              body: navigationShell,
+              selectedIndex: navigationShell.currentIndex,
+              onDestinationSelected: _goBranch,
+            )
+          : ScaffoldWithNavigationBar(
+              body: navigationShell,
+              selectedIndex: navigationShell.currentIndex,
+              onDestinationSelected: _goBranch,
+            );
+      /*if (constraints.maxWidth < 450) {
         return ScaffoldWithNavigationBar(
           body: navigationShell,
           selectedIndex: navigationShell.currentIndex,
@@ -54,7 +69,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: _goBranch,
         );
-      }
+      }*/
     });
   }
 }
@@ -76,9 +91,54 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: const [
-          NavigationDestination(label: 'Section D', icon: Icon(Icons.home)),
-          NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
+        destinations: [
+          NavigationDestination(
+            label: '',
+            tooltip: 'Dashboard',
+            icon: SvgPicture.asset(
+              "/icons/dashboard.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Manage Business',
+            icon: SvgPicture.asset(
+              "/icons/business.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Manage Travellers',
+            icon: SvgPicture.asset(
+              "/icons/travel.svg",
+            ),
+          ),
+          /*NavigationDestination(
+            label: '',
+            tooltip: 'Content Management',
+            icon: SvgPicture.asset(
+              "/icons/business.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Accounts',
+            icon: SvgPicture.asset(
+              "/icons/business.svg",
+            ),
+          ),
+          NavigationDestination(
+            label: '',
+            tooltip: 'Logout',
+            icon: SvgPicture.asset(
+              "/icons/logout.svg",
+            ),
+          ),*/
+          NavigationDestination(
+            label: '',
+            tooltip: 'More',
+            icon: Icon(Icons.more_vert_rounded),
+          ),
         ],
         onDestinationSelected: onDestinationSelected,
       ),

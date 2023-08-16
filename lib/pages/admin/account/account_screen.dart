@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,10 @@ import 'package:tim_app/pages/business/business_details/tabbar_components/detail
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
+
+import '../../../responsive.dart';
+import '../../../utils/constants.dart';
+import '../admin_table_mobile.dart';
 
 import 'components/admin_account_table.dart';
 
@@ -30,6 +35,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
         height: 800,
+
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -60,27 +66,32 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add Admin Account',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateOfferDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+
+                    Responsive.isDesktop(context)
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddButton(
+                                buttonText: 'Add Admin Account',
+                                icon: Icons.add,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CreateOfferDialog(),
+                                  );
+                                },
+                              ),
+                            ],
+                          )
+                        : SizedBox(height: 0),
                     SizedBox(
-                      height: 10,
+                      height: Responsive.isDesktop(context) ? 10 : 0,
                     ),
                     Container(
                       child: Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: Responsive.isDesktop(context)
+                            ? Alignment.centerLeft
+                            : Alignment.center,
                         child: TabBar(
                             controller: _tabController,
                             isScrollable: true,
@@ -101,7 +112,39 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                             ]),
                       ),
                     ),
-                    Align(
+                    SizedBox(height: 20),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? AdminAccountTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Admin Account',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  showAddButton: true,
+                                  addButtonToolTip: 'Add admin account',
+                                ),
+                          Responsive.isDesktop(context)
+                              ? BusinessAccountTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Business Account',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  showAddButton: true,
+                                  addButtonToolTip: 'Add admin account',
+                                ),
+                          Responsive.isDesktop(context)
+                              ? TravellerAccountTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Travellers Accounts',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  showAddButton: true,
+                                  addButtonToolTip: 'Add admin account',
+                                ),
+                        ],
+                      ),
+                    )
+
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         width: double.maxFinite,
@@ -115,7 +158,9 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                           ],
                         ),
                       ),
+
                     )
+
                   ],
                 ),
               ),

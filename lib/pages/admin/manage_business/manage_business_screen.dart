@@ -1,11 +1,17 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/admin_table_mobile.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_approved_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/utils/responsive.dart';
+
+import '../../../utils/constants.dart';
 
 class ManageBusinessScreen extends StatefulWidget {
   const ManageBusinessScreen({super.key});
@@ -23,7 +29,7 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: 800,
+        height: h,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -56,7 +62,9 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                   children: [
                     Container(
                       child: Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: Responsive.isDesktop(context)
+                            ? Alignment.centerLeft
+                            : Alignment.center,
                         child: TabBar(
                             controller: _tabController,
                             isScrollable: true,
@@ -77,21 +85,70 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                             ]),
                       ),
                     ),
-                    Align(
+                    SizedBox(height: 20),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? BusinessApplicationTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Business Application',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
+                          Responsive.isDesktop(context)
+                              ? BusinessApprovedTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Approved Business',
+                                  tableTitleColor: Colors.green,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
+                          Responsive.isDesktop(context)
+                              ? BusinessDeclinedTable()
+                              : AdminTableListView(
+                                  tableTitle: 'Declined Business',
+                                  tableTitleColor: Colors.red,
+                                  addButtonToolTip: '',
+                                  showAddButton: false,
+                                ),
+                        ],
+                      ),
+                    )
+                    /*Container(
+                      width: double.maxFinite,
+                      height: h, //Responsive.isDesktop(context) ? 700 : 1000,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? BusinessApplicationTable()
+                              : AdminTableListView(),
+                          BusinessApprovedTable(),
+                          BusinessDeclinedTable(),
+                        ],
+                      ),
+                    ),*/
+                    /*Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         width: double.maxFinite,
-                        height: 700,
+                        height: Responsive.isDesktop(context) ? 700 : 1000,
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            BusinessApplicationTable(),
+                            Responsive.isDesktop(context)
+                                ? BusinessApplicationTable()
+                                : AdminTableListView(),
+
                             BusinessApprovedTable(),
                             BusinessDeclinedTable(),
                           ],
                         ),
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),

@@ -93,6 +93,7 @@ class _BusinessDeclinedTableState extends State<BusinessDeclinedTable> {
               // Add more columns as needed
             ],
             source: _MyDataTableSource(data, context),
+
           );
         } else {
           return Center(child: Text('No data found'));

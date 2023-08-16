@@ -16,6 +16,13 @@ ButtonStyle elevatedButtonStyle = ButtonStyle(
       borderRadius: BorderRadius.circular(10),
     )));
 
+ButtonStyle elevatedButtonSharpBorderStyle = ButtonStyle(
+    elevation: MaterialStateProperty.all(0),
+    backgroundColor: MaterialStateProperty.all(AppColors.primary),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(0),
+    )));
+
 class AppTextstyle {
   static const TextStyle headerTextStyle = TextStyle(
     fontSize: 24,
