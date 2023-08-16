@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
-import 'package:tim_app/pages/admin/account/account_main.dart';
-import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/admin_more_page.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
@@ -22,10 +20,6 @@ import 'package:tim_app/pages/business/business_dashboard_main.dart';
 import 'package:tim_app/pages/business/business_details/business_details_screen.dart';
 import 'package:tim_app/pages/business/business_menu.dart';
 
-
-import 'package:tim_app/pages/business/components/Business_dashboard.dart';
-import 'package:tim_app/pages/business/payment/business_payment.dart';
-
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
 import 'package:tim_app/pages/cityGuide_page.dart';
@@ -42,9 +36,6 @@ import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_screen.dart';
-import 'package:tim_app/pages/travellers/traveller_plan/traveller_plan_search.dart';
-
-import '../pages/about_page.dart';
 import '../pages/signup/signup_interest_main.dart';
 import '../pages/travellers/travel_history/components/trip_history_rate.dart';
 
@@ -243,7 +234,6 @@ final goRouter = GoRouter(
             ),
           ],
         ),
-
       ],
     ),
   ],
@@ -418,12 +408,6 @@ final businessRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessAdvertisementScreen(),
               ),
-              // routes: [
-              //   GoRoute(
-              //     path: 'details',
-              //     builder: (context, state) => const DetailsScreen(label: 'B'),
-              //   ),
-              // ],
             ),
           ],
         ),
