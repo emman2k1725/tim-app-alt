@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -35,7 +34,6 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
         height: 800,
-
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -66,7 +64,6 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-
                     Responsive.isDesktop(context)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -143,24 +140,19 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                                 ),
                         ],
                       ),
-                    )
-
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        width: double.maxFinite,
-                        height: 700,
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            AdminAccountTable(),
-                            BusinessAccountTable(),
-                            TravellerAccountTable(),
-                          ],
-                        ),
+                    ),
+                    SizedBox(
+                      width: double.maxFinite,
+                      height: 700,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          AdminAccountTable(),
+                          BusinessAccountTable(),
+                          TravellerAccountTable(),
+                        ],
                       ),
-
-                    )
-
+                    ),
                   ],
                 ),
               ),
