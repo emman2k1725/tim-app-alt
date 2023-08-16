@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
@@ -333,7 +334,7 @@ class _ContentManagementScreenState extends State<ContentManagementScreen> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    const Row(
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
@@ -370,6 +371,23 @@ class _ContentManagementScreenState extends State<ContentManagementScreen> {
                                                   color: Colors.white),
                                             ),
                                           ],
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/offer'),
+                                            child: BlurImageContainer(
+                                              height: 200,
+                                              width: 200,
+                                              text: 'Manage Special Offers',
+                                              icon: Icons
+                                                  .discount_outlined, // Replace with the desired icon
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
                                         ),
                                       ],
                                     ),

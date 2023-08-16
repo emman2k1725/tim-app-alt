@@ -8,7 +8,7 @@ import 'package:tim_app/pages/apply_business/components/stepper_one.dart';
 import 'package:tim_app/pages/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/apply_business/components/stepper_two.dart';
 
-import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../backend/firebase/userDataProvider.dart';
 import '../../../backend/firebase/applyBusiness.dart';
 import '../../../utils/loading.dart';
 

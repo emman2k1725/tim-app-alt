@@ -32,34 +32,35 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class CustomIconButton extends StatelessWidget {
+class BlueElevatedButton extends StatelessWidget {
   final String text;
+  final IconData iconData;
   final VoidCallback onPressed;
 
-  const CustomIconButton({
-    super.key,
+  BlueElevatedButton({
     required this.text,
+    required this.iconData,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue,
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(iconData),
+      label: Padding(
+        padding: EdgeInsets.all(16),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 16),
         ),
-        height: 40,
-        width: 150,
-        child: ElevatedButton(
-          onPressed: onPressed,
-
-          child: Text(text), // Replace 'Button' with the desired label text
-          style: ElevatedButton.styleFrom(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            backgroundColor: AppColors.primary,
-          ),
-        ));
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
   }
 }

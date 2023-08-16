@@ -6,26 +6,27 @@ import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
-class BusinessMenu extends StatefulWidget {
-  const BusinessMenu({super.key});
+class TravellerMain extends StatefulWidget {
+  const TravellerMain({super.key});
 
   @override
-  State<BusinessMenu> createState() => _BusinessMenuState();
+  State<TravellerMain> createState() => _TravellerMainState();
 }
 
-class _BusinessMenuState extends State<BusinessMenu> {
+class _TravellerMainState extends State<TravellerMain> {
+  @override
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: businessRouter,
+      routerConfig: travellerRouter,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.indigo),
     );
   }
 }
 
-class ScaffoldWithNavigation extends StatelessWidget {
-  const ScaffoldWithNavigation({
+class TravellerNavigation extends StatelessWidget {
+  const TravellerNavigation({
     Key? key,
     required this.navigationShell,
   }) : super(
@@ -87,49 +88,9 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: [
-          NavigationDestination(
-            label: '',
-            tooltip: 'Dashboard',
-            icon: SvgPicture.asset(
-              "/icons/dashboard.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Advertisement',
-            icon: SvgPicture.asset(
-              "/icons/travel.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Special Offers',
-            icon: SvgPicture.asset(
-              "/icons/discount.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Business Details',
-            icon: SvgPicture.asset(
-              "/icons/business.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Payment',
-            icon: SvgPicture.asset(
-              "/icons/payment.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Logout',
-            icon: SvgPicture.asset(
-              "/icons/logout.svg",
-            ),
-          ),
+        destinations: const [
+          NavigationDestination(label: 'Section D', icon: Icon(Icons.home)),
+          NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
         ],
         onDestinationSelected: onDestinationSelected,
       ),
@@ -244,7 +205,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Advertisement',
+                    'Travel Plan',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -260,7 +221,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                           : AppColors.primaryBg,
                     ),
                     child: SvgPicture.asset(
-                      "/icons/discount.svg",
+                      "/icons/history.svg",
                       colorFilter: ColorFilter.mode(
                           selectedIndex == 2 ? Colors.white : Colors.blue,
                           BlendMode.srcIn),
@@ -270,7 +231,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Special Offers',
+                    'Travel History',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -296,7 +257,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Business Details',
+                    'Apply Business',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -312,7 +273,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                           : AppColors.primaryBg,
                     ),
                     child: SvgPicture.asset(
-                      "/icons/payment.svg",
+                      "/icons/profile.svg",
                       colorFilter: ColorFilter.mode(
                           selectedIndex == 4 ? Colors.white : Colors.blue,
                           BlendMode.srcIn),
@@ -322,7 +283,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Payment',
+                    'Account',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -348,7 +309,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                   // selectedIcon: Icon(Icons.home),
                   label: const Text(
-                    'Back to Traveller',
+                    'Sign Out',
                     style: TextStyle(
                       color: Colors.white,
                     ),

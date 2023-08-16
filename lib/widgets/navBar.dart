@@ -21,6 +21,8 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -97,45 +99,99 @@ class _NavBarState extends State<NavBar> {
   }*/
 
   Widget navBarItems() {
+    String isSelected = '';
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        navButton('Home', () {
-          GoRouter.of(context).go('/');
-        }),
-        navButton('About', () {
-          GoRouter.of(context).go('/about');
-        }),
-        navButton('Media', () {
+        Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isSelected = 'Home';
+                  });
+
+                  GoRouter.of(context).go('/');
+                },
+                child: Text('Home',
+                    style: TextStyle(
+                        color:
+                            isSelected == 'Home' ? Colors.blue : Colors.white,
+                        fontSize: 18)))),
+
+        Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isSelected = 'About';
+                  });
+
+                  GoRouter.of(context).go('/about');
+                },
+                child: Text('About',
+                    style: TextStyle(
+                        color:
+                            isSelected == 'About' ? Colors.blue : Colors.white,
+                        fontSize: 18)))),
+        // // navButton('Home', true, ),
+        // navButton('About', true, () {
+        //   GoRouter.of(context).go('/about');
+        // }),
+        navButton('Media', 3, () {
           GoRouter.of(context).go('/media');
         }),
-        navButton('Advertisement', () {
+        navButton('Advertisement', 2, () {
           GoRouter.of(context).go('/advertise');
         }),
         SizedBox(
-          height: 45,
-          child: ElevatedButton(
+            height: 45,
+            child: ElevatedButton(
               style: borderedButtonStyle,
-              onPressed: () {
+              onPressed: () async {
+                if (isLoading) return;
+
+                setState(() {
+                  isLoading = true;
+                });
+                await Future.delayed(Duration(seconds: 1));
+
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
-              child: Text(
-                'Get Started',
-                style: TextStyle(color: AppColors.primary),
-              )),
-        )
+              child: isLoading
+                  ? Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(
+                              color: Colors.black, strokeWidth: 2.0),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          'Starting',
+                          style: TextStyle(color: Colors.blue),
+                        )
+                      ],
+                    )
+                  : Text(
+                      'Get Started',
+                      style: TextStyle(color: AppColors.primary),
+                    ),
+            ))
       ],
     );
   }
 
-  Widget navButton(String text, void Function()? onPressed) {
+  Widget navButton(String text, int selectedIndex, void Function()? onPressed) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
         child: TextButton(
             onPressed: onPressed,
             child: Text(text,
-                style: const TextStyle(color: Colors.white, fontSize: 18))));
+                style: TextStyle(color: Colors.white, fontSize: 18))));
   }
 
   Widget navLogo() {
