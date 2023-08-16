@@ -89,18 +89,22 @@ class BlurContainer extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
           child: Container(
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue.withOpacity(0.30),
+                width: 2,
+              ),
               boxShadow: [
-                for (double i = 1; i < 5; i++)
-                  const BoxShadow(
-                    spreadRadius: -1,
-                    color: Colors.blueAccent,
-                    blurRadius: 1,
-                    blurStyle: BlurStyle.outer,
-                  )
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 8.0,
+                  spreadRadius: 1,
+                  offset: Offset(0, 8.0),
+                ),
               ],
+
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomCenter,
@@ -111,7 +115,6 @@ class BlurContainer extends StatelessWidget {
               ),
               // color: Colors.white.withOpacity(0.3),
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(width: 2, color: Colors.white10),
             ),
             child: childColumn,
           ),

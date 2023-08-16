@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/pages/about_page.dart';
+import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
@@ -17,17 +19,17 @@ import 'package:tim_app/pages/advertise_page.dart';
 import 'package:tim_app/pages/apply_business/apply_business_main.dart';
 import 'package:tim_app/pages/business/advertisement/business_advertisement_main.dart';
 import 'package:tim_app/pages/business/business_dashboard_main.dart';
-import 'package:tim_app/pages/business/business_details/business_details_main.dart';
 import 'package:tim_app/pages/business/business_details/business_details_screen.dart';
 import 'package:tim_app/pages/business/business_menu.dart';
 
+
 import 'package:tim_app/pages/business/components/Business_dashboard.dart';
 import 'package:tim_app/pages/business/payment/business_payment.dart';
+
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
 import 'package:tim_app/pages/cityGuide_page.dart';
 
-import 'package:tim_app/pages/dashboard_main.dart';
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
@@ -36,9 +38,15 @@ import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
+import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
+import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen.dart';
+import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_screen.dart';
+import 'package:tim_app/pages/travellers/traveller_plan/traveller_plan_search.dart';
 
 import '../pages/about_page.dart';
 import '../pages/signup/signup_interest_main.dart';
+import '../pages/travellers/travel_history/components/trip_history_rate.dart';
 
 GoRouter createRouter() {
   return GoRouter(
@@ -60,7 +68,7 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: "/dashboard",
-        builder: (context, state) => const DashboardMainScreen(),
+        builder: (context, state) => const TravellerMain(),
       ),
       GoRoute(
         path: "/apply-business",
@@ -153,8 +161,6 @@ final goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
-    // Stateful navigation based on:
-    // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -168,12 +174,7 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: AdminDashboardMain(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'A'),
-                ),
-              ],
+              routes: [],
             ),
           ],
         ),
@@ -186,12 +187,7 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ManageBusinessMain(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'B'),
-                ),
-              ],
+              routes: [],
             ),
           ],
         ),
@@ -204,12 +200,7 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ManageTravellerMain(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'B'),
-                ),
-              ],
+              routes: [],
             ),
           ],
         ),
@@ -252,6 +243,7 @@ final goRouter = GoRouter(
             ),
           ],
         ),
+
       ],
     ),
   ],
@@ -400,8 +392,6 @@ final businessRouter = GoRouter(
   navigatorKey: businessNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
-    // Stateful navigation based on:
-    // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavigation(navigationShell: navigationShell);
@@ -415,12 +405,7 @@ final businessRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessScreen(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(label: 'A'),
-                ),
-              ],
+              routes: [],
             ),
           ],
         ),
@@ -493,6 +478,69 @@ final businessRouter = GoRouter(
               //     builder: (context, state) => const DetailsScreen(label: 'B'),
               //   ),
               // ],
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);
+
+final travellerNavigatorKey = GlobalKey<NavigatorState>();
+final travellerNavigator = GlobalKey<NavigatorState>(debugLabel: 'dashboard');
+final travelPlanNavigator =
+    GlobalKey<NavigatorState>(debugLabel: 'travel-plan');
+final travelHistoryNavigator =
+    GlobalKey<NavigatorState>(debugLabel: 'travel-history');
+
+final travellerRouter = GoRouter(
+  initialLocation: '/dashboard',
+  navigatorKey: travellerNavigatorKey,
+  debugLogDiagnostics: true,
+  routes: [
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return TravellerNavigation(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          navigatorKey: travellerNavigator,
+          routes: [
+            GoRoute(
+              path: '/dashboard',
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: TravellerDashboard(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travelPlanNavigator,
+          routes: [
+            GoRoute(
+              path: '/travel-plan',
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: TravellerPlanScreen(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travelHistoryNavigator,
+          routes: [
+            GoRoute(
+              path: '/travel-history',
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: TravelHistoryMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'history-rate',
+                  builder: (context, state) => const TripHistoryRate(),
+                ),
+              ],
             ),
           ],
         ),

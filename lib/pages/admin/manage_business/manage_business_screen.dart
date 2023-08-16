@@ -142,6 +142,7 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                             Responsive.isDesktop(context)
                                 ? BusinessApplicationTable()
                                 : AdminTableListView(),
+
                             BusinessApprovedTable(),
                             BusinessDeclinedTable(),
                           ],

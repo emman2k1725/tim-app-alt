@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:ui';
 
@@ -16,6 +15,7 @@ import 'package:tim_app/widgets/customAddButton.dart';
 import '../../../responsive.dart';
 import '../../../utils/constants.dart';
 import '../admin_table_mobile.dart';
+
 import 'components/admin_account_table.dart';
 
 class AdminAccountScreen extends StatefulWidget {
@@ -34,7 +34,8 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: h,
+        height: 800,
+
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -65,6 +66,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
+
                     Responsive.isDesktop(context)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -142,7 +144,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                         ],
                       ),
                     )
-                    /*Align(
+
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         width: double.maxFinite,
@@ -156,7 +158,9 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                           ],
                         ),
                       ),
-                    )*/
+
+                    )
+
                   ],
                 ),
               ),

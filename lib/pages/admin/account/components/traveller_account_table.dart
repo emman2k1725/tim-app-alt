@@ -26,75 +26,75 @@ class _TravellerAccountTableState extends State<TravellerAccountTable> {
           return Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return SingleChildScrollView(
-            child: PaginatedDataTable(
-              header: Text(
-                'Traveller Account',
-                style: TextStyle(color: Colors.lightBlueAccent),
-              ),
-              rowsPerPage: rowsPerPage,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'Traveller Name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Traveller Name',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'Traveller Email',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Traveller Email',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'Phone Number',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Phone Number',
-                ),
-                DataColumn(
-                  label: Text(
-                    'Country',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  tooltip: 'Country',
-                ),
-                DataColumn(
-                  label: Text(
-                    'Action',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  tooltip: 'Action',
-                ),
-                // Add more columns as needed
-              ],
-              source: _MyDataTableSource(data, context),
+
+          return PaginatedDataTable(
+            header: Text(
+              'Traveller Account',
+              style: TextStyle(color: Colors.lightBlueAccent),
             ),
+            rowsPerPage: rowsPerPage,
+            columns: [
+              DataColumn(
+                label: Row(
+                  children: [
+                    const Text(
+                      'Traveller Name',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                tooltip: 'Traveller Name',
+              ),
+              DataColumn(
+                label: Row(
+                  children: [
+                    const Text(
+                      'Traveller Email',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                tooltip: 'Traveller Email',
+              ),
+              DataColumn(
+                label: Row(
+                  children: [
+                    const Text(
+                      'Phone Number',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                tooltip: 'Phone Number',
+              ),
+              DataColumn(
+                label: Text(
+                  'Country',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                tooltip: 'Country',
+              ),
+              DataColumn(
+                label: Text(
+                  'Action',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                tooltip: 'Action',
+              ),
+              // Add more columns as needed
+            ],
+            source: _MyDataTableSource(data, context),
+
           );
         } else {
           return Center(child: Text('No data found'));

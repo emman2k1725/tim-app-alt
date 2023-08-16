@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  drag_and_drop_lists:
+    dependency: "direct main"
+    description:
+      name: drag_and_drop_lists
+      sha256: "9a14595f9880be7953f23578aef88c15cc9b367eeb39dbc1f1bd6af52f70872b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -656,6 +664,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  reorderables:
+    dependency: "direct main"
+    description:
+      name: reorderables
+      sha256: "004a886e4878df1ee27321831c838bc1c976311f4ca6a74ce7d561e506540a77"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   responsive_builder:
     dependency: "direct main"
     description:

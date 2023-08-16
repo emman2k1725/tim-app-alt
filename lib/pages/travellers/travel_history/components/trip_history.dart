@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/pages/travellers/travel_history/components/trip_history_rate.dart';
 
 import '../../../../utils/loading.dart';
 
-class BusinessApprovedTable extends StatefulWidget {
-  const BusinessApprovedTable({super.key});
+class TripHistoryTable extends StatefulWidget {
+  const TripHistoryTable({super.key});
 
   @override
-  State<BusinessApprovedTable> createState() => _BusinessApprovedTableState();
+  State<TripHistoryTable> createState() => _TripHistoryTableState();
 }
 
-class _BusinessApprovedTableState extends State<BusinessApprovedTable> {
+class _TripHistoryTableState extends State<TripHistoryTable> {
   @override
   Widget build(BuildContext context) {
     final int rowsPerPage = 10;
@@ -28,8 +30,8 @@ class _BusinessApprovedTableState extends State<BusinessApprovedTable> {
           List<Map<String, dynamic>> data = snapshot.data!;
           return PaginatedDataTable(
             header: Text(
-              'Approved Business',
-              style: TextStyle(color: Colors.green),
+              'Trip History',
+              style: TextStyle(color: Colors.lightBlueAccent),
             ),
             rowsPerPage: rowsPerPage,
             columns: [
@@ -37,49 +39,58 @@ class _BusinessApprovedTableState extends State<BusinessApprovedTable> {
                 label: Row(
                   children: [
                     const Text(
-                      'Business Name',
+                      'Title',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                tooltip: 'Business Name',
+                tooltip: 'Title',
               ),
               DataColumn(
                 label: Row(
                   children: [
                     const Text(
-                      'Business Email',
+                      'Start Date',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                tooltip: 'Business Email',
+                tooltip: 'Start Date',
               ),
               DataColumn(
                 label: Row(
                   children: [
                     const Text(
-                      'Business Sector',
+                      'End Date',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                tooltip: 'Business Sector',
+                tooltip: 'End Date',
               ),
               DataColumn(
                 label: Text(
-                  'Country',
+                  'Days',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                tooltip: 'Country',
+                tooltip: 'Days',
+              ),
+              DataColumn(
+                label: Text(
+                  'Status',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                tooltip: 'Status',
               ),
               const DataColumn(
                 label: Text(
@@ -119,13 +130,35 @@ class _MyDataTableSource extends DataTableSource {
       DataCell(Text(item['businessEmail'].toString())),
       DataCell(Text(item['businessSector'].toString())),
       DataCell(Text(item['businessAddress']['country'].toString())),
+      DataCell(Text(item['businessAddress']['country'].toString())),
       DataCell(
-        IconButton(
-          icon: const Icon(Icons.visibility),
-          onPressed: () {
-            // Call the onActionIconSelected callback when the icon is clicked
-            _showRowDialog(item, context);
-          },
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.download_outlined),
+              onPressed: () {
+                _showRowDialog(item, context);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.visibility, color: Colors.blue),
+              onPressed: () {
+                _showRowDialog(item, context);
+              },
+            ),
+            IconButton(
+                icon: const Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TripHistoryRate()),
+                  );
+                }),
+          ],
         ),
       ),
     ]);
@@ -149,13 +182,29 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
         title: const Text('Business Details'),
         actions: [
           ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Approved');
+              evaluateResult(result, context);
             },
-            icon: Icon(Icons.arrow_back),
-            label: Text('Go back'),
+            icon: Icon(Icons.check),
+            label: Text('Approve'),
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
+          ),
+          SizedBox(width: 8), // Add some space between the buttons
+          ElevatedButton.icon(
+            onPressed: () async {
+              showCustomLoadingDialog(context, 'Loading...');
+              String result =
+                  await businessPendingAction(item['docID'], 'Declined');
+              evaluateResult(result, context);
+            },
+            icon: Icon(Icons.close),
+            label: Text('Decline'),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, padding: EdgeInsets.all(20)),
           ),
         ],
         content: SingleChildScrollView(
