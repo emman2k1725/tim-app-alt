@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,6 +10,9 @@ import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history.dart';
+
+import '../../../responsive.dart';
+import '../../admin/admin_table_mobile.dart';
 
 class TravelHistoryTabBar extends StatefulWidget {
   const TravelHistoryTabBar({super.key});
@@ -89,7 +94,17 @@ class _TravelHistoryTabBarState extends State<TravelHistoryTabBar>
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [TripHistoryTable(), BusinessReview()],
+                          children: [
+                            Responsive.isDesktop(context)
+                                ? TripHistoryTable()
+                                : AdminTableListView(
+                                    tableTitle: "Trip History",
+                                    tableTitleColor: Colors.lightBlueAccent,
+                                    addButtonToolTip: '',
+                                    showAddButton: false,
+                                  ),
+                            BusinessReview()
+                          ],
                         ),
                       ),
                     )

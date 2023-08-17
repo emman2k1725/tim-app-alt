@@ -20,7 +20,8 @@ class _AdminMainState extends State<AdminMain> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: Responsive.isDesktop(context) ? goRouter : goRouterMobile,
+      routerConfig:
+          goRouter, //Responsive.isDesktop(context) ? goRouter : goRouterMobile,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.indigo),
     );
@@ -113,7 +114,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               "/icons/travel.svg",
             ),
           ),
-          /*NavigationDestination(
+          NavigationDestination(
             label: '',
             tooltip: 'Content Management',
             icon: SvgPicture.asset(
@@ -133,12 +134,12 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             icon: SvgPicture.asset(
               "/icons/logout.svg",
             ),
-          ),*/
-          NavigationDestination(
+          ),
+          /*NavigationDestination(
             label: '',
             tooltip: 'More',
             icon: Icon(Icons.more_vert_rounded),
-          ),
+          ),*/
         ],
         onDestinationSelected: onDestinationSelected,
       ),
