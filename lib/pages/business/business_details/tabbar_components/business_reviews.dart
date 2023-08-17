@@ -24,11 +24,14 @@ class _BusinessReviewState extends State<BusinessReview> {
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Responsive.isDesktop(context) ? 0 : w / 20,
+            //horizontal: Responsive.isDesktop(context) ? 0 : w / 20,
             vertical: 5),
         child: Responsive.isDesktop(context)
             ? DesktopScreenSize()
-            : MobileScreenSize(),
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: MobileScreenSize(),
+              ),
       ),
     );
   }
@@ -47,7 +50,7 @@ class DesktopScreenSize extends StatelessWidget {
         border: Border.all(color: Colors.blue, width: 2),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.all(16.0),
+      //padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
           SizedBox(
