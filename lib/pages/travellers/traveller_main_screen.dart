@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -88,9 +90,19 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: const [
-          NavigationDestination(label: 'Section D', icon: Icon(Icons.home)),
-          NavigationDestination(label: 'Section B', icon: Icon(Icons.settings)),
+        destinations: [
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/dashboard.svg")),
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/travel.svg")),
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/history.svg")),
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/business.svg")),
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/profile.svg")),
+          NavigationDestination(
+              label: '', icon: SvgPicture.asset("/icons/logout.svg")),
         ],
         onDestinationSelected: onDestinationSelected,
       ),
