@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 class DateRangePickerTextField extends StatefulWidget {
   @override
@@ -87,124 +90,288 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 250,
-                child: TextField(
-                  readOnly: true,
-                  onTap: () => _selectStartDate(context),
-                  decoration: InputDecoration(
-                    labelText: 'Start Date',
-                    suffixIcon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: Colors.white,
+          Responsive.isDesktop(context)
+              ? Row(
+                  children: [
+                    Container(
+                      width: 250,
+                      child: TextField(
+                        readOnly: true,
+                        onTap: () => _selectStartDate(context),
+                        decoration: InputDecoration(
+                          labelText: 'Start Date',
+                          suffixIcon: Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.white,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors.white), // White border color
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .blue), // White border color when focused
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // White border color when enabled
+                          ),
+                          labelStyle: TextStyle(color: Colors.white),
+                        ),
+                        controller: TextEditingController(
+                            text: _startDate?.toString().split(' ')[0] ?? ''),
+                        style: TextStyle(
+                          color: Colors.white, // Set text color to white
+                        ),
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide:
-                          BorderSide(color: Colors.white), // White border color
+                    SizedBox(width: 16),
+                    Container(
+                      width: 250,
+                      child: TextField(
+                        readOnly: true,
+                        onTap: () => _selectEndDate(context),
+                        decoration: InputDecoration(
+                          labelText: 'End Date',
+                          suffixIcon: Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.white,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors.white), // White border color
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .blue), // White border color when focused
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // White border color when enabled
+                          ),
+                          labelStyle: TextStyle(color: Colors.white),
+                        ),
+                        controller: TextEditingController(
+                            text: _endDate?.toString().split(' ')[0] ?? ''),
+                        style: TextStyle(
+                          color: Colors.white, // Set text color to white
+                        ),
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.blue), // White border color when focused
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextField(
+                      readOnly: true,
+                      onTap: () => _selectStartDate(context),
+                      decoration: InputDecoration(
+                        labelText: 'Start Date',
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          color: Colors.white,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors.white), // White border color
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .blue), // White border color when focused
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .white), // White border color when enabled
+                        ),
+                        labelStyle: TextStyle(color: Colors.white),
+                      ),
+                      controller: TextEditingController(
+                          text: _startDate?.toString().split(' ')[0] ?? ''),
+                      style: TextStyle(
+                        color: Colors.white, // Set text color to white
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.white), // White border color when enabled
+                    SizedBox(height: 16),
+                    TextField(
+                      readOnly: true,
+                      onTap: () => _selectEndDate(context),
+                      decoration: InputDecoration(
+                        labelText: 'End Date',
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          color: Colors.white,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors.white), // White border color
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .blue), // White border color when focused
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .white), // White border color when enabled
+                        ),
+                        labelStyle: TextStyle(color: Colors.white),
+                      ),
+                      controller: TextEditingController(
+                          text: _endDate?.toString().split(' ')[0] ?? ''),
+                      style: TextStyle(
+                        color: Colors.white, // Set text color to white
+                      ),
                     ),
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  controller: TextEditingController(
-                      text: _startDate?.toString().split(' ')[0] ?? ''),
+                  ],
                 ),
-              ),
-              SizedBox(width: 16),
-              Container(
-                width: 250,
-                child: TextField(
-                  readOnly: true,
-                  onTap: () => _selectEndDate(context),
-                  decoration: InputDecoration(
-                    labelText: 'End Date',
-                    suffixIcon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: Colors.white,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide:
-                          BorderSide(color: Colors.white), // White border color
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.blue), // White border color when focused
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.white), // White border color when enabled
-                    ),
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  controller: TextEditingController(
-                      text: _endDate?.toString().split(' ')[0] ?? ''),
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: 16),
-          Row(
-            children: [
-              Container(
-                width: 250,
-                child: TextFormField(
-                  onTap: () => _selectStartTime(context),
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: 'Start Time',
-                    suffixIcon: Icon(
-                      Icons.access_time,
-                      color: Colors.white,
+          Responsive.isDesktop(context)
+              ? Row(
+                  children: [
+                    Container(
+                      width: 250,
+                      child: TextFormField(
+                        onTap: () => _selectStartTime(context),
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: 'Start Time',
+                          suffixIcon: Icon(
+                            Icons.access_time,
+                            color: Colors.white,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors.white), // White border color
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .blue), // White border color when focused
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // White border color when enabled
+                          ),
+                          labelStyle: TextStyle(color: Colors.white),
+                        ),
+                        controller: TextEditingController(
+                          text: _startTime?.format(context) ?? '',
+                        ),
+                        style: TextStyle(
+                          color: Colors.white, // Set text color to white
+                        ),
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide:
-                          BorderSide(color: Colors.white), // White border color
+                    SizedBox(width: 16),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 250,
+                          child: TextFormField(
+                            onTap: () => _selectEndTime(context),
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              labelText: 'End Time',
+                              suffixIcon: Icon(
+                                Icons.access_time,
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors.white), // White border color
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .blue), // White border color when focused
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .white), // White border color when enabled
+                              ),
+                              labelStyle: TextStyle(color: Colors.white),
+                            ),
+                            controller: TextEditingController(
+                              text: _endTime?.format(context) ?? '',
+                            ),
+                            style: TextStyle(
+                              color: Colors.white, // Set text color to white
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.blue), // White border color when focused
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      onTap: () => _selectStartTime(context),
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: 'Start Time',
+                        suffixIcon: Icon(
+                          Icons.access_time,
+                          color: Colors.white,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors.white), // White border color
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .blue), // White border color when focused
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: Colors
+                                  .white), // White border color when enabled
+                        ),
+                        labelStyle: TextStyle(color: Colors.white),
+                      ),
+                      controller: TextEditingController(
+                        text: _startTime?.format(context) ?? '',
+                      ),
+                      style: TextStyle(
+                        color: Colors.white, // Set text color to white
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                          color:
-                              Colors.white), // White border color when enabled
-                    ),
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
-                  controller: TextEditingController(
-                    text: _startTime?.format(context) ?? '',
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 250,
-                    child: TextFormField(
+                    SizedBox(height: 16),
+                    TextFormField(
                       onTap: () => _selectEndTime(context),
                       readOnly: true,
                       decoration: InputDecoration(
@@ -235,29 +402,98 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       controller: TextEditingController(
                         text: _endTime?.format(context) ?? '',
                       ),
+                      style: TextStyle(
+                        color: Colors.white, // Set text color to white
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  ],
+                ),
           SizedBox(height: 16),
-          Row(
-            children: [
-              Container(
-                width: 520,
-                child: DropdownButtonFormField<String>(
+          Responsive.isDesktop(context)
+              ? Row(
+                  children: [
+                    Container(
+                      width: 520,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedCity,
+                        items: cities.map((city) {
+                          return DropdownMenuItem<String>(
+                              value: city,
+                              child: Text(
+                                city,
+                              ));
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedCity = newValue!;
+                          });
+                        },
+                        style: TextStyle(
+                          color: Colors
+                              .black, // Set text color for non-selected items
+                        ),
+                        selectedItemBuilder: (BuildContext context) {
+                          return cities.map<Widget>((String item) {
+                            return Text(
+                              item,
+                              style: TextStyle(
+                                color: Colors
+                                    .white, // Set text color for selected item
+                              ),
+                            );
+                          }).toList();
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'City',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors.white), // White border color
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .blue), // White border color when focused
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // White border color when enabled
+                          ),
+                          labelStyle: TextStyle(
+                              color: Colors.white), // Label text color
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : DropdownButtonFormField<String>(
                   value: _selectedCity,
                   items: cities.map((city) {
                     return DropdownMenuItem<String>(
-                        value: city,
-                        child:
-                            Text(city, style: TextStyle(color: Colors.white)));
+                        value: city, child: Text(city));
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
                       _selectedCity = newValue!;
                     });
+                  },
+                  style: TextStyle(
+                    color:
+                        Colors.black, // Set text color for non-selected items
+                  ),
+                  selectedItemBuilder: (BuildContext context) {
+                    return cities.map<Widget>((String item) {
+                      return Text(
+                        item,
+                        style: TextStyle(
+                          color:
+                              Colors.white, // Set text color for selected item
+                        ),
+                      );
+                    }).toList();
                   },
                   decoration: InputDecoration(
                     labelText: 'City',
@@ -282,9 +518,6 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         TextStyle(color: Colors.white), // Label text color
                   ),
                 ),
-              ),
-            ],
-          ),
         ],
       ),
     );
