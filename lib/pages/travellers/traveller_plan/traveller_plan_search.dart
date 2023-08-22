@@ -170,7 +170,6 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
   @override
   Widget build(BuildContext context) {
     return BlurContainer(
-        height: h,
         width: double.maxFinite,
         childColumn: Padding(
           padding: const EdgeInsets.all(20.0),
