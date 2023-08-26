@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/pages/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
+import '../../backend/firebase/userDataProvider.dart';
 import 'components/stepper_business.dart';
 
 class ApplyBusiness extends StatefulWidget {
@@ -18,6 +18,8 @@ class ApplyBusiness extends StatefulWidget {
 class _ApplyBusinessState extends State<ApplyBusiness> {
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    debugPrint(userProvider.userData?.docID);
     return Scaffold(
       appBar: const CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
@@ -31,13 +33,15 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: const SingleChildScrollView(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
                   height: 30,
                 ),
-                StepperWidget()
+                StepperWidget(
+                  userProvider: userProvider.userData,
+                )
               ],
             ),
           ),

@@ -9,8 +9,6 @@ import 'package:tim_app/routes/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  UserDataProvider userDataProvider = UserDataProvider();
-  await userDataProvider.loadDataFromSharedPref();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
         apiKey: "AIzaSyCpEGKr6xqRlgbc5ER3yzhZDkc9j67yERI",

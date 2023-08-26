@@ -20,7 +20,7 @@ class DashboardMainScreen extends StatelessWidget {
               const Expanded(
                 child: SideMenu(),
               ),
-            Expanded(
+            const Expanded(
               flex: 5,
               child: DashboardScreen(),
             ),

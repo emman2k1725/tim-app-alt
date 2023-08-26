@@ -16,7 +16,6 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
-    userDataProvider.loadDataFromSharedPref();
     UserModel? user = userDataProvider.userData;
     return Drawer(
       backgroundColor: AppColors.primaryBg,

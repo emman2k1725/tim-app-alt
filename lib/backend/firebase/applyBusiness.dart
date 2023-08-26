@@ -28,7 +28,6 @@ Future<String?> applyBusiness(BusinessModel business) async {
     await _firestore.doc().set(business.toMap());
     result = 'success';
   } catch (e) {
-    debugPrint(e.toString());
     result = e.toString();
   }
   return result;
