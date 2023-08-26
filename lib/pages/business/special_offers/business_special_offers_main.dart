@@ -24,21 +24,19 @@ class BusinessSpecialOfferScreen extends StatelessWidget {
             image: AssetImage(mainBg),
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Center(
-                  child: isApprove == false
-                      ? Text(
-                          'YOUR ACCOUNT IS NOT YET APPROVE',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      : const BusinessOfferScreen())
-            ],
-          ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: isApprove == false
+                    ? Text(
+                        'YOUR ACCOUNT IS NOT YET APPROVE',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : const BusinessOfferScreen())
+          ],
         ),
       ),
     );
