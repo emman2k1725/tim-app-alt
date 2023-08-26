@@ -141,15 +141,9 @@ class _MyDataTableSource extends DataTableSource {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.visibility, color: Colors.blue),
-              onPressed: () {
-                _showRowDialog(item, context);
-              },
-            ),
-            IconButton(
                 icon: const Icon(
                   Icons.star,
-                  color: Colors.yellow,
+                  color: Colors.amberAccent,
                 ),
                 onPressed: () {
                   Navigator.push(

@@ -8,6 +8,7 @@ import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history.dart';
+import 'package:tim_app/pages/travellers/travel_history/components/trip_rated_list.dart';
 
 class TravelHistoryTabBar extends StatefulWidget {
   const TravelHistoryTabBar({super.key});
@@ -27,7 +28,7 @@ class _TravelHistoryTabBarState extends State<TravelHistoryTabBar>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -89,7 +90,7 @@ class _TravelHistoryTabBarState extends State<TravelHistoryTabBar>
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [TripHistoryTable(), BusinessReview()],
+                          children: [TripHistoryTable(), HistoryRated()],
                         ),
                       ),
                     )

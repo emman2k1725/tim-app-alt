@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/model/BusinessModel.dart';
-import 'package:tim_app/pages/apply_business/components/stepper_one.dart';
-import 'package:tim_app/pages/apply_business/components/stepper_three.dart';
-import 'package:tim_app/pages/apply_business/components/stepper_two.dart';
+import 'package:tim_app/pages/travellers/apply_business/components/stepper_one.dart';
+import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
+import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 
-import '../../../backend/firebase/userDataProvider.dart';
-import '../../../backend/firebase/applyBusiness.dart';
-import '../../../utils/loading.dart';
+import '../../../../backend/firebase/userDataProvider.dart';
+import '../../../../backend/firebase/applyBusiness.dart';
+import '../../../../utils/loading.dart';
 
 class StepperWidget extends StatefulWidget {
   const StepperWidget({

@@ -13,8 +13,9 @@ import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
 import 'package:tim_app/pages/advertise_page.dart';
+import 'package:tim_app/pages/profile/profile_screen.dart';
 
-import 'package:tim_app/pages/apply_business/apply_business_main.dart';
+import 'package:tim_app/pages/travellers/apply_business/apply_business_main.dart';
 import 'package:tim_app/pages/business/advertisement/business_advertisement_main.dart';
 import 'package:tim_app/pages/business/business_dashboard_main.dart';
 import 'package:tim_app/pages/business/business_details/business_details_screen.dart';
@@ -476,6 +477,10 @@ final travelPlanNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-plan');
 final travelHistoryNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-history');
+final travelApplyBusinessNavigator =
+    GlobalKey<NavigatorState>(debugLabel: 'travel-apply');
+final travelAccountNavigator =
+    GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
 final travellerRouter = GoRouter(
   initialLocation: '/dashboard',
@@ -525,6 +530,30 @@ final travellerRouter = GoRouter(
                   builder: (context, state) => const TripHistoryRate(),
                 ),
               ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travelApplyBusinessNavigator,
+          routes: [
+            GoRoute(
+              path: '/apply-business',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ApplyBusinessMain(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travelAccountNavigator,
+          routes: [
+            GoRoute(
+              path: '/traveller-account',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ProfileScreen(),
+              ),
+              routes: [],
             ),
           ],
         ),

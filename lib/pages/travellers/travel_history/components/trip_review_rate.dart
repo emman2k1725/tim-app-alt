@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tim_app/utils/constants.dart';
 
 class HistoryReviewsList extends StatefulWidget {
@@ -12,6 +13,24 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
   final int itemsPerPage = 10; // Number of items to load per page
   int currentPage = 1;
   List<String> items = [];
+  double rating = 0;
+  String ratingDescription = '';
+
+  final Map<double, String> ratingDescriptions = {
+    0: '',
+    1: 'Poor',
+    2: 'Fair',
+    3: 'Average',
+    4: 'Good',
+    5: 'Excellent',
+  };
+
+  void _onRatingUpdate(double rating) {
+    setState(() {
+      this.rating = rating;
+      ratingDescription = ratingDescriptions[rating] ?? '';
+    });
+  }
 
   @override
   void initState() {
@@ -19,12 +38,9 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
     loadItems();
   }
 
-  // Simulated API call to fetch items for the current page
   Future<void> loadItems() async {
-    // Simulated delay to mimic API call
     await Future.delayed(Duration(seconds: 1));
 
-    // Replace this with your actual API call or data loading logic
     List<String> newItems = List.generate(itemsPerPage, (index) {
       int itemNumber = (currentPage - 1) * itemsPerPage + index + 1;
       return 'Item $itemNumber';
@@ -35,7 +51,6 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
     });
   }
 
-  // Load more items when user reaches the end of the list
   Future<void> loadMoreItems() async {
     currentPage++;
     await loadItems();
@@ -163,6 +178,92 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                   ),
                 ),
               ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey, // Outline color
+                            width: 1.0, // Outline width
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.white, // Button background color
+                                foregroundColor:
+                                    Colors.black, // Button text color
+                              ),
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.add_a_photo,
+                                    size: 48.0, // Icon size
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    'Add Photo',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16.0),
+                            Row(
+                              children: [
+                                Text(
+                                  'Rate Experience: ', // Replace with your name or text
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                RatingBar.builder(
+                                  minRating: 1,
+                                  itemBuilder: (BuildContext context, _) =>
+                                      Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: _onRatingUpdate,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  ratingDescription, // Replace with your name or text
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16.0),
+                            TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Enter your comments here...',
+                                border: OutlineInputBorder(),
+                              ),
+                              maxLines: 3,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             );
           } else {
             if (currentPage == 1) {
