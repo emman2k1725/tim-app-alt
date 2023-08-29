@@ -72,7 +72,7 @@ class _SignupContainerState extends State<SignupContainer> {
               IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  GoRouter.of(context).go('/login');
                 },
               ),
               Padding(
@@ -260,17 +260,23 @@ class _SignupContainerState extends State<SignupContainer> {
               CustomButton(
                 text: 'Sign up',
                 onPressed: () async {
+                showCustomLoadingDialog(context, 'Signing up...');
                   if (_formKey.currentState!.validate()) {
-                    showCustomLoadingDialog(context, 'Signing up...');
                     Authenticate auth = Authenticate();
                     String result = await auth.register(
                         email, password, firstName, lastName, phoneNumber);
                     if (result == 'success') {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop;
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text(
                               'Sign up sucessful! You can now login your account')));
-                      GoRouter.of(context).go('/');
+                      // ignore: use_build_context_synchronously
+                      GoRouter.of(context).go('/login');
                     } else {
+                       // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop();
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(result)));
                     }

@@ -156,8 +156,7 @@ class _NavBarState extends State<NavBar> {
                 });
                 await Future.delayed(Duration(seconds: 1));
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
+                GoRouter.of(context).go('/login');
               },
               child: isLoading
                   ? Row(

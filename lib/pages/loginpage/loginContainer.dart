@@ -328,11 +328,7 @@ class _LoginContainerState extends State<LoginContainer> {
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const SignupPage()));
+                                                  GoRouter.of(context).go('/signup');
                                                 },
                                             ),
                                           ],
