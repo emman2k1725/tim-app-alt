@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/apply_business/tabbar.dart';
+import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
 import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';

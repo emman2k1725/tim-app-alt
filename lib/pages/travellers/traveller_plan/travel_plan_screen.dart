@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/backend/firebase/businessDataProvider.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
-import 'package:tim_app/pages/apply_business/tabbar.dart';
+import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_kanban.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/traveller_plan_search.dart';

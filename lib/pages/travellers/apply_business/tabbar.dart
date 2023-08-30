@@ -5,7 +5,7 @@ import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
 
-import '../../utils/constants.dart';
+import '../../../utils/constants.dart';
 
 class MyTabBarView extends StatefulWidget {
   const MyTabBarView({super.key});

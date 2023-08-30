@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/loginpage/loginContainer.dart';
 import 'package:tim_app/pages/signup/signupcontainer.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -16,29 +17,33 @@ class _SignupPageState extends State<SignupPage> {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            width: MediaQuery.sizeOf(context).width * 1.0,
-            height: MediaQuery.sizeOf(context).height * 1.0,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(mainBg),
+      appBar: CustomAppBar(title: 'Sign Up'),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+              width: MediaQuery.sizeOf(context).width * 1.0,
+              height: MediaQuery.sizeOf(context).height * 1.0,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(mainBg),
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: const Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SignupContainer(),
+                  ],
+                ),
               ),
             ),
-            child: const Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                SignupContainer(),
-                // MainContent()
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

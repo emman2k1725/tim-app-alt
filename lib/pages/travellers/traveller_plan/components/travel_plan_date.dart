@@ -473,7 +473,9 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                   value: _selectedCity,
                   items: cities.map((city) {
                     return DropdownMenuItem<String>(
-                        value: city, child: Text(city));
+                        value: city,
+                        child:
+                            Text(city, style: TextStyle(color: Colors.black)));
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {

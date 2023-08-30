@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../model/BusinessModel.dart';
+import '../../../../model/BusinessModel.dart';
 
 class OperatingHours {
   TimeOfDay openingTime;
   TimeOfDay closingTime;
 
-  OperatingHours({required this.openingTime, required this.closingTime});
+  OperatingHours(
+      {required this.openingTime,
+      required this.closingTime,
+      required operatingHours});
 }
 
 class StepperThree extends StatefulWidget {
@@ -19,6 +22,7 @@ class StepperThree extends StatefulWidget {
 }
 
 class _StepperThreeState extends State<StepperThree> {
+  List<bool> _selections = [false, false];
   List<String> daysOfWeek = [
     'Monday',
     'Tuesday',
@@ -33,7 +37,8 @@ class _StepperThreeState extends State<StepperThree> {
       7,
       (index) => OperatingHours(
           openingTime: const TimeOfDay(hour: 8, minute: 0),
-          closingTime: const TimeOfDay(hour: 21, minute: 0)));
+          closingTime: const TimeOfDay(hour: 21, minute: 0),
+          operatingHours: null));
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +89,35 @@ class _StepperThreeState extends State<StepperThree> {
                             ?.businessHours?[daysOfWeek[index]]![1] = cleanTime;
                       });
                     }),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Center(
+                    child: ToggleButtons(
+                      isSelected: _selections,
+                      onPressed: (index) {
+                        setState(() {
+                          _selections[index] = !_selections[index];
+
+                          if (index == 0) {
+                            _selections[1] = false;
+                          } else if (index == 1) {
+                            _selections[0] = false;
+                          }
+                        });
+                      },
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text('24 hours open'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text('Closed'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

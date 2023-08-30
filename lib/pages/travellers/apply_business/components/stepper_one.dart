@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:tim_app/pages/apply_business/components/business_sector_dropdown.dart';
+import 'package:tim_app/pages/travellers/apply_business/components/business_sector_dropdown.dart';
 import 'package:tim_app/pages/services/validator_service.dart';
-import '../../../model/BusinessModel.dart';
+import '../../../../model/BusinessModel.dart';
 
 class StepperOne extends StatefulWidget {
   final BusinessModel? businessModel;
@@ -65,6 +65,34 @@ class _StepperOneState extends State<StepperOne> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter name of business';
+                } else {
+                  return null;
+                }
+              },
+              onSaved: (value) {
+                if (value == null) {
+                  widget.businessModel?.businessName = null;
+                } else {
+                  widget.businessModel?.businessName = value;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Business Email *',
+                hintText: 'Business Email',
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.blue),
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Set the border radius
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter email of business';
                 } else {
                   return null;
                 }

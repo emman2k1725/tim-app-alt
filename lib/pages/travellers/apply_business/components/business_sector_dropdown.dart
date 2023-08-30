@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../backend/firebase/fetchDropDown.dart';
-import '../../../model/BusinessModel.dart';
+import '../../../../backend/firebase/fetchDropDown.dart';
+import '../../../../model/BusinessModel.dart';
 
 class BUsinessDropdown extends StatefulWidget {
   final BusinessModel? businessModel;
