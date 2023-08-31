@@ -34,6 +34,8 @@ dependencies:
   fl_chart: ^0.63.0
   reorderables: ^0.6.0
   drag_and_drop_lists: ^0.3.3
+  file_picker: ^5.5.0
+  excel: ^2.1.0
 
 dev_dependencies:
   flutter_test:

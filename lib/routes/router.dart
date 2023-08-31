@@ -23,6 +23,7 @@ import 'package:tim_app/pages/business/business_menu.dart';
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
 import 'package:tim_app/pages/cityGuide_page.dart';
+import 'package:tim_app/pages/excel.dart';
 
 import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/homepage/howItWorks_page.dart';
@@ -53,6 +54,10 @@ GoRouter createRouter() {
           ],
           child: const Home(),
         ),
+      ),
+            GoRoute(
+        path: "/excel",
+        builder: (context, state) => const ExcelUpload(),
       ),
       GoRoute(
         path: "/login",
