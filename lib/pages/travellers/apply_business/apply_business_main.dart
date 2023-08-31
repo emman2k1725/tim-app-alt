@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/pages/apply_business/tabbar.dart';
-import 'package:tim_app/pages/dashboard_menu_components/header.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:tim_app/pages/travellers/apply_business/applyBusiness.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
-import '../../backend/firebase/userDataProvider.dart';
-import 'components/stepper_business.dart';
+class ApplyBusinessMain extends StatelessWidget {
+  const ApplyBusinessMain({super.key});
 
-class ApplyBusiness extends StatefulWidget {
-  const ApplyBusiness({super.key});
-
-  @override
-  State<ApplyBusiness> createState() => _ApplyBusinessState();
-}
-
-class _ApplyBusinessState extends State<ApplyBusiness> {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     debugPrint(userProvider.userData?.docID);
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Custom AppBar'),
+      appBar: CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(
@@ -33,16 +25,9 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: SingleChildScrollView(
+          child: const SingleChildScrollView(
             child: Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                StepperWidget(
-                  userProvider: userProvider.userData,
-                )
-              ],
+              children: [ApplyBusiness()],
             ),
           ),
         ),

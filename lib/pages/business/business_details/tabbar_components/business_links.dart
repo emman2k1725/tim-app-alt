@@ -15,12 +15,12 @@ class BusinessLinks extends StatelessWidget {
     );
   }
 
-   // Function to launch the Instagram profile link
+  // Function to launch the Instagram profile link
   void launchInstagramProfile(String url) async {}
   void launchFacebookProfile(String url) async {}
   void launchGoogleMap(String url) async {}
 
-   Widget desktopContainer() {
+  Widget desktopContainer() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -32,7 +32,7 @@ class BusinessLinks extends StatelessWidget {
               "/icons/facebook.svg", // Replace with the path to your SVG icon
               width: 30, // Set the desired width
               height: 20, // Set the desired height
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
             ),
             SizedBox(width: 10),
             GestureDetector(
@@ -58,7 +58,8 @@ class BusinessLinks extends StatelessWidget {
               "/icons/insta.svg", // Replace with the path to your SVG icon
               width: 30, // Set the desired width
               height: 20, // Set the desired height
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                  Color.fromARGB(255, 228, 101, 17), BlendMode.srcIn),
             ),
             SizedBox(height: 10),
             GestureDetector(
@@ -84,7 +85,8 @@ class BusinessLinks extends StatelessWidget {
               "/icons/map.svg", // Replace with the path to your SVG icon
               width: 30, // Set the desired width
               height: 20, // Set the desired height
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              colorFilter:
+                  const ColorFilter.mode(Colors.green, BlendMode.srcIn),
             ),
             SizedBox(width: 10),
             GestureDetector(

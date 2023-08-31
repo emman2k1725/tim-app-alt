@@ -26,11 +26,7 @@ class _ManageBusinessMainState extends State<ManageBusinessMain> {
               image: AssetImage(mainBg),
             ),
           ),
-          child: const SingleChildScrollView(
-            child: Column(
-              children: [ManageBusinessScreen()],
-            ),
-          ),
+          child: ManageBusinessScreen(),
         ),
       ),
     );

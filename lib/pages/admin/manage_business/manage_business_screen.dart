@@ -60,30 +60,28 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Container(
-                      child: Align(
-                        alignment: Responsive.isDesktop(context)
-                            ? Alignment.centerLeft
-                            : Alignment.center,
-                        child: TabBar(
-                            controller: _tabController,
-                            isScrollable: true,
-                            labelPadding:
-                                const EdgeInsets.only(left: 20, right: 20),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.grey,
-                            tabs: [
-                              Tab(
-                                text: "Pending Application",
-                              ),
-                              Tab(
-                                text: "Approved Business",
-                              ),
-                              Tab(
-                                text: "Declined Business",
-                              )
-                            ]),
-                      ),
+                    Align(
+                      alignment: Responsive.isDesktop(context)
+                          ? Alignment.centerLeft
+                          : Alignment.center,
+                      child: TabBar(
+                          controller: _tabController,
+                          isScrollable: true,
+                          labelPadding:
+                              const EdgeInsets.only(left: 20, right: 20),
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: [
+                            Tab(
+                              text: "Pending Application",
+                            ),
+                            Tab(
+                              text: "Approved Business",
+                            ),
+                            Tab(
+                              text: "Declined Business",
+                            )
+                          ]),
                     ),
                     SizedBox(height: 20),
                     Expanded(
@@ -117,38 +115,6 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                         ],
                       ),
                     )
-                    /*Container(
-                      width: double.maxFinite,
-                      height: h, //Responsive.isDesktop(context) ? 700 : 1000,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          Responsive.isDesktop(context)
-                              ? BusinessApplicationTable()
-                              : AdminTableListView(),
-                          BusinessApprovedTable(),
-                          BusinessDeclinedTable(),
-                        ],
-                      ),
-                    ),*/
-                    /*Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        width: double.maxFinite,
-                        height: Responsive.isDesktop(context) ? 700 : 1000,
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            Responsive.isDesktop(context)
-                                ? BusinessApplicationTable()
-                                : AdminTableListView(),
-
-                            BusinessApprovedTable(),
-                            BusinessDeclinedTable(),
-                          ],
-                        ),
-                      ),
-                    )*/
                   ],
                 ),
               ),
