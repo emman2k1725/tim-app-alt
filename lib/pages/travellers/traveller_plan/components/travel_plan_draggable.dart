@@ -4,6 +4,7 @@ import 'package:tim_app/model/draggable_model.dart';
 
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/pop_up_image._kanban.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 class DraggableContainer extends StatefulWidget {
   const DraggableContainer({super.key});
@@ -44,7 +45,7 @@ class _DraggableContainer extends State<DraggableContainer> {
             color: Theme.of(context).canvasColor,
             borderRadius: BorderRadius.circular(10),
           ),
-          axis: Axis.horizontal,
+          axis: Responsive.isDesktop(context) ? Axis.horizontal : Axis.vertical,
           listWidth: 350,
           listDraggingWidth: 150,
           children: lists,

@@ -10,7 +10,7 @@ import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
 
 import '../../backend/authservice/authentication.dart';
-import '../../backend/firebase/UserDataProvider.dart';
+import '../../backend/firebase/userDataProvider.dart';
 import '../../model/BusinessModel.dart';
 
 class BusinessScreen extends StatelessWidget {
@@ -38,16 +38,16 @@ class BusinessScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               Center(
                 child: isApprove == false
-                    ? Text(
+                    ? const Text(
                         'YOUR ACCOUNT IS NOT YET APPROVE',
                         style: TextStyle(color: Colors.white),
                       )
-                    : Text(
+                    : const Text(
                         'YOUR ACCOUNT IS APPROVE',
                         style: TextStyle(color: Colors.white),
                       ),

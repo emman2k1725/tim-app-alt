@@ -56,7 +56,6 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
-    userDataProvider.loadDataFromSharedPref();
     UserModel? user = userDataProvider.userData;
 
     return Container(

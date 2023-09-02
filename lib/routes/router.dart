@@ -33,6 +33,7 @@ import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen.dart';
@@ -57,6 +58,9 @@ GoRouter createRouter() {
       GoRoute(
         path: "/login",
         builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(path: "/signup",
+      builder: (context, state) => const SignupPage(),
       ),
       GoRoute(
         path: "/dashboard",

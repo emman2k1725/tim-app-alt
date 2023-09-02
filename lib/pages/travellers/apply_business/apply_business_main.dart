@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/pages/travellers/apply_business/applyBusiness.dart';
 import 'package:tim_app/utils/constants.dart';
-import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/appbar.dart';
-
-import '../../dashboard_menu_components/side_menu.dart';
 
 class ApplyBusinessMain extends StatelessWidget {
   const ApplyBusinessMain({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    debugPrint(userProvider.userData?.docID);
     return Scaffold(
       appBar: CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(

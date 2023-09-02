@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_draggable.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -38,7 +40,7 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
                         width: double.maxFinite,
                         child: Column(
                           children: [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.all(15.0),
                               child: Row(
                                 children: [

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/applyBusiness.dart';
 import 'package:tim_app/model/BusinessModel.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_one.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
-
-import '../../../../backend/firebase/userDataProvider.dart';
-import '../../../../backend/firebase/applyBusiness.dart';
-import '../../../../utils/loading.dart';
+import 'package:tim_app/utils/loading.dart';
 
 class StepperWidget extends StatefulWidget {
-  const StepperWidget({
-    super.key,
-  });
+  final UserModel? userProvider;
+  const StepperWidget({super.key, required this.userProvider});
 
   @override
   _StepperWidgetState createState() => _StepperWidgetState();
@@ -30,10 +28,8 @@ class _StepperWidgetState extends State<StepperWidget> {
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     BusinessModel? business = BusinessModel.withDefaultValues();
     return Container(
       width: 900,
@@ -66,17 +62,18 @@ class _StepperWidgetState extends State<StepperWidget> {
                     });
                   }
                 } else if (currentStep == 2) {
+                  debugPrint(widget.userProvider!.docID);
                   if (formKey3.currentState?.validate() == true) {
                     showCustomLoadingDialog(context, 'Applying business...');
                     formKey1.currentState!.save();
                     formKey2.currentState!.save();
                     formKey3.currentState!.save();
-                    business.firstName = userProvider.userData?.firstName;
-                    business.lastName = userProvider.userData?.lastName;
-                    business.businessOwner = userProvider.userData?.docID;
+                    business.firstName = widget.userProvider?.firstName;
+                    business.lastName = widget.userProvider?.lastName;
+                    business.businessOwner = widget.userProvider?.docID;
 
-                    business.businessImages?['logo'] = await uploadImage(
-                        business.pickedLogo, business.businessName);
+                    business.businessImages?['logo'] =
+                        uploadImage(business.pickedLogo, business.businessName);
                     business.businessImages?['image1'] = await uploadImage(
                         business.pickedImage1, business.businessName);
                     business.businessImages?['image2'] = await uploadImage(
@@ -84,11 +81,13 @@ class _StepperWidgetState extends State<StepperWidget> {
                     business.businessImages?['image3'] = await uploadImage(
                         business.pickedImage3, business.businessName);
 
-                    String? result = await applyBusiness(business);
-                    if (result == 'success') {
-                      // ignore: use_build_context_synchronously
-                      GoRouter.of(context).go('/dashboard');
-                    }
+                    await applyBusiness(business).then((value) {
+                      if (value == 'success') {
+                        GoRouter.of(context).go('/dashboard');
+                      } else {
+                        debugPrint(value);
+                      }
+                    });
                     // ADD Navigation: fix missing parameters in firestore (businessAddress, hours, links, phonenumber, businessSector, status)
                   }
                 }
