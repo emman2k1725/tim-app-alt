@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
 
 class CreateNewsDialog extends StatefulWidget {
@@ -37,7 +37,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    ContentModel contentModel = ContentModel();
+    ContentModel? contentModel = ContentModel();
     return AlertDialog(
       title: const Text('Create New Newsletter'),
       content: SingleChildScrollView(
@@ -74,11 +74,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           }
                         },
                         onSaved: (value) {
-                          if (value == null) {
-                            contentModel.contentTitle = null;
-                          } else {
-                            contentModel.contentTitle = value;
-                          }
+                          contentModel.contentTitle = value;
                         },
                       ),
                       const SizedBox(
@@ -102,11 +98,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           }
                         },
                         onSaved: (value) {
-                          if (value == null) {
-                            contentModel.description = null;
-                          } else {
-                            contentModel.description = value;
-                          }
+                          contentModel.description = value;
                         },
                       ),
                       const SizedBox(
@@ -130,11 +122,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           }
                         },
                         onSaved: (value) {
-                          if (value == null) {
-                            contentModel.website = null;
-                          } else {
-                            contentModel.website = value;
-                          }
+                          contentModel.website = value;
                         },
                       ),
                     ],
@@ -222,7 +210,22 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              contentModel.displayImage =
+                  await uploadImage(_webPickedImage, 'Newsletter');
+              contentModel.contentType = 'News';
+              contentModel.createdAt = DateTime.now();
+              _formKey.currentState!.save();
+              await createContent(contentModel).then((value) {
+                if (value == 'success') {
+                  debugPrint('Okay na');
+                } else {
+                  debugPrint('Di pa okay');
+                }
+              });
+            }
+          },
           child: const Text('Create'),
         ),
       ],
