@@ -158,7 +158,8 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                         const EdgeInsets.all(
                                                             20.0),
                                                     child: ElevatedButton(
-                                                      onPressed: () {},
+                                                      onPressed: () => context.go(
+                                                          '/admin-manage-content/offer'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -213,7 +214,8 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                         const EdgeInsets.all(
                                                             20.0),
                                                     child: ElevatedButton(
-                                                      onPressed: () {},
+                                                      onPressed: () => context.go(
+                                                          '/admin-manage-content/advertisement'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -268,7 +270,8 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                         const EdgeInsets.all(
                                                             20.0),
                                                     child: ElevatedButton(
-                                                      onPressed: () {},
+                                                      onPressed: () => context.go(
+                                                          '/admin-manage-content/news'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
