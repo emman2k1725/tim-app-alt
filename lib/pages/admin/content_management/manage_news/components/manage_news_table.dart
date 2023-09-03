@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ManageNewsTable extends StatefulWidget {
   const ManageNewsTable({super.key});
@@ -13,270 +17,308 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
   List<DataRow> dataRows = [];
 
   @override
-  void initState() {
-    super.initState();
-    // Generate data rows after initializing the sort and dataRows
-    dataRows = List.generate(
-      100, // Replace with your actual data size
-      (index) => DataRow(cells: [
-        DataCell(Text('Row ${index + 1} - Column 1')),
-        DataCell(Text('Row ${index + 1} - Column 2')),
-        DataCell(Text('Row ${index + 1} - Column 3')),
-        DataCell(Text('Row ${index + 1} - Column 4')),
-        DataCell(
-          Row(
-            children: [
-              IconButton(
-                color: Colors.blue,
-                icon: const Icon(Icons.image),
-                onPressed: () {
-                  actionImage(index);
-                },
-              ),
-              IconButton(
-                color: Colors.redAccent,
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  actionDecline(index);
-                },
-              ),
-              IconButton(
-                color: Colors.green,
-                icon: const Icon(Icons.check),
-                onPressed: () {
-                  onActionIconSelected(index);
-                },
-              ),
-            ],
-          ),
-        ),
-      ]),
-    );
-  }
-
-  bool _sortAscending = true;
-  int _sortColumnIndex = 0;
-
-  void _sortData(int columnIndex, bool ascending) {
-    dataRows.sort((a, b) {
-      final aValue = a.cells[columnIndex].child.toString();
-      final bValue = b.cells[columnIndex].child.toString();
-      return ascending ? aValue.compareTo(bValue) : bValue.compareTo(aValue);
-    });
-
-    setState(() {
-      _sortAscending = ascending;
-      _sortColumnIndex = columnIndex;
-    });
-  }
-
-  void actionImage(int rowIndex) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('News Letter Image'),
-          actions: [
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back),
-              label: Text('Go back'),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
-            ),
-          ],
-          content: Container(
-            height: 200,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.blue, // Set the border color to blue
-                width: 2.0, // Set the border width
-              ),
-            ),
-            child: Image.asset(
-              logo, // Replace this with the actual image path
-              width: 200,
-              height: 200,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void actionDecline(int rowIndex) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Special Offer Application'),
-          actions: [
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back),
-              label: Text('Back'),
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.check),
-              label: Text('Approve'),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
-            ),
-          ],
-          content: const Row(
-            children: [
-              Icon(Icons.notification_important_outlined),
-              Text('Do you wish to proceed with declining this application?'),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void onActionIconSelected(int rowIndex) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Ads Image'),
-          actions: [
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.check),
-              label: Text('Okay'),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
-            ),
-          ],
-          content: Container(
-            height: 200,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.blue, // Set the border color to blue
-                width: 2.0, // Set the border width
-              ),
-            ),
-            child: Image.asset(
-              logo, // Replace this with the actual image path
-              width: 800,
-              height: 90,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: PaginatedDataTable(
-        // ... existing code ...
+final screenWidth = MediaQuery.of(context).size.width;
+final columnSpacing = screenWidth >= 600 ? 140.0 : 10.0; 
+final horizontalMargin = screenWidth > 600 ? 10.0 : 5.0; 
 
-        columns: [
-          DataColumn(
-            label: Row(
-              children: [
-                const Text('News Title'),
-                if (_sortColumnIndex == 0)
-                  Icon(_sortAscending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward),
-              ],
+   return  FutureBuilder<List<Map<String, dynamic>>>(
+      future: fetchTableNews('News'),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error fetching data'));
+        } else if (snapshot.hasData) {
+          List<Map<String, dynamic>> data = snapshot.data!;
+          return Padding(
+             padding: const EdgeInsets.all(10.0),
+            child: PaginatedDataTable(
+          
+          
+               header: Text('List of Newsletter'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  // Add your refresh logic here
+                },
+              ),
+            ],
+          
+            arrowHeadColor: Colors.blue,
+            controller: ScrollController(),
+            primary: false,
+                   columnSpacing: columnSpacing,
+            horizontalMargin: horizontalMargin,
+          
+                  columns: [
+            
+            DataColumn(
+              label: Row(
+                children: [
+                  const Text('NEWS TITLE',  style: TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),),
+                ],
+              ),
+              tooltip: 'News Title',
+            
             ),
-            tooltip: 'News Title',
-            onSort: (columnIndex, ascending) {
-              _sortData(columnIndex, ascending);
-            },
-          ),
-          DataColumn(
-            label: Row(
-              children: [
-                const Text('Date posted'),
-                if (_sortColumnIndex == 1)
-                  Icon(_sortAscending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward),
-              ],
+            DataColumn(
+              label: Row(
+                children: [
+                    const Text('DATE POSTED',  style: TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),),
+                  
+                ],
+              ),
+              tooltip: 'Date posted',
+             
             ),
-            tooltip: 'Date posted',
-            onSort: (columnIndex, ascending) {
-              _sortData(columnIndex, ascending);
-            },
-          ),
-          DataColumn(
-            label: Row(
-              children: [
-                const Text('Time posted'),
-                if (_sortColumnIndex == 2)
-                  Icon(_sortAscending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward),
-              ],
+            DataColumn(
+              label: Row(
+                children: [
+                  const Text('LINK',  style: TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),),
+                ],
+              ),
+              tooltip: 'Website Link',
+             
             ),
-            tooltip: 'Time posted',
-            onSort: (columnIndex, ascending) {
-              _sortData(columnIndex, ascending);
-            },
-          ),
-          DataColumn(
-            label: Row(
-              children: [
-                const Text('Link'),
-                if (_sortColumnIndex == 2)
-                  Icon(_sortAscending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward),
-              ],
+                      DataColumn(
+              label: Row(
+                children: [
+                      const Text('Preview',  style: TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),),
+                ],
+              ),
+              tooltip: 'Preview News',
+             
             ),
-            tooltip: 'Link',
-            onSort: (columnIndex, ascending) {
-              _sortData(columnIndex, ascending);
-            },
-          ),
-          const DataColumn(
-            label: Text('Action'),
-            // Hide the default tooltip by setting it to an empty string
-            tooltip: '',
-          ),
-        ],
-
-        source: _MyDataTableSource(dataRows, _sortColumnIndex, _sortAscending),
-      ),
+            const DataColumn(
+              label:      const Text('ACTION',  style: TextStyle(
+              color: Colors.blue, 
+              fontWeight: FontWeight.bold,
+            ),),
+              tooltip: '',
+            ),
+                  ],
+          
+           source: _MyDataTableSource(data, context),
+                ),
+          );
+        } else {
+          return Center(child: Text('No data found'));
+        }
+      },
     );
   }
 }
 
 class _MyDataTableSource extends DataTableSource {
-  final List<DataRow> dataRows;
-  final int sortColumnIndex;
-  final bool sortAscending;
+  _MyDataTableSource(this.data, this.context);
 
-  _MyDataTableSource(this.dataRows, this.sortColumnIndex, this.sortAscending);
+  final List<Map<String, dynamic>> data;
+  final BuildContext context;
 
   @override
   DataRow? getRow(int index) {
-    if (index >= dataRows.length) return null;
-    return dataRows[index];
+    if (index >= data.length) {
+      return null;
+    }
+    final item = data[index];
+    return DataRow(cells: [
+      DataCell(Text(item['contentTitle'].toString(), overflow: TextOverflow.visible,
+      softWrap: true,)),
+      DataCell(
+        Container(
+    constraints: BoxConstraints(maxWidth: 150), // Adjust the maximum width as needed
+    child: Text(
+  item['description'].toString(),      overflow: TextOverflow.ellipsis, // Show ellipsis (...) when text overflows
+      maxLines: 2, // Limit text to two lines, adjust as needed
+      style: TextStyle(
+        // Customize text style further if needed
+      ),
+    ),
+  ),
+        
+    ),
+        
+     
+
+     
+      DataCell(
+          Link(
+            target: LinkTarget.blank,
+            uri: Uri.parse('https://pub.dev/packages/url_launcher'),
+            builder: (context, followLink) => 
+             IconButton(
+                color: Colors.black54,
+                icon: const Icon(Icons.link_rounded),
+                 onPressed: () async {
+                  Uri url = Uri.parse(item['website'].toString());
+                                      var urllaunchable = await canLaunchUrl(url); //canLaunch is from url_launcher package
+                                      if(urllaunchable){
+                                          await launchUrl(url); //launch is from url_launcher package to launch URL
+                                      }else{
+                                        print("URL can't be launched.");
+                                      }
+                                  }
+              ),
+          ),
+      ),
+           DataCell(
+          Link(
+            target: LinkTarget.blank,
+            uri: Uri.parse('https://pub.dev/packages/url_launcher'),
+            builder: (context, followLink) => 
+             IconButton(
+                color: Colors.black54,
+                icon: const Icon(Icons.visibility),
+                 onPressed: () async {
+                 _showRowDialog(item, context);
+                                  }
+              ),
+          ),
+      ),
+          DataCell(
+          Row(
+            children: [
+              IconButton(
+                color: Colors.grey,
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  // actionImage(index);
+                },
+              ),
+              IconButton(
+                color: Colors.green,
+                icon: const Icon(Icons.archive_outlined),
+                onPressed: () {
+                  // onActionIconSelected(index);
+                },
+              ),
+            ],
+          ),
+        ),
+    ]);
   }
+
+  @override
+  int get rowCount => data.length;
 
   @override
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => dataRows.length;
-
-  @override
   int get selectedRowCount => 0;
+}
+
+void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+
+final DateTime dateTime = item['createdAt'].toDate();
+final formattedDate = DateFormat('MMMM d, yyyy HH:mm:ss').format(dateTime);
+
+      return AlertDialog(
+        title: const Text('News Preview'),
+        actions: [
+          
+        ],
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+              
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            width:
+                                MediaQuery.of(context).size.width * 0.2, 
+                            height: double.maxFinite,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue, 
+                                width: 1.0, 
+                              ),
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                image: Image.network(item['displayImage'] ??
+                                        'assets/images/empty-placeholder.png')
+                                    .image, 
+                                fit: BoxFit
+                                    .fill, 
+                              ),
+                            ),
+                          ),
+                      ),),
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                      
+                              Text(
+                                        item['contentTitle'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 24, 
+                                        ),
+                                      ),
+                                         Text(
+                                     formattedDate,
+                                        style: TextStyle(
+                     
+                                          fontSize: 18, 
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text(
+                                        item['description'],overflow: TextOverflow.visible,softWrap: true,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                      
+                                          fontSize: 18, 
+                                        ),
+                                      ),
+                            ],
+                          ),
+                        )),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          
+        ),
+        ),
+      );
+    },
+  );
 }
