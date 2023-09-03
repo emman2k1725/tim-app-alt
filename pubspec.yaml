@@ -35,6 +35,7 @@ dependencies:
   reorderables: ^0.6.0
   drag_and_drop_lists: ^0.3.3
   flutter_rating_bar: ^4.0.1
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:

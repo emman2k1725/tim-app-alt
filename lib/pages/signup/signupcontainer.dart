@@ -341,10 +341,7 @@ class _SignupContainerState extends State<SignupContainer> {
                       ),
                     ],
                   ),
-                ],
-
-              ),
-              const SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
               CustomButton(
                 text: 'Sign up',
                 onPressed: () async {
@@ -429,6 +426,10 @@ class _SignupContainerState extends State<SignupContainer> {
                   ),
                 ],
               ),
+                ],
+
+              ),
+          ),
             ],
           ),
         ),

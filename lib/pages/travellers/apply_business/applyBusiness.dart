@@ -21,6 +21,7 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
+    UserDataProvider? userDataProvider = Provider.of<UserDataProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -52,7 +53,7 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
                 border: Border.all(width: 2, color: Colors.white10),
               ),
               child: Padding(
-                  padding: const EdgeInsets.all(20.0), child: StepperWidget()),
+                  padding: const EdgeInsets.all(20.0), child: StepperWidget(userProvider: userDataProvider.userData)),
             ),
           ),
         ),
