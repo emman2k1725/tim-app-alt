@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../responsive.dart';
-import '../utils/appTheme_style.dart';
-import '../utils/constants.dart';
-import '../utils/styles.dart';
-import '../widgets/navBar.dart';
+import '../../responsive.dart';
+import '../../utils/appTheme_style.dart';
+import '../../utils/constants.dart';
+import '../../utils/styles.dart';
+import '../../widgets/navBar.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
