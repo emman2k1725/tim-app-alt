@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import '../responsive.dart';
-import '../utils/appTheme_style.dart';
-import '../utils/constants.dart';
-import '../widgets/blurContainer.dart';
-import '../widgets/navBar.dart';
+import '../../responsive.dart';
+import '../../utils/appTheme_style.dart';
+import '../../utils/constants.dart';
+import '../../widgets/blurContainer.dart';
+import '../../widgets/navBar.dart';
 
 class MediaPage extends StatelessWidget {
   const MediaPage({super.key});

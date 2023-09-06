@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/routes/router.dart';
 
+import 'navBarProvider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,6 +28,8 @@ void main() async {
           create: (context) => UserDataProvider()),
       ChangeNotifierProvider<BusinessDataProvider>(
           create: (context) => BusinessDataProvider()),
+      ChangeNotifierProvider<NavBarProvider>(
+          create: (context) => NavBarProvider()),
     ],
     child: MyApp(),
   ));

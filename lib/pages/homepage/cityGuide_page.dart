@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-import '../responsive.dart';
-import '../utils/appTheme_style.dart';
-import '../utils/constants.dart';
-import '../utils/styles.dart';
-import '../widgets/navBar.dart';
+import '../../responsive.dart';
+import '../../utils/appTheme_style.dart';
+import '../../utils/constants.dart';
+import '../../utils/styles.dart';
+import '../../widgets/navBar.dart';
 
 class CityGuidePage extends StatefulWidget {
   const CityGuidePage({super.key});

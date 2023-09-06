@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../../backend/firebase/fetchTable.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -62,162 +64,170 @@ class DesktopContainer1 extends StatefulWidget {
 }
 
 class _DesktopContainer1State extends State<DesktopContainer1> {
-  final List<Color> colors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple,
-    Colors.yellow,
-    Colors.teal,
-    Colors.pink,
-    Colors.cyan,
-  ];
-
   int itemsPerPage = 3;
   int currentPage = 1;
-
-  List<Color> get paginatedItems {
-    final startIndex = (currentPage - 1) * itemsPerPage;
-    final endIndex = startIndex + itemsPerPage;
-    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
-  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Latest News',
-            style: AppTheme.getSecondaryTextStyle(50.0),
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          'PRICING AND TIMELINE',
-          textAlign: TextAlign.justify,
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 20),
-        SizedBox(
-          width: w / 2,
-          child: const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        SizedBox(height: 30),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: (paginatedItems.length / 3).ceil(),
-          itemBuilder: (context, index) {
-            final startIndex = index * 3;
-            final endIndex = startIndex + 3;
-            final currentPageItems = paginatedItems.sublist(
-                startIndex, endIndex.clamp(0, paginatedItems.length));
+    return FutureBuilder<List<Map<String, dynamic>>>(
+        future: fetchTableNews('News'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error fetching data'));
+          } else if (snapshot.hasData) {
+            List<Map<String, dynamic>> data = snapshot.data!;
+            final startIndex = (currentPage - 1) * itemsPerPage;
+            final endIndex = startIndex + itemsPerPage;
+            final paginatedItems =
+                data.sublist(startIndex, endIndex.clamp(0, data.length));
 
-            return Row(
-              children: currentPageItems.map((item) {
-                return Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 180,
-                          color: item,
-                          child: Center(
-                            child: Text(
-                              "News Images",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Nature in numbers",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "DEC 21, 2012 | Admin | 2 comments",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Continue reading",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 15,
-                                  color: Colors.white,
-                                )),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                      ],
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Latest News',
+                    style: AppTheme.getSecondaryTextStyle(50.0),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'PRICING AND TIMELINE',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: w / 2,
+                  child: const Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
                     ),
                   ),
-                );
-              }).toList(),
+                ),
+                SizedBox(height: 30),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: (paginatedItems.length / 3).ceil(),
+                  itemBuilder: (context, index) {
+                    final startIndex = index * 3;
+                    final endIndex = startIndex + 3;
+                    final currentPageItems = paginatedItems.sublist(
+                        startIndex, endIndex.clamp(0, paginatedItems.length));
+
+                    return Row(
+                      children: currentPageItems.map((item) {
+                        final DateTime dateTime = item['createdAt'].toDate();
+                        final formattedDate =
+                            DateFormat('MMMM d, yyyy HH:mm:ss')
+                                .format(dateTime);
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 180,
+                                  child: Center(
+                                    child: Image.network(
+                                      item['displayImage'] ?? '',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  item['contentTitle'] ??
+                                      '', //"Nature in numbers",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.white),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  formattedDate, //"DEC 21, 2012 | Admin | 2 comments",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 15),
+                                Text(
+                                  item['description'] ?? '',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Continue reading",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                          color: Colors.white,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(height: 15),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: currentPage > 1
+                          ? () => setState(() => currentPage--)
+                          : null,
+                      child: Icon(Icons.arrow_back),
+                    ),
+                    SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: currentPage * itemsPerPage < data.length
+                          ? () => setState(() {
+                                currentPage++;
+                              })
+                          : null,
+                      child: Icon(Icons.arrow_forward),
+                    ),
+                  ],
+                ),
+              ],
             );
-          },
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed:
-                  currentPage > 1 ? () => setState(() => currentPage--) : null,
-              child: Icon(Icons.arrow_back),
-            ),
-            SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: currentPage * itemsPerPage < colors.length
-                  ? () => setState(() {
-                        currentPage++;
-                      })
-                  : null,
-              child: Icon(Icons.arrow_forward),
-            ),
-          ],
-        ),
-      ],
-    );
+          } else {
+            return Center(child: Text('No data found'));
+          }
+        });
   }
 }
 
@@ -229,159 +239,167 @@ class TabletContainer1 extends StatefulWidget {
 }
 
 class _TabletContainer1State extends State<TabletContainer1> {
-  final List<Color> colors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple,
-    Colors.yellow,
-    Colors.teal,
-    Colors.pink,
-    Colors.cyan,
-  ];
-
   int itemsPerPage = 2;
   int currentPage = 1;
-
-  List<Color> get paginatedItems {
-    final startIndex = (currentPage - 1) * itemsPerPage;
-    final endIndex = startIndex + itemsPerPage;
-    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
-  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Latest News',
-          style: AppTheme.getSecondaryTextStyle(50.0),
-        ),
-        SizedBox(height: 10),
-        Text(
-          'PRICING AND TIMELINE',
-          textAlign: TextAlign.justify,
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        SizedBox(height: 30),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: (paginatedItems.length / 2).ceil(),
-          itemBuilder: (context, index) {
-            final startIndex = index * 2;
-            final endIndex = startIndex + 2;
-            final currentPageItems = paginatedItems.sublist(
-                startIndex, endIndex.clamp(0, paginatedItems.length));
+    return FutureBuilder<List<Map<String, dynamic>>>(
+        future: fetchTableNews('News'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error fetching data'));
+          } else if (snapshot.hasData) {
+            List<Map<String, dynamic>> data = snapshot.data!;
+            final startIndex = (currentPage - 1) * itemsPerPage;
+            final endIndex = startIndex + itemsPerPage;
+            final paginatedItems =
+                data.sublist(startIndex, endIndex.clamp(0, data.length));
 
-            return Row(
-              children: currentPageItems.map((item) {
-                return Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 180,
-                          color: item,
-                          child: Center(
-                            child: Text(
-                              "News Images",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Latest News',
+                    style: AppTheme.getSecondaryTextStyle(50.0),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'PRICING AND TIMELINE',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                const Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 30),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: (paginatedItems.length / 2).ceil(),
+                  itemBuilder: (context, index) {
+                    final startIndex = index * 2;
+                    final endIndex = startIndex + 2;
+                    final currentPageItems = paginatedItems.sublist(
+                        startIndex, endIndex.clamp(0, paginatedItems.length));
+
+                    return Row(
+                      children: currentPageItems.map((item) {
+                        final DateTime dateTime = item['createdAt'].toDate();
+                        final formattedDate =
+                            DateFormat('MMMM d, yyyy HH:mm:ss')
+                                .format(dateTime);
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 180,
+                                  child: Center(
+                                    child: Image.network(
+                                      item['displayImage'] ?? '',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  item['contentTitle'] ??
+                                      '', //"Nature in numbers",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.white),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  formattedDate, //"DEC 21, 2012 | Admin | 2 comments",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 15),
+                                Text(
+                                  item['description'] ?? '',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Continue reading",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                          color: Colors.white,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(height: 15),
+                              ],
                             ),
                           ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Nature in numbers",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "DEC 21, 2012 | Admin | 2 comments",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Continue reading",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 15,
-                                  color: Colors.white,
-                                )),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                      ],
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: currentPage > 1
+                          ? () => setState(() => currentPage--)
+                          : null,
+                      child: Icon(Icons.arrow_back),
                     ),
-                  ),
-                );
-              }).toList(),
+                    SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: currentPage * itemsPerPage < data.length
+                          ? () => setState(() {
+                                currentPage++;
+                              })
+                          : null,
+                      child: Icon(Icons.arrow_forward),
+                    ),
+                  ],
+                ),
+              ],
             );
-          },
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed:
-                  currentPage > 1 ? () => setState(() => currentPage--) : null,
-              child: Icon(Icons.arrow_back),
-            ),
-            SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: currentPage * itemsPerPage < colors.length
-                  ? () => setState(() {
-                        currentPage++;
-                      })
-                  : null,
-              child: Icon(Icons.arrow_forward),
-            ),
-          ],
-        ),
-      ],
-    );
+          } else {
+            return Center(child: Text('No data found'));
+          }
+        });
   }
 }
 
@@ -393,153 +411,163 @@ class MobileContainer1 extends StatefulWidget {
 }
 
 class _MobileContainer1State extends State<MobileContainer1> {
-  final List<Color> colors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple,
-    Colors.yellow,
-    Colors.teal,
-    Colors.pink,
-    Colors.cyan,
-  ];
-
   int itemsPerPage = 1;
   int currentPage = 1;
-
-  List<Color> get paginatedItems {
-    final startIndex = (currentPage - 1) * itemsPerPage;
-    final endIndex = startIndex + itemsPerPage;
-    return colors.sublist(startIndex, endIndex.clamp(0, colors.length));
-  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Latest News',
-          style: AppTheme.getSecondaryTextStyle(30.0),
-        ),
-        SizedBox(height: 10),
-        Text(
-          'PRICING AND TIMELINE',
-          textAlign: TextAlign.justify,
-          style: TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-            ),
-          ),
-        ),
-        SizedBox(height: 30),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: paginatedItems.length,
-          itemBuilder: (context, index) {
-            return Row(
+    return FutureBuilder<List<Map<String, dynamic>>>(
+        future: fetchTableNews('News'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error fetching data'));
+          } else if (snapshot.hasData) {
+            List<Map<String, dynamic>> data = snapshot.data!;
+            final startIndex = (currentPage - 1) * itemsPerPage;
+            final endIndex = startIndex + itemsPerPage;
+            final paginatedItems =
+                data.sublist(startIndex, endIndex.clamp(0, data.length));
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 180,
-                          color: paginatedItems[index],
-                          child: Center(
-                            child: Text(
-                              "News Images",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                Text(
+                  'Latest News',
+                  style: AppTheme.getSecondaryTextStyle(50.0),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'PRICING AND TIMELINE',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                const Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. Vestibulum porta libero quis mauris luctus, vel scelerisque ligula vulputate. Aliquam erat volutpat.',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 30),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: (paginatedItems.length / 1).ceil(),
+                  itemBuilder: (context, index) {
+                    final startIndex = index * 1;
+                    final endIndex = startIndex + 1;
+                    final currentPageItems = paginatedItems.sublist(
+                        startIndex, endIndex.clamp(0, paginatedItems.length));
+
+                    return Row(
+                      children: currentPageItems.map((item) {
+                        final DateTime dateTime = item['createdAt'].toDate();
+                        final formattedDate =
+                            DateFormat('MMMM d, yyyy HH:mm:ss')
+                                .format(dateTime);
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 180,
+                                  child: Center(
+                                    child: Image.network(
+                                      item['displayImage'] ?? '',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  item['contentTitle'] ??
+                                      '', //"Nature in numbers",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.white),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  formattedDate, //"DEC 21, 2012 | Admin | 2 comments",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 15),
+                                Text(
+                                  item['description'] ?? '',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Continue reading",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                          color: Colors.white,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(height: 15),
+                              ],
                             ),
                           ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Nature in numbers",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "DEC 21, 2012 | Admin | 2 comments",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, odio sed feugiat interdum, nisl lectus sagittis odio, vel volutpat lectus elit in massa. ",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Continue reading",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 15,
-                                  color: Colors.white,
-                                )),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                      ],
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: currentPage > 1
+                          ? () => setState(() => currentPage--)
+                          : null,
+                      child: Icon(Icons.arrow_back),
                     ),
-                  ),
+                    SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: currentPage * itemsPerPage < data.length
+                          ? () => setState(() {
+                                currentPage++;
+                              })
+                          : null,
+                      child: Icon(Icons.arrow_forward),
+                    ),
+                  ],
                 ),
               ],
             );
-          },
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed:
-                  currentPage > 1 ? () => setState(() => currentPage--) : null,
-              child: Icon(Icons.arrow_back),
-            ),
-            SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: currentPage * itemsPerPage < colors.length
-                  ? () => setState(() {
-                        currentPage++;
-                      })
-                  : null,
-              child: Icon(Icons.arrow_forward),
-            ),
-          ],
-        ),
-      ],
-    );
+          } else {
+            return Center(child: Text('No data found'));
+          }
+        });
   }
 }
