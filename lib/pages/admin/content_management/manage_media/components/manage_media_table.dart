@@ -25,101 +25,115 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
       future: fetchTableNews('Media'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error fetching data'));
+          return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: PaginatedDataTable(
-              header: Text('List of Media'),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () {
-                    // Add your refresh logic here
-                  },
+
+          return Column(
+            children: [
+              if (data.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'No data available.',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ],
-              arrowHeadColor: Colors.blue,
-              controller: ScrollController(),
-              primary: false,
-              columnSpacing: columnSpacing,
-              horizontalMargin: horizontalMargin,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'MEDIA TITLE',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
+              if (data.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: PaginatedDataTable(
+                    header: const Text('List of Media'),
+                    actions: [
+                      IconButton(
+                        icon: const Icon(Icons.refresh),
+                        onPressed: () {
+                          // Add your refresh logic here
+                        },
                       ),
                     ],
-                  ),
-                  tooltip: 'MEDIA Title',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'DATE POSTED',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                    arrowHeadColor: Colors.blue,
+                    controller: ScrollController(),
+                    primary: false,
+                    columnSpacing: columnSpacing,
+                    horizontalMargin: horizontalMargin,
+                    columns: [
+                      const DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'MEDIA TITLE',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                        tooltip: 'MEDIA Title',
+                      ),
+                      const DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'DATE POSTED',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Date posted',
+                      ),
+                      const DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'LINK',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Website Link',
+                      ),
+                      const DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'PREVIEW',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Preview MEDIA',
+                      ),
+                      const DataColumn(
+                        label: const Text(
+                          'ACTION',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        tooltip: '',
                       ),
                     ],
+                    source: _MyDataTableSource(data, context),
                   ),
-                  tooltip: 'Date posted',
                 ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'LINK',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Website Link',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'PREVIEW',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Preview MEDIA',
-                ),
-                const DataColumn(
-                  label: const Text(
-                    'ACTION',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  tooltip: '',
-                ),
-              ],
-              source: _MyDataTableSource(data, context),
-            ),
+            ],
           );
         } else {
-          return Center(child: Text('No data found'));
+          return const Center(child: Text('No data found'));
         }
       },
     );
@@ -146,12 +160,12 @@ class _MyDataTableSource extends DataTableSource {
       )),
       DataCell(
         Container(
-          constraints: BoxConstraints(maxWidth: 150),
+          constraints: const BoxConstraints(maxWidth: 150),
           child: Text(
             item['description'].toString(),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: TextStyle(
+            style: const TextStyle(
                 // Customize text style further if needed
                 ),
           ),
@@ -231,7 +245,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
           DateFormat('MMMM d, yyyy HH:mm:ss').format(dateTime);
 
       return AlertDialog(
-        title: const Text('News Preview'),
+        title: const Text('Media Preview'),
         actions: [],
         content: SingleChildScrollView(
           child: Column(
@@ -281,18 +295,18 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                               children: [
                                 Text(
                                   item['contentTitle'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24,
                                   ),
                                 ),
                                 Text(
                                   formattedDate,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Text(
@@ -300,7 +314,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                                   overflow: TextOverflow.visible,
                                   softWrap: true,
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                   ),
                                 ),

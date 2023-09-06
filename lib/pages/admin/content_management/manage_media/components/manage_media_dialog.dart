@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
+import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
 class CreateMediaDialog extends StatefulWidget {
   const CreateMediaDialog({
@@ -211,22 +213,55 @@ class _CreateMediaDialogState extends State<CreateMediaDialog> {
       actions: [
         ElevatedButton(
           onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Creating Media',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
             if (_formKey.currentState!.validate()) {
               contentModel.displayImage =
                   await uploadImage(_webPickedImage, 'Media');
               contentModel.contentType = 'Media';
               contentModel.createdAt = DateTime.now();
               _formKey.currentState!.save();
+
+              // Navigator.of(context).pop();
+
               await createContent(contentModel).then((value) {
+                Navigator.of(context).pop();
                 if (value == 'success') {
-                  debugPrint('Okay na');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SuccessDialog(
+                        title: 'You created new media content',
+                      );
+                    },
+                  );
                 } else {
                   debugPrint('Di pa okay');
                 }
               });
             }
           },
-          child: const Text('Create'),
+          child: const Text('Create Media'),
         ),
       ],
     );

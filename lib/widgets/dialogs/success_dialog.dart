@@ -3,13 +3,16 @@ import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 
 class SuccessDialog extends StatelessWidget {
-  const SuccessDialog({super.key});
+  final String title;
+
+  SuccessDialog({required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Stack(
         children: [
+          // showDialog(context: context, builder: (BuildContext context) {  return Center(child: CircularProgressIndicator(),) });
           SizedBox(
             width: 360,
             height: 150,
@@ -20,7 +23,7 @@ class SuccessDialog extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'SUCCESS',
+                      'Success!',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -28,7 +31,7 @@ class SuccessDialog extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Operation was successful!',
+                      title,
                       style: TextStyle(
                         fontSize: 14,
                       ),
