@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
-import 'package:tim_app/utils/constants.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ManageNewsTable extends StatefulWidget {
-  const ManageNewsTable({super.key});
+class ManageCityGuideTable extends StatefulWidget {
+  const ManageCityGuideTable({super.key});
 
   @override
-  _ManageNewsTableState createState() => _ManageNewsTableState();
+  _ManageCityGuideTableState createState() => _ManageCityGuideTableState();
 }
 
-class _ManageNewsTableState extends State<ManageNewsTable> {
+class _ManageCityGuideTableState extends State<ManageCityGuideTable> {
   late int rowsPerPage = 10;
   List<DataRow> dataRows = [];
 
@@ -23,7 +22,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
     final horizontalMargin = screenWidth > 600 ? 10.0 : 5.0;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchTableNews('News'),
+      future: fetchTableNews('City Guide'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -34,7 +33,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: PaginatedDataTable(
-              header: Text('List of Newsletter'),
+              header: Text('List of City Guide'),
               actions: [
                 IconButton(
                   icon: Icon(Icons.refresh),
@@ -53,7 +52,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
                   label: Row(
                     children: [
                       const Text(
-                        'NEWS TITLE',
+                        'MEDIA TITLE',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -61,7 +60,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
                       ),
                     ],
                   ),
-                  tooltip: 'News Title',
+                  tooltip: 'MEDIA Title',
                 ),
                 DataColumn(
                   label: Row(
@@ -95,7 +94,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
                   label: Row(
                     children: [
                       const Text(
-                        'Preview',
+                        'PREVIEW',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -103,7 +102,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
                       ),
                     ],
                   ),
-                  tooltip: 'Preview News',
+                  tooltip: 'Preview MEDIA',
                 ),
                 const DataColumn(
                   label: const Text(
@@ -147,13 +146,11 @@ class _MyDataTableSource extends DataTableSource {
       )),
       DataCell(
         Container(
-          constraints: BoxConstraints(
-              maxWidth: 150), // Adjust the maximum width as needed
+          constraints: BoxConstraints(maxWidth: 150),
           child: Text(
             item['description'].toString(),
-            overflow: TextOverflow
-                .ellipsis, // Show ellipsis (...) when text overflows
-            maxLines: 2, // Limit text to two lines, adjust as needed
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
             style: TextStyle(
                 // Customize text style further if needed
                 ),
