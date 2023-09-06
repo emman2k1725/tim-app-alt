@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
@@ -56,7 +57,7 @@ GoRouter createRouter() {
           child: const Home(),
         ),
       ),
-            GoRoute(
+      GoRoute(
         path: "/excel",
         builder: (context, state) => const ExcelUpload(),
       ),
@@ -64,8 +65,9 @@ GoRouter createRouter() {
         path: "/login",
         builder: (context, state) => const LoginPage(),
       ),
-      GoRoute(path: "/signup",
-      builder: (context, state) => const SignupPage(),
+      GoRoute(
+        path: "/signup",
+        builder: (context, state) => const SignupPage(),
       ),
       GoRoute(
         path: "/dashboard",
@@ -506,7 +508,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/dashboard',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerDashboard(),
               ),
               routes: [],
@@ -518,7 +520,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-plan',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerPlanScreen(),
               ),
               routes: [],
@@ -530,7 +532,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-history',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravelHistoryMain(),
               ),
               routes: [

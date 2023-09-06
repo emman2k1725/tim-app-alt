@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/backend/firebase/businessDataProvider.dart';
 import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -26,8 +27,11 @@ void main() async {
           create: (context) => UserDataProvider()),
       ChangeNotifierProvider<BusinessDataProvider>(
           create: (context) => BusinessDataProvider()),
+      ChangeNotifierProvider(
+        create: (context) => MenuAppController(),
+      ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
