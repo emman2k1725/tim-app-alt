@@ -7,6 +7,8 @@ import 'package:tim_app/pages/admin/admin_more_page.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_advertisement.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_special_offer.dart';
+import 'package:tim_app/pages/admin/content_management/manage_city_guide/manage_cityGuide_main.dart';
+import 'package:tim_app/pages/admin/content_management/manage_media/manage_media_main.dart';
 import 'package:tim_app/pages/admin/content_management/manage_news/manage_news_main.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
@@ -222,6 +224,15 @@ final goRouter = GoRouter(
                 GoRoute(
                   path: 'news',
                   builder: (context, state) => const ManageNewsScreenMain(),
+                ),
+                GoRoute(
+                  path: 'media',
+                  builder: (context, state) => const ManageMediaScreenMain(),
+                ),
+                GoRoute(
+                  path: 'guide',
+                  builder: (context, state) =>
+                      const ManageCityGuideScreenMain(),
                 ),
               ],
             ),

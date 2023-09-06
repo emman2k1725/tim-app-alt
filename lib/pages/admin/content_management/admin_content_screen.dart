@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard.dart';
 
 import 'package:tim_app/utils/colors.dart';
+import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/customButtons.dart';
@@ -93,7 +94,44 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                           width: double.maxFinite,
                           childColumn: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [],
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'Content Management',
+                                        style: AppTextstyle.headerTextStyle,
+                                      ),
+                                      const SizedBox(height: 15),
+                                      const Text(
+                                        'Manage Content Smoothly',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      const SizedBox(height: 15),
+                                      CustomButton(
+                                          text: "Start the Magic",
+                                          onPressed: () {}),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 200,
+                                    child: Image.network(
+                                      homepageTim, // Replace this URL with your image URL
+
+                                      fit:
+                                          BoxFit.fill, // Set the image fit mode
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                         const SizedBox(
@@ -147,7 +185,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                   ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    'Special Offers',
+                                                    'Latest News',
                                                     style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 18,
@@ -159,7 +197,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                             20.0),
                                                     child: ElevatedButton(
                                                       onPressed: () => context.go(
-                                                          '/admin-manage-content/offer'),
+                                                          '/admin-manage-content/news'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -203,7 +241,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                   ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    'Advertisement',
+                                                    'Media',
                                                     style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 18,
@@ -215,7 +253,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                             20.0),
                                                     child: ElevatedButton(
                                                       onPressed: () => context.go(
-                                                          '/admin-manage-content/advertisement'),
+                                                          '/admin-manage-content/media'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -253,13 +291,13 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Icon(
-                                                    Icons.newspaper_outlined,
+                                                    Icons.ads_click_outlined,
                                                     color: Colors.white,
                                                     size: 30,
                                                   ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    'Newsletter',
+                                                    'City Guide',
                                                     style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 18,
@@ -271,7 +309,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                             20.0),
                                                     child: ElevatedButton(
                                                       onPressed: () => context.go(
-                                                          '/admin-manage-content/news'),
+                                                          '/admin-manage-content/guide'),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -352,13 +390,12 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                           alignment: Alignment.topLeft,
                                           child: Row(
                                             children: [
-                                              Icon(
-                                                  Icons.account_circle_outlined,
+                                              Icon(Icons.approval_rounded,
                                                   color:
                                                       Colors.lightBlueAccent),
                                               SizedBox(width: 5),
                                               Text(
-                                                'Account',
+                                                'Approve Content',
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
@@ -368,63 +405,34 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text(
-                                              '39',
-                                              style:
-                                                  AppTextstyle.headerTextStyle,
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              'Business',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              '39',
-                                              style:
-                                                  AppTextstyle.headerTextStyle,
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              'User',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                        MouseRegion(
-                                          cursor: SystemMouseCursors.click,
-                                          child: GestureDetector(
-                                            onTap: () => context.go(
-                                                '/admin-manage-content/offer'),
-                                            child: BlurImageContainer(
-                                              height: 200,
-                                              width: 200,
-                                              text: 'Manage Special Offers',
-                                              icon: Icons
-                                                  .discount_outlined, // Replace with the desired icon
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
+                                    // ListView(
+                                    //   children: [
+                                    //     ListTile(
+                                    //       leading: Icon(
+                                    //           Icons.star), // Icon on the left
+                                    //       title: Text('Special Offers'),
+                                    //       onTap: () {
+                                    //         // Handle item 1 tap
+                                    //       },
+                                    //     ),
+                                    //     ListTile(
+                                    //       leading: Icon(Icons
+                                    //           .favorite), // Icon on the left
+                                    //       title: Text('Advertisement'),
+                                    //       onTap: () {
+                                    //         // Handle item 2 tap
+                                    //       },
+                                    //     ),
+                                    //     ListTile(
+                                    //       leading: Icon(Icons
+                                    //           .bookmark), // Icon on the left
+                                    //       title: Text('Item 3'),
+                                    //       onTap: () {
+                                    //         // Handle item 3 tap
+                                    //       },
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     const SizedBox(height: 25),
                                     CustomButton(
                                         text: "Manage Account",
