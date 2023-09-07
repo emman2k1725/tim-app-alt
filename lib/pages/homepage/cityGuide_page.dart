@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../backend/firebase/fetchTable.dart';
@@ -71,15 +72,19 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    return FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchTableNews('City Guide'),
+    return StreamBuilder<QuerySnapshot>(
+        stream: fetchTableContent('City Guide'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error fetching data'));
           } else if (snapshot.hasData) {
-            List<Map<String, dynamic>> data = snapshot.data!;
+            final List<Map<String, dynamic>> data =
+                snapshot.data!.docs.map((DocumentSnapshot document) {
+              return document.data() as Map<String, dynamic>;
+            }).toList();
+
             final startIndex = (currentPage - 1) * itemsPerPage;
             final endIndex = startIndex + itemsPerPage;
             final paginatedItems =
