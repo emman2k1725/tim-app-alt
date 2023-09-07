@@ -34,7 +34,9 @@ class _ManageOfferTableState extends State<ManageOfferTable> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return SuccessDialog();
+                      return SuccessDialog(
+                        title: 'Hello',
+                      );
                     },
                   );
                 },
