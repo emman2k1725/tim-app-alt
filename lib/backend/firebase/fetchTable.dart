@@ -35,6 +35,13 @@ Future<List<Map<String, dynamic>>> fetchTableNews(String type) async {
   return data;
 }
 
+Stream<QuerySnapshot> fetchTableContent(String type) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('content')
+      .where("contentType", isEqualTo: type);
+  return itemsCollection.snapshots();
+}
+
 businessPendingAction(String docID, String action) async {
   CollectionReference itemsCollection =
       FirebaseFirestore.instance.collection('businesses');

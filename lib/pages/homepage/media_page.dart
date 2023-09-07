@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../backend/firebase/fetchTable.dart';
@@ -54,15 +55,18 @@ class DesktopContainer1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchTableNews('Media'),
+    return StreamBuilder<QuerySnapshot>(
+        stream: fetchTableContent('Media'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error fetching data'));
           } else if (snapshot.hasData) {
-            List<Map<String, dynamic>> data = snapshot.data!;
+            final List<Map<String, dynamic>> data =
+                snapshot.data!.docs.map((DocumentSnapshot document) {
+              return document.data() as Map<String, dynamic>;
+            }).toList();
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

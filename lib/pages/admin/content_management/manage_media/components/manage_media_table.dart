@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
@@ -21,15 +22,18 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
     final columnSpacing = screenWidth >= 600 ? 100.0 : 10.0;
     final horizontalMargin = screenWidth > 600 ? 10.0 : 5.0;
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchTableNews('Media'),
+    return StreamBuilder<QuerySnapshot>(
+      stream: fetchTableContent('Media'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
-          List<Map<String, dynamic>> data = snapshot.data!;
+          final List<Map<String, dynamic>> data =
+              snapshot.data!.docs.map((DocumentSnapshot document) {
+            return document.data() as Map<String, dynamic>;
+          }).toList();
 
           return Column(
             children: [
