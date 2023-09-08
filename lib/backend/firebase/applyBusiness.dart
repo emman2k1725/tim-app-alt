@@ -22,6 +22,22 @@ Future<String?> uploadImage(Uint8List? image, String? folderName) async {
   return result;
 }
 
+Future<String?> uploadVideo(Uint8List? image, String? folderName) async {
+  String? result;
+  try {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('Content/$folderName/$fileName.mp4');
+    await storageReference.putData(image!);
+    String imageUrl = await storageReference.getDownloadURL();
+    result = imageUrl;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return result;
+}
+
 Future<String?> applyBusiness(BusinessModel business) async {
   String result = "";
   try {
