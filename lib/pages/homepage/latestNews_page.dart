@@ -144,10 +144,12 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                 Container(
                                   height: 180,
                                   child: Center(
-                                    child: Image.network(
-                                      item['displayImage'] ?? '',
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: item['displayImage'] != null
+                                        ? Image.network(
+                                            data[index]['displayImage'],
+                                            fit: BoxFit.cover,
+                                          )
+                                        : CircularProgressIndicator(),
                                   ),
                                 ),
                                 SizedBox(height: 20),

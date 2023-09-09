@@ -148,11 +148,15 @@ class DesktopContainer1 extends StatelessWidget {
                                               height: 200,
                                               width: 150,
                                               child: Center(
-                                                child: Image.network(
-                                                  data[index]['displayImage'] ??
-                                                      '',
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                child: data[index]
+                                                            ['displayImage'] !=
+                                                        null
+                                                    ? Image.network(
+                                                        data[index]
+                                                            ['displayImage'],
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : CircularProgressIndicator(),
                                               ),
                                             ),
                                           ),

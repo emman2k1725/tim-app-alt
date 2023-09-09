@@ -380,10 +380,14 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                             Container(
                                               height: h / 3,
                                               child: Center(
-                                                child: Image.network(
-                                                  item['displayImage'] ?? '',
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                child: item['displayImage'] !=
+                                                        null
+                                                    ? Image.network(
+                                                        data[index]
+                                                            ['displayImage'],
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : CircularProgressIndicator(),
                                               ),
                                             ),
                                             SizedBox(
