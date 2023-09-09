@@ -2,19 +2,21 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
+import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
-class CreateNewsDialog extends StatefulWidget {
-  const CreateNewsDialog({
+class CreateMediaDialog extends StatefulWidget {
+  const CreateMediaDialog({
     super.key,
   });
 
   @override
-  State<CreateNewsDialog> createState() => _CreateNewsDialogState();
+  State<CreateMediaDialog> createState() => _CreateMediaDialogState();
 }
 
-class _CreateNewsDialogState extends State<CreateNewsDialog> {
+class _CreateMediaDialogState extends State<CreateMediaDialog> {
   File? _pickedImage;
   Uint8List? _webPickedImage;
 
@@ -39,7 +41,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
   Widget build(BuildContext context) {
     ContentModel? contentModel = ContentModel();
     return AlertDialog(
-      title: const Text('Create New Newsletter'),
+      title: const Text('Create New Media'),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -59,7 +61,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Title *',
-                          hintText: 'Title of News',
+                          hintText: 'Title of Media',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -68,7 +70,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news title';
+                            return 'Please enter media title';
                           } else {
                             return null;
                           }
@@ -82,8 +84,8 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Content of news *',
-                          hintText: 'Content of news ',
+                          labelText: 'Content of media *',
+                          hintText: 'Content of media ',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -92,7 +94,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news content';
+                            return 'Please enter media content';
                           } else {
                             return null;
                           }
@@ -106,8 +108,8 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'News Link *',
-                          hintText: 'News Link ',
+                          labelText: 'Media Link *',
+                          hintText: 'Media Link ',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -116,7 +118,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news link';
+                            return 'Please enter media link';
                           } else {
                             return null;
                           }
@@ -143,7 +145,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Upload your Newsletter Image',
+                        'Upload your Media Image',
                         style: TextStyle(
                             fontSize: 16.0, fontWeight: FontWeight.bold),
                       ),
@@ -211,22 +213,55 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
       actions: [
         ElevatedButton(
           onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Creating Media',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
             if (_formKey.currentState!.validate()) {
               contentModel.displayImage =
-                  await uploadImage(_webPickedImage, 'Newsletter');
-              contentModel.contentType = 'News';
+                  await uploadImage(_webPickedImage, 'Media');
+              contentModel.contentType = 'Media';
               contentModel.createdAt = DateTime.now();
               _formKey.currentState!.save();
+
+              // Navigator.of(context).pop();
+
               await createContent(contentModel).then((value) {
+                Navigator.of(context).pop();
                 if (value == 'success') {
-                  debugPrint('Okay na');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SuccessDialog(
+                        title: 'You created new media content',
+                      );
+                    },
+                  );
                 } else {
                   debugPrint('Di pa okay');
                 }
               });
             }
           },
-          child: const Text('Create'),
+          child: const Text('Create Media'),
         ),
       ],
     );

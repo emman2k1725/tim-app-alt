@@ -5,16 +5,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
 
-class CreateNewsDialog extends StatefulWidget {
-  const CreateNewsDialog({
+class CreateCityGuideDialog extends StatefulWidget {
+  const CreateCityGuideDialog({
     super.key,
   });
 
   @override
-  State<CreateNewsDialog> createState() => _CreateNewsDialogState();
+  State<CreateCityGuideDialog> createState() => _CreateCityGuideDialogState();
 }
 
-class _CreateNewsDialogState extends State<CreateNewsDialog> {
+class _CreateCityGuideDialogState extends State<CreateCityGuideDialog> {
   File? _pickedImage;
   Uint8List? _webPickedImage;
 
@@ -39,7 +39,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
   Widget build(BuildContext context) {
     ContentModel? contentModel = ContentModel();
     return AlertDialog(
-      title: const Text('Create New Newsletter'),
+      title: const Text('Create New Guide'),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -59,7 +59,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Title *',
-                          hintText: 'Title of News',
+                          hintText: 'Title of City Guide',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -68,7 +68,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news title';
+                            return 'Please enter City Guide title';
                           } else {
                             return null;
                           }
@@ -82,8 +82,8 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Content of news *',
-                          hintText: 'Content of news ',
+                          labelText: 'Content of City Guide *',
+                          hintText: 'Content of City Guide ',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -92,7 +92,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news content';
+                            return 'Please enter City Guide content';
                           } else {
                             return null;
                           }
@@ -106,8 +106,8 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'News Link *',
-                          hintText: 'News Link ',
+                          labelText: 'City Guide Link *',
+                          hintText: 'City Guide Link ',
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.blue),
                             borderRadius: BorderRadius.circular(
@@ -116,7 +116,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter news link';
+                            return 'Please enter City Guide link';
                           } else {
                             return null;
                           }
@@ -143,7 +143,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Upload your Newsletter Image',
+                        'Upload your City Guide Image',
                         style: TextStyle(
                             fontSize: 16.0, fontWeight: FontWeight.bold),
                       ),
@@ -213,8 +213,8 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               contentModel.displayImage =
-                  await uploadImage(_webPickedImage, 'Newsletter');
-              contentModel.contentType = 'News';
+                  await uploadImage(_webPickedImage, 'Guide');
+              contentModel.contentType = 'City Guide';
               contentModel.createdAt = DateTime.now();
               _formKey.currentState!.save();
               await createContent(contentModel).then((value) {
