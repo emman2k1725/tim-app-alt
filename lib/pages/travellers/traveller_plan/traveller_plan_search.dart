@@ -137,12 +137,12 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                           });
                           await Future.delayed(const Duration(seconds: 1));
                           if (_formKey.currentState!.validate() == true) {
+                            // Setup the data
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const TravelPlanKanban()));
-                            debugPrint('Validated');
                           } else {
                             setState(() {
                               isLoading = false;
