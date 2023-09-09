@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tim_app/model/content_model.dart';
 import '../../model/UserModel.dart';
 
 Future fetchDocument(String key, String value) async {
@@ -49,4 +52,32 @@ Future updateUserDocument(String? docID, UserModel? userModel) async {
     print(e.toString());
     return null;
   }
+}
+
+Future<String?> uploadImage(Uint8List? image, String? folderName) async {
+  String? result;
+  try {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('Content/$folderName/images/$fileName.jpg');
+    await storageReference.putData(image!);
+    String imageUrl = await storageReference.getDownloadURL();
+    result = imageUrl;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return result;
+}
+
+Future createContent(ContentModel? contentModel) async {
+  final _firestore = FirebaseFirestore.instance.collection('content');
+  String? result;
+  try {
+    await _firestore.doc().set(contentModel!.toMap());
+    result = 'success';
+  } catch (e) {
+    result = e.toString();
+  }
+  return result;
 }

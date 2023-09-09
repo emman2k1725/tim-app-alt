@@ -2,18 +2,18 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
-import 'package:tim_app/pages/about_page.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/admin_more_page.dart';
 import 'package:tim_app/pages/admin/content_management/admin_content_main.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_advertisement.dart';
 import 'package:tim_app/pages/admin/content_management/admin_manage_special_offer.dart';
+import 'package:tim_app/pages/admin/content_management/manage_city_guide/manage_cityGuide_main.dart';
+import 'package:tim_app/pages/admin/content_management/manage_media/manage_media_main.dart';
 import 'package:tim_app/pages/admin/content_management/manage_news/manage_news_main.dart';
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
-import 'package:tim_app/pages/advertise_page.dart';
 import 'package:tim_app/pages/profile/profile_screen.dart';
 
 import 'package:tim_app/pages/travellers/apply_business/apply_business_main.dart';
@@ -27,12 +27,10 @@ import 'package:tim_app/pages/business/special_offers/business_special_offers_ma
 import 'package:tim_app/pages/cityGuide_page.dart';
 import 'package:tim_app/pages/excel.dart';
 
-import 'package:tim_app/pages/homepage.dart';
 import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
 import 'package:tim_app/pages/homepage/specialOffers_page.dart';
 import 'package:tim_app/pages/login.dart';
-import 'package:tim_app/pages/media_page.dart';
 import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/signup.dart';
@@ -40,6 +38,11 @@ import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_screen.dart';
+import '../pages/homepage/about_page.dart';
+import '../pages/homepage/advertise_page.dart';
+import '../pages/homepage/cityGuide_page.dart';
+import '../pages/homepage/homepage.dart';
+import '../pages/homepage/media_page.dart';
 import '../pages/signup/signup_interest_main.dart';
 import '../pages/travellers/travel_history/components/trip_history_rate.dart';
 
@@ -228,6 +231,15 @@ final goRouter = GoRouter(
                 GoRoute(
                   path: 'news',
                   builder: (context, state) => const ManageNewsScreenMain(),
+                ),
+                GoRoute(
+                  path: 'media',
+                  builder: (context, state) => const ManageMediaScreenMain(),
+                ),
+                GoRoute(
+                  path: 'guide',
+                  builder: (context, state) =>
+                      const ManageCityGuideScreenMain(),
                 ),
               ],
             ),

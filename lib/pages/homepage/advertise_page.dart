@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
-import '../widgets/navBar.dart';
-import 'containers/advertise_container1.dart';
+import '../../utils/constants.dart';
+import '../../widgets/navBar.dart';
+import '../containers/advertise_container1.dart';
 
 class AdvertisePage extends StatefulWidget {
   const AdvertisePage({super.key});

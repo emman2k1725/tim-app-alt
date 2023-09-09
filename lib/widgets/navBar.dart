@@ -2,14 +2,15 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:tim_app/pages/about_page.dart';
-import 'package:tim_app/pages/homepage.dart';
+import 'package:tim_app/pages/homepage/about_page.dart';
+import 'package:tim_app/pages/homepage/homepage.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 
 import '../controllers/menuAppController.dart';
+import '../navBarProvider.dart';
 import '../responsive.dart';
 import 'package:provider/provider.dart';
 
@@ -25,12 +26,14 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<NavBarProvider>(context);
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     /* return ScreenTypeLayout(
       mobile: mobileNavBar(),
       desktop: deskTopNavBar(),
     );*/
+    String isSelected = 'Home';
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: Responsive.isDesktop(context) ? 40 : 20, vertical: 15),
@@ -45,7 +48,7 @@ class _NavBarState extends State<NavBar> {
             //   onPressed: context.read<MenuAppController>().controlMenu,
             // ),
             subMenu(w, h),
-          if (!Responsive.isMobile(context)) navBarItems(),
+          if (!Responsive.isMobile(context)) navBarItems(provider.isSelected),
         ],
       ),
     );
@@ -98,50 +101,32 @@ class _NavBarState extends State<NavBar> {
     );
   }*/
 
-  Widget navBarItems() {
-    String isSelected = '';
+  Widget navBarItems(String isSelected) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    isSelected = 'Home';
-                  });
-
-                  GoRouter.of(context).go('/');
-                },
-                child: Text('Home',
-                    style: TextStyle(
-                        color:
-                            isSelected == 'Home' ? Colors.blue : Colors.white,
-                        fontSize: 18)))),
-
-        Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    isSelected = 'About';
-                  });
-
-                  GoRouter.of(context).go('/about');
-                },
-                child: Text('About',
-                    style: TextStyle(
-                        color:
-                            isSelected == 'About' ? Colors.blue : Colors.white,
-                        fontSize: 18)))),
-        // // navButton('Home', true, ),
-        // navButton('About', true, () {
-        //   GoRouter.of(context).go('/about');
-        // }),
-        navButton('Media', 3, () {
+        navButton('Home', isSelected == 'Home' || isSelected == '', () {
+          final provider = Provider.of<NavBarProvider>(context, listen: false);
+          provider.setSelected('Home');
+          print('isSelected: $isSelected');
+          GoRouter.of(context).go('/');
+        }),
+        navButton('About', isSelected == 'About', () {
+          final provider = Provider.of<NavBarProvider>(context, listen: false);
+          provider.setSelected('About');
+          print('isSelected: $isSelected');
+          GoRouter.of(context).go('/about');
+        }),
+        navButton('Media', isSelected == 'Media', () {
+          final provider = Provider.of<NavBarProvider>(context, listen: false);
+          provider.setSelected('Media');
+          print('isSelected: $isSelected');
           GoRouter.of(context).go('/media');
         }),
-        navButton('Advertisement', 2, () {
+        navButton('Advertisement', isSelected == 'Advertisement', () {
+          final provider = Provider.of<NavBarProvider>(context, listen: false);
+          provider.setSelected('Advertisement');
+          print('isSelected: $isSelected');
           GoRouter.of(context).go('/advertise');
         }),
         SizedBox(
@@ -184,13 +169,27 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  Widget navButton(String text, int selectedIndex, void Function()? onPressed) {
+  Widget navButton(String text, bool selected, void Function()? onPressed) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: selected ? Colors.blue : Colors.white,
+            fontSize: 18,
+          ),
+        ),
+      ),
+    );
+
+    /*return Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
         child: TextButton(
             onPressed: onPressed,
             child: Text(text,
-                style: TextStyle(color: Colors.white, fontSize: 18))));
+                style: TextStyle(color: Colors.white, fontSize: 18))));*/
   }
 
   Widget navLogo() {
