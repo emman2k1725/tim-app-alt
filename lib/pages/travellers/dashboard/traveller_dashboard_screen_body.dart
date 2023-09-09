@@ -1,10 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
-
 import '../../../responsive.dart';
 import '../../../utils/constants.dart';
 
@@ -44,7 +40,7 @@ class DesktopScreenSize extends StatelessWidget {
         childColumn: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -60,10 +56,10 @@ class DesktopScreenSize extends StatelessWidget {
                             children: [],
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 10,
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 10,
                         ),
                         BlurContainer(
@@ -76,7 +72,7 @@ class DesktopScreenSize extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                   Expanded(
@@ -87,7 +83,7 @@ class DesktopScreenSize extends StatelessWidget {
                             height: 220,
                             width: double.maxFinite,
                             childColumn: Column()),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         BlurContainer(

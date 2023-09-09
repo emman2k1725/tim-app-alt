@@ -44,6 +44,7 @@ class DesktopScreenSize extends StatefulWidget {
 
 class _DesktopScreenSizeState extends State<DesktopScreenSize> {
   bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,7 +84,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [DateRangePickerTextField()]),
+                      children: [DateRangePickerTextField(formKey: _formKey)]),
                 ),
                 Expanded(
                   flex: 4,
@@ -131,17 +132,22 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                     : BlueElevatedButton(
                         onPressed: () async {
                           if (isLoading) return;
-
                           setState(() {
                             isLoading = true;
                           });
                           await Future.delayed(const Duration(seconds: 1));
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TravelPlanKanban()));
+                          if (_formKey.currentState!.validate() == true) {
+                            // Setup the data
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TravelPlanKanban()));
+                          } else {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
                         },
                         text: 'Generate Plan',
                         iconData: Icons.generating_tokens_outlined,
@@ -167,6 +173,9 @@ class MobileScreenSize extends StatefulWidget {
 
 class _MobileScreenSizeState extends State<MobileScreenSize> {
   bool isLoading = false;
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlurContainer(
@@ -198,11 +207,13 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
               SizedBox(
                 height: 20,
               ),
-              DateRangePickerTextField(),
+              DateRangePickerTextField(
+                formKey: _formKey,
+              ),
               SizedBox(
                 height: 20,
               ),
-              isLoading
+              /* isLoading
                   ? const Row(
                       children: [
                         Padding(
@@ -219,24 +230,25 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                         )
                       ],
                     )
-                  : BlueElevatedButton(
-                      onPressed: () async {
-                        if (isLoading) return;
-
+                  :*/
+              BlueElevatedButton(
+                onPressed: () async {
+                  /* if (isLoading) return;
+    
                         setState(() {
                           isLoading = true;
-                        });
-                        await Future.delayed(const Duration(seconds: 1));
-
-                        Navigator.push(
+                        }); 
+                        await Future.delayed(const Duration(seconds: 1)); */
+                  if (_formKey.currentState!.validate() == true) {}
+                  /* Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const TravelPlanKanban()));
-                      },
-                      text: 'Generate Plan',
-                      iconData: Icons.generating_tokens_outlined,
-                    ),
+                                    const TravelPlanKanban())); */
+                },
+                text: 'Generate Plan',
+                iconData: Icons.generating_tokens_outlined,
+              ),
               SizedBox(
                 height: 20,
               ),

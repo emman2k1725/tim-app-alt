@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
@@ -23,6 +24,8 @@ import 'package:tim_app/pages/business/business_menu.dart';
 
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
+import 'package:tim_app/pages/cityGuide_page.dart';
+import 'package:tim_app/pages/excel.dart';
 
 import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
@@ -56,6 +59,10 @@ GoRouter createRouter() {
           ],
           child: const Home(),
         ),
+      ),
+      GoRoute(
+        path: "/excel",
+        builder: (context, state) => const ExcelUpload(),
       ),
       GoRoute(
         path: "/login",
@@ -513,7 +520,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/dashboard',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerDashboard(),
               ),
               routes: [],
@@ -525,7 +532,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-plan',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerPlanScreen(),
               ),
               routes: [],
@@ -537,7 +544,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-history',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravelHistoryMain(),
               ),
               routes: [
