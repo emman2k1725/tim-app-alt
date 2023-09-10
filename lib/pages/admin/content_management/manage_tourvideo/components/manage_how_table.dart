@@ -8,7 +8,7 @@ import 'package:tim_app/widgets/customAddButton.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'manage_how_dialog.dart';
+import 'manage_tour_dialog.dart';
 
 class ManageHowTable extends StatefulWidget {
   const ManageHowTable({super.key});

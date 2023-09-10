@@ -42,8 +42,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
-      height: 600,
+      width: 500,
       child: Center(
         child: _controller.value.isInitialized
             ? AspectRatio(

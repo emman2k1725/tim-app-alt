@@ -54,21 +54,6 @@ class _ManageAboutScreenState extends State<ManageAboutScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Update About',
-                          icon: Icons.update,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const CreateAboutDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
                     const SizedBox(
                       height: 20,
                     ),

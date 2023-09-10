@@ -46,93 +46,94 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
                   ),
                 ),
               if (data.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: PaginatedDataTable(
-                    header: const Text('List of Media'),
-                    actions: [
-                      IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: () {
-                          // Add your refresh logic here
-                        },
-                      ),
-                    ],
-                    arrowHeadColor: Colors.blue,
-                    controller: ScrollController(),
-                    primary: false,
-                    columnSpacing: columnSpacing,
-                    horizontalMargin: horizontalMargin,
-                    columns: [
-                      const DataColumn(
-                        label: Row(
-                          children: [
-                            Text(
-                              'MEDIA TITLE',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
+                PaginatedDataTable(
+                  header: const Text('List of Media'),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.refresh),
+                      onPressed: () {
+                        // Add your refresh logic here
+                      },
+                    ),
+                  ],
+                  arrowHeadColor: Colors.blue,
+                  controller: ScrollController(),
+                  primary: false,
+                  columnSpacing: columnSpacing,
+                  horizontalMargin: horizontalMargin,
+                  columns: [
+                    const DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'MEDIA TITLE',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                        tooltip: 'MEDIA Title',
-                      ),
-                      const DataColumn(
-                        label: Row(
-                          children: [
-                            Text(
-                              'DATE POSTED',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        tooltip: 'Date posted',
-                      ),
-                      const DataColumn(
-                        label: Row(
-                          children: [
-                            Text(
-                              'LINK',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        tooltip: 'Website Link',
-                      ),
-                      const DataColumn(
-                        label: Row(
-                          children: [
-                            Text(
-                              'PREVIEW',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        tooltip: 'Preview MEDIA',
-                      ),
-                      const DataColumn(
-                        label: const Text(
-                          'ACTION',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        tooltip: '',
                       ),
-                    ],
-                    source: _MyDataTableSource(data, context),
-                  ),
+                      tooltip: 'MEDIA Title',
+                    ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'DATE',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      tooltip: 'DATE',
+                    ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'LINK',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      tooltip: 'LINK',
+                    ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'PREVIEW',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      tooltip: 'PREVIEW',
+                    ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'ACTION',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      tooltip: 'ACTION',
+                    ),
+                  ],
+                  source: _MyDataTableSource(data, context),
                 ),
             ],
           );

@@ -59,16 +59,16 @@ class _ManageMediaScreenState extends State<ManageMediaScreen> {
                           onPressed: () {
                             showDialog(
                               context: context,
-                              builder: (context) => CreateMediaDialog(),
+                              builder: (context) => const CreateMediaDialog(),
                             );
                           },
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    const ManageMediaTable(),
+                    const Expanded(child: ManageMediaTable()),
                   ],
                 ),
               ),

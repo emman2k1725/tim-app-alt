@@ -418,7 +418,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                   color: Colors.white),
                                             ),
                                             trailing: Icon(Icons.arrow_forward,
-                                                color: Colors.white),
+                                                color: Colors.blue),
                                             onTap: () => context.go(
                                                 '/admin-manage-content/how'),
                                           ),
@@ -432,15 +432,23 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                   color: Colors.white),
                                             ),
                                             trailing: Icon(Icons.arrow_forward,
-                                                color: Colors.white),
+                                                color: Colors.blue),
                                             onTap: () => context.go(
                                                 '/admin-manage-content/about'),
                                           ),
                                           ListTile(
-                                            leading: Icon(Icons
-                                                .bookmark), // Icon on the left
-                                            title: Text('Item 3'),
-                                            onTap: () {},
+                                            leading: Icon(Icons.travel_explore,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'Tourism video',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/tour'),
                                           ),
                                         ],
                                       ),

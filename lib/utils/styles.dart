@@ -35,6 +35,14 @@ class AppTextstyle {
     color: Colors.grey,
   );
 
+  static const TextStyle contentTextStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    letterSpacing: 1.2,
+    height: 1.5,
+  );
+
   static const TextStyle linkTextStyle = TextStyle(
     fontSize: 16,
     color: Colors.blue,

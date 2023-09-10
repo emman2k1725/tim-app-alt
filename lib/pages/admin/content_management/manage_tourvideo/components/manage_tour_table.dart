@@ -8,16 +8,16 @@ import 'package:tim_app/widgets/customAddButton.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'manage_how_dialog.dart';
+import 'manage_tour_dialog.dart';
 
-class ManageHowTable extends StatefulWidget {
-  const ManageHowTable({super.key});
+class ManageTourTable extends StatefulWidget {
+  const ManageTourTable({super.key});
 
   @override
-  _ManageHowTableState createState() => _ManageHowTableState();
+  _ManageTourTableState createState() => _ManageTourTableState();
 }
 
-class _ManageHowTableState extends State<ManageHowTable> {
+class _ManageTourTableState extends State<ManageTourTable> {
   late int rowsPerPage = 10;
   List<DataRow> dataRows = [];
 
@@ -57,9 +57,10 @@ class _ManageHowTableState extends State<ManageHowTable> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('How It Works', style: AppTextstyle.headerTextStyle),
+                    Text('Tourism Video In Homepage',
+                        style: AppTextstyle.headerTextStyle),
                     AddButton(
-                      buttonText: 'Update How It Works',
+                      buttonText: 'Update Video',
                       icon: Icons.update,
                       onPressed: () {
                         showDialog(
@@ -76,27 +77,6 @@ class _ManageHowTableState extends State<ManageHowTable> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(aboutData['contentTitle'],
-                                style: AppTextstyle.headerTextStyle),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              aboutData['description'],
-                              style: AppTextstyle.contentTextStyle,
-                              textAlign: TextAlign.justify,
-                            ),
-                          ],
-                        ),
-                      ),
                       SizedBox(
                         width: 10,
                       ),

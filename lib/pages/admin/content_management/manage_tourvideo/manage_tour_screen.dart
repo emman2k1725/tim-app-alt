@@ -1,23 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/content_management/manage_about/components/manage_about_table.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_dialog.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_table.dart';
-import 'package:tim_app/utils/styles.dart';
-import 'package:tim_app/widgets/customAddButton.dart';
+import 'components/manage_tour_table.dart';
 
-import 'components/manage_how_dialog.dart';
-import 'components/manage_how_table.dart';
-
-class ManageHowScreen extends StatefulWidget {
-  const ManageHowScreen({super.key});
+class ManageTourScreen extends StatefulWidget {
+  const ManageTourScreen({super.key});
 
   @override
-  _ManageHowScreenState createState() => _ManageHowScreenState();
+  _ManageTourScreenState createState() => _ManageTourScreenState();
 }
 
-class _ManageHowScreenState extends State<ManageHowScreen> {
+class _ManageTourScreenState extends State<ManageTourScreen> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
@@ -55,7 +48,7 @@ class _ManageHowScreenState extends State<ManageHowScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    const ManageHowTable(),
+                    const ManageTourTable(),
                   ],
                 ),
               ),
