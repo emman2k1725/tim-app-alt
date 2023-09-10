@@ -62,27 +62,33 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: "/login",
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const LoginPage()),
       ),
       GoRoute(
         path: "/signup",
-        builder: (context, state) => const SignupPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const SignupPage()),
       ),
       GoRoute(
         path: "/dashboard",
-        builder: (context, state) => const TravellerMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const TravellerMain()),
       ),
       GoRoute(
         path: "/apply-business",
-        builder: (context, state) => const ApplyBusinessMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const ApplyBusinessMain()),
       ),
       GoRoute(
         path: "/signup-interest",
-        builder: (context, state) => const InterestMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const InterestMain()),
       ),
       GoRoute(
         path: "/profile",
-        builder: (context, state) => const ProfiePage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const ProfiePage()),
       ),
       GoRoute(
         path: "/about",
