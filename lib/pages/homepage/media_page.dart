@@ -268,18 +268,6 @@ class DesktopContainer1 extends StatelessWidget {
           }
         });
   }
-
-  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: 'Media View',
-          message: 'Insert text here',
-        );
-      },
-    );
-  }
 }
 
 class MobileContainer1 extends StatelessWidget {
@@ -455,16 +443,16 @@ class MobileContainer1 extends StatelessWidget {
           }
         });
   }
+}
 
-  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: 'Media View',
-          message: 'Insert text here',
-        );
-      },
-    );
-  }
+void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomAlertDialog(
+        title: 'Media View',
+        message: 'Insert text here',
+      );
+    },
+  );
 }

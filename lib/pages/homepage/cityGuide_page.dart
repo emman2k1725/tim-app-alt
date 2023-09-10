@@ -264,18 +264,6 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
           }
         });
   }
-
-  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: 'City Guide View',
-          message: 'Insert text here',
-        );
-      },
-    );
-  }
 }
 
 class TabletContainer1 extends StatefulWidget {
@@ -484,18 +472,6 @@ class _TabletContainer1State extends State<TabletContainer1> {
           }
         });
   }
-
-  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: 'City Guide View',
-          message: 'Insert text here',
-        );
-      },
-    );
-  }
 }
 
 class MobileContainer1 extends StatefulWidget {
@@ -699,16 +675,16 @@ class _MobileContainer1State extends State<MobileContainer1> {
           }
         });
   }
+}
 
-  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: 'City Guide View',
-          message: 'Insert text here',
-        );
-      },
-    );
-  }
+void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomAlertDialog(
+        title: 'City Guide View',
+        message: 'Insert text here',
+      );
+    },
+  );
 }
