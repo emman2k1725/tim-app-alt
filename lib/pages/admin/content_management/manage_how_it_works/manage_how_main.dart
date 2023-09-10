@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/manage_media_screen.dart';
+import 'package:tim_app/pages/admin/content_management/manage_about/manage_about_screen.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
-class ManageMediaScreenMain extends StatelessWidget {
-  const ManageMediaScreenMain({super.key});
+import 'manage_how_screen.dart';
+
+class ManageHowScreenMain extends StatelessWidget {
+  const ManageHowScreenMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,16 @@ class ManageMediaScreenMain extends StatelessWidget {
             image: AssetImage(mainBg),
           ),
         ),
-        child: const SingleChildScrollView(child: ManageMediaScreen()),
+        child: const SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Center(child: ManageHowScreen())
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -54,6 +54,18 @@ Future updateUserDocument(String? docID, UserModel? userModel) async {
   }
 }
 
+Future updatedContent(String? docID, ContentModel? contentModel) async {
+  final _firestore = FirebaseFirestore.instance.collection('content');
+  try {
+    await _firestore.doc(docID).update(contentModel!.toMap());
+
+    return 'success';
+  } catch (e) {
+    print(e.toString());
+    return null;
+  }
+}
+
 Future<String?> uploadImage(Uint8List? image, String? folderName) async {
   String? result;
   try {
@@ -80,4 +92,15 @@ Future createContent(ContentModel? contentModel) async {
     result = e.toString();
   }
   return result;
+}
+
+Future updateContent(String? docID, ContentModel? contentModel) async {
+  final _firestore = FirebaseFirestore.instance.collection('content');
+  try {
+    await _firestore.doc(docID).update(contentModel!.toMap());
+    return 'success';
+  } catch (e) {
+    print(e.toString());
+    return null;
+  }
 }

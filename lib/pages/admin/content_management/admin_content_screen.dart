@@ -395,7 +395,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                       Colors.lightBlueAccent),
                                               SizedBox(width: 5),
                                               Text(
-                                                'Approve Content',
+                                                'Other Content',
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
@@ -405,34 +405,54 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    // ListView(
-                                    //   children: [
-                                    //     ListTile(
-                                    //       leading: Icon(
-                                    //           Icons.star), // Icon on the left
-                                    //       title: Text('Special Offers'),
-                                    //       onTap: () {
-                                    //         // Handle item 1 tap
-                                    //       },
-                                    //     ),
-                                    //     ListTile(
-                                    //       leading: Icon(Icons
-                                    //           .favorite), // Icon on the left
-                                    //       title: Text('Advertisement'),
-                                    //       onTap: () {
-                                    //         // Handle item 2 tap
-                                    //       },
-                                    //     ),
-                                    //     ListTile(
-                                    //       leading: Icon(Icons
-                                    //           .bookmark), // Icon on the left
-                                    //       title: Text('Item 3'),
-                                    //       onTap: () {
-                                    //         // Handle item 3 tap
-                                    //       },
-                                    //     ),
-                                    //   ],
-                                    // ),
+                                    Expanded(
+                                      child: ListView(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.book,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'How it Works',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/how'),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.info,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'About',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/about'),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.travel_explore,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'Tourism video',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/tour'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     const SizedBox(height: 25),
                                     CustomButton(
                                         text: "Manage Account",

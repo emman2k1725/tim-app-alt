@@ -1,18 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_dialog.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_table.dart';
-import 'package:tim_app/widgets/customAddButton.dart';
+import 'components/manage_tour_table.dart';
 
-class ManageMediaScreen extends StatefulWidget {
-  const ManageMediaScreen({super.key});
+class ManageTourScreen extends StatefulWidget {
+  const ManageTourScreen({super.key});
 
   @override
-  _ManageMediaScreenState createState() => _ManageMediaScreenState();
+  _ManageTourScreenState createState() => _ManageTourScreenState();
 }
 
-class _ManageMediaScreenState extends State<ManageMediaScreen> {
+class _ManageTourScreenState extends State<ManageTourScreen> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
@@ -50,25 +48,7 @@ class _ManageMediaScreenState extends State<ManageMediaScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add New Media',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const CreateMediaDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Expanded(child: ManageMediaTable()),
+                    const ManageTourTable(),
                   ],
                 ),
               ),

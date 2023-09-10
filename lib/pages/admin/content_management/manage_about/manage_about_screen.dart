@@ -1,18 +1,22 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/content_management/manage_about/components/manage_about_table.dart';
 import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_dialog.dart';
 import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_table.dart';
+import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
-class ManageMediaScreen extends StatefulWidget {
-  const ManageMediaScreen({super.key});
+import 'components/manage_about_dialog.dart';
+
+class ManageAboutScreen extends StatefulWidget {
+  const ManageAboutScreen({super.key});
 
   @override
-  _ManageMediaScreenState createState() => _ManageMediaScreenState();
+  _ManageAboutScreenState createState() => _ManageAboutScreenState();
 }
 
-class _ManageMediaScreenState extends State<ManageMediaScreen> {
+class _ManageAboutScreenState extends State<ManageAboutScreen> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
@@ -50,25 +54,10 @@ class _ManageMediaScreenState extends State<ManageMediaScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add New Media',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const CreateMediaDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    const Expanded(child: ManageMediaTable()),
+                    const ManageAboutTable(),
                   ],
                 ),
               ),

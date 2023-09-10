@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tim_app/pages/containers/videoplayer.dart';
+import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/outlinedButton.dart';
+
+import '../admin/content_management/manage_how_it_works/components/manage_video.dart';
 
 class ImageCarousel extends StatefulWidget {
   @override
@@ -22,33 +25,65 @@ class _ImageCarouselState extends State<ImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
-      child: Responsive.isDesktop(context)
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                    child: SizedBox(height: 300, child: VideoPlayerScreen())),
-                const SizedBox(
-                  width: 100,
-                ),
-                TabletButtonContainers(),
-              ],
-            )
-          : Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: w! / 10),
-                  child: SizedBox(height: 300, child: VideoPlayerScreen()),
-                ),
-                SizedBox(height: 40),
-                Responsive.isTablet(context)
-                    ? TabletButtonContainers()
-                    : MobileButtonContainers(),
-              ],
-            ),
-    );
+    return StreamBuilder<QuerySnapshot>(
+        stream: fetchTableContent('How'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error fetching data'));
+          } else if (snapshot.hasData) {
+            final List<Map<String, dynamic>> data =
+                snapshot.data!.docs.map((QueryDocumentSnapshot document) {
+              Map<String, dynamic> documentData =
+                  document.data() as Map<String, dynamic>;
+              documentData['id'] =
+                  document.id; // Add the document ID to the data map
+              return documentData;
+            }).toList();
+
+            final aboutData = data[0];
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
+              child: Responsive.isDesktop(context)
+                  ? Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Expanded(
+                              child: SizedBox(
+                            height: 300,
+                            child: VideoPlayerScreen(
+                                videoUrl: aboutData['displayImage']),
+                          )),
+                        ),
+                        const SizedBox(
+                          width: 100,
+                        ),
+                        TabletButtonContainers(),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: w! / 10),
+                          child: SizedBox(
+                            height: 300,
+                            child: VideoPlayerScreen(
+                                videoUrl: aboutData['displayImage']),
+                          ),
+                        ),
+                        SizedBox(height: 40),
+                        Responsive.isTablet(context)
+                            ? TabletButtonContainers()
+                            : MobileButtonContainers(),
+                      ],
+                    ),
+            );
+          } else {
+            return const Center(child: Text('No data found'));
+          }
+        });
   }
 }
 

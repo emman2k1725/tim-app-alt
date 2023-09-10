@@ -60,22 +60,27 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     {
       'icon': Icons.cameraswitch_outlined,
       'text': 'Media',
+      'route': '/admin-manage-content/media',
     },
     {
       'icon': Icons.bookmark_add_rounded,
       'text': 'Latest News',
+      'route': '/admin-manage-content/news',
     },
     {
       'icon': Icons.maps_ugc_outlined,
       'text': 'City Guide',
+      'route': '/admin-manage-content/guide',
     },
     {
       'icon': Icons.discount_outlined,
       'text': 'Special Offers',
+      'route': '/admin-manage-content/offer',
     },
     {
       'icon': Icons.play_circle,
       'text': 'How it works',
+      'route': '/admin-manage-content/how',
     },
   ];
 
@@ -401,7 +406,9 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                   size: 30,
                                                   color: Colors.blueAccent,
                                                 ),
-                                                onTap: () {},
+                                                onTap: () => context.go(
+                                                  iconItems[index]['route'],
+                                                ),
                                               ),
                                             ),
                                           );
@@ -789,7 +796,9 @@ class _TabletScreenSizeState extends State<TabletScreenSize> {
                                                   size: 30,
                                                   color: Colors.blueAccent,
                                                 ),
-                                                onTap: () {},
+                                                onTap: () => context.go(
+                                                  iconItems[index]['route'],
+                                                ),
                                               ),
                                             ),
                                           );

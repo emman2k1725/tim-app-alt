@@ -42,7 +42,7 @@ class SuccessDialog extends StatelessWidget {
                   children: [
                     Image.asset(
                       homepageTim, // Replace with your image asset path
-                      width: 180,
+                      width: 120,
                       height: 150,
                     ),
                   ],
@@ -65,23 +65,6 @@ class SuccessDialog extends StatelessWidget {
           ),
         ],
       ),
-      // actions: [
-      //   Row(
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     children: [
-      //       ElevatedButton(
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //         },
-      //         child: Icon(Icons.close),
-      //         style: ElevatedButton.styleFrom(
-      //           shape: CircleBorder(),
-      //           padding: EdgeInsets.all(8),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ],
     );
   }
 }
