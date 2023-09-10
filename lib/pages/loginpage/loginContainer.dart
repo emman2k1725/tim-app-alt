@@ -18,6 +18,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import '../../backend/firebase/firebaseService.dart';
+import '../../custom_dialog.dart';
 import '../../utils/loading.dart';
 
 class LoginContainer extends StatefulWidget {
@@ -206,21 +207,27 @@ class _LoginContainerState extends State<LoginContainer> {
                                       },
                                     ),
                                     const SizedBox(height: 10.0),
-                                    const Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'Forgot Password',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            letterSpacing: 1.5,
-                                            wordSpacing: 2.0,
-                                            decoration:
-                                                TextDecoration.underline,
+                                    InkWell(
+                                      onTap: () {
+                                        _showRowDialog('', context);
+                                      },
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'Forgot Password',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              letterSpacing: 1.5,
+                                              wordSpacing: 2.0,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                     const SizedBox(height: 16.0),
                                     Center(
@@ -398,4 +405,17 @@ void nagivateGateway(
   } else {
     GoRouter.of(context).go('/admin-dashboard');
   }
+}
+
+void _showRowDialog(
+    /*Map<String, dynamic> item*/ String item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomAlertDialog(
+        title: 'Forgot Password',
+        message: 'Insert text here',
+      );
+    },
+  );
 }
