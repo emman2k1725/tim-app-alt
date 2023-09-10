@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../backend/firebase/fetchTable.dart';
+import '../../custom_dialog.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -206,27 +207,40 @@ class DesktopContainer1 extends StatelessWidget {
                                                   Align(
                                                     alignment:
                                                         Alignment.bottomRight,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Text(
-                                                          'View',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                        IconButton(
-                                                            onPressed: () {},
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_rounded,
-                                                              size: 15,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        _showRowDialog(
+                                                            data[index],
+                                                            context);
+                                                      },
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text(
+                                                            'View',
+                                                            style: TextStyle(
                                                               color:
                                                                   Colors.white,
-                                                            )),
-                                                      ],
+                                                              fontSize: 15,
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                              onPressed: () {
+                                                                _showRowDialog(
+                                                                    data[index],
+                                                                    context);
+                                                              },
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios_rounded,
+                                                                size: 15,
+                                                                color: Colors
+                                                                    .white,
+                                                              )),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -253,6 +267,18 @@ class DesktopContainer1 extends StatelessWidget {
             return Center(child: Text('No data found'));
           }
         });
+  }
+
+  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Media View',
+          message: 'Insert text here',
+        );
+      },
+    );
   }
 }
 
@@ -380,26 +406,35 @@ class MobileContainer1 extends StatelessWidget {
                                       ),
                                       Align(
                                         alignment: Alignment.bottomRight,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              'View',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  size: 15,
+                                        child: InkWell(
+                                          onTap: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'View',
+                                                style: TextStyle(
                                                   color: Colors.white,
-                                                )),
-                                          ],
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _showRowDialog(
+                                                        data[index], context);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    size: 15,
+                                                    color: Colors.white,
+                                                  )),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -419,5 +454,17 @@ class MobileContainer1 extends StatelessWidget {
             return Center(child: Text('No data found'));
           }
         });
+  }
+
+  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Media View',
+          message: 'Insert text here',
+        );
+      },
+    );
   }
 }

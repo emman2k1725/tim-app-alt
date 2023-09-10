@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../custom_dialog.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -174,25 +175,32 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
                                       width: 250,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            'View',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _showRowDialog('', context);
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'View',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                              ),
                                             ),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  color: Colors.black,
-                                                  size: 15)),
-                                        ],
+                                            IconButton(
+                                                onPressed: () {
+                                                  _showRowDialog('', context);
+                                                },
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    color: Colors.black,
+                                                    size: 15)),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -231,6 +239,19 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
           ],
         ),
       ],
+    );
+  }
+
+  void _showRowDialog(
+      /*Map<String, dynamic> item*/ String item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Special Offer View',
+          message: 'Insert text here',
+        );
+      },
     );
   }
 }
@@ -352,25 +373,32 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
                                       width: 250,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            'View',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _showRowDialog('', context);
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'View',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                              ),
                                             ),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  color: Colors.black,
-                                                  size: 15)),
-                                        ],
+                                            IconButton(
+                                                onPressed: () {
+                                                  _showRowDialog('', context);
+                                                },
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    color: Colors.black,
+                                                    size: 15)),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -409,6 +437,19 @@ class _TabletContainer1State extends State<TabletContainer1> {
           ],
         ),
       ],
+    );
+  }
+
+  void _showRowDialog(
+      /*Map<String, dynamic> item*/ String item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Special Offer View',
+          message: 'Insert text here',
+        );
+      },
     );
   }
 }
@@ -523,23 +564,32 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                   alignment: Alignment.bottomRight,
                                   child: SizedBox(
                                     width: 250,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'View',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
+                                    child: InkWell(
+                                      onTap: () {
+                                        _showRowDialog('', context);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'View',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
                                           ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                color: Colors.black,
-                                                size: 15)),
-                                      ],
+                                          IconButton(
+                                              onPressed: () {
+                                                _showRowDialog('', context);
+                                              },
+                                              icon: Icon(
+                                                  Icons
+                                                      .arrow_forward_ios_rounded,
+                                                  color: Colors.black,
+                                                  size: 15)),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -579,6 +629,19 @@ class _MobileContainer1State extends State<MobileContainer1> {
           ],
         ),
       ],
+    );
+  }
+
+  void _showRowDialog(
+      /*Map<String, dynamic> item*/ String item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Special Offer View',
+          message: 'Insert text here',
+        );
+      },
     );
   }
 }

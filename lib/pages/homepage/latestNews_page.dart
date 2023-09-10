@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../backend/firebase/fetchTable.dart';
+import '../../custom_dialog.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -175,25 +176,33 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                       fontSize: 15, color: Colors.white),
                                 ),
                                 SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Continue reading",
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                          color: Colors.white,
-                                        )),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    _showRowDialog(data[index], context);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Continue reading",
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.white),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
+                                          icon: Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 15,
+                                            color: Colors.white,
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 15),
                               ],
@@ -231,6 +240,18 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
             return Center(child: Text('No data found'));
           }
         });
+  }
+
+  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Latest News View',
+          message: 'Insert text here',
+        );
+      },
+    );
   }
 }
 
@@ -351,25 +372,33 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                       fontSize: 15, color: Colors.white),
                                 ),
                                 SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Continue reading",
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                          color: Colors.white,
-                                        )),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    _showRowDialog(data[index], context);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Continue reading",
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.white),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
+                                          icon: Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 15,
+                                            color: Colors.white,
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 15),
                               ],
@@ -407,6 +436,18 @@ class _TabletContainer1State extends State<TabletContainer1> {
             return Center(child: Text('No data found'));
           }
         });
+  }
+
+  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Latest News View',
+          message: 'Insert text here',
+        );
+      },
+    );
   }
 }
 
@@ -520,25 +561,33 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                       fontSize: 15, color: Colors.white),
                                 ),
                                 SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Continue reading",
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                          color: Colors.white,
-                                        )),
-                                  ],
+                                InkWell(
+                                  onTap: () {
+                                    _showRowDialog(data[index], context);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Continue reading",
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.white),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
+                                          icon: Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 15,
+                                            color: Colors.white,
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 15),
                               ],
@@ -576,5 +625,17 @@ class _MobileContainer1State extends State<MobileContainer1> {
             return Center(child: Text('No data found'));
           }
         });
+  }
+
+  void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: 'Latest News View',
+          message: 'Insert text here',
+        );
+      },
+    );
   }
 }
