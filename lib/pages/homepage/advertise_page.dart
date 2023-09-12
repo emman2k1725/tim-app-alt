@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../ads_footer.dart';
 import '../../navBarProvider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/navBar.dart';
@@ -19,8 +20,6 @@ class _AdvertisePageState extends State<AdvertisePage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    final provider = Provider.of<NavBarProvider>(context, listen: false);
-    provider.setSelected('Advertisement');
     return Scaffold(
       body: Container(
         width: w,
@@ -39,6 +38,7 @@ class _AdvertisePageState extends State<AdvertisePage> {
                 height: 20,
               ),
               AdvertiseContainer1(),
+              AdsFooter(),
             ],
           ),
         ),

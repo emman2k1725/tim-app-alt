@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../ads_footer.dart';
 import '../../backend/firebase/fetchTable.dart';
 import '../../custom_dialog.dart';
 import '../../navBarProvider.dart';
@@ -20,9 +21,6 @@ class MediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    final provider = Provider.of<NavBarProvider>(context, listen: false);
-    provider.setSelected('Media');
     return Scaffold(
       body: Container(
         width: w,
@@ -48,6 +46,7 @@ class MediaPage extends StatelessWidget {
                     ? DesktopContainer1()
                     : MobileContainer1(),
               ),
+              AdsFooter(),
             ],
           ),
         ),
