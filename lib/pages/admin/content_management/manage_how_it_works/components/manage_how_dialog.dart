@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tim_app/backend/firebase/applyBusiness.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
@@ -33,6 +34,17 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
       }
     }
     return null;
+  }
+
+  void deleteOldVideo() async {
+    try {
+      Reference storageReference =
+          FirebaseStorage.instance.ref(widget.aboutDataUpdate['displayImage']);
+      await storageReference.delete();
+      debugPrint('Successfully deleted old video');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -212,7 +224,7 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
                         width: 10,
                       ),
                       Text(
-                        'Creating Media',
+                        'Updating Data',
                         style: TextStyle(color: Colors.white),
                       )
                     ],
@@ -222,16 +234,29 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
             );
 
             if (_formKey.currentState!.validate()) {
-              contentModel.displayImage =
-                  await uploadVideo(_webPickedImage, 'About');
-              contentModel.contentType = 'About';
+              if (_webPickedImage == null) {
+                contentModel.displayImage =
+                    widget.aboutDataUpdate['displayImage'];
+              } else {
+                deleteOldVideo();
+                contentModel.displayImage =
+                    await uploadVideo(_webPickedImage, 'HowItWorks');
+              }
+              contentModel.contentType = 'HowItWorks';
               contentModel.createdAt = DateTime.now();
               _formKey.currentState!.save();
               await updateContent(widget.aboutDataUpdate['docID'], contentModel)
                   .then((value) {
                 if (value == 'success') {
-                  // Success action
-                  debugPrint('Okay na');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SuccessDialog(
+                        title: 'You updated the content',
+                      );
+                    },
+                  );
                 } else {
                   // Non success action
                   debugPrint('Di pa okay');
