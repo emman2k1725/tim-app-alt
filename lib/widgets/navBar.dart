@@ -48,7 +48,7 @@ class _NavBarState extends State<NavBar> {
             //   onPressed: context.read<MenuAppController>().controlMenu,
             // ),
             subMenu(w, h),
-          if (!Responsive.isMobile(context)) navBarItems(provider.isSelected),
+          if (!Responsive.isMobile(context)) navBarItems(),
         ],
       ),
     );
@@ -101,72 +101,80 @@ class _NavBarState extends State<NavBar> {
     );
   }*/
 
-  Widget navBarItems(String isSelected) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        navButton('Home', isSelected == 'Home' || isSelected == '', () {
-          final provider = Provider.of<NavBarProvider>(context, listen: false);
-          provider.setSelected('Home');
-          print('isSelected: $isSelected');
-          GoRouter.of(context).go('/');
-        }),
-        navButton('About', isSelected == 'About', () {
-          final provider = Provider.of<NavBarProvider>(context, listen: false);
-          provider.setSelected('About');
-          print('isSelected: $isSelected');
-          GoRouter.of(context).go('/about');
-        }),
-        navButton('Media', isSelected == 'Media', () {
-          final provider = Provider.of<NavBarProvider>(context, listen: false);
-          provider.setSelected('Media');
-          print('isSelected: $isSelected');
-          GoRouter.of(context).go('/media');
-        }),
-        navButton('Advertisement', isSelected == 'Advertisement', () {
-          final provider = Provider.of<NavBarProvider>(context, listen: false);
-          provider.setSelected('Advertisement');
-          print('isSelected: $isSelected');
-          GoRouter.of(context).go('/advertise');
-        }),
-        SizedBox(
-            height: 45,
-            child: ElevatedButton(
-              style: borderedButtonStyle,
-              onPressed: () async {
-                if (isLoading) return;
+  Widget navBarItems() {
+    return Consumer<NavBarProvider>(builder: (context, provider, _) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          navButton('Home',
+              provider.isSelected == 'Home' || provider.isSelected == '', () {
+            final provider =
+                Provider.of<NavBarProvider>(context, listen: false);
+            provider.setSelected('Home');
+            print('isSelected: ${provider.isSelected}');
+            GoRouter.of(context).go('/');
+          }),
+          navButton('About', provider.isSelected == 'About', () {
+            final provider =
+                Provider.of<NavBarProvider>(context, listen: false);
+            provider.setSelected('About');
+            print('isSelected: ${provider.isSelected}');
+            GoRouter.of(context).go('/about');
+          }),
+          navButton('Media', provider.isSelected == 'Media', () {
+            final provider =
+                Provider.of<NavBarProvider>(context, listen: false);
+            provider.setSelected('Media');
+            print('isSelected: ${provider.isSelected}');
+            GoRouter.of(context).go('/media');
+          }),
+          navButton('Advertisement', provider.isSelected == 'Advertisement',
+              () {
+            final provider =
+                Provider.of<NavBarProvider>(context, listen: false);
+            provider.setSelected('Advertisement');
+            print('isSelected: ${provider.isSelected}');
+            GoRouter.of(context).go('/advertise');
+          }),
+          SizedBox(
+              height: 45,
+              child: ElevatedButton(
+                style: borderedButtonStyle,
+                onPressed: () async {
+                  if (isLoading) return;
 
-                setState(() {
-                  isLoading = true;
-                });
-                await Future.delayed(Duration(seconds: 1));
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await Future.delayed(Duration(seconds: 1));
 
-                GoRouter.of(context).go('/login');
-              },
-              child: isLoading
-                  ? Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(
-                              color: Colors.black, strokeWidth: 2.0),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Starting',
-                          style: TextStyle(color: Colors.blue),
-                        )
-                      ],
-                    )
-                  : Text(
-                      'Get Started',
-                      style: TextStyle(color: AppColors.primary),
-                    ),
-            ))
-      ],
-    );
+                  GoRouter.of(context).go('/login');
+                },
+                child: isLoading
+                    ? Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(
+                                color: Colors.black, strokeWidth: 2.0),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Starting',
+                            style: TextStyle(color: Colors.blue),
+                          )
+                        ],
+                      )
+                    : Text(
+                        'Get Started',
+                        style: TextStyle(color: AppColors.primary),
+                      ),
+              ))
+        ],
+      );
+    });
   }
 
   Widget navButton(String text, bool selected, void Function()? onPressed) {
