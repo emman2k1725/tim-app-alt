@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../ads_footer.dart';
 import '../../navBarProvider.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
@@ -19,8 +20,6 @@ class AboutPage extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    final provider = Provider.of<NavBarProvider>(context, listen: false);
-    provider.setSelected('About');
     return Scaffold(
       body: Container(
         width: w,
@@ -46,6 +45,7 @@ class AboutPage extends StatelessWidget {
                     ? DesktopContainer1()
                     : MobileContainer1(),
               ),
+              AdsFooter(),
             ],
           ),
         ),
