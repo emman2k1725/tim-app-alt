@@ -8,7 +8,8 @@ import 'package:tim_app/widgets/appbar.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 
 class TravelPlanKanban extends StatefulWidget {
-  const TravelPlanKanban({super.key});
+  final List<List<Map<String, dynamic>>> travelitenerary;
+  const TravelPlanKanban({super.key, required this.travelitenerary});
 
   @override
   State<TravelPlanKanban> createState() => _TravelPlanKanbanState();
@@ -58,7 +59,8 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
                                 ],
                               ),
                             ),
-                            DraggableContainer(),
+                            DraggableContainer(
+                                travelitenerary: widget.travelitenerary),
                             const SizedBox(
                               height: 10,
                             ),

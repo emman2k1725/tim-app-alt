@@ -160,15 +160,15 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     userDataProvider.userData!.favCruisine,
                                     userDataProvider.userData!.favHangout,
                                     _travelPlanParameters);
-                            debugPrint(itenerary.toString());
+                            //debugPrint(itenerary.toString());
                             setState(() {
                               isLoading = false;
                             });
-                            /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const TravelPlanKanban())); */
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TravelPlanKanban(
+                                        travelitenerary: itenerary)));
                           } else {
                             setState(() {
                               isLoading = false;
@@ -273,17 +273,28 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                           isLoading = true;
                         });
                         await Future.delayed(const Duration(seconds: 1));
-                        if (_formKey.currentState!.validate()) {
-                          debugPrint(_travelPlanParameters.toString());
+                        if (_formKey.currentState!.validate() == true) {
+                          _formKey.currentState!.save();
+
+                          List<List<Map<String, dynamic>>> itenerary =
+                              await planTravel(
+                                  userDataProvider.userData!.favCruisine,
+                                  userDataProvider.userData!.favHangout,
+                                  _travelPlanParameters);
+                          debugPrint(itenerary.toString());
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TravelPlanKanban(
+                                      travelitenerary: itenerary)));
+                        } else {
                           setState(() {
                             isLoading = false;
                           });
                         }
-                        /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const TravelPlanKanban())); */
                       },
                       text: 'Generate Plan',
                       iconData: Icons.generating_tokens_outlined,
