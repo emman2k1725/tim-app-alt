@@ -53,8 +53,8 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           child: Expanded(
                               child: SizedBox(
                             height: 300,
-                            child: VideoPlayerScreen(
-                                videoUrl: aboutData['displayImage']),
+                            /* child: VideoPlayerScreen(
+                                videoUrl: aboutData['displayImage']) */
                           )),
                         ),
                         const SizedBox(

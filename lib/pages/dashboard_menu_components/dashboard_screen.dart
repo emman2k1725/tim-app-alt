@@ -10,10 +10,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
-    if (userDataProvider.userData == null) {
-      userDataProvider.loadDataFromSharedPref();
-    }
     return SafeArea(
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,

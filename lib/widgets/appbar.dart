@@ -21,6 +21,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return AppBar(
       backgroundColor: AppColors.primaryBg,
       elevation: 2,

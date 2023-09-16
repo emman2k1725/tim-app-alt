@@ -25,9 +25,6 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    if (userProvider.userData == null) {
-      userProvider.loadDataFromSharedPref();
-    }
     UserModel? user = userProvider.userData;
     final List<dynamic>? cruisines = user?.favCruisine;
     final List<dynamic>? cities = user?.topCities;

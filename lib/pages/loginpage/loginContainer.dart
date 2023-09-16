@@ -33,12 +33,13 @@ final _formKey = GlobalKey<FormState>();
 
 String email = "";
 String password = "";
+String loggedUser = "";
 
 class _LoginContainerState extends State<LoginContainer> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     return Center(
       child: Container(
           height: 550,
@@ -142,7 +143,7 @@ class _LoginContainerState extends State<LoginContainer> {
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.white,
-                                        hintStyle: TextStyle(
+                                        hintStyle: const TextStyle(
                                           color: Colors
                                               .blue, // Set the desired hint text color
                                         ),
@@ -172,7 +173,7 @@ class _LoginContainerState extends State<LoginContainer> {
                                       obscureText: _isObscure,
                                       decoration: InputDecoration(
                                         filled: true,
-                                        hintStyle: TextStyle(
+                                        hintStyle: const TextStyle(
                                           color: Colors
                                               .blue, // Set the desired hint text color
                                         ),
@@ -238,10 +239,40 @@ class _LoginContainerState extends State<LoginContainer> {
                                               .validate()) {
                                             showCustomLoadingDialog(
                                                 context, 'Logging in...');
-                                            loginFunction(
-                                                email, password, context);
-                                            userDataProvider
-                                                .loadDataFromSharedPref();
+                                            Authenticate auth = Authenticate();
+                                            SharedPreferences preference =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            auth
+                                                .signIn(email, password)
+                                                .then((value) {
+                                              if (value == "success") {
+                                                fetchDocumentbyID(
+                                                        auth.user!.uid,
+                                                        'user_profile')
+                                                    .then((value) async {
+                                                  UserModel userData =
+                                                      UserModel.fromMap(value);
+                                                  preference.setString(
+                                                      'user',
+                                                      jsonEncode(
+                                                          userData.toJson()));
+                                                  userProvider
+                                                      .loadDataFromSharedPref();
+                                                  Navigator.pop(context);
+                                                  nagivateGateway(
+                                                      userData.isAdmin,
+                                                      userData
+                                                          .isRegistrationComplete,
+                                                      context);
+                                                });
+                                              } else {
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(value)));
+                                              }
+                                            });
                                           }
                                           // Handle button press
                                         },
@@ -371,26 +402,6 @@ class _LoginContainerState extends State<LoginContainer> {
                     ),
                   )))),
     );
-  }
-}
-
-void loginFunction(String email, String password, BuildContext context) async {
-  Authenticate _auth = Authenticate();
-  SharedPreferences preference = await SharedPreferences.getInstance();
-  String? authResult = await _auth.signIn(email, password);
-  if (authResult == 'success') {
-    fetchDocumentbyID(_auth.user!.uid, 'user_profile').then((value) async {
-      UserModel userData = UserModel.fromMap(value);
-      preference.setString('user', jsonEncode(userData.toJson()));
-      nagivateGateway(
-          userData.isAdmin, userData.isRegistrationComplete, context);
-    });
-  } else {
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(authResult!)));
   }
 }
 

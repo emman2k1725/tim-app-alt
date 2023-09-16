@@ -113,8 +113,11 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
-    userDataProvider.loadDataFromSharedPref();
     UserModel? user = userDataProvider.userData;
+    if (user == null) {
+      userDataProvider.loadDataFromSharedPref();
+      user = userDataProvider.userData;
+    }
     return Scaffold(
       body: Row(
         children: [
