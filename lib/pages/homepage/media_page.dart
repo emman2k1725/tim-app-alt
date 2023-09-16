@@ -3,8 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../ads_footer.dart';
 import '../../backend/firebase/fetchTable.dart';
 import '../../custom_dialog.dart';
+import '../../navBarProvider.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -43,6 +46,7 @@ class MediaPage extends StatelessWidget {
                     ? DesktopContainer1()
                     : MobileContainer1(),
               ),
+              AdsFooter(),
             ],
           ),
         ),

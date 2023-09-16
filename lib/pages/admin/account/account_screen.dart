@@ -16,6 +16,8 @@ import '../../../utils/constants.dart';
 import '../admin_table_mobile.dart';
 
 import 'components/admin_account_table.dart';
+import 'components/admin_create_account.dart';
+import 'components/admin_profile_screen.dart';
 
 class AdminAccountScreen extends StatefulWidget {
   const AdminAccountScreen({super.key});
@@ -29,7 +31,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -74,7 +76,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                                 onPressed: () {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => CreateOfferDialog(),
+                                    builder: (context) => AdminCreateAccount(),
                                   );
                                 },
                               ),
@@ -101,11 +103,8 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                                 text: "Admin Accounts",
                               ),
                               Tab(
-                                text: "Business Accounts",
+                                text: "Personal Profile",
                               ),
-                              Tab(
-                                text: "Travellers Accounts",
-                              )
                             ]),
                       ),
                     ),
@@ -115,7 +114,8 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                         controller: _tabController,
                         children: [
                           Responsive.isDesktop(context)
-                              ? AdminAccountTable()
+                              ? SingleChildScrollView(
+                                  child: AdminAccountTable())
                               : AdminTableListView(
                                   tableTitle: 'Admin Account',
                                   tableTitleColor: Colors.lightBlueAccent,
@@ -123,33 +123,21 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                                   addButtonToolTip: 'Add admin account',
                                 ),
                           Responsive.isDesktop(context)
-                              ? BusinessAccountTable()
+                              ? AdminProfile()
                               : AdminTableListView(
                                   tableTitle: 'Business Account',
                                   tableTitleColor: Colors.lightBlueAccent,
                                   showAddButton: true,
                                   addButtonToolTip: 'Add admin account',
                                 ),
-                          Responsive.isDesktop(context)
-                              ? TravellerAccountTable()
-                              : AdminTableListView(
-                                  tableTitle: 'Travellers Accounts',
-                                  tableTitleColor: Colors.lightBlueAccent,
-                                  showAddButton: true,
-                                  addButtonToolTip: 'Add admin account',
-                                ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: double.maxFinite,
-                      height: 700,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          AdminAccountTable(),
-                          BusinessAccountTable(),
-                          TravellerAccountTable(),
+                          // Responsive.isDesktop(context)
+                          //     ? TravellerAccountTable()
+                          //     : AdminTableListView(
+                          //         tableTitle: 'Travellers Accounts',
+                          //         tableTitleColor: Colors.lightBlueAccent,
+                          //         showAddButton: true,
+                          //         addButtonToolTip: 'Add admin account',
+                          //       ),
                         ],
                       ),
                     ),

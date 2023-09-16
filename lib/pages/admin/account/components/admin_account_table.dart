@@ -17,15 +17,15 @@ class _AdminAccountTableState extends State<AdminAccountTable> {
   @override
   Widget build(BuildContext context) {
     final int rowsPerPage = 10;
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchData('businesses'),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchTableAdminAccount(true),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
-          List<Map<String, dynamic>> data = snapshot.data!;
+          final data = snapshot.data;
 
           return PaginatedDataTable(
             header: Text(
@@ -85,8 +85,7 @@ class _AdminAccountTableState extends State<AdminAccountTable> {
 
               // Add more columns as needed
             ],
-            source: _MyDataTableSource(data, context),
-
+            source: _MyDataTableSource(data!, context),
           );
         } else {
           return Center(child: Text('No data found'));
@@ -109,19 +108,10 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['businessName'].toString())),
-      DataCell(Text(item['businessEmail'].toString())),
-      DataCell(Text(item['businessSector'].toString())),
-      DataCell(Text(item['businessAddress']['country'].toString())),
-      // DataCell(
-      //   IconButton(
-      //     icon: const Icon(Icons.visibility),
-      //     onPressed: () {
-      //       // Call the onActionIconSelected callback when the icon is clicked
-      //       _showRowDialog(item, context);
-      //     },
-      //   ),
-      // ),
+      DataCell(Text(item['firstName'].toString())),
+      DataCell(Text(item['email'].toString())),
+      DataCell(Text(item['mobileNumber'].toString())),
+      DataCell(Text(item['nationality'].toString())),
     ]);
   }
 

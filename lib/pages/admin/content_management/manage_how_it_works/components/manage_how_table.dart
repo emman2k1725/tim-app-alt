@@ -24,7 +24,7 @@ class _ManageHowTableState extends State<ManageHowTable> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: fetchTableContent('How'),
+      stream: fetchTableContent('HowItWorks'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -35,7 +35,7 @@ class _ManageHowTableState extends State<ManageHowTable> {
               snapshot.data!.docs.map((QueryDocumentSnapshot document) {
             Map<String, dynamic> documentData =
                 document.data() as Map<String, dynamic>;
-            documentData['id'] =
+            documentData['docID'] =
                 document.id; // Add the document ID to the data map
             return documentData;
           }).toList();
@@ -106,7 +106,6 @@ class _ManageHowTableState extends State<ManageHowTable> {
                           children: [
                             VideoPlayerScreen(
                                 videoUrl: aboutData['displayImage']),
-                            // VideoPlayer1(videoUrl: aboutData['displayImage'])
                           ],
                         ),
                       )
