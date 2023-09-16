@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/admin_table_mobile.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_dialog.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
@@ -8,6 +9,7 @@ import 'package:tim_app/pages/admin/manage_business/components/admin_application
 import 'package:tim_app/pages/profile/profile_edit.dart';
 import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/pages/profile/profile_personal_info.dart';
+import 'package:tim_app/responsive.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
 import 'components/manage_news_dialog.dart';
@@ -20,16 +22,12 @@ class ManageNewsScreen extends StatefulWidget {
   _ManageNewsScreenState createState() => _ManageNewsScreenState();
 }
 
-class _ManageNewsScreenState extends State<ManageNewsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
-  }
-
+class _ManageNewsScreenState extends State<ManageNewsScreen>
+    with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(length: 1, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -64,25 +62,60 @@ class _ManageNewsScreenState extends State<ManageNewsScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add new newsletter',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateNewsDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                    Responsive.isDesktop(context)
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddButton(
+                                buttonText: 'Add new newsletter',
+                                icon: Icons.add,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CreateNewsDialog(),
+                                  );
+                                },
+                              ),
+                            ],
+                          )
+                        : SizedBox(height: 0),
                     SizedBox(
-                      height: 10,
+                      height: Responsive.isDesktop(context) ? 10 : 0,
                     ),
-                    const ManageNewsTable(),
+                    Container(
+                      child: Align(
+                        alignment: Responsive.isDesktop(context)
+                            ? Alignment.centerLeft
+                            : Alignment.center,
+                        child: TabBar(
+                            controller: tabController,
+                            isScrollable: true,
+                            labelPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.grey,
+                            tabs: [
+                              Tab(
+                                text: 'List of newsletter',
+                              ),
+                            ]),
+                      ),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? SingleChildScrollView(child: ManageNewsTable())
+                              : AdminTableListView(
+                                  tableTitle: 'Admin Account',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  showAddButton: true,
+                                  addButtonToolTip: 'Add admin account',
+                                ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

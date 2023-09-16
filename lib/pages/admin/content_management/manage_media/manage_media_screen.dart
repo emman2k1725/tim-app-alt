@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/admin_table_mobile.dart';
 import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_dialog.dart';
 import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_table.dart';
+import 'package:tim_app/responsive.dart';
+import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
 class ManageMediaScreen extends StatefulWidget {
@@ -12,10 +15,12 @@ class ManageMediaScreen extends StatefulWidget {
   _ManageMediaScreenState createState() => _ManageMediaScreenState();
 }
 
-class _ManageMediaScreenState extends State<ManageMediaScreen> {
+class _ManageMediaScreenState extends State<ManageMediaScreen>
+    with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(length: 1, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -50,25 +55,60 @@ class _ManageMediaScreenState extends State<ManageMediaScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add New Media',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const CreateMediaDialog(),
-                            );
-                          },
-                        ),
-                      ],
+                    Responsive.isDesktop(context)
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddButton(
+                                buttonText: 'Add New Media',
+                                icon: Icons.add,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CreateMediaDialog(),
+                                  );
+                                },
+                              ),
+                            ],
+                          )
+                        : SizedBox(height: 0),
+                    SizedBox(
+                      height: Responsive.isDesktop(context) ? 10 : 0,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    Container(
+                      child: Align(
+                        alignment: Responsive.isDesktop(context)
+                            ? Alignment.centerLeft
+                            : Alignment.center,
+                        child: TabBar(
+                            controller: tabController,
+                            isScrollable: true,
+                            labelPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.grey,
+                            tabs: [
+                              Tab(
+                                text: "List of Media",
+                              ),
+                            ]),
+                      ),
                     ),
-                    const Expanded(child: ManageMediaTable()),
+                    Expanded(
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? SingleChildScrollView(child: ManageMediaTable())
+                              : AdminTableListView(
+                                  tableTitle: 'Admin Account',
+                                  tableTitleColor: Colors.lightBlueAccent,
+                                  showAddButton: true,
+                                  addButtonToolTip: 'Add admin account',
+                                ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

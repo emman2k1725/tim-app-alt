@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -19,12 +21,14 @@ class AdminMain extends StatefulWidget {
 class _AdminMainState extends State<AdminMain> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig:
-          goRouter, //Responsive.isDesktop(context) ? goRouter : goRouterMobile,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.indigo),
-    );
+    return ChangeNotifierProvider<UserDataProvider>(
+        create: (context) => UserDataProvider(),
+        child: MaterialApp.router(
+          routerConfig:
+              adminRouter, //Responsive.isDesktop(context) ? goRouter : goRouterMobile,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(primarySwatch: Colors.indigo),
+        ));
   }
 }
 

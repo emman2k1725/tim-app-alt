@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/profile/components/profile_modal_interest.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
-import 'package:tim_app/backend/firebase/UserDataProvider.dart';
-import 'package:tim_app/model/UserModel.dart';
-
-class ProfileInterest extends StatefulWidget {
-  const ProfileInterest({super.key});
+class AdminProfile extends StatefulWidget {
+  const AdminProfile({super.key});
 
   @override
-  State<ProfileInterest> createState() => _ProfileInterestState();
+  State<AdminProfile> createState() => _AdminProfileState();
 }
 
-class _ProfileInterestState extends State<ProfileInterest> {
+class _AdminProfileState extends State<AdminProfile> {
   @override
   Widget build(BuildContext context) {
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);

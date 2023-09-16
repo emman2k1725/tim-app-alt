@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 Future<List<Map<String, dynamic>>> fetchData(String collection) async {
   CollectionReference itemsCollection =
@@ -42,7 +43,63 @@ Stream<QuerySnapshot> fetchTableContent(String type) {
   return itemsCollection.snapshots();
 }
 
-businessPendingAction(String docID, String action) async {
+Stream<List<Map<String, dynamic>>> fetchTableBusiness(String collection) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('businesses')
+      .where("status", isEqualTo: collection);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchTableAdminAccount(bool accessLevel) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('user_profile')
+      .where("isAdmin", isEqualTo: accessLevel);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchDataAsStream(String collection) {
+  CollectionReference itemsCollection = FirebaseFirestore.instance
+      .collection('businesses')
+      .where("status", isEqualTo: collection) as CollectionReference<Object?>;
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData =
+          document.data() as Map<String, dynamic>;
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+
+    return data;
+  });
+}
+
+Future<String> businessPendingAction(String docID, String action) async {
   CollectionReference itemsCollection =
       FirebaseFirestore.instance.collection('businesses');
   String result = "";

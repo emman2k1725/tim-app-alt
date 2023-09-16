@@ -35,18 +35,15 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
             return document.data() as Map<String, dynamic>;
           }).toList();
 
-          return Column(
-            children: [
-              if (data.isEmpty)
-                const Padding(
+          return data.isEmpty
+              ? const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
                     'No data available.',
                     style: TextStyle(color: Colors.white),
                   ),
-                ),
-              if (data.isNotEmpty)
-                PaginatedDataTable(
+                )
+              : PaginatedDataTable(
                   header: const Text('List of Media'),
                   actions: [
                     IconButton(
@@ -63,80 +60,58 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
                   horizontalMargin: horizontalMargin,
                   columns: [
                     const DataColumn(
-                      label: Expanded(
-                        child: Center(
-                          child: Text(
-                            'MEDIA TITLE',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      label: Text(
+                        'MEDIA TITLE',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       tooltip: 'MEDIA Title',
                     ),
                     const DataColumn(
-                      label: Expanded(
-                        child: Center(
-                          child: Text(
-                            'DATE',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      label: Text(
+                        'DATE',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       tooltip: 'DATE',
                     ),
                     const DataColumn(
-                      label: Expanded(
-                        child: Center(
-                          child: Text(
-                            'LINK',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      label: Text(
+                        'LINK',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       tooltip: 'LINK',
                     ),
                     const DataColumn(
-                      label: Expanded(
-                        child: Center(
-                          child: Text(
-                            'PREVIEW',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      label: Text(
+                        'PREVIEW',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       tooltip: 'PREVIEW',
                     ),
                     const DataColumn(
-                      label: Expanded(
-                        child: Center(
-                          child: Text(
-                            'ACTION',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      label: Text(
+                        'ACTION',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       tooltip: 'ACTION',
                     ),
                   ],
                   source: _MyDataTableSource(data, context),
-                ),
-            ],
-          );
+                );
         } else {
           return const Center(child: Text('No data found'));
         }
