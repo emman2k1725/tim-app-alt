@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 import 'package:tim_app/utils/responsive.dart';
 
 class DateRangePickerTextField extends StatefulWidget {
   final formKey;
-  const DateRangePickerTextField({super.key, required this.formKey});
+  final travelSearchParameters;
+  const DateRangePickerTextField(
+      {super.key, required this.formKey, required this.travelSearchParameters});
   @override
   _DateRangePickerTextFieldState createState() =>
       _DateRangePickerTextFieldState();
@@ -19,20 +23,19 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
 
   TextEditingController _endTimeController = TextEditingController();
   TimeOfDay? _endTime;
-  
+
   TextEditingController _startdateController = TextEditingController();
   String? _selectedDateText;
 
   TextEditingController _enddateController = TextEditingController();
   DateTime? _endDate;
-
-  Future<List<String>>? _dropdowncities;
-  
+  Future<List<Map<String, dynamic>>>? _fetchDropDownCities;
   @override
   void initState() {
     super.initState();
-    _dropdowncities = FirebaseService.fetchDropdownItems('cities');
+    _fetchDropDownCities = FirebaseService.fetchCities();
   }
+
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -70,13 +73,13 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _startTime ?? TimeOfDay.now(),
+      initialTime: _startTime ?? TimeOfDay(hour: 07, minute: 00),
     );
 
     if (picked != null && picked != _startTime) {
       setState(() {
         _startTime = picked;
-        _selectedDateText =  _startTime?.format(context) ?? '';
+        _selectedDateText = _startTime?.format(context) ?? '';
         _startTimeController.text = _selectedDateText!;
       });
     }
@@ -85,21 +88,27 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
   Future<void> _selectEndTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _endTime ?? TimeOfDay.now(),
+      initialTime: _endTime ?? TimeOfDay(hour: 17, minute: 00),
     );
 
     if (picked != null && picked != _endTime) {
       setState(() {
         _endTime = picked;
-        _selectedDateText =  _endTime?.format(context) ?? '';
+        _selectedDateText = _endTime?.format(context) ?? '';
         _endTimeController.text = _selectedDateText!;
       });
     }
   }
 
-  String _selectedCity = 'Please select a city'; // Default selected city
+  String convertTo24HourFormat(String? timeString) {
+    final inputFormat = DateFormat('hh:mm a');
+    final outputFormat = DateFormat('HH:mm');
 
+    DateTime dateTime = inputFormat.parse(timeString!);
+    String formattedTime = outputFormat.format(dateTime);
 
+    return formattedTime;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,17 +129,20 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                           controller: _startdateController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
-                            if(value == null || value.isEmpty){
+                            if (value == null || value.isEmpty) {
                               return "Please select starting date";
-                            } else if (value.compareTo(DateTime.now().toString()) <= 0){
+                            } else if (value
+                                    .compareTo(DateTime.now().toString()) <
+                                0) {
                               return "Please select a valid starting date";
-                            }
-                            else {
+                            } else {
                               return null;
-                            } 
+                            }
+                          },
+                          onSaved: (value) {
+                            widget.travelSearchParameters['startDate'] = value;
                           },
                           onChanged: (value) => debugPrint(value),
-                          readOnly: true,
                           onTap: () => _selectStartDate(context),
                           decoration: InputDecoration(
                             labelText: 'Start Date',
@@ -168,17 +180,28 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         child: TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
-                            if(value == null || value.isEmpty){
+                            if (value == null || value.isEmpty) {
                               return "Please select end date";
-                            } else if(value.compareTo(_startDate.toString()) <= 0)  {
+                            } else if (value.compareTo(_startDate.toString()) <
+                                0) {
                               return "Please select a valid end date";
-                            } else if(DateTime.parse(value).difference(_startDate!).inDays >= 5)  {
-                            return "Only 5 days are allowed";
-                            }else {
+                            } else if (DateTime.parse(value)
+                                    .difference(_startDate!)
+                                    .inDays >=
+                                5) {
+                              return "Only 5 days are allowed";
+                            } else {
                               return null;
-                            } 
+                            }
                           },
-                          readOnly: true,
+                          onSaved: (value) {
+                            widget.travelSearchParameters['days'] =
+                                DateTime.parse(value!)
+                                        .difference(_startDate!)
+                                        .inDays +
+                                    1;
+                            widget.travelSearchParameters['endDate'] = value;
+                          },
                           onTap: () => _selectEndDate(context),
                           decoration: InputDecoration(
                             labelText: 'End Date',
@@ -217,17 +240,21 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextFormField(
-                            validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return "Please select starting date";
-                            } else if (value.compareTo(DateTime.now().toString()) <= 0){
-                              return "Please select a valid starting date";
-                            }
-                            else {
-                              return null;
-                            } 
-                          },
-                        readOnly: true,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please select starting date";
+                          } else if (value
+                                  .compareTo(DateTime.now().toString()) <
+                              0) {
+                            return "Please select a valid starting date";
+                          } else {
+                            return null;
+                          }
+                        },
+                        onSaved: (value) {
+                          widget.travelSearchParameters['startDate'] = value;
+                        },
                         onTap: () => _selectStartDate(context),
                         decoration: InputDecoration(
                           labelText: 'Start Date',
@@ -261,18 +288,29 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       ),
                       SizedBox(height: 16),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if(value == null || value.isEmpty){
+                          if (value == null || value.isEmpty) {
                             return "Please select end date";
-                          } else if(value.compareTo(_startDate.toString()) <= 0)  {
+                          } else if (value.compareTo(_startDate.toString()) <
+                              0) {
                             return "Please select a valid end date";
-                          } else if(DateTime.parse(value).difference(_startDate!).inDays >= 5)  {
+                          } else if (DateTime.parse(value)
+                                  .difference(_startDate!)
+                                  .inDays >=
+                              5) {
                             return "Only 5 days are allowed";
                           } else {
                             return null;
-                          } 
+                          }
                         },
-                        readOnly: true,
+                        onSaved: (value) {
+                          widget.travelSearchParameters['days'] =
+                              DateTime.parse(value!)
+                                  .difference(_startDate!)
+                                  .inDays;
+                          widget.travelSearchParameters['endDate'] = value;
+                        },
                         onTap: () => _selectEndDate(context),
                         decoration: InputDecoration(
                           labelText: 'End Date',
@@ -313,15 +351,19 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       Container(
                         width: 250,
                         child: TextFormField(
-                        validator: (value) {
-                          if(value == null || value.isEmpty){
-                            return "Please select starting time";
-                          } else {
-                            return null;
-                          } 
-                        },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please select starting time";
+                            } else {
+                              return null;
+                            }
+                          },
                           onTap: () => _selectStartTime(context),
-                          readOnly: true,
+                          onSaved: (value) {
+                            widget.travelSearchParameters['startTime'] =
+                                convertTo24HourFormat(value);
+                          },
                           decoration: InputDecoration(
                             labelText: 'Start Time',
                             suffixIcon: Icon(
@@ -360,15 +402,20 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                           Container(
                             width: 250,
                             child: TextFormField(
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                return "Please select end time";
-                              } else {
-                                return null;
-                              } 
-                            },
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please select end time";
+                                } else {
+                                  return null;
+                                }
+                              },
                               onTap: () => _selectEndTime(context),
-                              readOnly: true,
+                              onSaved: (value) {
+                                widget.travelSearchParameters['endTime'] =
+                                    convertTo24HourFormat(value);
+                              },
                               decoration: InputDecoration(
                                 labelText: 'End Time',
                                 suffixIcon: Icon(
@@ -378,7 +425,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide: BorderSide(
-                                      color: Colors.white), // White border color
+                                      color:
+                                          Colors.white), // White border color
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -408,15 +456,19 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if(value == null || value.isEmpty){
+                          if (value == null || value.isEmpty) {
                             return "Please select starting time";
                           } else {
                             return null;
-                          } 
+                          }
                         },
                         onTap: () => _selectStartTime(context),
-                        readOnly: true,
+                        onSaved: (value) {
+                          widget.travelSearchParameters['startTime'] =
+                              convertTo24HourFormat(value);
+                        },
                         decoration: InputDecoration(
                           labelText: 'Start Time',
                           suffixIcon: Icon(
@@ -449,15 +501,19 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       ),
                       SizedBox(height: 16),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if(value == null || value.isEmpty){
+                          if (value == null || value.isEmpty) {
                             return "Please select end time";
                           } else {
                             return null;
-                          } 
+                          }
                         },
                         onTap: () => _selectEndTime(context),
-                        readOnly: true,
+                        onSaved: (value) {
+                          widget.travelSearchParameters['endTime'] =
+                              convertTo24HourFormat(value);
+                        },
                         decoration: InputDecoration(
                           labelText: 'End Time',
                           suffixIcon: Icon(
@@ -497,138 +553,156 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       Container(
                         width: 520,
                         child: FutureBuilder(
-                          future: _dropdowncities,
-                          builder: (context, snapshot) {
-                          List<String> fetchedItems = snapshot.data ?? [];
-                          return DropdownButtonFormField<String>(
-                            validator: (value) {
-                              if(value == null || value.isEmpty) {
-                                return "Please select a city";
-                              } else {
-                                return null;
+                            future: _fetchDropDownCities,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
                               }
-                            },
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            items: fetchedItems.map((city) {
-                              return DropdownMenuItem<String>(
-                                  value: city,
-                                  child: Text(
-                                    city,
-                                  ));
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedCity = newValue!;
-                              });
-                            },
-                            style: TextStyle(
-                              color: Colors
-                                  .black, // Set text color for non-selected items
-                            ),
-                            selectedItemBuilder: (BuildContext context) {
-                              return fetchedItems.map<Widget>((String item) {
-                                return Text(
-                                  item,
-                                  style: TextStyle(
-                                    color: Colors
-                                        .white, // Set text color for selected item
+                              List<Map<String, dynamic>> dropdownItems =
+                                  snapshot.data!;
+                              return DropdownButtonFormField<
+                                  Map<String, dynamic>>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please select a city";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                onChanged: (Map<String, dynamic>? newValue) {
+                                  widget.travelSearchParameters['city'] =
+                                      newValue!['city'];
+                                  widget.travelSearchParameters['lat'] =
+                                      newValue['lat'];
+                                  widget.travelSearchParameters['long'] =
+                                      newValue['long'];
+                                },
+                                items: dropdownItems
+                                    .map((Map<String, dynamic> item) {
+                                  return DropdownMenuItem<Map<String, dynamic>>(
+                                      value: item,
+                                      child: Text(
+                                        item['city'],
+                                      ));
+                                }).toList(),
+                                style: TextStyle(
+                                  color: Colors
+                                      .black, // Set text color for non-selected items
+                                ),
+                                selectedItemBuilder: (BuildContext context) {
+                                  return dropdownItems
+                                      .map<Widget>((Map<String, dynamic> item) {
+                                    return Text(
+                                      item['city'],
+                                      style: TextStyle(
+                                        color: Colors
+                                            .white, // Set text color for selected item
+                                      ),
+                                    );
+                                  }).toList();
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'City',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color:
+                                            Colors.white), // White border color
                                   ),
-                                );
-                              }).toList();
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'City',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.white), // White border color
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .blue), // White border color when focused
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .white), // White border color when enabled
-                              ),
-                              labelStyle: TextStyle(
-                                  color: Colors.white), // Label text color
-                            ),
-                          );
-                          }
-                        ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: Colors
+                                            .blue), // White border color when focused
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: Colors
+                                            .white), // White border color when enabled
+                                  ),
+                                  labelStyle: TextStyle(
+                                      color: Colors.white), // Label text color
+                                ),
+                              );
+                            }),
                       ),
                     ],
                   )
                 : FutureBuilder(
-                  future: _dropdowncities,
-                  builder: (context, snapshot) {
-                  List<String> fetchedItems = snapshot.data ?? [];
-                  return DropdownButtonFormField<String>(
-                      validator: (value) {
-                        if(value == null || value.isEmpty) {
-                          return "Please select a city";
-                        } else {
-                          return null;
-                        }
-                      },
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      value: _selectedCity,
-                      items: fetchedItems.map((city) {
-                        return DropdownMenuItem<String>(
-                            value: city,
-                            child:
-                                Text(city, style: TextStyle(color: Colors.black)));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedCity = newValue!;
-                        });
-                      },
-                      style: TextStyle(
-                        color:
-                            Colors.black, // Set text color for non-selected items
-                      ),
-                      selectedItemBuilder: (BuildContext context) {
-                        return fetchedItems.map<Widget>((String item) {
-                          return Text(
-                            item,
-                            style: TextStyle(
-                              color:
-                                  Colors.white, // Set text color for selected item
-                            ),
-                          );
-                        }).toList();
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'City',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(color: Colors.white), // White border color
+                    future: _fetchDropDownCities,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      List<Map<String, dynamic>> dropdownItems = snapshot.data!;
+                      return DropdownButtonFormField<Map<String, dynamic>>(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please select a city";
+                          } else {
+                            return null;
+                          }
+                        },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        onChanged: (Map<String, dynamic>? newValue) {
+                          widget.travelSearchParameters['city'] =
+                              newValue!['city'];
+                          widget.travelSearchParameters['lat'] =
+                              newValue['lat'];
+                          widget.travelSearchParameters['long'] =
+                              newValue['long'];
+                        },
+                        items: dropdownItems.map((Map<String, dynamic> item) {
+                          return DropdownMenuItem<Map<String, dynamic>>(
+                              value: item,
+                              child: Text(
+                                item['city'],
+                              ));
+                        }).toList(),
+                        style: TextStyle(
+                          color: Colors
+                              .black, // Set text color for non-selected items
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              color:
-                                  Colors.blue), // White border color when focused
+                        selectedItemBuilder: (BuildContext context) {
+                          return dropdownItems
+                              .map<Widget>((Map<String, dynamic> item) {
+                            return Text(
+                              item['city'],
+                              style: TextStyle(
+                                color: Colors
+                                    .white, // Set text color for selected item
+                              ),
+                            );
+                          }).toList();
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'City',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors.white), // White border color
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .blue), // White border color when focused
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                                color: Colors
+                                    .white), // White border color when enabled
+                          ),
+                          labelStyle: TextStyle(
+                              color: Colors.white), // Label text color
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              color:
-                                  Colors.white), // White border color when enabled
-                        ),
-                        labelStyle:
-                            TextStyle(color: Colors.white), // Label text color
-                      ),
-                    );
-                  }
-                ),
+                      );
+                    }),
           ],
         ),
       ),

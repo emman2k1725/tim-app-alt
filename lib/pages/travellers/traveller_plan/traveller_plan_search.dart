@@ -1,6 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_date.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_kanban.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -45,8 +48,17 @@ class DesktopScreenSize extends StatefulWidget {
 class _DesktopScreenSizeState extends State<DesktopScreenSize> {
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> _travelPlanParameters = {
+    "startDate": "",
+    "endDate": "",
+    "startTime": "",
+    "endTime": "",
+    "city": "",
+    "days": ""
+  };
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: BlurContainer(
@@ -84,7 +96,11 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [DateRangePickerTextField(formKey: _formKey)]),
+                      children: [
+                        DateRangePickerTextField(
+                            formKey: _formKey,
+                            travelSearchParameters: _travelPlanParameters),
+                      ]),
                 ),
                 Expanded(
                   flex: 4,
@@ -137,12 +153,22 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                           });
                           await Future.delayed(const Duration(seconds: 1));
                           if (_formKey.currentState!.validate() == true) {
-                            // Setup the data
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TravelPlanKanban()));
+                            _formKey.currentState!.save();
+
+                            List<List<Map<String, dynamic>>> itenerary =
+                                await planTravel(
+                                    userDataProvider.userData!.favCruisine,
+                                    userDataProvider.userData!.favHangout,
+                                    _travelPlanParameters);
+                            debugPrint(itenerary.toString());
+                            setState(() {
+                              isLoading = false;
+                            });
+                            /* Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const TravelPlanKanban())); */
                           } else {
                             setState(() {
                               isLoading = false;
@@ -175,9 +201,19 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
   bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> _travelPlanParameters = {
+    "startDate": "",
+    "endDate": "",
+    "startTime": "",
+    "endTime": "",
+    "lat": "",
+    "long": "",
+    "city": ""
+  };
 
   @override
   Widget build(BuildContext context) {
+    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
     return BlurContainer(
         width: double.maxFinite,
         childColumn: Padding(
@@ -208,12 +244,12 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                 height: 20,
               ),
               DateRangePickerTextField(
-                formKey: _formKey,
-              ),
+                  formKey: _formKey,
+                  travelSearchParameters: _travelPlanParameters),
               SizedBox(
                 height: 20,
               ),
-              /* isLoading
+              isLoading
                   ? const Row(
                       children: [
                         Padding(
@@ -230,25 +266,28 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                         )
                       ],
                     )
-                  :*/
-              BlueElevatedButton(
-                onPressed: () async {
-                  /* if (isLoading) return;
-    
+                  : BlueElevatedButton(
+                      onPressed: () async {
+                        if (isLoading) return;
                         setState(() {
                           isLoading = true;
-                        }); 
-                        await Future.delayed(const Duration(seconds: 1)); */
-                  if (_formKey.currentState!.validate() == true) {}
-                  /* Navigator.push(
+                        });
+                        await Future.delayed(const Duration(seconds: 1));
+                        if (_formKey.currentState!.validate()) {
+                          debugPrint(_travelPlanParameters.toString());
+                          setState(() {
+                            isLoading = false;
+                          });
+                        }
+                        /* Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     const TravelPlanKanban())); */
-                },
-                text: 'Generate Plan',
-                iconData: Icons.generating_tokens_outlined,
-              ),
+                      },
+                      text: 'Generate Plan',
+                      iconData: Icons.generating_tokens_outlined,
+                    ),
               SizedBox(
                 height: 20,
               ),

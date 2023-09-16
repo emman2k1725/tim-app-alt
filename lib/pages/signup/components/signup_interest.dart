@@ -25,8 +25,8 @@ class _InterestSignupState extends State<InterestSignup> {
 
   Future<List<String>>? _dropdownTravelCat;
   Future<List<String>>? _dropdownCruisines;
-  Future<List<String>>? _dropdownInterests;
-  Future<List<String>>? _dropdowncities;
+  Future<List<Map<String, dynamic>>>? _dropdownInterests;
+  Future<List<Map<String, dynamic>>>? _dropdowncities;
   String? _selectedCat;
 
   @override
@@ -34,8 +34,8 @@ class _InterestSignupState extends State<InterestSignup> {
     super.initState();
     _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
     _dropdownCruisines = FirebaseService.fetchDropdownItems('cruisines');
-    _dropdownInterests = FirebaseService.fetchDropdownItems('hangout');
-    _dropdowncities = FirebaseService.fetchDropdownItems('cities');
+    _dropdownInterests = FirebaseService.fetchHangout();
+    _dropdowncities = FirebaseService.fetchCities();
   }
 
   List<String> selectedCruisines = [];
@@ -204,13 +204,13 @@ class _InterestSignupState extends State<InterestSignup> {
                                       ConnectionState.waiting) {
                                     return const CircularProgressIndicator();
                                   }
-                                  List<String> fetchedItems =
-                                      snapshot.data ?? [];
+                                  List<Map<String, dynamic>> dropdownItems =
+                                      snapshot.data!;
                                   List<MultiSelectItem<String>> dropdownCities =
-                                      fetchedItems
+                                      dropdownItems
                                           .map((item) =>
                                               MultiSelectItem<String>(
-                                                  item, item))
+                                                  item['city'], item['city']))
                                           .toList();
                                   return Padding(
                                     padding:
@@ -281,11 +281,12 @@ class _InterestSignupState extends State<InterestSignup> {
                                 ConnectionState.waiting) {
                               return const CircularProgressIndicator();
                             }
-                            List<String> fetchedItems = snapshot.data ?? [];
+                            List<Map<String, dynamic>> dropdownItems =
+                                snapshot.data!;
                             List<MultiSelectItem<String>> dropdownInterests =
-                                fetchedItems
-                                    .map((item) =>
-                                        MultiSelectItem<String>(item, item))
+                                dropdownItems
+                                    .map((item) => MultiSelectItem<String>(
+                                        item['hangout'], item['hangout']))
                                     .toList();
                             return Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(

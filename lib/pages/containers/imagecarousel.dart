@@ -26,7 +26,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: fetchTableContent('How'),
+        stream: fetchTableContent('HowItWorks'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -53,8 +53,8 @@ class _ImageCarouselState extends State<ImageCarousel> {
                           child: Expanded(
                               child: SizedBox(
                             height: 300,
-                            child: VideoPlayerScreen(
-                                videoUrl: aboutData['displayImage']),
+                            /* child: VideoPlayerScreen(
+                                videoUrl: aboutData['displayImage']) */
                           )),
                         ),
                         const SizedBox(
