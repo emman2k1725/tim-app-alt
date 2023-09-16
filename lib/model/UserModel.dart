@@ -5,6 +5,7 @@ class UserModel {
   String? email;
   bool? hasBusiness;
   bool? isAdmin;
+  bool? isSuperAdmin;
   bool? isRegistrationComplete;
   DateTime? birthDate;
   String? mobileNumber;
@@ -23,6 +24,7 @@ class UserModel {
     this.email,
     this.hasBusiness,
     this.isAdmin,
+    this.isSuperAdmin,
     this.isRegistrationComplete,
     this.mobileNumber,
     this.travelCat,

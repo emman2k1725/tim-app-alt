@@ -1,25 +1,35 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/admin_table_mobile.dart';
-import 'package:tim_app/pages/admin/content_management/manage_city_guide/components/manage_cityGuide_dialog.dart';
-import 'package:tim_app/pages/admin/content_management/manage_city_guide/components/manage_cityGuide_table.dart';
-import 'package:tim_app/responsive.dart';
+import 'package:tim_app/pages/admin/account/components/admin_account_table.dart';
+import 'package:tim_app/pages/admin/account/components/admin_create_account.dart';
+import 'package:tim_app/pages/admin/account/components/business_account_table.dart';
+import 'package:tim_app/pages/admin/account/components/traveller_account_table.dart';
+import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
+import 'package:tim_app/pages/admin/manage_business/components/admin_approved_table.dart';
+import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
+import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
+import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
+import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
-class ManageCityGuideScreen extends StatefulWidget {
-  const ManageCityGuideScreen({super.key});
+import '../../../responsive.dart';
+import '../../../utils/constants.dart';
+import '../admin_table_mobile.dart';
+
+class ManageTravellerScreen extends StatefulWidget {
+  const ManageTravellerScreen({super.key});
 
   @override
-  _ManageCityGuideScreenState createState() => _ManageCityGuideScreenState();
+  State<ManageTravellerScreen> createState() => _ManageTravellerScreenState();
 }
 
-class _ManageCityGuideScreenState extends State<ManageCityGuideScreen>
+class _ManageTravellerScreenState extends State<ManageTravellerScreen>
     with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 1, vsync: this);
+    TabController _tabController = TabController(length: 1, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -54,34 +64,13 @@ class _ManageCityGuideScreenState extends State<ManageCityGuideScreen>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Responsive.isDesktop(context)
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              AddButton(
-                                buttonText: 'Add new City Guide',
-                                icon: Icons.add,
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        CreateCityGuideDialog(),
-                                  );
-                                },
-                              ),
-                            ],
-                          )
-                        : SizedBox(height: 0),
-                    SizedBox(
-                      height: Responsive.isDesktop(context) ? 10 : 0,
-                    ),
                     Container(
                       child: Align(
                         alignment: Responsive.isDesktop(context)
                             ? Alignment.centerLeft
                             : Alignment.center,
                         child: TabBar(
-                            controller: tabController,
+                            controller: _tabController,
                             isScrollable: true,
                             labelPadding:
                                 const EdgeInsets.only(left: 20, right: 20),
@@ -89,20 +78,20 @@ class _ManageCityGuideScreenState extends State<ManageCityGuideScreen>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: 'List of City Guide',
+                                text: "Traveller Accounts",
                               ),
                             ]),
                       ),
                     ),
+                    SizedBox(height: 20),
                     Expanded(
                       child: TabBarView(
-                        controller: tabController,
+                        controller: _tabController,
                         children: [
                           Responsive.isDesktop(context)
-                              ? SingleChildScrollView(
-                                  child: ManageCityGuideTable())
+                              ? TravellerAccountTable()
                               : AdminTableListView(
-                                  tableTitle: 'Admin Account',
+                                  tableTitle: 'Travellers Accounts',
                                   tableTitleColor: Colors.lightBlueAccent,
                                   showAddButton: true,
                                   addButtonToolTip: 'Add admin account',

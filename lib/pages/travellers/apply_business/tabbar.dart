@@ -29,7 +29,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: 800,
+        height: 1500,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -74,9 +74,6 @@ class _MyTabBarViewState extends State<MyTabBarView>
                               Tab(
                                 text: "Personal Information",
                               ),
-                              Tab(
-                                text: "Interests",
-                              )
                             ]),
                       ),
                     ),
@@ -84,16 +81,15 @@ class _MyTabBarViewState extends State<MyTabBarView>
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         width: double.maxFinite,
-                        height: 700,
+                        height: 1300,
                         child: TabBarView(
                           controller: _tabController,
                           children: const [
                             UserProfileWidget(),
-                            ProfileInterest(),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

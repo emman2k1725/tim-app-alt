@@ -47,6 +47,37 @@ class Authenticate {
     return result;
   }
 
+  Future registerAdmin(String email, String password, String firstName,
+      String lastName, String mobileNumber, String accessLevel) async {
+    String result = "";
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      _user = userCredential.user;
+      UserModel userModel = UserModel(
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          mobileNumber: mobileNumber,
+          isAdmin: true);
+      if (accessLevel == 'Super Admin') {
+        userModel.isSuperAdmin = true;
+      } else {
+        userModel.isSuperAdmin = false;
+      }
+
+      await _firestore.doc(_user!.uid).set(userModel.toMap());
+      result = "success";
+    } on FirebaseAuthException catch (e) {
+      result =
+          authErrorHandler(parseFirebaseAuthExceptionMessage(input: e.message));
+    } catch (e) {
+      result = authErrorHandler(
+          parseFirebaseAuthExceptionMessage(input: e.toString()));
+    }
+    return result;
+  }
+
   Future signIn(String email, String password) async {
     String result = "";
     try {

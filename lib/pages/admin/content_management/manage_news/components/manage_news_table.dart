@@ -157,9 +157,7 @@ class _MyDataTableSource extends DataTableSource {
             overflow: TextOverflow
                 .ellipsis, // Show ellipsis (...) when text overflows
             maxLines: 2, // Limit text to two lines, adjust as needed
-            style: TextStyle(
-                // Customize text style further if needed
-                ),
+            style: TextStyle(),
           ),
         ),
       ),

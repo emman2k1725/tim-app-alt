@@ -12,6 +12,7 @@ import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/utils/responsive.dart';
 
 import '../../../utils/constants.dart';
+import '../content_management/manage_media/components/manage_media_table.dart';
 
 class ManageBusinessScreen extends StatefulWidget {
   const ManageBusinessScreen({super.key});
@@ -89,7 +90,8 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                         controller: _tabController,
                         children: [
                           Responsive.isDesktop(context)
-                              ? BusinessApplicationTable()
+                              ? SingleChildScrollView(
+                                  child: BusinessApplicationTable())
                               : AdminTableListView(
                                   tableTitle: 'Business Application',
                                   tableTitleColor: Colors.lightBlueAccent,
@@ -97,7 +99,8 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                                   showAddButton: false,
                                 ),
                           Responsive.isDesktop(context)
-                              ? BusinessApprovedTable()
+                              ? SingleChildScrollView(
+                                  child: BusinessApprovedTable())
                               : AdminTableListView(
                                   tableTitle: 'Approved Business',
                                   tableTitleColor: Colors.green,
@@ -105,7 +108,8 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                                   showAddButton: false,
                                 ),
                           Responsive.isDesktop(context)
-                              ? BusinessDeclinedTable()
+                              ? SingleChildScrollView(
+                                  child: BusinessDeclinedTable())
                               : AdminTableListView(
                                   tableTitle: 'Declined Business',
                                   tableTitleColor: Colors.red,
