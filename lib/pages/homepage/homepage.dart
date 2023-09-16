@@ -1,8 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tim_app/pages/containers/container1.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/pages/containers/imagecarousel.dart';
 import 'package:tim_app/widgets/navBar.dart';
+
+import '../../ads_footer.dart';
+import '../../navBarProvider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,6 +22,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         width: w,
@@ -41,6 +48,7 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 height: 20,
               ),
+              AdsFooter(),
             ],
           ),
         ),

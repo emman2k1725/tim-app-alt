@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
+import 'package:tim_app/fade_transition.dart';
 import 'package:tim_app/pages/admin/account/account_main.dart';
 import 'package:tim_app/pages/admin/admin_main_screen.dart';
 import 'package:tim_app/pages/admin/admin_more_page.dart';
@@ -26,6 +28,7 @@ import 'package:tim_app/pages/business/business_menu.dart';
 
 import 'package:tim_app/pages/business/payment/business_payment_main.dart';
 import 'package:tim_app/pages/business/special_offers/business_special_offers_main.dart';
+import 'package:tim_app/pages/excel.dart';
 
 import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
@@ -58,58 +61,77 @@ GoRouter createRouter() {
           ],
           child: const Home(),
         ),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const Home()),
+      ),
+      GoRoute(
+        path: "/excel",
+        builder: (context, state) => const ExcelUpload(),
       ),
       GoRoute(
         path: "/login",
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const LoginPage()),
       ),
       GoRoute(
         path: "/signup",
-        builder: (context, state) => const SignupPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const SignupPage()),
       ),
       GoRoute(
         path: "/dashboard",
-        builder: (context, state) => const TravellerMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const TravellerMain()),
       ),
       GoRoute(
         path: "/apply-business",
-        builder: (context, state) => const ApplyBusinessMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const ApplyBusinessMain()),
       ),
       GoRoute(
         path: "/signup-interest",
-        builder: (context, state) => const InterestMain(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const InterestMain()),
       ),
       GoRoute(
         path: "/profile",
         builder: (context, state) => const ProfileScreen(),
+
       ),
       GoRoute(
         path: "/about",
-        builder: (context, state) => const AboutPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const AboutPage()),
       ),
       GoRoute(
         path: "/media",
-        builder: (context, state) => const MediaPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const MediaPage()),
       ),
       GoRoute(
         path: "/advertise",
-        builder: (context, state) => const AdvertisePage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const AdvertisePage()),
       ),
       GoRoute(
         path: "/how-it-works",
-        builder: (context, state) => const HowItWorksPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const HowItWorksPage()),
       ),
       GoRoute(
         path: "/latest-news",
-        builder: (context, state) => const LatestNewsPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const LatestNewsPage()),
       ),
       GoRoute(
         path: "/special-offers",
-        builder: (context, state) => const SpecialOffersPage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const SpecialOffersPage()),
       ),
       GoRoute(
         path: "/city-guide",
-        builder: (context, state) => const CityGuidePage(),
+        pageBuilder: (context, state) =>
+            CustomFadeTransition(widgetChild: const CityGuidePage()),
       ),
 
       //business dashboard routes
@@ -525,7 +547,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/dashboard',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerDashboard(),
               ),
               routes: [],
@@ -537,7 +559,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-plan',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerPlanScreen(),
               ),
               routes: [],
@@ -549,7 +571,7 @@ final travellerRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/travel-history',
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravelHistoryMain(),
               ),
               routes: [

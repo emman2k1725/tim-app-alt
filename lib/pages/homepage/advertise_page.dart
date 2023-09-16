@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../ads_footer.dart';
+import '../../navBarProvider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/navBar.dart';
 import '../containers/advertise_container1.dart';
@@ -16,6 +19,7 @@ class _AdvertisePageState extends State<AdvertisePage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         width: w,
@@ -34,6 +38,7 @@ class _AdvertisePageState extends State<AdvertisePage> {
                 height: 20,
               ),
               AdvertiseContainer1(),
+              AdsFooter(),
             ],
           ),
         ),

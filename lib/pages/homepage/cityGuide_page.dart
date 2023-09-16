@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../backend/firebase/fetchTable.dart';
+import '../../custom_dialog.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -159,7 +160,10 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                         width: w / (6.5 * 2),
                                         child: ElevatedButton(
                                           style: elevatedButtonSharpBorderStyle,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
                                           child: const Text(
                                             'View',
                                             style:
@@ -360,7 +364,10 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                         width: w / 6,
                                         child: ElevatedButton(
                                           style: elevatedButtonSharpBorderStyle,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
                                           child: const Text(
                                             'View',
                                             style:
@@ -380,10 +387,14 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                             Container(
                                               height: h / 3,
                                               child: Center(
-                                                child: Image.network(
-                                                  item['displayImage'] ?? '',
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                child: item['displayImage'] !=
+                                                        null
+                                                    ? Image.network(
+                                                        data[index]
+                                                            ['displayImage'],
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : CircularProgressIndicator(),
                                               ),
                                             ),
                                             SizedBox(
@@ -561,7 +572,10 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                         width: w / 3,
                                         child: ElevatedButton(
                                           style: elevatedButtonSharpBorderStyle,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _showRowDialog(
+                                                data[index], context);
+                                          },
                                           child: const Text(
                                             'View',
                                             style:
@@ -661,4 +675,16 @@ class _MobileContainer1State extends State<MobileContainer1> {
           }
         });
   }
+}
+
+void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomAlertDialog(
+        title: 'City Guide View',
+        message: 'Insert text here',
+      );
+    },
+  );
 }

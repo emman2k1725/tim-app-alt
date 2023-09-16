@@ -10,10 +10,8 @@ class ApplyBusinessMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    debugPrint(userProvider.userData?.docID);
     return Scaffold(
-      appBar: CustomAppBar(title: 'Custom AppBar'),
+      appBar: const CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(

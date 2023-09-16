@@ -10,7 +10,7 @@ class TravellerDashboard extends StatelessWidget {
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Admin Dashboard'),
+      appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(
@@ -20,8 +20,8 @@ class TravellerDashboard extends StatelessWidget {
                 image: AssetImage(mainBg),
               ),
             ),
-            child: Padding(
-                padding: const EdgeInsets.all(20.0),
+            child: const Padding(
+                padding: EdgeInsets.all(20.0),
                 child: TravellerDashboardBody())),
       ),
     );

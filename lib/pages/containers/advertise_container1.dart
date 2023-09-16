@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 
 import '../../responsive.dart';
@@ -159,7 +160,9 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               child: ElevatedButton(
                                 style: elevatedButtonStyle,
-                                onPressed: () {},
+                                onPressed: () {
+                                  GoRouter.of(context).go("/login");
+                                },
                                 child: const Text(
                                   'ADVERTISE',
                                   style: TextStyle(color: Colors.white),
@@ -336,7 +339,9 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: ElevatedButton(
                         style: elevatedButtonStyle,
-                        onPressed: () {},
+                        onPressed: () {
+                          GoRouter.of(context).go("/login");
+                        },
                         child: const Text(
                           'ADVERTISE',
                           style: TextStyle(color: Colors.white),

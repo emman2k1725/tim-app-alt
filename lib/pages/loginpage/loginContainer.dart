@@ -12,11 +12,13 @@ import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/customButtons.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import '../../backend/firebase/firebaseService.dart';
+import '../../custom_dialog.dart';
 import '../../utils/loading.dart';
 
 class LoginContainer extends StatefulWidget {
@@ -41,7 +43,9 @@ class _LoginContainerState extends State<LoginContainer> {
       child: Container(
           height: 550,
           // May error dito kapag horizontal: w! / 10. Kapag bumabalik galing sa ibang page, nagiging null lamang ni variable: w
-          margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
+          margin: EdgeInsets.symmetric(
+              horizontal: Responsive.isDesktop(context) ? w! / 10 : 20,
+              vertical: 20),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: BackdropFilter(
@@ -203,21 +207,27 @@ class _LoginContainerState extends State<LoginContainer> {
                                       },
                                     ),
                                     const SizedBox(height: 10.0),
-                                    const Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'Forgot Password',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            letterSpacing: 1.5,
-                                            wordSpacing: 2.0,
-                                            decoration:
-                                                TextDecoration.underline,
+                                    InkWell(
+                                      onTap: () {
+                                        _showRowDialog('', context);
+                                      },
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'Forgot Password',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              letterSpacing: 1.5,
+                                              wordSpacing: 2.0,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                     const SizedBox(height: 16.0),
                                     Center(
@@ -328,7 +338,8 @@ class _LoginContainerState extends State<LoginContainer> {
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
-                                                  GoRouter.of(context).go('/signup');
+                                                  GoRouter.of(context)
+                                                      .go('/signup');
                                                 },
                                             ),
                                           ],
@@ -341,19 +352,21 @@ class _LoginContainerState extends State<LoginContainer> {
                             ),
                           ]),
                         ),
-                        SizedBox(
-                          height: 530,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30.0),
-                              bottomRight: Radius.circular(30.0),
-                            ),
-                            child: Image.asset(
-                              timHand,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
+                        Responsive.isDesktop(context)
+                            ? SizedBox(
+                                height: 530,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(30.0),
+                                    bottomRight: Radius.circular(30.0),
+                                  ),
+                                  child: Image.asset(
+                                    timHand,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(height: 0),
                       ],
                     ),
                   )))),
@@ -392,4 +405,17 @@ void nagivateGateway(
   } else {
     GoRouter.of(context).go('/admin-dashboard');
   }
+}
+
+void _showRowDialog(
+    /*Map<String, dynamic> item*/ String item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CustomAlertDialog(
+        title: 'Forgot Password',
+        message: 'Insert text here',
+      );
+    },
+  );
 }
