@@ -38,7 +38,7 @@ import 'package:provider/provider.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
-import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen.dart';
+import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_main.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_screen.dart';
 import '../pages/homepage/about_page.dart';
 import '../pages/homepage/advertise_page.dart';
