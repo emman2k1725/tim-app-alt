@@ -92,29 +92,20 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                           Responsive.isDesktop(context)
                               ? SingleChildScrollView(
                                   child: BusinessApplicationTable())
-                              : AdminTableListView(
-                                  tableTitle: 'Business Application',
-                                  tableTitleColor: Colors.lightBlueAccent,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Pending',
                                 ),
                           Responsive.isDesktop(context)
                               ? SingleChildScrollView(
                                   child: BusinessApprovedTable())
-                              : AdminTableListView(
-                                  tableTitle: 'Approved Business',
-                                  tableTitleColor: Colors.green,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Approved',
                                 ),
                           Responsive.isDesktop(context)
                               ? SingleChildScrollView(
                                   child: BusinessDeclinedTable())
-                              : AdminTableListView(
-                                  tableTitle: 'Declined Business',
-                                  tableTitleColor: Colors.red,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Declined',
                                 ),
                         ],
                       ),
