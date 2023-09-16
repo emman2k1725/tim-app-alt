@@ -4,10 +4,12 @@ import 'package:tim_app/model/draggable_model.dart';
 
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/pop_up_image._kanban.dart';
+import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
 class DraggableContainer extends StatefulWidget {
-  const DraggableContainer({super.key});
+  final List<List<Map<String, dynamic>>> travelitenerary;
+  const DraggableContainer({super.key, required this.travelitenerary});
 
   @override
   _DraggableContainer createState() => _DraggableContainer();
@@ -20,12 +22,47 @@ class _DraggableContainer extends State<DraggableContainer> {
   void initState() {
     super.initState();
 
+    // create the draggable List
+    List<DraggableList> generateDraggableLists(
+        List<List<Map<String, dynamic>>> travelitenerary) {
+      List<DraggableList> draggableLists = [];
+      int x = 1;
+      for (List<Map<String, dynamic>> dayData in travelitenerary) {
+        String header = "Day $x";
+        x++;
+        String subText = 'Date';
+        List<DraggableListItem> items = [];
+        debugPrint(header);
+        for (int i = 0; i < dayData.length; i++) {
+          debugPrint(dayData[i]['businessName']);
+          items.add(DraggableListItem(
+              title: dayData[i]['businessName'],
+              urlImage: dayData[i]['displayImage'],
+              address: dayData[i]['address'],
+              rating: dayData[i]['rating'].toString(),
+              timeSchedule: dayData[i]['timeSchedule']));
+        }
+
+        DraggableList draggableList = DraggableList(
+          header: header,
+          subText: subText,
+          items: items,
+        );
+
+        draggableLists.add(draggableList);
+      }
+
+      return draggableLists;
+    }
+
+    List<DraggableList> allLists =
+        generateDraggableLists(widget.travelitenerary);
+
     lists = allLists.map(buildList).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final backgroundColor = Color.fromARGB(255, 243, 242, 248);
     const backgroundColor = Color.fromARGB(82, 23, 3, 128);
     bool _isExpanded = false;
 
@@ -117,7 +154,7 @@ class _DraggableContainer extends State<DraggableContainer> {
                               onTap: () {
                                 _showImagePopUp(context);
                               },
-                              child: Image.asset(
+                              child: Image.network(
                                 item.urlImage,
                                 width: 40,
                                 height: 40,
@@ -131,9 +168,13 @@ class _DraggableContainer extends State<DraggableContainer> {
                               Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(item.title)),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(item.timeSchedule)),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text(item.rating),
                                   Icon(Icons.star, color: Colors.yellow),
                                   Icon(Icons.star, color: Colors.yellow),
                                   Icon(Icons.star, color: Colors.yellow),
@@ -152,7 +193,7 @@ class _DraggableContainer extends State<DraggableContainer> {
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Container(
                               child: Text(
-                                'Expanded content goes here.',
+                                item.address,
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ),

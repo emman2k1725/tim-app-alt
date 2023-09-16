@@ -162,7 +162,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(
           "city": splitAddress[2],
           "rating": result.rating,
           "openingHours": result.openingHours,
-          "displayImage": result.photos,
+          "displayImage": result.icon,
           "business_status": result.permanentlyClosed,
           "timeSchedule": ""
         };

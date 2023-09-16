@@ -13,9 +13,14 @@ class DraggableList {
 class DraggableListItem {
   final String title;
   final String urlImage;
+  final String address;
+  final String rating;
+  final String timeSchedule;
 
-  const DraggableListItem({
-    required this.title,
-    required this.urlImage,
-  });
+  const DraggableListItem(
+      {required this.title,
+      required this.urlImage,
+      required this.address,
+      required this.rating,
+      required this.timeSchedule});
 }
