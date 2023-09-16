@@ -12,6 +12,7 @@ import 'package:tim_app/pages/profile/profile_interest.dart';
 import 'package:tim_app/utils/responsive.dart';
 
 import '../../../utils/constants.dart';
+import '../content_management/manage_media/components/manage_media_table.dart';
 
 class ManageBusinessScreen extends StatefulWidget {
   const ManageBusinessScreen({super.key});
@@ -89,28 +90,22 @@ class _ManageBusinessScreenState extends State<ManageBusinessScreen>
                         controller: _tabController,
                         children: [
                           Responsive.isDesktop(context)
-                              ? BusinessApplicationTable()
-                              : AdminTableListView(
-                                  tableTitle: 'Business Application',
-                                  tableTitleColor: Colors.lightBlueAccent,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              ? SingleChildScrollView(
+                                  child: BusinessApplicationTable())
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Pending',
                                 ),
                           Responsive.isDesktop(context)
-                              ? BusinessApprovedTable()
-                              : AdminTableListView(
-                                  tableTitle: 'Approved Business',
-                                  tableTitleColor: Colors.green,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              ? SingleChildScrollView(
+                                  child: BusinessApprovedTable())
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Approved',
                                 ),
                           Responsive.isDesktop(context)
-                              ? BusinessDeclinedTable()
-                              : AdminTableListView(
-                                  tableTitle: 'Declined Business',
-                                  tableTitleColor: Colors.red,
-                                  addButtonToolTip: '',
-                                  showAddButton: false,
+                              ? SingleChildScrollView(
+                                  child: BusinessDeclinedTable())
+                              : ManageBusinessDataTableMobile(
+                                  applicationStatus: 'Declined',
                                 ),
                         ],
                       ),

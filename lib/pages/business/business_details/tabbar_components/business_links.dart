@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../responsive.dart';
 
@@ -24,84 +26,106 @@ class BusinessLinks extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SvgPicture.asset(
-              "/icons/facebook.svg", // Replace with the path to your SVG icon
-              width: 30, // Set the desired width
-              height: 20, // Set the desired height
-              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
-            ),
-            SizedBox(width: 10),
-            GestureDetector(
-              onTap: () {
-                launchFacebookProfile(item['businessLinks']['facebook']);
-              },
-              child: Text(
-                item['businessLinks']['facebook'],
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
+        SizedBox(width: 10),
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () async {
+              Uri url = Uri.parse(item['businessLinks']['facebook'].toString());
+              var urllaunchable = await canLaunchUrl(url);
+              if (urllaunchable) {
+                await launchUrl(url);
+              } else {
+                print("URL can't be launched.");
+              }
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "/icons/facebook.svg", // Replace with the path to your SVG icon
+                  width: 30, // Set the desired width
+                  height: 20, // Set the desired height
+                  colorFilter:
+                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
                 ),
-              ),
+                Text(
+                  item['businessLinks']['facebook'],
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SvgPicture.asset(
-              "/icons/insta.svg", // Replace with the path to your SVG icon
-              width: 30, // Set the desired width
-              height: 20, // Set the desired height
-              colorFilter: const ColorFilter.mode(
-                  Color.fromARGB(255, 228, 101, 17), BlendMode.srcIn),
-            ),
-            SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                launchInstagramProfile(item['businessLinks']['instagram']);
-              },
-              child: Text(
-                item['businessLinks']['instagram'],
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () async {
+              Uri url =
+                  Uri.parse(item['businessLinks']['instagram'].toString());
+              var urllaunchable = await canLaunchUrl(url);
+              if (urllaunchable) {
+                await launchUrl(url);
+              } else {
+                print("URL can't be launched.");
+              }
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "/icons/insta.svg",
+                  width: 30,
+                  height: 20,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
                 ),
-              ),
+                Text(
+                  item['businessLinks']['instagram'],
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SvgPicture.asset(
-              "/icons/map.svg", // Replace with the path to your SVG icon
-              width: 30, // Set the desired width
-              height: 20, // Set the desired height
-              colorFilter:
-                  const ColorFilter.mode(Colors.green, BlendMode.srcIn),
-            ),
-            SizedBox(width: 10),
-            GestureDetector(
-              onTap: () {
-                launchGoogleMap(item['businessLinks']['googleMap']);
-              },
-              child: Text(
-                item['businessLinks']['googleMap'],
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () async {
+              Uri url =
+                  Uri.parse(item['businessLinks']['googleMap'].toString());
+              var urllaunchable = await canLaunchUrl(url);
+              if (urllaunchable) {
+                await launchUrl(url);
+              } else {
+                print("URL can't be launched.");
+              }
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "/icons/map.svg",
+                  width: 30,
+                  height: 20,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
                 ),
-              ),
+                Text(
+                  item['businessLinks']['googleMap'],
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ],
     );

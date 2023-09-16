@@ -208,9 +208,7 @@ class _SignupContainerState extends State<SignupContainer> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                             ),
-
-                            initialCountryCode:
-                                'PH', // Set the initial country code
+                            initialCountryCode: 'PH',
                             controller: phoneNumberController,
                             onChanged: (phone) {
                               phoneNumber = phone.completeNumber;

@@ -34,7 +34,6 @@ import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
 import 'package:tim_app/pages/homepage/specialOffers_page.dart';
 import 'package:tim_app/pages/login.dart';
-import 'package:tim_app/pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
@@ -96,8 +95,8 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: "/profile",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const ProfiePage()),
+        builder: (context, state) => const ProfileScreen(),
+
       ),
       GoRoute(
         path: "/about",
@@ -180,7 +179,7 @@ final travellerKey = GlobalKey<NavigatorState>(debugLabel: 'travellerKey');
 final contentKey = GlobalKey<NavigatorState>(debugLabel: 'contentKey');
 final accountKey = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
 
-final goRouter = GoRouter(
+final adminRouter = GoRouter(
   initialLocation: '/admin-dashboard',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
@@ -205,7 +204,6 @@ final goRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: _shellNavigatorBKey,
           routes: [
-            // Shopping Cart
             GoRoute(
               path: '/admin-manage-business',
               pageBuilder: (context, state) => const NoTransitionPage(
@@ -218,7 +216,6 @@ final goRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: travellerKey,
           routes: [
-            // Shopping Cart
             GoRoute(
               path: '/admin-manage-travellers',
               pageBuilder: (context, state) => const NoTransitionPage(
