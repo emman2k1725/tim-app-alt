@@ -90,12 +90,7 @@ class _ManageTravellerScreenState extends State<ManageTravellerScreen>
                         children: [
                           Responsive.isDesktop(context)
                               ? TravellerAccountTable()
-                              : AdminTableListView(
-                                  tableTitle: 'Travellers Accounts',
-                                  tableTitleColor: Colors.lightBlueAccent,
-                                  showAddButton: true,
-                                  addButtonToolTip: 'Add admin account',
-                                ),
+                              : ManageTravellerDataTableMobile()
                         ],
                       ),
                     ),
