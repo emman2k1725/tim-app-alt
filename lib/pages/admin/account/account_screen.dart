@@ -116,12 +116,7 @@ class _AdminAccountScreenState extends State<AdminAccountScreen>
                           Responsive.isDesktop(context)
                               ? SingleChildScrollView(
                                   child: AdminAccountTable())
-                              : AdminTableListView(
-                                  tableTitle: 'Admin Account',
-                                  tableTitleColor: Colors.lightBlueAccent,
-                                  showAddButton: true,
-                                  addButtonToolTip: 'Add admin account',
-                                ),
+                              : AdminAccountsDataTableMobile(),
                           Responsive.isDesktop(context)
                               ? AdminProfile()
                               : AdminTableListView(
