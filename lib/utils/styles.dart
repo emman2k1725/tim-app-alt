@@ -32,7 +32,7 @@ class AppTextstyle {
 
   static const TextStyle bodyTextStyle = TextStyle(
     fontSize: 16,
-    color: Colors.grey,
+    color: Colors.white,
   );
 
   static const TextStyle contentTextStyle = TextStyle(
