@@ -129,7 +129,7 @@ class TabletButtonContainers extends StatelessWidget {
             ),
             ShadowButton(
               icon: Icons.travel_explore_outlined,
-              text: 'Travel Planning',
+              text: 'City Guide',
               onPressed: () {
                 GoRouter.of(context).go('/city-guide');
               },
@@ -175,7 +175,7 @@ class MobileButtonContainers extends StatelessWidget {
         SizedBox(height: 40),
         ShadowButton(
           icon: Icons.travel_explore_outlined,
-          text: 'Travel Planning',
+          text: 'City Guide',
           onPressed: () {
             GoRouter.of(context).go('/city-guide');
           },

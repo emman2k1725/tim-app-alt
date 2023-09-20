@@ -6,8 +6,12 @@ import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 
 import '../../backend/firebase/fetchTable.dart';
+import '../../utils/loading.dart';
 import '../../widgets/customAddButton.dart';
 import '../business/advertisement/components/business_ads_dialog.dart';
+import '../business/business_details/tabbar_components/business_links.dart';
+import '../business/business_details/tabbar_components/thumbnail.dart';
+import 'manage_business/operating_hours.dart';
 
 class AdminTableListView extends StatefulWidget {
   final String tableTitle;
@@ -580,7 +584,8 @@ class _ManageBusinessDataTableMobileState
                               thickness: 0.5,
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () =>
+                                    _showRowDialogMobile(data[index], context),
                                 child: Text(
                                   'View more details',
                                   style: TextStyle(color: Colors.white),
@@ -860,5 +865,282 @@ class _AdminAccountsDataTableMobileState
         }
       },
     );
+  }
+}
+
+void _showRowDialogMobile(Map<String, dynamic> item, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Business Details'),
+        actions: [
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back),
+            label: Text('Go back'),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
+          ),
+        ],
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        ClipOval(
+                          child: Container(
+                            width:
+                                100, // Set the desired width for the circular avatar
+                            height: 80,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color:
+                                    Colors.blue, // Set the color of the border
+                                width: 1.0, // Set the width of the border
+                              ),
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: Image.network(item['businessImages']
+                                            ['logo'] ??
+                                        'assets/images/empty-placeholder.png')
+                                    .image, // Replace 'your_image.png' with the actual image path
+                                fit: BoxFit
+                                    .cover, // Choose the appropriate fit option for your design
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                          height: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['businessName']
+                                  .toString(), // Replace with your name or text
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              item['businessSector'].toString(),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              item['businessAddress']['country']
+                                  .toString(), // Replace with your name or text
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              item['businessEmail'].toString(),
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              item['businessPhoneNumber']['countryCode']
+                                      .toString() +
+                                  item['businessPhoneNumber']['number']
+                                      .toString(), // Replace with your name or text
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      item['businessDesc'].toString(),
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Business Thumbnail', // Replace with your name or text
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ImageRowPage(item: item),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Business Address', // Replace with your name or text
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      'Country', // Replace with your name or text
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      item['businessAddress']
+                          ['country'], // Replace with your name or text
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      'City', // Replace with your name or text
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      item['businessAddress']
+                          ['city'], // Replace with your name or text
+                      style: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      'Postal Code', // Replace with your name or text
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      item['businessAddress']
+                          ['postal'], // Replace with your name or text
+                      style: TextStyle(
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      'Building Address', // Replace with your name or text
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      item['businessAddress']
+                          ['building'], // Replace with your name or text
+                      style: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 20.0),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Business Links', // Replace with your name or text
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    BusinessLinks(item: item),
+                    SizedBox(height: 20.0),
+                    Align(
+                        alignment: Alignment.topLeft,
+                        child: OperatingHours(
+                          operatingHours: item['businessHours'],
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void evaluateResult(String result, BuildContext context) {
+  Navigator.pop(context);
+  Navigator.pop(context);
+  if (result != 'success') {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
   }
 }
