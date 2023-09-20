@@ -9,7 +9,11 @@ import 'package:tim_app/utils/responsive.dart';
 
 class DraggableContainer extends StatefulWidget {
   final List<List<Map<String, dynamic>>> travelitenerary;
-  const DraggableContainer({super.key, required this.travelitenerary});
+  final Map<String, dynamic> traveliteneraryParameters;
+  const DraggableContainer(
+      {super.key,
+      required this.travelitenerary,
+      required this.traveliteneraryParameters});
 
   @override
   _DraggableContainer createState() => _DraggableContainer();
@@ -29,12 +33,10 @@ class _DraggableContainer extends State<DraggableContainer> {
       int x = 1;
       for (List<Map<String, dynamic>> dayData in travelitenerary) {
         String header = "Day $x";
+        String subText = widget.traveliteneraryParameters['dates'][x - 1];
         x++;
-        String subText = 'Date';
         List<DraggableListItem> items = [];
-        debugPrint(header);
         for (int i = 0; i < dayData.length; i++) {
-          debugPrint(dayData[i]['businessName']);
           items.add(DraggableListItem(
               title: dayData[i]['businessName'],
               urlImage: dayData[i]['displayImage'],

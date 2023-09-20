@@ -54,7 +54,8 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     "startTime": "",
     "endTime": "",
     "city": "",
-    "days": ""
+    "days": "",
+    "dates": [],
   };
   @override
   Widget build(BuildContext context) {
@@ -160,7 +161,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     userDataProvider.userData!.favCruisine,
                                     userDataProvider.userData!.favHangout,
                                     _travelPlanParameters);
-                            //debugPrint(itenerary.toString());
+                            debugPrint(_travelPlanParameters.toString());
                             setState(() {
                               isLoading = false;
                             });
@@ -168,7 +169,10 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => TravelPlanKanban(
-                                        travelitenerary: itenerary)));
+                                          travelitenerary: itenerary,
+                                          traveliteneraryParameters:
+                                              _travelPlanParameters,
+                                        )));
                           } else {
                             setState(() {
                               isLoading = false;
@@ -208,7 +212,8 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
     "endTime": "",
     "lat": "",
     "long": "",
-    "city": ""
+    "city": "",
+    "dates": []
   };
 
   @override
@@ -281,7 +286,7 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                                   userDataProvider.userData!.favCruisine,
                                   userDataProvider.userData!.favHangout,
                                   _travelPlanParameters);
-                          debugPrint(itenerary.toString());
+                          debugPrint(_travelPlanParameters.toString());
                           setState(() {
                             isLoading = false;
                           });
@@ -289,7 +294,10 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => TravelPlanKanban(
-                                      travelitenerary: itenerary)));
+                                        travelitenerary: itenerary,
+                                        traveliteneraryParameters:
+                                            _travelPlanParameters,
+                                      )));
                         } else {
                           setState(() {
                             isLoading = false;

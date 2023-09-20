@@ -350,14 +350,11 @@ class _SignupContainerState extends State<SignupContainer> {
                           String result = await auth.register(email, password,
                               firstName, lastName, phoneNumber);
                           if (result == 'success') {
-                            Navigator.of(context).pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Sign up sucessful! You can now login your account')));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    'Sign up sucessful! You can now login your account')));
                             GoRouter.of(context).go('/');
                           } else {
-                            Navigator.of(context).pop();
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(SnackBar(content: Text(result)));
                           }
