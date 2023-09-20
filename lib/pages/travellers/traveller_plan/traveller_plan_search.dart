@@ -161,7 +161,6 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     userDataProvider.userData!.favCruisine,
                                     userDataProvider.userData!.favHangout,
                                     _travelPlanParameters);
-                            debugPrint(_travelPlanParameters.toString());
                             setState(() {
                               isLoading = false;
                             });
@@ -286,7 +285,7 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                                   userDataProvider.userData!.favCruisine,
                                   userDataProvider.userData!.favHangout,
                                   _travelPlanParameters);
-                          debugPrint(_travelPlanParameters.toString());
+                          debugPrint(itenerary.toString());
                           setState(() {
                             isLoading = false;
                           });
