@@ -33,18 +33,7 @@ class ContentManagementMain extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Center(
-                  child: isApprove == false
-                      ? Text(
-                          'YOUR ACCOUNT IS NOT YET APPROVE',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      :
-                      // Text(
-                      //     'MANAGE CONTENT',
-                      //     style: TextStyle(color: Colors.white),
-                      //   )
-                      const ContentManagementScreen())
+              Center(child: const ContentManagementScreen())
             ],
           ),
         ),

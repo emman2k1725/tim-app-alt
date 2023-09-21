@@ -19,6 +19,7 @@ import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
 import 'package:tim_app/pages/profile/profile_screen.dart';
+import 'package:tim_app/pages/travellers/apply_business/applyBusiness.dart';
 
 import 'package:tim_app/pages/travellers/apply_business/apply_business_main.dart';
 import 'package:tim_app/pages/business/advertisement/business_advertisement_main.dart';
@@ -36,6 +37,7 @@ import 'package:tim_app/pages/homepage/specialOffers_page.dart';
 import 'package:tim_app/pages/login.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/signup.dart';
+import 'package:tim_app/pages/travellers/apply_business/apply_components/apply_main_screen.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_main.dart';
@@ -83,11 +85,7 @@ GoRouter createRouter() {
         pageBuilder: (context, state) =>
             CustomFadeTransition(widgetChild: const TravellerMain()),
       ),
-      GoRoute(
-        path: "/apply-business",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const ApplyBusinessMain()),
-      ),
+
       GoRoute(
         path: "/signup-interest",
         pageBuilder: (context, state) =>
@@ -96,7 +94,6 @@ GoRouter createRouter() {
       GoRoute(
         path: "/profile",
         builder: (context, state) => const ProfileScreen(),
-
       ),
       GoRoute(
         path: "/about",
@@ -165,6 +162,12 @@ GoRouter createRouter() {
         path: '/business-offers',
         pageBuilder: (context, state) => const NoTransitionPage(
           child: BusinessMenu(),
+        ),
+      ),
+      GoRoute(
+        path: '/business',
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: ApplyBusinessMain(),
         ),
       ),
     ],
@@ -587,11 +590,16 @@ final travellerRouter = GoRouter(
           navigatorKey: travelApplyBusinessNavigator,
           routes: [
             GoRoute(
-              path: '/apply-business',
+              path: '/business',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ApplyBusinessMain(),
               ),
-              routes: [],
+              routes: [
+                GoRoute(
+                  path: 'apply-business',
+                  builder: (context, state) => const ApplyBusiness(),
+                ),
+              ],
             ),
           ],
         ),
