@@ -140,20 +140,26 @@ class _LoginContainerState extends State<LoginContainer> {
                                     ),
 
                                     TextFormField(
+                                      style: TextStyle(color: Colors.white),
                                       decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        hintStyle: const TextStyle(
-                                          color: Colors
-                                              .blue, // Set the desired hint text color
-                                        ),
                                         labelText: 'Email',
                                         hintText: 'Enter your email',
-                                        border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.white),
-                                          borderRadius: BorderRadius.circular(
-                                              20.0), // Set the border radius
+                                        labelStyle:
+                                            TextStyle(color: Colors.white),
+                                        hintStyle:
+                                            TextStyle(color: Colors.white),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2, color: Colors.blue),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Colors.blueAccent),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
                                         ),
                                       ),
                                       autovalidateMode:
@@ -170,17 +176,30 @@ class _LoginContainerState extends State<LoginContainer> {
 
                                     const SizedBox(height: 16.0),
                                     TextFormField(
+                                      style: TextStyle(color: Colors.white),
                                       obscureText: _isObscure,
                                       decoration: InputDecoration(
-                                        filled: true,
-                                        hintStyle: const TextStyle(
-                                          color: Colors
-                                              .blue, // Set the desired hint text color
-                                        ),
-                                        fillColor: Colors.white,
                                         labelText: 'Password',
                                         hintText: 'Enter your password',
+                                        labelStyle:
+                                            TextStyle(color: Colors.white),
+                                        hintStyle:
+                                            TextStyle(color: Colors.white),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2, color: Colors.blue),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Colors.blueAccent),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
                                         suffixIcon: IconButton(
+                                            color: Colors.white,
                                             icon: Icon(_isObscure
                                                 ? Icons.visibility
                                                 : Icons.visibility_off),
@@ -189,12 +208,6 @@ class _LoginContainerState extends State<LoginContainer> {
                                                 _isObscure = !_isObscure;
                                               });
                                             }),
-                                        border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.white),
-                                          borderRadius: BorderRadius.circular(
-                                              20.0), // Set the border radius
-                                        ),
                                       ),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,

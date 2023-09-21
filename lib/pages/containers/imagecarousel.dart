@@ -48,15 +48,10 @@ class _ImageCarouselState extends State<ImageCarousel> {
               child: Responsive.isDesktop(context)
                   ? Row(
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Expanded(
-                              child: SizedBox(
+                        SizedBox(
                             height: 300,
-                            /* child: VideoPlayerScreen(
-                                videoUrl: aboutData['displayImage']) */
-                          )),
-                        ),
+                            child: VideoPlayerScreen(
+                                videoUrl: aboutData['displayImage'])),
                         const SizedBox(
                           width: 100,
                         ),

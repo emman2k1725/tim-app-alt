@@ -31,14 +31,6 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: const Text(
-              'Business Sector',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 16.0),
           FutureBuilder(
             future: _dropdownSector,
             builder: (context, snapshot) {
@@ -82,7 +74,6 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
               );
             },
           ),
-          const SizedBox(height: 16),
           if (selectedBusinessSector == 'Restaurant' ||
               selectedBusinessSector == 'Cafe')
             FutureBuilder(

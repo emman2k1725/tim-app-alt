@@ -20,19 +20,29 @@ class TravellerPlanScreen extends StatelessWidget {
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Admin Dashboard'),
+      appBar: CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(
-            height: 600,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(mainBg),
-              ),
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          height: MediaQuery.sizeOf(context).height * 1.0,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(mainBg),
             ),
-            child: const Padding(
-                padding: EdgeInsets.all(8.0), child: TravelPlanSearch())),
+          ),
+          child: const SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                TravelPlanSearch()
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
