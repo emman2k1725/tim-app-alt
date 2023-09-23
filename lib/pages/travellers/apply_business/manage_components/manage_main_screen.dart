@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/admin/dashboard/bar_graph/bar_graph.dart';
 import 'package:tim_app/pages/business/business_dashboard_main.dart';
+import 'package:tim_app/pages/business/business_menu.dart';
+import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
@@ -116,16 +118,44 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                       ),
                                       const SizedBox(height: 15),
                                       CustomButton(
-                                          text: "Manage your business",
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BusinessScreen(),
-                                              ),
-                                            );
-                                          }),
+                                        text: "Manage your business",
+                                        onPressed: () {
+                                          // businessRouter
+                                          //     .go('/business-dashboard');
+
+                                          //                  Navigator.pop(context);
+                                          // Navigator.pushReplacement(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         BusinessMenu(),
+                                          //   ),
+                                          // );
+                                          // Navigator.pushReplacement(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         BusinessMenu(),
+                                          //   ),
+                                          // );
+
+                                          // travellerNavigatorKey.currentState
+                                          //     ?.pop();
+                                          // businessRouter
+                                          //     .go('/business-dashboard');
+                                          //  Navigator.pop(context);
+
+                                          GoRouter.of(context)
+                                              .go('/business-dashboard');
+
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           const BusinessMenu()),
+                                          // );
+                                        },
+                                      ),
                                     ],
                                   ),
                                   Container(

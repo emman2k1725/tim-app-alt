@@ -431,7 +431,7 @@ final businessDetailsNavigator =
 final paymentDetailsNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'payment');
 
-final businessRouter = GoRouter(
+final GoRouter businessRouter = GoRouter(
   initialLocation: '/business-dashboard',
   navigatorKey: businessNavigatorKey,
   debugLogDiagnostics: true,
@@ -504,19 +504,19 @@ final businessRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: paymentDetailsNavigator,
           routes: [
-            // Shopping Cart
             GoRoute(
-              path: '/business-payment',
+              path: '/dashboard',
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessPaymentScreen(),
+                child: TravellerMain(),
               ),
-              // routes: [
-              //   GoRoute(
-              //     path: 'details',
-              //     builder: (context, state) => const DetailsScreen(label: 'B'),
-              //   ),
-              // ],
+              routes: [],
             ),
+            // GoRoute(
+            //   path: '/business-details',
+            //   pageBuilder: (context, state) => const NoTransitionPage(
+            //     child: BusinessDetailsScreen(),
+            //   ),
+            // ),
           ],
         ),
       ],
@@ -540,6 +540,13 @@ final travellerRouter = GoRouter(
   navigatorKey: travellerNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
+    GoRoute(
+      path: '/business-dashboard',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: BusinessMenu(),
+      ),
+      routes: [],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return TravellerNavigation(navigationShell: navigationShell);
