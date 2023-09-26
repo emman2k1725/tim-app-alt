@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
+import 'package:tim_app/backend/firebase/firebaseService.dart';
 
 Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
     List<dynamic>? hangouts, Map<String, dynamic> travelPlanParams) async {
@@ -161,6 +162,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(
     PlacesSearchResponse response = await _places.searchByText(find,
         location: Location(lat: latitude, lng: longtitude));
     String? displayImage, photoReference;
+    dynamic openingHours;
     String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
     for (var result in response.results) {
       if (result.permanentlyClosed == false) {
@@ -172,12 +174,17 @@ Future<List<Map<String, dynamic>>> fetchPlaces(
           displayImage =
               "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
         }
+        if (result.openingHours is Object) {
+          openingHours = null;
+        } else {
+          openingHours = result.openingHours.toString();
+        }
         Map<String, dynamic> placeResult = {
           "businessName": result.name,
           "address": result.formattedAddress,
           "city": splitAddress[2],
           "rating": result.rating,
-          "openingHours": result.openingHours,
+          "openingHours": openingHours,
           "displayImage": displayImage,
           "business_status": result.permanentlyClosed,
           "timeSchedule": ""
@@ -253,4 +260,32 @@ evaluateParameters(List<Map<String, dynamic>> places,
     }
   }
   return chosenPlace;
+}
+
+Future<bool> iteneraryToDatabase(List<List<Map<String, dynamic>>> itenerary,
+    Map<String, dynamic> itenerarySearchParams) async {
+  bool result = false;
+  Map<String, dynamic> iteneraryData = {
+    "city": itenerarySearchParams['city'],
+    "day": itenerarySearchParams['dates'].length,
+    "dates": [],
+    "itenerary": [],
+    "createdAt": DateTime.now(),
+    "ownedBy": itenerarySearchParams['userID']
+  };
+  for (int i = 0; i < itenerarySearchParams['dates'].length; i++) {
+    iteneraryData['dates'].add(itenerarySearchParams['dates'][i]);
+  }
+  for (int x = 0; x < itenerary.length; x++) {
+    for (int y = 0; y < itenerary[x].length; y++) {
+      iteneraryData['itenerary'].add(itenerary[x][y]);
+    }
+  }
+  debugPrint(iteneraryData.toString());
+  await saveItenerary(iteneraryData).then((value) {
+    if (value == 'success') {
+      result = true;
+    }
+  });
+  return result;
 }

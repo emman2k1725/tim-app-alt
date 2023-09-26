@@ -1,9 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_date.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_kanban.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -56,10 +59,19 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     "city": "",
     "days": "",
     "dates": [],
+    "userID": ""
   };
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user;
+    void getUserData() async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+
+    getUserData();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: BlurContainer(
@@ -157,21 +169,34 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                             _formKey.currentState!.save();
 
                             List<List<Map<String, dynamic>>> itenerary =
-                                await planTravel(
-                                    userDataProvider.userData!.favCruisine,
-                                    userDataProvider.userData!.favHangout,
-                                    _travelPlanParameters);
+                                await planTravel(user!.favCruisine,
+                                    user!.favHangout, _travelPlanParameters);
+                            _travelPlanParameters['userID'] = user!.docID;
                             setState(() {
                               isLoading = false;
                             });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TravelPlanKanban(
-                                          travelitenerary: itenerary,
-                                          traveliteneraryParameters:
-                                              _travelPlanParameters,
-                                        )));
+                            if (itenerary.isNotEmpty) {
+                              iteneraryToDatabase(
+                                      itenerary, _travelPlanParameters)
+                                  .then((value) {
+                                if (value == true) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TravelPlanKanban(
+                                                travelitenerary: itenerary,
+                                                traveliteneraryParameters:
+                                                    _travelPlanParameters,
+                                              )));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Unable to generate travel plan. Please select a different city or try again later.")));
+                                }
+                              });
+                            }
                           } else {
                             setState(() {
                               isLoading = false;
@@ -212,12 +237,20 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
     "lat": "",
     "long": "",
     "city": "",
-    "dates": []
+    "dates": [],
+    "userID": ""
   };
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userDataProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user;
+    void getUserData() async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+
     return BlurContainer(
         width: double.maxFinite,
         childColumn: Padding(
@@ -279,24 +312,33 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                         await Future.delayed(const Duration(seconds: 1));
                         if (_formKey.currentState!.validate() == true) {
                           _formKey.currentState!.save();
-
                           List<List<Map<String, dynamic>>> itenerary =
-                              await planTravel(
-                                  userDataProvider.userData!.favCruisine,
-                                  userDataProvider.userData!.favHangout,
-                                  _travelPlanParameters);
-                          debugPrint(itenerary.toString());
+                              await planTravel(user!.favCruisine,
+                                  user!.favHangout, _travelPlanParameters);
+                          _travelPlanParameters['userID'] = user!.docID;
                           setState(() {
                             isLoading = false;
                           });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TravelPlanKanban(
-                                        travelitenerary: itenerary,
-                                        traveliteneraryParameters:
-                                            _travelPlanParameters,
-                                      )));
+                          if (itenerary.isNotEmpty) {
+                            iteneraryToDatabase(
+                                    itenerary, _travelPlanParameters)
+                                .then((value) {
+                              if (value == true) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TravelPlanKanban(
+                                              travelitenerary: itenerary,
+                                              traveliteneraryParameters:
+                                                  _travelPlanParameters,
+                                            )));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        "Unable to generate travel plan. Please select a different city or try again later.")));
+                              }
+                            });
+                          }
                         } else {
                           setState(() {
                             isLoading = false;
