@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 Future<List<Map<String, dynamic>>> fetchData(String collection) async {
   CollectionReference itemsCollection =
-      FirebaseFirestore.instance.collection('businesses');
+      FirebaseFirestore.instance.collection(collection);
 
   QuerySnapshot querySnapshot = await itemsCollection.get();
   List<Map<String, dynamic>> data = [];
@@ -16,6 +16,25 @@ Future<List<Map<String, dynamic>>> fetchData(String collection) async {
     data.add(documentData);
   }
   return data;
+}
+
+Future<List<Map<String, dynamic>>> fetchTravel(String? userID) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection('travel-history')
+      .where('ownedBy', isEqualTo: userID)
+      .get();
+
+  List<Map<String, dynamic>> dataList = [];
+
+  querySnapshot.docs.forEach((doc) {
+    String documentID = doc.id;
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+    data['docID'] = documentID; // Add documentID to the data map
+
+    dataList.add(data);
+  });
+  return dataList;
 }
 
 Future<List<Map<String, dynamic>>> fetchTableNews(String type) async {

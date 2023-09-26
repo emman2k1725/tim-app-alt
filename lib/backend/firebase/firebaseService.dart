@@ -94,6 +94,19 @@ Future createContent(ContentModel? contentModel) async {
   return result;
 }
 
+Future saveItenerary(Map<String, dynamic> iteneraryData) async {
+  final _firestore = FirebaseFirestore.instance.collection('travel-history');
+  String? result;
+  try {
+    await _firestore.doc().set(iteneraryData);
+    result = 'success';
+  } catch (e) {
+    result = e.toString();
+    debugPrint(result);
+  }
+  return result;
+}
+
 Future updateContent(String? docID, ContentModel? contentModel) async {
   final _firestore = FirebaseFirestore.instance.collection('content');
   try {

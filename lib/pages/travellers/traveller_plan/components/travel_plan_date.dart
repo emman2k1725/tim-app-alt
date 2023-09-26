@@ -88,7 +88,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
   Future<void> _selectEndTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _endTime ?? TimeOfDay(hour: 8, minute: 00),
+      initialTime: _endTime ?? TimeOfDay(hour: 19, minute: 00),
     );
 
     if (picked != null && picked != _endTime) {
