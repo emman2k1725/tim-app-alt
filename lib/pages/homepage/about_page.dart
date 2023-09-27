@@ -29,6 +29,14 @@ class AboutPage extends StatelessWidget {
       user = userProvider.userData;
     }
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -42,10 +50,10 @@ class AboutPage extends StatelessWidget {
           child: Column(
             children: [
               user!.docID!.isEmpty || user.docID == null
-                  ? NavBar()
+                  ? SizedBox()
                   : CustomAppBar(title: 'hs'),
               SizedBox(
-                height: 20,
+                height: 130,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
