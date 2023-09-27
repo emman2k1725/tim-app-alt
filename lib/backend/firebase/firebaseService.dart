@@ -117,3 +117,23 @@ Future updateContent(String? docID, ContentModel? contentModel) async {
     return null;
   }
 }
+
+Future<Map<String, dynamic>> fetchBusiness(String? ownerID) async {
+  try {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('businesses')
+        .where('businessOwner', isEqualTo: ownerID)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic> data = snapshot.docs.first.data();
+      data['businessID'] = snapshot.docs.first.id;
+      return data;
+    } else {
+      return {};
+    }
+  } catch (e) {
+    debugPrint(e.toString());
+    return {};
+  }
+}
