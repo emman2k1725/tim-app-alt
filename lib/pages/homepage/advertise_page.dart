@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../ads_footer.dart';
 import '../../navBarProvider.dart';
+import '../../responsive.dart';
 import '../../utils/constants.dart';
 import '../../widgets/navBar.dart';
 import '../containers/advertise_container1.dart';
@@ -21,6 +22,14 @@ class _AdvertisePageState extends State<AdvertisePage> {
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -33,9 +42,8 @@ class _AdvertisePageState extends State<AdvertisePage> {
         child: const SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
               SizedBox(
-                height: 20,
+                height: 130,
               ),
               AdvertiseContainer1(),
               AdsFooter(),
