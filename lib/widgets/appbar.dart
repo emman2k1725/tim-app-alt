@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/pages/homepage/about_page.dart';
+import 'package:tim_app/pages/homepage/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
@@ -27,12 +30,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       user = userProvider.userData;
     }
 
-    final List<String> optionTraveller = [
-      'Account',
-      'Option 2',
-      'Option 3',
-      'Option 4'
-    ];
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    Future<void> signOut() async {
+      try {
+        await auth.signOut();
+        // Redirect the user to the login or home screen
+
+        GoRouter.of(context).go('/');
+      } catch (e) {
+        print("Error signing out: $e");
+      }
+    }
+
+    final List<String> optionTraveller = ['Account', 'Business', 'Sign out'];
 
     final List<String> optionBusiness = [
       'Account',
@@ -41,25 +52,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       'Option 4'
     ];
 
-    final Map<String, IconData> _optionIcons = {
+    final Map<String, IconData> optionIcons = {
       'Account': Icons.account_circle,
-      'Option 2': Icons.favorite,
-      'Option 3': Icons.thumb_up,
-      'Option 4': Icons.thumb_down,
+      'Business': Icons.business,
+      'Sign out': Icons.logout,
     };
     void _handleOptionSelected(String option) {
       // You can perform different actions for each option here
       switch (option) {
         case 'Account':
-          GoRouter.of(context).go('/media');
+          GoRouter.of(context).go('/traveller-account');
           break;
-        case 'Option 2':
+        case 'Homepage':
+          // navigator.pop();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AboutPage(),
+            ),
+          );
           break;
-        case 'Option 3':
-          // Handle Option 3 action
+        case 'Business':
+          GoRouter.of(context).go('/business');
           break;
-        case 'Option 4':
-          // Handle Option 4 action
+        case 'Sign out':
+          signOut();
           break;
       }
     }
@@ -130,7 +147,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         return PopupMenuItem<String>(
                           value: option,
                           child: ListTile(
-                            leading: Icon(_optionIcons[option]),
+                            leading: Icon(optionIcons[option]),
                             title: Text(option),
                             onTap: () {
                               _handleOptionSelected(option);

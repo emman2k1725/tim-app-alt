@@ -140,22 +140,23 @@ class _LoginContainerState extends State<LoginContainer> {
                                     ),
 
                                     TextFormField(
-                                      style: TextStyle(color: Colors.white),
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                       decoration: InputDecoration(
                                         labelText: 'Email',
                                         hintText: 'Enter your email',
-                                        labelStyle:
-                                            TextStyle(color: Colors.white),
-                                        hintStyle:
-                                            TextStyle(color: Colors.white),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.white),
+                                        hintStyle: const TextStyle(
+                                            color: Colors.white),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               width: 2, color: Colors.blue),
                                           borderRadius:
                                               BorderRadius.circular(20.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               width: 3,
                                               color: Colors.blueAccent),
                                           borderRadius:
@@ -176,23 +177,24 @@ class _LoginContainerState extends State<LoginContainer> {
 
                                     const SizedBox(height: 16.0),
                                     TextFormField(
-                                      style: TextStyle(color: Colors.white),
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                       obscureText: _isObscure,
                                       decoration: InputDecoration(
                                         labelText: 'Password',
                                         hintText: 'Enter your password',
-                                        labelStyle:
-                                            TextStyle(color: Colors.white),
-                                        hintStyle:
-                                            TextStyle(color: Colors.white),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.white),
+                                        hintStyle: const TextStyle(
+                                            color: Colors.white),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               width: 2, color: Colors.blue),
                                           borderRadius:
                                               BorderRadius.circular(20.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               width: 3,
                                               color: Colors.blueAccent),
                                           borderRadius:
@@ -283,7 +285,8 @@ class _LoginContainerState extends State<LoginContainer> {
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
-                                                        content: Text(value)));
+                                                        content: Text(
+                                                            'Please Enter Correct Credentials')));
                                               }
                                             });
                                           }
@@ -410,10 +413,76 @@ class _LoginContainerState extends State<LoginContainer> {
                                   ),
                                 ),
                               )
-                            : SizedBox(height: 0),
+                            : const SizedBox(height: 0),
                       ],
                     ),
                   )))),
+    );
+  }
+
+  void _showRowDialog(
+      /*Map<String, dynamic> item*/ String item, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Forgot Password'),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Please provide the email address that you used when you signed up for your account.',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: 400,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Enter Email Address',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'An email will been sent to your account. Check your inbox and click the reset link provided.',
+                        textAlign: TextAlign.left,
+                        softWrap: true,
+                        // Other text style properties can be added here
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      CustomButton(
+                        text: 'Reset Password',
+                        onPressed: () async {},
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -429,17 +498,4 @@ void nagivateGateway(
   } else {
     GoRouter.of(context).go('/admin-dashboard');
   }
-}
-
-void _showRowDialog(
-    /*Map<String, dynamic> item*/ String item, BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return CustomAlertDialog(
-        title: 'Forgot Password',
-        message: 'Insert text here',
-      );
-    },
-  );
 }

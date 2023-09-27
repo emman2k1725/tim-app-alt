@@ -20,8 +20,6 @@ class ApplyBusinessMain extends StatelessWidget {
       user = userDataProvider.userData;
     }
 
-    bool isBusiness = true;
-
     return Scaffold(
       appBar: CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
