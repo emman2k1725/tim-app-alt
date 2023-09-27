@@ -37,21 +37,21 @@ class _ShadowButtonState extends State<ShadowButton> {
         height: Responsive.isDesktop(context) ? 100.0 : 90.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            for (double i = 1; i < 5; i++)
-              BoxShadow(
-                color: shadowColor,
-                blurRadius: (isPressed ? 5 : 3) * i,
-                inset: true,
-              ),
-            for (double i = 1; i < 5; i++)
-              BoxShadow(
-                spreadRadius: -1,
-                color: shadowColor,
-                blurRadius: (isPressed ? 5 : 3) * i,
-                blurStyle: BlurStyle.outer,
-              )
-          ],
+          // boxShadow: [
+          //   for (double i = 1; i < 5; i++)
+          //     BoxShadow(
+          //       color: shadowColor,
+          //       blurRadius: (isPressed ? 5 : 3) * i,
+          //       inset: true,
+          //     ),
+          //   for (double i = 1; i < 5; i++)
+          //     BoxShadow(
+          //       spreadRadius: -1,
+          //       color: shadowColor,
+          //       blurRadius: (isPressed ? 5 : 3) * i,
+          //       blurStyle: BlurStyle.outer,
+          //     )
+          // ],
         ),
         child: TextButton(
           onHover: (hovered) => setState(() {
@@ -79,13 +79,13 @@ class _ShadowButtonState extends State<ShadowButton> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Responsive.isDesktop(context) ? 24.0 : 18.0,
-                  shadows: [
-                    for (double i = 1; i < (isPressed ? 8 : 4); i++)
-                      Shadow(
-                        color: shadowColor,
-                        blurRadius: 3 * i,
-                      )
-                  ],
+                  // shadows: [
+                  //   for (double i = 1; i < (isPressed ? 8 : 4); i++)
+                  //     Shadow(
+                  //       color: shadowColor,
+                  //       blurRadius: 3 * i,
+                  //     )
+                  // ],
                 ),
               ),
             ],
