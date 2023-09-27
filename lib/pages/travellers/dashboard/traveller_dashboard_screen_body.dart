@@ -4,6 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/pages/admin/dashboard/bar_graph/bar_graph.dart';
+import 'package:tim_app/pages/homepage/cityGuide_page.dart';
+import 'package:tim_app/pages/homepage/latestNews_page.dart';
+import 'package:tim_app/pages/homepage/media_page.dart';
+import 'package:tim_app/pages/homepage/specialOffers_page.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/customButtons.dart';
@@ -58,27 +62,26 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     {
       'icon': Icons.cameraswitch_outlined,
       'text': 'Media',
-      'route': '/admin-manage-content/media',
     },
     {
       'icon': Icons.bookmark_add_rounded,
       'text': 'Latest News',
-      'route': '/admin-manage-content/news',
+      'route': '/latest-news',
     },
     {
       'icon': Icons.maps_ugc_outlined,
       'text': 'City Guide',
-      'route': '/admin-manage-content/guide',
+      'route': '/city-guide',
     },
     {
       'icon': Icons.discount_outlined,
       'text': 'Special Offers',
-      'route': '/admin-manage-content/offer',
+      'route': '/special-offers',
     },
     {
       'icon': Icons.play_circle,
       'text': 'How it works',
-      'route': '/admin-manage-content/how',
+      'route': '/how-it-works',
     },
   ];
 
@@ -336,7 +339,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                       Colors.lightBlueAccent),
                                               SizedBox(width: 5),
                                               Text(
-                                                'Manage Content',
+                                                'Explore Content',
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
@@ -360,24 +363,51 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                       BorderRadius.circular(
                                                           20)),
                                               child: ListTile(
-                                                leading: Icon(
-                                                  iconItems[index]['icon'],
-                                                  color: Colors.blueAccent,
-                                                ),
-                                                title: Text(
-                                                  iconItems[index]['text'],
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_right,
-                                                  size: 30,
-                                                  color: Colors.blueAccent,
-                                                ),
-                                                onTap: () => context.go(
-                                                  iconItems[index]['route'],
-                                                ),
-                                              ),
+                                                  leading: Icon(
+                                                    iconItems[index]['icon'],
+                                                    color: Colors.blueAccent,
+                                                  ),
+                                                  title: Text(
+                                                    iconItems[index]['text'],
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_right,
+                                                    size: 30,
+                                                    color: Colors.blueAccent,
+                                                  ),
+                                                  onTap: () {
+                                                    if (index == 0) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MediaPage()),
+                                                      );
+                                                    } else if (index == 1) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                LatestNewsPage()),
+                                                      );
+                                                    } else if (index == 2) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                CityGuidePage()),
+                                                      );
+                                                    } else if (index == 3) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                SpecialOffersPage()),
+                                                      );
+                                                    }
+                                                  }),
                                             ),
                                           );
                                         },
