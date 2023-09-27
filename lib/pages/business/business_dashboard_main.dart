@@ -2,28 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/businessDataProvider.dart';
-import 'package:tim_app/backend/firebase/firebaseService.dart';
+
 import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
-
-import '../../backend/authservice/authentication.dart';
-import '../../backend/firebase/userDataProvider.dart';
-import '../../model/BusinessModel.dart';
 
 class BusinessScreen extends StatelessWidget {
   const BusinessScreen({super.key});
 
   @override
   build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    if (userProvider.userData?.hasBusiness == false) {
-      // back to traveller dashboard
-    }
-    BusinessDataProvider businessDataProvider =
-        Provider.of<BusinessDataProvider>(context);
     bool isApprove = true;
     return SafeArea(
       child: Container(

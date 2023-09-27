@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_date.dart';
