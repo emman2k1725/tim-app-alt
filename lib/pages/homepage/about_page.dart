@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 import '../../ads_footer.dart';
-import '../../navBarProvider.dart';
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
 import '../../utils/constants.dart';
@@ -20,6 +22,12 @@ class AboutPage extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
       body: Container(
         width: w,
@@ -33,7 +41,9 @@ class AboutPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
+              user!.docID!.isEmpty || user.docID == null
+                  ? NavBar()
+                  : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 20,
               ),
