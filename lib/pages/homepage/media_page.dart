@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/widgets/appbar.dart';
 import '../../ads_footer.dart';
 import '../../backend/firebase/fetchTable.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 import '../../custom_dialog.dart';
 import '../../navBarProvider.dart';
 import '../../responsive.dart';
@@ -21,6 +25,13 @@ class MediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
       body: Container(
         width: w,
@@ -34,7 +45,7 @@ class MediaPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
+              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 20,
               ),

@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 import '../../custom_dialog.dart';
 import '../../responsive.dart';
@@ -20,6 +22,13 @@ class _SpecialOffersPageState extends State<SpecialOffersPage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
       body: Container(
         width: w,
@@ -33,7 +42,7 @@ class _SpecialOffersPageState extends State<SpecialOffersPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
+              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 20,
               ),

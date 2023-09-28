@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         await auth.signOut();
         // Redirect the user to the login or home screen
 
-        GoRouter.of(context).go('/');
+        GoRouter.of(context).go('/login');
       } catch (e) {
         print("Error signing out: $e");
       }

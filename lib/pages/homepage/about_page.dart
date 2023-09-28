@@ -41,9 +41,7 @@ class AboutPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              user!.docID!.isEmpty || user.docID == null
-                  ? NavBar()
-                  : CustomAppBar(title: 'hs'),
+              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 20,
               ),

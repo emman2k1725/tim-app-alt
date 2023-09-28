@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../backend/firebase/firebaseService.dart';
-import '../../../backend/firebase/userDataProvider.dart';
-import '../../../backend/firebase/fetchDropDown.dart';
-import '../../../backend/shared-preferences/sharedPreferenceService.dart';
-import '../../../model/UserModel.dart';
-import '../../../utils/loading.dart';
+import '../../../../backend/firebase/firebaseService.dart';
+import '../../../../backend/firebase/userDataProvider.dart';
+import '../../../../backend/firebase/fetchDropDown.dart';
+import '../../../../backend/shared-preferences/sharedPreferenceService.dart';
+import '../../../../model/UserModel.dart';
+import '../../../../utils/loading.dart';
 
 class ModalInterestCruisine extends StatefulWidget {
   const ModalInterestCruisine({super.key});
