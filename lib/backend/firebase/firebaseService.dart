@@ -94,6 +94,19 @@ Future createContent(ContentModel? contentModel) async {
   return result;
 }
 
+Future saveItenerary(Map<String, dynamic> iteneraryData) async {
+  final _firestore = FirebaseFirestore.instance.collection('travel-history');
+  String? result;
+  try {
+    await _firestore.doc().set(iteneraryData);
+    result = 'success';
+  } catch (e) {
+    result = e.toString();
+    debugPrint(result);
+  }
+  return result;
+}
+
 Future updateContent(String? docID, ContentModel? contentModel) async {
   final _firestore = FirebaseFirestore.instance.collection('content');
   try {
@@ -102,5 +115,25 @@ Future updateContent(String? docID, ContentModel? contentModel) async {
   } catch (e) {
     print(e.toString());
     return null;
+  }
+}
+
+Future<Map<String, dynamic>> fetchBusiness(String? ownerID) async {
+  try {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('businesses')
+        .where('businessOwner', isEqualTo: ownerID)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic> data = snapshot.docs.first.data();
+      data['businessID'] = snapshot.docs.first.id;
+      return data;
+    } else {
+      return {};
+    }
+  } catch (e) {
+    debugPrint(e.toString());
+    return {};
   }
 }

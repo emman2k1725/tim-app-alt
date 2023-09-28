@@ -40,6 +40,7 @@ class _NavBarState extends State<NavBar> {
       height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           navLogo(),
           if (!Responsive.isDesktop(context) && !Responsive.isTablet(context))
@@ -60,6 +61,7 @@ class _NavBarState extends State<NavBar> {
       height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [const Icon(Icons.menu), navLogo()],
       ),
     );
@@ -203,7 +205,7 @@ class _NavBarState extends State<NavBar> {
   Widget navLogo() {
     return Container(
       width: 70,
-      margin: EdgeInsets.only(bottom: 12),
+      //margin: EdgeInsets.only(bottom: 12),
       decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage(logo), fit: BoxFit.contain)),
     );

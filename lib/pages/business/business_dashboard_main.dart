@@ -1,29 +1,57 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/businessDataProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
+import 'package:tim_app/backend/shared-preferences/sharedPreferenceService.dart';
+import 'package:tim_app/model/BusinessModel.dart';
+import 'package:tim_app/model/UserModel.dart';
+
 import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
 import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
 
-import '../../backend/authservice/authentication.dart';
-import '../../backend/firebase/userDataProvider.dart';
-import '../../model/BusinessModel.dart';
-
-class BusinessScreen extends StatelessWidget {
+class BusinessScreen extends StatefulWidget {
   const BusinessScreen({super.key});
 
   @override
-  build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    if (userProvider.userData?.hasBusiness == false) {
-      // back to traveller dashboard
+  State<BusinessScreen> createState() => _BusinessScreenState();
+}
+
+class _BusinessScreenState extends State<BusinessScreen> {
+  UserModel? user;
+
+  @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      UserModel _user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      user = _user;
+    });
+    fetchBusinessData(user?.docID);
+  }
+
+  fetchBusinessData(String? userID) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    try {
+      Map<String, dynamic> data = await fetchBusiness(userID!);
+      BusinessModel businessData = BusinessModel.fromMapWithID(data);
+
+      _pref.setString('business', jsonEncode(businessData.toMapWithID()));
+    } catch (e) {
+      print(e.toString());
     }
-    BusinessDataProvider businessDataProvider =
-        Provider.of<BusinessDataProvider>(context);
+  }
+
+  @override
+  build(BuildContext context) {
     bool isApprove = true;
     return SafeArea(
       child: Container(

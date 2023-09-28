@@ -27,7 +27,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         aspectRatio: 16 / 9,
         looping: true,
       );
-      _videoPlayerController.initialize();
+      _chewieController.setVolume(0.0);
+      _chewieController.play();
     } catch (error) {
       print('Error initializing video: $error');
     }

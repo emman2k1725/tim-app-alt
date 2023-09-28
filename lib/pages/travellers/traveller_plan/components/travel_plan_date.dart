@@ -73,7 +73,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _startTime ?? TimeOfDay(hour: 07, minute: 00),
+      initialTime: _startTime ?? TimeOfDay(hour: 08, minute: 00),
     );
 
     if (picked != null && picked != _startTime) {
@@ -88,7 +88,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
   Future<void> _selectEndTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _endTime ?? TimeOfDay(hour: 17, minute: 00),
+      initialTime: _endTime ?? TimeOfDay(hour: 19, minute: 00),
     );
 
     if (picked != null && picked != _endTime) {
@@ -108,6 +108,51 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
     String formattedTime = outputFormat.format(dateTime);
 
     return formattedTime;
+  }
+
+  DateTime currentTime = DateTime.now();
+
+  TimeOfDay convertStringToTimeOfDay(String timeString) {
+    List<String> parts = timeString.split(' ');
+    List<int> timeParts = parts[0].split(':').map(int.parse).toList();
+
+    int hour = timeParts[0];
+    int minute = timeParts[1];
+
+    if (parts[1].toLowerCase() == 'pm' && hour != 12) {
+      hour += 12;
+    }
+
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  int compareTimeOfDay(TimeOfDay a, TimeOfDay b) {
+    if (a.hour < b.hour) {
+      return -1;
+    } else if (a.hour > b.hour) {
+      return 1;
+    } else {
+      if (a.minute < b.minute) {
+        return -1;
+      } else if (a.minute > b.minute) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  List<String> getDatesInBetween(DateTime startDate, DateTime endDate) {
+    List<String> dates = [];
+    DateTime currentDate = startDate;
+
+    while (currentDate.isBefore(endDate) ||
+        currentDate.isAtSameMomentAs(endDate)) {
+      dates.add(DateFormat('yyyy-MM-dd').format(currentDate));
+      currentDate = currentDate.add(Duration(days: 1));
+    }
+
+    return dates;
   }
 
   @override
@@ -131,9 +176,10 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please select starting date";
-                            } else if (value
-                                    .compareTo(DateTime.now().toString()) <
-                                0) {
+                            } else if (DateTime.parse(value).isBefore(DateTime(
+                                currentTime.year,
+                                currentTime.month,
+                                currentTime.day))) {
                               return "Please select a valid starting date";
                             } else {
                               return null;
@@ -182,14 +228,14 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please select end date";
-                            } else if (value.compareTo(_startDate.toString()) <
-                                0) {
+                            } else if (DateTime.parse(value)
+                                .isBefore(_startDate!)) {
                               return "Please select a valid end date";
                             } else if (DateTime.parse(value)
                                     .difference(_startDate!)
                                     .inDays >=
                                 5) {
-                              return "Only 5 days are allowed";
+                              return "Only 5 days of travel is allowed";
                             } else {
                               return null;
                             }
@@ -244,9 +290,10 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please select starting date";
-                          } else if (value
-                                  .compareTo(DateTime.now().toString()) <
-                              0) {
+                          } else if (DateTime.parse(value).isBefore(DateTime(
+                              currentTime.year,
+                              currentTime.month,
+                              currentTime.day))) {
                             return "Please select a valid starting date";
                           } else {
                             return null;
@@ -292,8 +339,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please select end date";
-                          } else if (value.compareTo(_startDate.toString()) <
-                              0) {
+                          } else if (DateTime.parse(value)
+                              .isBefore(_startDate!)) {
                             return "Please select a valid end date";
                           } else if (DateTime.parse(value)
                                   .difference(_startDate!)
@@ -355,6 +402,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please select starting time";
+                            } else if (compareTimeOfDay(
+                                    convertStringToTimeOfDay(value),
+                                    TimeOfDay(hour: 8, minute: 00)) <
+                                0) {
+                              return "Select start time after 8:00 AM";
                             } else {
                               return null;
                             }
@@ -407,6 +459,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please select end time";
+                                } else if (compareTimeOfDay(
+                                        convertStringToTimeOfDay(value),
+                                        TimeOfDay(hour: 22, minute: 00)) >
+                                    0) {
+                                  return "Select end time before 10:00 PM";
                                 } else {
                                   return null;
                                 }
@@ -415,6 +472,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                               onSaved: (value) {
                                 widget.travelSearchParameters['endTime'] =
                                     convertTo24HourFormat(value);
+                                for (String days in getDatesInBetween(
+                                    _startDate!, _endDate!)) {
+                                  widget.travelSearchParameters['dates']
+                                      .add(days.toString());
+                                }
                               },
                               decoration: InputDecoration(
                                 labelText: 'End Time',
@@ -460,6 +522,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please select starting time";
+                          } else if (compareTimeOfDay(
+                                  convertStringToTimeOfDay(value),
+                                  TimeOfDay(hour: 8, minute: 00)) <
+                              0) {
+                            return "Select a time above 8:00 AM";
                           } else {
                             return null;
                           }
@@ -505,6 +572,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please select end time";
+                          } else if (compareTimeOfDay(
+                                  convertStringToTimeOfDay(value),
+                                  TimeOfDay(hour: 22, minute: 00)) >
+                              0) {
+                            return "Select an end time before 10:00 PM";
                           } else {
                             return null;
                           }
@@ -513,6 +585,11 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         onSaved: (value) {
                           widget.travelSearchParameters['endTime'] =
                               convertTo24HourFormat(value);
+                          for (String days
+                              in getDatesInBetween(_startDate!, _endDate!)) {
+                            widget.travelSearchParameters['dates']
+                                .add(days.toString());
+                          }
                         },
                         decoration: InputDecoration(
                           labelText: 'End Time',

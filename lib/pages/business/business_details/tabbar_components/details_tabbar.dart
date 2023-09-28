@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/model/BusinessModel.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal.dart';
@@ -31,6 +35,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
   Uint8List? _webPickedImage1;
   Uint8List? _webPickedImage2;
   Uint8List? _webPickedImage3;
+  BusinessModel? business;
 
   Future<Uint8List?> _pickImage(String imageType) async {
     final ImagePicker _picker = ImagePicker();
@@ -63,6 +68,21 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      BusinessModel _business =
+          BusinessModel.fromMapWithID(jsonDecode(pref.getString('business')!));
+      business = _business;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -81,7 +101,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
 // ============== CONTAINER 1 ==============
   Widget desktopContainer1() {
     return FutureBuilder(
-        future: fetchDocumentbyID('94RhxOFr6SQMqRm9ffiB', 'businesses'),
+        future: fetchDocumentbyID(business?.businessID, 'businesses'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

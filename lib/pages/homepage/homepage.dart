@@ -9,6 +9,7 @@ import 'package:tim_app/widgets/navBar.dart';
 
 import '../../ads_footer.dart';
 import '../../navBarProvider.dart';
+import '../../responsive.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -24,6 +25,14 @@ class _HomeState extends State<Home> {
     h = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -36,9 +45,9 @@ class _HomeState extends State<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const NavBar(),
+              // const NavBar(),
               const SizedBox(
-                height: 20,
+                height: 100,
               ),
               const Container1(),
               const SizedBox(

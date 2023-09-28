@@ -133,6 +133,8 @@ class BusinessLinks extends StatelessWidget {
 
   Widget mobileContainer() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,

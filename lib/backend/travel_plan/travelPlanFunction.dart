@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
+import 'package:tim_app/backend/firebase/firebaseService.dart';
 
 Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
     List<dynamic>? hangouts, Map<String, dynamic> travelPlanParams) async {
@@ -20,7 +21,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
       await FirebaseService.fetchHangout();
   try {
     // Hotel to stay
-    Map<String, dynamic> selectedHotel = evaluateParameters(selectHotels);
+    Map<String, dynamic> selectedHotel = evaluateParameters(
+        selectHotels, travelItinerary, travelPlanParams['startTime']);
     for (int x = 0; x < travelPlanParams['days']; x++) {
       String currentTime = travelPlanParams['startTime'];
       String endTime = travelPlanParams['endTime'];
@@ -39,7 +41,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'lat': lat,
             'currentTime': currentTime,
           };
-          travelItineraryPerDay.add(await getPlace(getPlaceParams));
+          travelItineraryPerDay
+              .add(await getPlace(getPlaceParams, travelItinerary));
           currentTime = addMinutesToTime(currentTime,
               getAveTimeSpent(hangoutPlaces, 'hangout', 'Restaurant')!);
           hadBreakfast = true;
@@ -52,7 +55,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'lat': lat,
             'currentTime': currentTime,
           };
-          travelItineraryPerDay.add(await getPlace(getPlaceParams));
+          travelItineraryPerDay
+              .add(await getPlace(getPlaceParams, travelItinerary));
           currentTime = addMinutesToTime(currentTime,
               getAveTimeSpent(hangoutPlaces, 'hangout', 'Restaurant')!);
           hadLunch = true;
@@ -65,7 +69,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'lat': lat,
             'currentTime': currentTime,
           };
-          travelItineraryPerDay.add(await getPlace(getPlaceParams));
+          travelItineraryPerDay
+              .add(await getPlace(getPlaceParams, travelItinerary));
           currentTime = addMinutesToTime(currentTime,
               getAveTimeSpent(hangoutPlaces, 'hangout', 'Restaurant')!);
           hadDinner = true;
@@ -77,7 +82,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'lat': lat,
             'currentTime': currentTime,
           };
-          travelItineraryPerDay.add(await getPlace(getPlaceParams));
+          travelItineraryPerDay
+              .add(await getPlace(getPlaceParams, travelItinerary));
           currentTime = addMinutesToTime(currentTime,
               getAveTimeSpent(hangoutPlaces, 'hangout', hangOutPlace)!);
         }
@@ -90,7 +96,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'lat': lat,
             'currentTime': endTime,
           };
-          travelItineraryPerDay.add(await getPlace(getPlaceParams));
+          travelItineraryPerDay
+              .add(await getPlace(getPlaceParams, travelItinerary));
           travelItinerary[x] = travelItineraryPerDay;
           break;
         }
@@ -103,13 +110,14 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
   return travelItinerary;
 }
 
-Future<Map<String, dynamic>> getPlace(
-    Map<String, dynamic> fetchPlaceParams) async {
+Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
+    List<List<Map<String, dynamic>>> travelItinerary) async {
   List<Map<String, dynamic>>? tempList;
   Map<String, dynamic>? temp;
   tempList = await fetchPlaces(fetchPlaceParams['hangoutPlace'],
       fetchPlaceParams['lat'], fetchPlaceParams['long']);
-  temp = evaluateParameters(tempList);
+  temp = evaluateParameters(
+      tempList, travelItinerary, fetchPlaceParams['currentTime']);
   temp!['timeSchedule'] = fetchPlaceParams['currentTime'];
   return temp;
 }
@@ -153,23 +161,39 @@ Future<List<Map<String, dynamic>>> fetchPlaces(
         GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
     PlacesSearchResponse response = await _places.searchByText(find,
         location: Location(lat: latitude, lng: longtitude));
+    String? displayImage, photoReference;
+    dynamic openingHours;
+    String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
     for (var result in response.results) {
       if (result.permanentlyClosed == false) {
         List<String> splitAddress = result.formattedAddress!.split(',');
+        if (result.photos.isEmpty) {
+          displayImage = result.icon;
+        } else {
+          photoReference = result.photos[0].photoReference;
+          displayImage =
+              "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
+        }
+        if (result.openingHours is Object) {
+          openingHours = null;
+        } else {
+          openingHours = result.openingHours.toString();
+        }
         Map<String, dynamic> placeResult = {
           "businessName": result.name,
           "address": result.formattedAddress,
           "city": splitAddress[2],
           "rating": result.rating,
-          "openingHours": result.openingHours,
-          "displayImage": result.icon,
+          "openingHours": openingHours,
+          "displayImage": displayImage,
           "business_status": result.permanentlyClosed,
           "timeSchedule": ""
         };
         places.add(placeResult);
       }
-      return places;
     }
+    places.sort((a, b) => b['rating'].compareTo(a['rating']));
+    return places;
   } catch (e) {
     debugPrint(e.toString());
   }
@@ -208,9 +232,60 @@ int? getAveTimeSpent(
   return null; // Return null if no match is found
 }
 
-evaluateParameters(List<Map<String, dynamic>> places) {
-  Map<String, dynamic> highestRatedPlace = places.reduce((a, b) {
-    return (a['rating'] > b['rating']) ? a : b;
+evaluateParameters(List<Map<String, dynamic>> places,
+    List<List<Map<String, dynamic>>> travelItinerary, String currentTime) {
+  Map<String, dynamic>? chosenPlace;
+  if (travelItinerary.isEmpty) {
+    // for hotel
+    return places[0];
+  }
+  bool traverseToItenerary(Map<String, dynamic> place,
+      List<List<Map<String, dynamic>>> travelItinerary) {
+    // LOCAL FUNCTION
+    bool flag = false;
+    for (int x = 0; x < travelItinerary.length; x++) {
+      for (int y = 0; y < travelItinerary[x].length; y++) {
+        if (place['businessName'] == travelItinerary[x][y]['businessName']) {
+          flag = true;
+          break;
+        }
+      }
+    }
+    return flag;
+  }
+
+  for (int i = 0; i < places.length; i++) {
+    if (traverseToItenerary(places[i], travelItinerary) == false) {
+      chosenPlace = places[i];
+    }
+  }
+  return chosenPlace;
+}
+
+Future<bool> iteneraryToDatabase(List<List<Map<String, dynamic>>> itenerary,
+    Map<String, dynamic> itenerarySearchParams) async {
+  bool result = false;
+  Map<String, dynamic> iteneraryData = {
+    "city": itenerarySearchParams['city'],
+    "day": itenerarySearchParams['dates'].length,
+    "dates": [],
+    "itenerary": [],
+    "createdAt": DateTime.now(),
+    "ownedBy": itenerarySearchParams['userID']
+  };
+  for (int i = 0; i < itenerarySearchParams['dates'].length; i++) {
+    iteneraryData['dates'].add(itenerarySearchParams['dates'][i]);
+  }
+  for (int x = 0; x < itenerary.length; x++) {
+    for (int y = 0; y < itenerary[x].length; y++) {
+      iteneraryData['itenerary'].add(itenerary[x][y]);
+    }
+  }
+  debugPrint(iteneraryData.toString());
+  await saveItenerary(iteneraryData).then((value) {
+    if (value == 'success') {
+      result = true;
+    }
   });
-  return highestRatedPlace;
+  return result;
 }

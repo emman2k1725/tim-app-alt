@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/admin/dashboard/bar_graph/bar_graph.dart';
 import 'package:tim_app/pages/business/business_dashboard_main.dart';
 import 'package:tim_app/pages/business/business_menu.dart';
@@ -47,7 +50,21 @@ class DesktopScreenSize extends StatefulWidget {
 }
 
 class _DesktopScreenSizeState extends State<DesktopScreenSize> {
+  UserModel? user;
+  @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
   Color shadowColor = Colors.blueAccent;
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      UserModel _user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      user = _user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,40 +137,8 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                       CustomButton(
                                         text: "Manage your business",
                                         onPressed: () {
-                                          // businessRouter
-                                          //     .go('/business-dashboard');
-
-                                          //                  Navigator.pop(context);
-                                          // Navigator.pushReplacement(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) =>
-                                          //         BusinessMenu(),
-                                          //   ),
-                                          // );
-                                          // Navigator.pushReplacement(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) =>
-                                          //         BusinessMenu(),
-                                          //   ),
-                                          // );
-
-                                          // travellerNavigatorKey.currentState
-                                          //     ?.pop();
-                                          // businessRouter
-                                          //     .go('/business-dashboard');
-                                          //  Navigator.pop(context);
-
                                           GoRouter.of(context)
                                               .go('/business-dashboard');
-
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           const BusinessMenu()),
-                                          // );
                                         },
                                       ),
                                     ],

@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
@@ -18,27 +24,33 @@ class TripHistoryTable extends StatefulWidget {
 class _TripHistoryTableState extends State<TripHistoryTable> {
   @override
   Widget build(BuildContext context) {
-    final int rowsPerPage = 10;
+    const int rowsPerPage = 10;
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchData('businesses'),
+      future: fetchTravel(user!.docID),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error fetching data'));
+          return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
           return PaginatedDataTable(
-            header: Text(
+            header: const Text(
               'Trip History',
               style: TextStyle(color: Colors.lightBlueAccent),
             ),
             rowsPerPage: rowsPerPage,
-            columns: [
+            columns: const [
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Title',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -51,7 +63,7 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Start Date',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -64,7 +76,7 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'End Date',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -85,15 +97,6 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
               ),
               DataColumn(
                 label: Text(
-                  'Status',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: 'Status',
-              ),
-              const DataColumn(
-                label: Text(
                   'Action',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
@@ -106,7 +109,7 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
             source: _MyDataTableSource(data, context),
           );
         } else {
-          return Center(child: Text('No data found'));
+          return const Center(child: Text('No data found'));
         }
       },
     );
@@ -126,11 +129,10 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['businessName'].toString())),
-      DataCell(Text(item['businessEmail'].toString())),
-      DataCell(Text(item['businessSector'].toString())),
-      DataCell(Text(item['businessAddress']['country'].toString())),
-      DataCell(Text(item['businessAddress']['country'].toString())),
+      DataCell(Text(item['city'])),
+      DataCell(Text(item['dates'][0])),
+      DataCell(Text(item['dates'][item['dates'].length - 1])),
+      DataCell(Text(item['day'].toString())),
       DataCell(
         Row(
           children: [
@@ -182,12 +184,13 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                   await businessPendingAction(item['docID'], 'Approved');
               evaluateResult(result, context);
             },
-            icon: Icon(Icons.check),
-            label: Text('Approve'),
+            icon: const Icon(Icons.check),
+            label: const Text('Approve'),
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, padding: EdgeInsets.all(20)),
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.all(20)),
           ),
-          SizedBox(width: 8), // Add some space between the buttons
+          const SizedBox(width: 8), // Add some space between the buttons
           ElevatedButton.icon(
             onPressed: () async {
               showCustomLoadingDialog(context, 'Loading...');
@@ -195,10 +198,10 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                   await businessPendingAction(item['docID'], 'Declined');
               evaluateResult(result, context);
             },
-            icon: Icon(Icons.close),
-            label: Text('Decline'),
+            icon: const Icon(Icons.close),
+            label: const Text('Decline'),
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, padding: EdgeInsets.all(20)),
+                backgroundColor: Colors.red, padding: const EdgeInsets.all(20)),
           ),
         ],
         content: SingleChildScrollView(
@@ -247,24 +250,24 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         Text(
                           item['businessName']
                               .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
                           item['businessEmail']
                               .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
                           item['businessDesc']
                               .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                           ),
                         ),
@@ -279,26 +282,26 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         Text(
                           item['businessSector']
                               .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
                           item['businessAddress']['country']
                               .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
                           item['businessPhoneNumber']['countryCode']
                                   .toString() +
                               item['businessPhoneNumber']['number']
                                   .toString(), // Replace with your name or text
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                           ),
                         ),
@@ -307,7 +310,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -321,7 +324,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Business Thumbnail', // Replace with your name or text
@@ -331,7 +334,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     ImageRowPage(item: item),
@@ -352,7 +355,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Business Address', // Replace with your name or text
@@ -362,7 +365,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     Row(
                       children: [
                         SizedBox(
@@ -371,7 +374,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Country', // Replace with your name or text
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -379,11 +382,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10.0),
+                              const SizedBox(height: 10.0),
                               Text(
                                 item['businessAddress'][
                                     'country'], // Replace with your name or text
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                 ),
                               ),
@@ -396,7 +399,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'City', // Replace with your name or text
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -404,11 +407,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10.0),
+                              const SizedBox(height: 10.0),
                               Text(
                                 item['businessAddress']
                                     ['city'], // Replace with your name or text
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -417,7 +420,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Row(
                       children: [
                         SizedBox(
@@ -426,7 +429,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Postal Code', // Replace with your name or text
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -434,11 +437,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10.0),
+                              const SizedBox(height: 10.0),
                               Text(
                                 item['businessAddress'][
                                     'postal'], // Replace with your name or text
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                 ),
                               ),
@@ -451,7 +454,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Building Address', // Replace with your name or text
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -459,11 +462,11 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10.0),
+                              const SizedBox(height: 10.0),
                               Text(
                                 item['businessAddress'][
                                     'building'], // Replace with your name or text
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -472,8 +475,8 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.0),
-                    Align(
+                    const SizedBox(height: 20.0),
+                    const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Business Links', // Replace with your name or text
@@ -483,9 +486,9 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     BusinessLinks(item: item),
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
                     Align(
                         alignment: Alignment.topLeft,
                         child: OperatingHours(

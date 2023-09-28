@@ -35,6 +35,14 @@ class _CityGuidePageState extends State<CityGuidePage> {
       user = userProvider.userData;
     }
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -47,9 +55,8 @@ class _CityGuidePageState extends State<CityGuidePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
-                height: 20,
+                height: 130,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -60,6 +67,9 @@ class _CityGuidePageState extends State<CityGuidePage> {
                     : Responsive.isTablet(context)
                         ? TabletContainer1()
                         : MobileContainer1(),
+              ),
+              SizedBox(
+                height: 50,
               ),
             ],
           ),
