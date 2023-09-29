@@ -2,6 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 import '../../backend/firebase/fetchTable.dart';
 import '../../custom_dialog.dart';
@@ -23,6 +27,13 @@ class _CityGuidePageState extends State<CityGuidePage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

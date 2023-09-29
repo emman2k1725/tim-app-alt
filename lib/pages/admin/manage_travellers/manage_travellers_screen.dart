@@ -10,7 +10,7 @@ import 'package:tim_app/pages/admin/manage_business/components/admin_approved_ta
 import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
 import '../../../responsive.dart';

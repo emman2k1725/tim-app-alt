@@ -1,13 +1,17 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:tim_app/pages/profile/components/profile_modal.dart';
-import 'package:tim_app/pages/profile/components/profile_modal_address.dart';
-import 'package:tim_app/pages/profile/components/profile_modal_interest.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/components/profile_modal.dart';
+import 'package:tim_app/pages/travellers/profile/components/profile_modal_address.dart';
+import 'package:tim_app/pages/travellers/profile/components/profile_modal_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
-import '../../backend/firebase/userDataProvider.dart';
-import '../../model/UserModel.dart';
+import '../../../backend/firebase/userDataProvider.dart';
+import '../../../model/UserModel.dart';
 
 class UserProfileWidget extends StatefulWidget {
   const UserProfileWidget({super.key});
@@ -24,15 +28,33 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    File? _pickedLogo;
+    Uint8List? _webPickedLogo;
+
+    Future<Uint8List?> _pickImage(String imageType) async {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var f = await image.readAsBytes();
+        if (imageType == 'logo') {
+          setState(() {
+            _webPickedLogo = f;
+            _pickedLogo = File('a');
+          });
+        }
+      }
+      return null;
+    }
+
     UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     UserModel? user = userProvider.userData;
     final List<dynamic>? cruisines = user?.favCruisine;
     final List<dynamic>? cities = user?.topCities;
     final List<dynamic>? activities = user?.favHangout;
     String cityCountry =
-        user!.address?['city'] + ',' + user.address?['country'];
+        user?.address?['city'] + ',' + user?.address?['country'];
     String buildingStreet =
-        user.address?['building'] + ' ' + user.address?['street'];
+        user?.address?['building'] + ' ' + user?.address?['street'];
     return Column(
       children: [
         const SizedBox(
@@ -49,21 +71,62 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              ClipOval(
-                child: Container(
-                  width: 100,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blue,
-                      width: 1.0, // Set the width of the border
-                    ),
-                    shape: BoxShape.circle,
-                    image: const DecorationImage(
-                      image: AssetImage(profile),
-                      fit: BoxFit
-                          .cover, // Choose the appropriate fit option for your design
-                    ),
+              SizedBox(
+                width: 150,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      ClipOval(
+                        child: _pickedLogo == null
+                            ? Container(
+                                width:
+                                    100, // Set the desired width for the circular avatar
+                                height: 100,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors
+                                          .blue, // Set the color of the border
+                                      width: 1.0, // Set the width of the border
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: Image.network(
+                                              'assets/images/empty-placeholder.png')
+                                          .image, // Replace 'your_image.png' with the actual image path
+                                      fit: BoxFit
+                                          .cover, // Choose the appropriate fit option for your design
+                                    )),
+                              )
+                            : Image.memory(
+                                _webPickedLogo!,
+                                fit: BoxFit.cover,
+                                width: 100,
+                                height: 100,
+                              ),
+                      ),
+                      Positioned(
+                        bottom: 2,
+                        left: 60,
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.black,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add_a_photo_outlined,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                              onPressed: () {
+                                _pickImage('logo');
+                                // // widget.businessModel?.pickedImage1 =
+                                // //     _webPickedImage1;
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -75,7 +138,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user.firstName ?? '', // Replace with your name or text
+                    user?.firstName ?? '', // Replace with your name or text
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -83,7 +146,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    user.email ?? '', // Replace with your name or text
+                    user?.email ?? '', // Replace with your name or text
                     style: const TextStyle(
                       fontSize: 15.0,
                     ),
@@ -116,6 +179,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     'Personal Information', // Replace with your name or text
@@ -131,7 +195,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         context: context,
                         builder: (context) => ModalForm(),
                       );
-                    }, // Pass the onPressed function here
+                    },
                     label: 'Edit',
                     icon: Icons.edit_note_outlined,
                   ),
@@ -139,9 +203,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
               ),
               const SizedBox(height: 20.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
@@ -154,16 +220,15 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                        user.firstName ?? '', // Replace with your name or text
+                        user?.firstName ?? '', // Replace with your name or text
                         style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(width: 200.0),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
@@ -175,24 +240,45 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.lastName ?? '', // Replace with your name or text
-                        style: const TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
+                      user!.lastName!.isEmpty
+                          ? Text(
+                              'Please update your  Last Name',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.lastName ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
+                  ),
+                  const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
+                  ),
+                  const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
                   ),
                 ],
               ),
               const SizedBox(height: 20.0),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Email address',
+                        'Email Address',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 14.0,
@@ -200,21 +286,27 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.email ?? '',
-                        style: const TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
+                      user.email!.isEmpty
+                          ? Text(
+                              'Please update your email address',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.email ?? 'Please update your email address',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
                   ),
-                  const SizedBox(width: 200.0),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Phone Number', // Replace with your name or text
+                        'Phone Number',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 14.0,
@@ -222,13 +314,29 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.mobileNumber ??
-                            '', // Replace with your name or text
-                        style: const TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
+                      user.mobileNumber!.isEmpty
+                          ? Text(
+                              'Please update your mobile number',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.mobileNumber ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
+                  ),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
+                  ),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
                   ),
                 ],
               ),
@@ -291,13 +399,20 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.address?['country'] ??
-                            '', // Replace with your name or text
-                        style: const TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
+                      user.address?['country']!.isEmpty
+                          ? Text(
+                              'Please update your Country',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.address?['country'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
                   ),
                   Column(
@@ -313,12 +428,20 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.address?['city'] ??
-                            '', // Replace with your name or text
-                        style: const TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
+                      user.address?['city']!.isEmpty
+                          ? Text(
+                              'Please update your City',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.address?['city'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
                   ),
                   const Column(
@@ -351,12 +474,20 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        user.address?['postal'] ?? '',
-                        style: const TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
+                      user.address?['postal']!.isEmpty
+                          ? Text(
+                              'Please update your Postal',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user.address?['postal'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
                   ),
                   Column(
@@ -371,11 +502,20 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                        buildingStreet ?? '', // Replace with your name or text
-                        style: const TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.w500),
-                      ),
+                      buildingStreet.isEmpty
+                          ? Text(
+                              buildingStreet,
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            )
+                          : Text(
+                              'Please update your Building Street',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            ),
                     ],
                   ),
                   const Column(

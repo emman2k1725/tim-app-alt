@@ -8,6 +8,7 @@ import 'package:tim_app/pages/homepage/cityGuide_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
 import 'package:tim_app/pages/homepage/media_page.dart';
 import 'package:tim_app/pages/homepage/specialOffers_page.dart';
+import 'package:tim_app/pages/travellers/dashboard/traveller_carousel.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/customButtons.dart';
@@ -201,9 +202,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                   child: SizedBox(
                                       height: 220,
                                       width: double.maxFinite,
-                                      child: BarGraph(
-                                        weeklySummary: weeklySummary,
-                                      )),
+                                      child: CarouselImage()),
                                 ),
                               ],
                             )),

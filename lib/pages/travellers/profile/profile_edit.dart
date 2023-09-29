@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../backend/firebase/UserDataProvider.dart';
-import '../../model/UserModel.dart';
+import '../../../backend/firebase/UserDataProvider.dart';
+import '../../../model/UserModel.dart';
 
 class EditableContainer extends StatefulWidget {
   const EditableContainer({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/firebase/firebaseService.dart';
-import '../../../backend/firebase/userDataProvider.dart';
-import '../../../backend/shared-preferences/sharedPreferenceService.dart';
-import '../../../model/UserModel.dart';
-import '../../services/validator_service.dart';
+import '../../../../backend/firebase/firebaseService.dart';
+import '../../../../backend/firebase/userDataProvider.dart';
+import '../../../../backend/shared-preferences/sharedPreferenceService.dart';
+import '../../../../model/UserModel.dart';
+import '../../../services/validator_service.dart';
 
 class ModalAddress extends StatefulWidget {
   @override

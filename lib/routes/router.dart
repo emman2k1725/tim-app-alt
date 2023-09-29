@@ -18,7 +18,7 @@ import 'package:tim_app/pages/admin/content_management/manage_tourvideo/manage_t
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
-import 'package:tim_app/pages/profile/profile_screen.dart';
+import 'package:tim_app/pages/travellers/profile/profile_screen.dart';
 import 'package:tim_app/pages/travellers/apply_business/applyBusiness.dart';
 
 import 'package:tim_app/pages/travellers/apply_business/apply_business_main.dart';
@@ -436,6 +436,13 @@ final GoRouter businessRouter = GoRouter(
   navigatorKey: businessNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
+    GoRoute(
+      path: '/dashboard',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: TravellerMain(),
+      ),
+      routes: [],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavigation(navigationShell: navigationShell);
@@ -504,13 +511,6 @@ final GoRouter businessRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: paymentDetailsNavigator,
           routes: [
-            GoRoute(
-              path: '/dashboard',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: TravellerMain(),
-              ),
-              routes: [],
-            ),
             // GoRoute(
             //   path: '/business-details',
             //   pageBuilder: (context, state) => const NoTransitionPage(
@@ -546,6 +546,11 @@ final travellerRouter = GoRouter(
         child: BusinessMenu(),
       ),
       routes: [],
+    ),
+    GoRoute(
+      path: "/login",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const LoginPage()),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

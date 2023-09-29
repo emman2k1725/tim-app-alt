@@ -8,7 +8,7 @@ import 'package:tim_app/pages/admin/manage_business/components/admin_application
 import 'package:tim_app/pages/admin/manage_business/components/admin_approved_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 import 'package:tim_app/utils/responsive.dart';
 
 import '../../../utils/constants.dart';

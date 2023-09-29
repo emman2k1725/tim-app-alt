@@ -77,7 +77,6 @@ class _DraggableContainer extends State<DraggableContainer> {
     return Expanded(
       child: SizedBox(
         width: double.maxFinite,
-        height: 700,
         child: DragAndDropLists(
           listPadding: const EdgeInsets.all(16),
           listInnerDecoration: BoxDecoration(
@@ -93,7 +92,7 @@ class _DraggableContainer extends State<DraggableContainer> {
             color: Colors.white,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
-          listDragHandle: buildDragHandle(isList: true),
+          // listDragHandle: buildDragHandle(isList: true),
           itemDragHandle: buildDragHandle(isList: true),
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,

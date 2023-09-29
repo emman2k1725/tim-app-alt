@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_special_offer_table.dart';
 
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 
 class SpecialOfferTabBarView extends StatefulWidget {
   const SpecialOfferTabBarView({super.key});
