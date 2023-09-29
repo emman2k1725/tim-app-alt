@@ -4,9 +4,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
@@ -39,7 +37,6 @@ class _LoginContainerState extends State<LoginContainer> {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     return Center(
       child: Container(
           height: 550,
@@ -272,8 +269,6 @@ class _LoginContainerState extends State<LoginContainer> {
                                                       'user',
                                                       jsonEncode(
                                                           userData.toJson()));
-                                                  userProvider
-                                                      .loadDataFromSharedPref();
                                                   Navigator.pop(context);
                                                   nagivateGateway(
                                                       userData.isAdmin,

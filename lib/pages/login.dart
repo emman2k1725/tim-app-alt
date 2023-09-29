@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/loginpage/loginContainer.dart';
 import 'package:tim_app/utils/constants.dart';
-import 'package:tim_app/widgets/navBar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,8 +12,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
         child: Container(

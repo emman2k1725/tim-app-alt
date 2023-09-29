@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/UserModel.dart';
 
@@ -93,9 +94,32 @@ class Authenticate {
     return result;
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
-    _user = null;
+  Future<bool> signOut() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    bool result = false;
+    try {
+      await _auth.signOut();
+      await _pref.clear();
+      await _pref.reload();
+
+      _user = null;
+      result = true;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return result;
+  }
+
+  static bool isAutheticated() {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      debugPrint("false");
+      return false;
+    } else {
+      debugPrint("true");
+      return true;
+    }
   }
 }
 
