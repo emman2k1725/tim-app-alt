@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/homepage/about_page.dart';
@@ -29,20 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       userProvider.loadDataFromSharedPref();
       user = userProvider.userData;
     }
-
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    Future<void> signOut() async {
-      try {
-        await auth.signOut();
-        // Redirect the user to the login or home screen
-
-        GoRouter.of(context).go('/login');
-      } catch (e) {
-        print("Error signing out: $e");
-      }
-    }
-
+    final Authenticate auth = Authenticate();
     final List<String> optionTraveller = ['Account', 'Business', 'Sign out'];
 
     final List<String> optionBusiness = [
@@ -68,7 +56,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => AboutPage(),
+              builder: (context) => const AboutPage(),
             ),
           );
           break;
@@ -76,7 +64,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           GoRouter.of(context).go('/business');
           break;
         case 'Sign out':
-          signOut();
+          auth.signOut();
+          GoRouter.of(context).go('/login');
           break;
       }
     }

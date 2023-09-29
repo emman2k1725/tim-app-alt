@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/fade_transition.dart';
@@ -183,10 +184,18 @@ final contentKey = GlobalKey<NavigatorState>(debugLabel: 'contentKey');
 final accountKey = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
 
 final adminRouter = GoRouter(
-  initialLocation: '/admin-dashboard',
+  initialLocation:
+      Authenticate.isAutheticated() == true ? '/admin-dashboard' : '/login',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: LoginPage(),
+      ),
+      routes: [],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -307,12 +316,20 @@ final accountKeyMobile = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
 final moreKeyMobile = GlobalKey<NavigatorState>(debugLabel: 'moreKeyMobile');
 
 final goRouterMobile = GoRouter(
-  initialLocation: '/admin-dashboard',
+  initialLocation:
+      Authenticate.isAutheticated() == true ? '/admin-dashboard' : '/login',
   navigatorKey: _rootNavigatorKeyMobile,
   debugLogDiagnostics: true,
   routes: [
     // Stateful navigation based on:
     // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: LoginPage(),
+      ),
+      routes: [],
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -432,14 +449,15 @@ final paymentDetailsNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'payment');
 
 final GoRouter businessRouter = GoRouter(
-  initialLocation: '/business-dashboard',
+  initialLocation:
+      Authenticate.isAutheticated() == true ? '/business-dashboard' : '/login',
   navigatorKey: businessNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
-      path: '/dashboard',
+      path: '/login',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: TravellerMain(),
+        child: LoginPage(),
       ),
       routes: [],
     ),
@@ -481,12 +499,6 @@ final GoRouter businessRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessSpecialOfferScreen(),
               ),
-              // routes: [
-              //   GoRoute(
-              //     path: 'details',
-              //     builder: (context, state) => const DetailsScreen(label: 'B'),
-              //   ),
-              // ],
             ),
           ],
         ),
@@ -499,24 +511,19 @@ final GoRouter businessRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessDetailsScreen(),
               ),
-              // routes: [
-              //   GoRoute(
-              //     path: 'details',
-              //     builder: (context, state) => const DetailsScreen(label: 'B'),
-              //   ),
-              // ],
             ),
           ],
         ),
         StatefulShellBranch(
           navigatorKey: paymentDetailsNavigator,
           routes: [
-            // GoRoute(
-            //   path: '/business-details',
-            //   pageBuilder: (context, state) => const NoTransitionPage(
-            //     child: BusinessDetailsScreen(),
-            //   ),
-            // ),
+            GoRoute(
+              path: '/dashboard',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: TravellerMain(),
+              ),
+              routes: [],
+            ),
           ],
         ),
       ],
@@ -536,7 +543,8 @@ final travelAccountNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
 final travellerRouter = GoRouter(
-  initialLocation: '/dashboard',
+  initialLocation:
+      Authenticate.isAutheticated() == true ? '/dashboard' : '/login',
   navigatorKey: travellerNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -551,6 +559,7 @@ final travellerRouter = GoRouter(
       path: "/login",
       pageBuilder: (context, state) =>
           CustomFadeTransition(widgetChild: const LoginPage()),
+       routes: [],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
