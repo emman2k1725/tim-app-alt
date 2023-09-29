@@ -23,58 +23,47 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Admin Dashboard'),
-      body: SingleChildScrollView(
-        primary: false,
-        child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(mainBg),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlurContainer(
-                  height: 650,
-                  width: double.maxFinite,
-                  childColumn: Column(
+      appBar: CustomAppBar(title: 'Admin Dashboard'),
+      body: Container(
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: MediaQuery.sizeOf(context).height * 1.0,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(mainBg),
+          ),
+        ),
+        child: BlurContainer(
+            width: double.maxFinite,
+            height: 1500,
+            childColumn: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Row(
                     children: [
-                      Container(
-                        height: 500,
-                        width: double.maxFinite,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.description_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'TIM Planning',
-                                    style: AppTextstyle.headerTextStyle,
-                                  )
-                                ],
-                              ),
-                            ),
-                            DraggableContainer(
-                                travelitenerary: widget.travelitenerary,
-                                traveliteneraryParameters:
-                                    widget.traveliteneraryParameters),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
+                      Icon(
+                        Icons.description_outlined,
+                        color: Colors.white,
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'TIM Planning',
+                        style: AppTextstyle.headerTextStyle,
+                      )
                     ],
-                  )),
+                  ),
+                ),
+                DraggableContainer(
+                    travelitenerary: widget.travelitenerary,
+                    traveliteneraryParameters:
+                        widget.traveliteneraryParameters),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
             )),
       ),
     );

@@ -30,9 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       userProvider.loadDataFromSharedPref();
       user = userProvider.userData;
     }
-
     final Authenticate auth = Authenticate();
-
     final List<String> optionTraveller = ['Account', 'Business', 'Sign out'];
 
     final List<String> optionBusiness = [

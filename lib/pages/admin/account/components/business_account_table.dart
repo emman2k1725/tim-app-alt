@@ -33,11 +33,11 @@ class _BusinessAccountTableState extends State<BusinessAccountTable> {
               style: TextStyle(color: Colors.lightBlueAccent),
             ),
             rowsPerPage: rowsPerPage,
-            columns: [
+            columns: const [
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Business Name',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -50,7 +50,7 @@ class _BusinessAccountTableState extends State<BusinessAccountTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Business Email',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class _BusinessAccountTableState extends State<BusinessAccountTable> {
               DataColumn(
                 label: Row(
                   children: [
-                    const Text(
+                    Text(
                       'Phone Number',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -94,7 +94,6 @@ class _BusinessAccountTableState extends State<BusinessAccountTable> {
               // Add more columns as needed
             ],
             source: _MyDataTableSource(data, context),
-
           );
         } else {
           return Center(child: Text('No data found'));
@@ -167,10 +166,6 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
           ElevatedButton.icon(
             onPressed: () {
               Navigator.pop(context);
-              // showCustomLoadingDialog(context, 'Loading...');
-              // String result =
-              //     await businessPendingAction(item['docID'], 'Declined');
-              // evaluateResult(result, context);
             },
             icon: Icon(Icons.close),
             label: Text('Restrict'),
@@ -186,7 +181,7 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
                 height: 140,
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  children: [
+                  children: const [
                     Row(
                       children: [
                         Icon(

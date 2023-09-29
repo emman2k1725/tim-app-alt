@@ -6,9 +6,9 @@ import 'package:tim_app/pages/business/advertisement/components/business_ads_dia
 import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
-import 'package:tim_app/pages/profile/profile_edit.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
-import 'package:tim_app/pages/profile/profile_personal_info.dart';
+import 'package:tim_app/pages/travellers/profile/profile_edit.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_personal_info.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 

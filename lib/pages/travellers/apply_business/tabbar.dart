@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/profile/profile_edit.dart';
-import 'package:tim_app/pages/profile/profile_interest.dart';
-import 'package:tim_app/pages/profile/profile_personal_info.dart';
+import 'package:tim_app/pages/travellers/profile/profile_edit.dart';
+import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
+import 'package:tim_app/pages/travellers/profile/profile_personal_info.dart';
 
 import '../../../utils/constants.dart';
 
@@ -25,7 +25,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 2, vsync: this);
+    TabController _tabController = TabController(length: 1, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(

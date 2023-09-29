@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/model/UserModel.dart';
-import 'package:tim_app/pages/profile/components/profile_modal_interest.dart';
+import 'package:tim_app/pages/travellers/profile/components/profile_modal_interest.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
 class AdminProfile extends StatefulWidget {

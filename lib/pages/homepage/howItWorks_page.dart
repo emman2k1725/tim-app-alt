@@ -21,6 +21,14 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -33,9 +41,8 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
               SizedBox(
-                height: 20,
+                height: 130,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -46,6 +53,9 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
                     : Responsive.isTablet(context)
                         ? TabletContainer1()
                         : MobileContainer1(),
+              ),
+              SizedBox(
+                height: 50,
               ),
             ],
           ),
@@ -133,7 +143,7 @@ class DesktopContainer1 extends StatelessWidget {
         SizedBox(
           height: 40,
         ),
-        IntrinsicWidth(
+        /*IntrinsicWidth(
           child: Wrap(
             // spacing: 10.0, // Adjust spacing between containers horizontally
             // runSpacing: 10.0, // Adjust spacing between containers vertically
@@ -167,7 +177,7 @@ class DesktopContainer1 extends StatelessWidget {
               );
             }),
           ),
-        ),
+        ),*/
       ],
     );
   }
@@ -224,7 +234,7 @@ class TabletContainer1 extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(height: 20),
-          IntrinsicWidth(
+          /*IntrinsicWidth(
             child: Wrap(
               // spacing: 10.0, // Adjust spacing between containers horizontally
               // runSpacing: 10.0, // Adjust spacing between containers vertically
@@ -258,7 +268,7 @@ class TabletContainer1 extends StatelessWidget {
                 );
               }),
             ),
-          ),
+          ),*/
           /*Wrap(
             spacing: 10.0, // Adjust spacing between containers horizontally
             runSpacing: 10.0, // Adjust spacing between containers vertically
@@ -378,7 +388,7 @@ class MobileContainer1 extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(height: 20),
-          ListView.separated(
+          /*ListView.separated(
               shrinkWrap: true,
               itemCount: dataList.length,
               separatorBuilder: (context, index) => SizedBox(height: 10),
@@ -405,7 +415,7 @@ class MobileContainer1 extends StatelessWidget {
                     SizedBox(height: 10),
                   ],
                 );
-              })
+              })*/
           /*Wrap(
             spacing: 10.0, // Adjust spacing between containers horizontally
             runSpacing:

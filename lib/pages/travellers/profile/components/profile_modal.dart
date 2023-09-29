@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:tim_app/backend/shared-preferences/sharedPreferenceService.dart';
 import 'package:tim_app/pages/services/validator_service.dart';
 
-import '../../../backend/firebase/userDataProvider.dart';
-import '../../../backend/firebase/firebaseService.dart';
-import '../../../model/UserModel.dart';
-import '../../../utils/loading.dart';
+import '../../../../backend/firebase/userDataProvider.dart';
+import '../../../../backend/firebase/firebaseService.dart';
+import '../../../../model/UserModel.dart';
+import '../../../../utils/loading.dart';
 
 class ModalForm extends StatefulWidget {
   @override

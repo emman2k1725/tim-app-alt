@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tim_app/widgets/appbar.dart';
 import '../../ads_footer.dart';
 import '../../backend/firebase/fetchTable.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 import '../../custom_dialog.dart';
 import '../../navBarProvider.dart';
 import '../../responsive.dart';
@@ -21,7 +25,22 @@ class MediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -34,9 +53,9 @@ class MediaPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NavBar(),
+              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
-                height: 20,
+                height: 130,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -102,163 +121,167 @@ class DesktopContainer1 extends StatelessWidget {
                     ),
                     Expanded(
                         flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Lorem ipsum dolor sit amet',
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
+                        child: SizedBox(
+                          height: h!,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Lorem ipsum dolor sit amet',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Divider(
                                   color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              height: h!, //MediaQuery.of(context).size.height,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: data.length,
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(height: 20);
-                                },
-                                itemBuilder: (context, index) {
-                                  final DateTime dateTime =
-                                      data[index]['createdAt'].toDate();
-                                  final formattedDate =
-                                      DateFormat('MMMM d, yyyy HH:mm:ss')
-                                          .format(dateTime);
-                                  return BlurContainer(
-                                    width: MediaQuery.sizeOf(context).width,
-                                    childColumn: Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                              height: 200,
-                                              width: 150,
-                                              child: Center(
-                                                child: data[index]
-                                                            ['displayImage'] !=
-                                                        null
-                                                    ? Image.network(
-                                                        data[index]
-                                                            ['displayImage'],
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : CircularProgressIndicator(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: 20);
+                                  },
+                                  itemBuilder: (context, index) {
+                                    final DateTime dateTime =
+                                        data[index]['createdAt'].toDate();
+                                    final formattedDate =
+                                        DateFormat('MMMM d, yyyy HH:mm:ss')
+                                            .format(dateTime);
+                                    return BlurContainer(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      childColumn: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 200,
+                                                width: 150,
+                                                child: Center(
+                                                  child: data[index][
+                                                              'displayImage'] !=
+                                                          null
+                                                      ? Image.network(
+                                                          data[index]
+                                                              ['displayImage'],
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : CircularProgressIndicator(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 15.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                children: [
-                                                  Text(
-                                                    formattedDate,
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                                    Text(
+                                                      formattedDate,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    Text(
+                                                      data[index]
+                                                              ['description'] ??
+                                                          '',
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Text(
-                                                    data[index]
-                                                            ['description'] ??
-                                                        '',
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 25,
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        _showRowDialog(
-                                                            data[index],
-                                                            context);
-                                                      },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Text(
-                                                            'View',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 15,
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                              onPressed: () {
-                                                                _showRowDialog(
-                                                                    data[index],
-                                                                    context);
-                                                              },
-                                                              icon: Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 15,
-                                                                color: Colors
-                                                                    .white,
-                                                              )),
-                                                        ],
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    SizedBox(
+                                                      height: 25,
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          _showRowDialog(
+                                                              data[index],
+                                                              context);
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Text(
+                                                              'View',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15,
+                                                              ),
+                                                            ),
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  _showRowDialog(
+                                                                      data[
+                                                                          index],
+                                                                      context);
+                                                                },
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 15,
+                                                                  color: Colors
+                                                                      .white,
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         )),
                   ],
                 ),

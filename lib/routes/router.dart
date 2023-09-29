@@ -19,7 +19,7 @@ import 'package:tim_app/pages/admin/content_management/manage_tourvideo/manage_t
 import 'package:tim_app/pages/admin/dashboard/admin_dashboard_main.dart';
 import 'package:tim_app/pages/admin/manage_business/manage_main.dart';
 import 'package:tim_app/pages/admin/manage_travellers/manage_travellers_main.dart';
-import 'package:tim_app/pages/profile/profile_screen.dart';
+import 'package:tim_app/pages/travellers/profile/profile_screen.dart';
 import 'package:tim_app/pages/travellers/apply_business/applyBusiness.dart';
 
 import 'package:tim_app/pages/travellers/apply_business/apply_business_main.dart';
@@ -459,6 +459,7 @@ final GoRouter businessRouter = GoRouter(
       pageBuilder: (context, state) => const NoTransitionPage(
         child: LoginPage(),
       ),
+      routes: [],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -555,11 +556,10 @@ final travellerRouter = GoRouter(
       routes: [],
     ),
     GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: LoginPage(),
-      ),
-      routes: [],
+      path: "/login",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const LoginPage()),
+       routes: [],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

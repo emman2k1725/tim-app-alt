@@ -22,7 +22,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     try {
       _videoPlayerController = VideoPlayerController.networkUrl(
           Uri.parse(widget.videoUrl)); // Replace with your video URL
-      _videoPlayerController.initialize();
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
         aspectRatio: 16 / 9,
