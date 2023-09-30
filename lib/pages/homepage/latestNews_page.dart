@@ -200,7 +200,8 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                 SizedBox(height: 20),
                                 InkWell(
                                   onTap: () {
-                                    _showRowDialog(data[index], context);
+                                    _showRowDialog(item['contentTitle'] ?? '',
+                                        item['description'] ?? '', context);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -216,7 +217,9 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                       IconButton(
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           icon: Icon(
                                             Icons.arrow_forward_ios_rounded,
@@ -384,7 +387,8 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                 SizedBox(height: 20),
                                 InkWell(
                                   onTap: () {
-                                    _showRowDialog(data[index], context);
+                                    _showRowDialog(item['contentTitle'] ?? '',
+                                        item['description'] ?? '', context);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -400,7 +404,9 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                       IconButton(
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           icon: Icon(
                                             Icons.arrow_forward_ios_rounded,
@@ -561,7 +567,8 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                 SizedBox(height: 20),
                                 InkWell(
                                   onTap: () {
-                                    _showRowDialog(data[index], context);
+                                    _showRowDialog(item['contentTitle'] ?? '',
+                                        item['description'] ?? '', context);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -577,7 +584,9 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                       IconButton(
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           icon: Icon(
                                             Icons.arrow_forward_ios_rounded,
@@ -626,13 +635,13 @@ class _MobileContainer1State extends State<MobileContainer1> {
   }
 }
 
-void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+void _showRowDialog(String title, String desc, BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return CustomAlertDialog(
-        title: 'Latest News View',
-        message: 'Insert text here',
+        title: title,
+        message: desc,
       );
     },
   );

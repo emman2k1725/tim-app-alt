@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/backend/firebase/userDataProvider.dart';
@@ -179,8 +181,9 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 15),
                                   SizedBox(
                                     width: 250,
                                     child: Text(
@@ -191,6 +194,7 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                     ),
                                   ),
                                   SizedBox(height: 20),
+                                  Spacer(),
                                   Align(
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
@@ -364,8 +368,9 @@ class _TabletContainer1State extends State<TabletContainer1> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 15),
                                   SizedBox(
                                     width: 250,
                                     child: Text(
@@ -376,6 +381,7 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                     ),
                                   ),
                                   SizedBox(height: 20),
+                                  Spacer(),
                                   Align(
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
@@ -542,8 +548,9 @@ class _MobileContainer1State extends State<MobileContainer1> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 10),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(height: 15),
                                 SizedBox(
                                   width: 250,
                                   child: Text(
@@ -554,6 +561,7 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
+                                Spacer(),
                                 Align(
                                   alignment: Alignment.bottomRight,
                                   child: SizedBox(
