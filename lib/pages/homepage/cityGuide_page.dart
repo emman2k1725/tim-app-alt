@@ -183,7 +183,9 @@ class _DesktopContainer1State extends State<DesktopContainer1> {
                                           style: elevatedButtonSharpBorderStyle,
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           child: const Text(
                                             'View',
@@ -387,7 +389,9 @@ class _TabletContainer1State extends State<TabletContainer1> {
                                           style: elevatedButtonSharpBorderStyle,
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           child: const Text(
                                             'View',
@@ -595,7 +599,9 @@ class _MobileContainer1State extends State<MobileContainer1> {
                                           style: elevatedButtonSharpBorderStyle,
                                           onPressed: () {
                                             _showRowDialog(
-                                                data[index], context);
+                                                item['contentTitle'] ?? '',
+                                                item['description'] ?? '',
+                                                context);
                                           },
                                           child: const Text(
                                             'View',
@@ -698,13 +704,14 @@ class _MobileContainer1State extends State<MobileContainer1> {
   }
 }
 
-void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
+void _showRowDialog(String title, String desc, BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return CustomAlertDialog(
-        title: 'City Guide View',
-        message: 'Insert text here',
+        title: title,
+        message: desc,
+        showContinueButton: true,
       );
     },
   );

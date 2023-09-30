@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class CustomAlertDialog extends StatelessWidget {
   final String title;
   final String message;
+  final bool showContinueButton;
 
   CustomAlertDialog({
     required this.title,
     required this.message,
+    this.showContinueButton = false,
   });
 
   @override
@@ -48,6 +50,34 @@ class CustomAlertDialog extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Visibility(
+                      visible: showContinueButton == true, child: Spacer()),
+                  Visibility(
+                    visible: showContinueButton == true,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Continue reading",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 15,
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
