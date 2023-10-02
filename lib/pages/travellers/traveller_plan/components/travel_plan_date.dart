@@ -353,9 +353,9 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                         },
                         onSaved: (value) {
                           widget.travelSearchParameters['days'] =
-                              DateTime.parse(value!)
-                                  .difference(_startDate!)
-                                  .inDays;
+                              DateTime.parse(value!) // END DATE HERE
+                                  .difference(_startDate!) // START DATE HERE
+                                  .inDays; // TO DAYS
                           widget.travelSearchParameters['endDate'] = value;
                         },
                         onTap: () => _selectEndDate(context),

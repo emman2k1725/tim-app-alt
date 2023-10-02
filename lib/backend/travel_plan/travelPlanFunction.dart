@@ -118,6 +118,7 @@ Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
       fetchPlaceParams['lat'], fetchPlaceParams['long']);
   temp = evaluateParameters(
       tempList, travelItinerary, fetchPlaceParams['currentTime']);
+  if (temp == null) {}
   temp!['timeSchedule'] = fetchPlaceParams['currentTime'];
   return temp;
 }
@@ -187,7 +188,8 @@ Future<List<Map<String, dynamic>>> fetchPlaces(
           "openingHours": openingHours,
           "displayImage": displayImage,
           "business_status": result.permanentlyClosed,
-          "timeSchedule": ""
+          "timeSchedule": "",
+          "placeID": result.placeId,
         };
         places.add(placeResult);
       }
@@ -245,7 +247,9 @@ evaluateParameters(List<Map<String, dynamic>> places,
     bool flag = false;
     for (int x = 0; x < travelItinerary.length; x++) {
       for (int y = 0; y < travelItinerary[x].length; y++) {
-        if (place['businessName'] == travelItinerary[x][y]['businessName']) {
+        if (place['placeID'] == travelItinerary[x][y]['placeID']) {
+          debugPrint(
+              "${place['businessName']} is == ${travelItinerary[x][y]['businessName']} in [$x][$y]");
           flag = true;
           break;
         }
@@ -254,11 +258,24 @@ evaluateParameters(List<Map<String, dynamic>> places,
     return flag;
   }
 
-  for (int i = 0; i < places.length; i++) {
+  int i = 0;
+  while (i < places.length) {
     if (traverseToItenerary(places[i], travelItinerary) == false) {
       chosenPlace = places[i];
+      break;
     }
+    i++;
   }
+
+  // for (int i = 0; i < places.length; i++) {
+  //   if (traverseToItenerary(places[i], travelItinerary) == false) {
+  //     chosenPlace = places[i];
+  //     break;
+  //   } else {
+  //     debugPrint("${places[i]['businessName']} : true");
+  //     chosenPlace = places[i++];
+  //   }
+  // }
   return chosenPlace;
 }
 
@@ -281,7 +298,6 @@ Future<bool> iteneraryToDatabase(List<List<Map<String, dynamic>>> itenerary,
       iteneraryData['itenerary'].add(itenerary[x][y]);
     }
   }
-  debugPrint(iteneraryData.toString());
   await saveItenerary(iteneraryData).then((value) {
     if (value == 'success') {
       result = true;

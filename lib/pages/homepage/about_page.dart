@@ -19,15 +19,9 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
 
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
-    if (user == null) {
-      userProvider.loadDataFromSharedPref();
-      user = userProvider.userData;
-    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -49,15 +43,13 @@ class AboutPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              user!.docID!.isEmpty || user.docID == null
-                  ? SizedBox()
-                  : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 130,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
-                    horizontal: Responsive.isDesktop(context) ? w / 10 : w / 20,
+                    horizontal:
+                        Responsive.isDesktop(context) ? w! / 10 : w! / 20,
                     vertical: 5),
                 child: Responsive.isDesktop(context)
                     ? DesktopContainer1()
@@ -94,7 +86,7 @@ class DesktopContainer1 extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                'See how Whisper can help you in promoting your business',
+                'See how TIM can help you in promoting your business',
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               const SizedBox(

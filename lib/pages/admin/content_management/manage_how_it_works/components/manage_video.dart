@@ -23,12 +23,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       _videoPlayerController = VideoPlayerController.networkUrl(
           Uri.parse(widget.videoUrl)); // Replace with your video URL
       _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
-        aspectRatio: 16 / 9,
-        looping: true,
-      );
+          videoPlayerController: _videoPlayerController,
+          aspectRatio: 16 / 9,
+          looping: true,
+          autoPlay: true);
       _chewieController.setVolume(0.0);
-      _chewieController.play();
     } catch (error) {
       print('Error initializing video: $error');
     }

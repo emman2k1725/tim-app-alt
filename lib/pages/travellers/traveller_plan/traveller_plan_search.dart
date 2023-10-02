@@ -25,8 +25,8 @@ class TravelPlanSearch extends StatefulWidget {
 class _TravelPlanSearchState extends State<TravelPlanSearch> {
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(

@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/model/UserModel.dart';
-import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
@@ -16,7 +14,6 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import '../../backend/firebase/firebaseService.dart';
-import '../../custom_dialog.dart';
 import '../../utils/loading.dart';
 
 class LoginContainer extends StatefulWidget {
