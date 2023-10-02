@@ -7,6 +7,7 @@ import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
+import 'package:tim_app/utils/styles.dart';
 
 class TravellerMain extends StatefulWidget {
   const TravellerMain({super.key});
@@ -178,11 +179,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Dashboard',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -204,11 +203,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Travel Plan',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -230,11 +227,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Travel History',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -256,11 +251,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Business',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -282,11 +275,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -308,11 +299,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Sign Out',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
               ],
