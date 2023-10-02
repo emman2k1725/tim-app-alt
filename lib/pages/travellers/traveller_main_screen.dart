@@ -318,8 +318,6 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
               ],
             ),
           ),
-
-          // This is the main content.
           Expanded(
             child: body,
           ),

@@ -246,11 +246,11 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                     ),
                                   ),
                                   SizedBox(height: 8.0),
-                                  Text(
-                                    item['businessDesc']
-                                        .toString(), // Replace with your name or text
-                                    style: TextStyle(
-                                      fontSize: 15.0,
+                                  Expanded(
+                                    child: Text(
+                                      item['businessDesc'].toString(),
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(),
                                     ),
                                   ),
                                 ],

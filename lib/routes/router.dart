@@ -83,7 +83,7 @@ GoRouter createRouter() {
       GoRoute(
         path: "/dashboard",
         pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const TravellerMain()),
+            CustomFadeTransition(widgetChild: TravellerMain()),
       ),
 
       GoRoute(
@@ -422,14 +422,6 @@ final goRouterMobile = GoRouter(
 );
 
 final businessNavigatorKey = GlobalKey<NavigatorState>();
-final dashboardNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'businessDashboard');
-final adsNavigator = GlobalKey<NavigatorState>(debugLabel: 'businessAds');
-final offersNavigator = GlobalKey<NavigatorState>(debugLabel: 'businessOffers');
-final businessDetailsNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'businessDetails');
-final paymentDetailsNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'payment');
 
 final GoRouter businessRouter = GoRouter(
   initialLocation: '/business-dashboard',
@@ -438,7 +430,7 @@ final GoRouter businessRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/dashboard',
-      pageBuilder: (context, state) => const NoTransitionPage(
+      pageBuilder: (context, state) => NoTransitionPage(
         child: TravellerMain(),
       ),
       routes: [],
@@ -449,7 +441,6 @@ final GoRouter businessRouter = GoRouter(
       },
       branches: [
         StatefulShellBranch(
-          navigatorKey: dashboardNavigator,
           routes: [
             GoRoute(
               path: '/business-dashboard',
@@ -461,7 +452,6 @@ final GoRouter businessRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: adsNavigator,
           routes: [
             // Shopping Cart
             GoRoute(
@@ -473,7 +463,6 @@ final GoRouter businessRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: offersNavigator,
           routes: [
             // Shopping Cart
             GoRoute(
@@ -491,7 +480,6 @@ final GoRouter businessRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: businessDetailsNavigator,
           routes: [
             // Shopping Cart
             GoRoute(
@@ -509,7 +497,6 @@ final GoRouter businessRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: paymentDetailsNavigator,
           routes: [
             // GoRoute(
             //   path: '/business-details',
@@ -525,15 +512,6 @@ final GoRouter businessRouter = GoRouter(
 );
 
 final travellerNavigatorKey = GlobalKey<NavigatorState>();
-final travellerNavigator = GlobalKey<NavigatorState>(debugLabel: 'dashboard');
-final travelPlanNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'travel-plan');
-final travelHistoryNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'travel-history');
-final travelApplyBusinessNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'travel-apply');
-final travelAccountNavigator =
-    GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
 final travellerRouter = GoRouter(
   initialLocation: '/dashboard',
@@ -554,11 +532,10 @@ final travellerRouter = GoRouter(
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
-        return TravellerNavigation(navigationShell: navigationShell);
+        return ScaffoldWithNavigation(navigationShell: navigationShell);
       },
       branches: [
         StatefulShellBranch(
-          navigatorKey: travellerNavigator,
           routes: [
             GoRoute(
               path: '/dashboard',
@@ -570,7 +547,6 @@ final travellerRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: travelPlanNavigator,
           routes: [
             GoRoute(
               path: '/travel-plan',
@@ -582,7 +558,6 @@ final travellerRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: travelHistoryNavigator,
           routes: [
             GoRoute(
               path: '/travel-history',
@@ -599,7 +574,6 @@ final travellerRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: travelApplyBusinessNavigator,
           routes: [
             GoRoute(
               path: '/business',
@@ -616,7 +590,6 @@ final travellerRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: travelAccountNavigator,
           routes: [
             GoRoute(
               path: '/traveller-account',

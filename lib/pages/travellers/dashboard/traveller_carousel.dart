@@ -16,7 +16,9 @@ class CarouselImage extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Show a loading indicator while fetching data.
+          return const Center(
+              child:
+                  CircularProgressIndicator()); // Show a loading indicator while fetching data.
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -26,8 +28,9 @@ class CarouselImage extends StatelessWidget {
               snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
             return CarouselItem(
-              text: data['contentTitle'],
+              title: data['contentTitle'],
               imageUrl: data['displayImage'],
+              description: data['description'],
             );
           }).toList();
 
@@ -38,20 +41,81 @@ class CarouselImage extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.network(
-                    item.imageUrl,
-                    width: 200,
-                    height: 150,
-                    fit: BoxFit.cover,
+                  Center(
+                    child: Image.network(
+                      item.imageUrl,
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 200,
+                          height: 200,
+                          child: const Icon(
+                            Icons.image,
+                            color: Colors.white,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.blue,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    item.text,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: Text(
+                          item.description,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          // _showRowDialog(data[index], context);
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Continue reading",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.white),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 15,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
