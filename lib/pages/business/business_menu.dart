@@ -119,13 +119,6 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
           ),
           NavigationDestination(
             label: '',
-            tooltip: 'Payment',
-            icon: SvgPicture.asset(
-              "/icons/payment.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
             tooltip: 'Logout',
             icon: SvgPicture.asset(
               "/icons/logout.svg",
@@ -292,30 +285,6 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   // selectedIcon: Icon(Icons.home),
                   label: Text(
                     'Business Details',
-                    style: navTextStyle,
-                  ),
-                ),
-                NavigationRailDestination(
-                  icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 4
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/payment.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 4 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
-                  // selectedIcon: Icon(Icons.home),
-                  label: Text(
-                    'Payment',
                     style: navTextStyle,
                   ),
                 ),
