@@ -65,7 +65,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           break;
         case 'Sign out':
           auth.signOut();
-          GoRouter.of(context).go('/login');
+          GoRouter.of(context).go('/');
           break;
       }
     }

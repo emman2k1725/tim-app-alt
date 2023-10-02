@@ -549,17 +549,69 @@ final travellerRouter = GoRouter(
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
-      path: '/business-dashboard',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: BusinessMenu(),
-      ),
-      routes: [],
+      path: "/excel",
+      builder: (context, state) => const ExcelUpload(),
     ),
     GoRoute(
       path: "/login",
       pageBuilder: (context, state) =>
           CustomFadeTransition(widgetChild: const LoginPage()),
-       routes: [],
+    ),
+    GoRoute(
+      path: "/signup",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const SignupPage()),
+    ),
+    GoRoute(
+      path: "/signup-interest",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const InterestMain()),
+    ),
+    GoRoute(
+      path: "/profile",
+      builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: "/about",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const AboutPage()),
+    ),
+    GoRoute(
+      path: "/media",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const MediaPage()),
+    ),
+    GoRoute(
+      path: "/advertise",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const AdvertisePage()),
+    ),
+    GoRoute(
+      path: "/how-it-works",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const HowItWorksPage()),
+    ),
+    GoRoute(
+      path: "/latest-news",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const LatestNewsPage()),
+    ),
+    GoRoute(
+      path: "/special-offers",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const SpecialOffersPage()),
+    ),
+    GoRoute(
+      path: "/city-guide",
+      pageBuilder: (context, state) =>
+          CustomFadeTransition(widgetChild: const CityGuidePage()),
+    ),
+    GoRoute(
+      path: '/',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: Home(),
+      ),
+      routes: [],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -631,6 +683,73 @@ final travellerRouter = GoRouter(
               path: '/traveller-account',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ProfileScreen(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+      ],
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNavigation(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          navigatorKey: dashboardNavigator,
+          routes: [
+            GoRoute(
+              path: '/business-dashboard',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: BusinessScreen(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: adsNavigator,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/business-advertisement',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: BusinessAdvertisementScreen(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: offersNavigator,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/business-offers',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: BusinessSpecialOfferScreen(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: businessDetailsNavigator,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/business-details',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: BusinessDetailsScreen(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: paymentDetailsNavigator,
+          routes: [
+            GoRoute(
+              path: '/dashboard',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: TravellerMain(),
               ),
               routes: [],
             ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,12 +35,9 @@ Future fetchDocumentbyID(String? docID, String collection) async {
           querySnapshot.data() as Map<String, dynamic>;
       documentData['docID'] = querySnapshot.id;
       return documentData;
-    } else {
-      throw Exception('Document not found!');
     }
-  } catch (e) {
-    debugPrint(e.toString());
-    return null;
+  } on FirebaseException catch (e) {
+    debugPrint(e.message);
   }
 }
 
