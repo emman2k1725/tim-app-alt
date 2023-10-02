@@ -8,6 +8,7 @@ import 'package:tim_app/backend/firebase/userDataProvider.dart';
 import 'package:tim_app/routes/router.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/utils/styles.dart';
 
 import '../../responsive.dart';
 
@@ -231,11 +232,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Dashboard',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -257,11 +256,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Manage Business',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -283,11 +280,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Manage Travellers',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -309,11 +304,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Content Management',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -335,11 +328,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Accounts',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
                 NavigationRailDestination(
@@ -361,11 +352,9 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),
-                  label: const Text(
+                  label: Text(
                     'Logout',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: navTextStyle,
                   ),
                 ),
               ],

@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tim_app/utils/colors.dart';
 
+TextStyle navTextStyle = const TextStyle(
+  fontFamily: 'Poppins', // Specify the font family
+  fontSize: 16.0, // Specify the font size
+  fontWeight: FontWeight
+      .normal, // Specify the font weight (e.g., FontWeight.bold for bold text)
+  fontStyle: FontStyle
+      .normal, // Specify the font style (e.g., FontStyle.italic for italic text)
+  letterSpacing: 1.2, // Specify the letter spacing
+  color: Colors.white, // Specify the text color
+  // You can also include other properties like decoration, decorationColor, etc.
+);
+
 ButtonStyle borderedButtonStyle = ButtonStyle(
     elevation: MaterialStateProperty.all(0),
     backgroundColor: MaterialStateProperty.all(Colors.white),
