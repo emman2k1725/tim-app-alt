@@ -74,143 +74,148 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: BlurContainer(
-        height: 500,
+        //height: MediaQuery.sizeOf(context).,
         width: double.maxFinite,
-        childColumn: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.receipt_long_outlined,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      'Start planning',
-                      style: AppTextstyle.headerTextStyle,
-                    ),
-                  ],
+        childColumn: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.receipt_long_outlined,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        'Start planning',
+                        style: AppTextstyle.headerTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        DateRangePickerTextField(
-                            formKey: _formKey,
-                            travelSearchParameters: _travelPlanParameters),
-                      ]),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          child: SizedBox(
-                            height: 300,
-                            width: double.maxFinite,
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Image.network(
-                                homepageTim,
-                                fit: BoxFit.fill,
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DateRangePickerTextField(
+                              formKey: _formKey,
+                              travelSearchParameters: _travelPlanParameters),
+                        ]),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(
+                            child: SizedBox(
+                              height: 300,
+                              width: double.maxFinite,
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Image.network(
+                                  homepageTim,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ]),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                isLoading
-                    ? const Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(
-                                color: Colors.white, strokeWidth: 2.0),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            'Generating',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      )
-                    : BlueElevatedButton(
-                        onPressed: () async {
-                          if (isLoading) return;
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await Future.delayed(const Duration(seconds: 1));
-                          if (_formKey.currentState!.validate() == true) {
-                            _formKey.currentState!.save();
-
-                            List<List<Map<String, dynamic>>> itenerary =
-                                await planTravel(user!.favCruisine,
-                                    user!.favHangout, _travelPlanParameters);
-                            _travelPlanParameters['userID'] = user!.docID;
+                        ]),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  isLoading
+                      ? const Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2.0),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'Generating',
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        )
+                      : BlueElevatedButton(
+                          onPressed: () async {
+                            if (isLoading) return;
                             setState(() {
-                              isLoading = false;
+                              isLoading = true;
                             });
-                            if (itenerary.isNotEmpty) {
-                              iteneraryToDatabase(
-                                      itenerary, _travelPlanParameters)
-                                  .then((value) {
-                                if (value == true) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TravelPlanKanban(
-                                                travelitenerary: itenerary,
-                                                traveliteneraryParameters:
-                                                    _travelPlanParameters,
-                                              )));
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Unable to generate travel plan. Please select a different city or try again later.")));
-                                }
+                            await Future.delayed(const Duration(seconds: 1));
+                            if (_formKey.currentState!.validate() == true) {
+                              _formKey.currentState!.save();
+
+                              List<List<Map<String, dynamic>>> itenerary =
+                                  await planTravel(user!.favCruisine,
+                                      user!.favHangout, _travelPlanParameters);
+                              _travelPlanParameters['userID'] = user!.docID;
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (itenerary.isNotEmpty) {
+                                iteneraryToDatabase(
+                                        itenerary, _travelPlanParameters)
+                                    .then((value) {
+                                  if (value == true) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TravelPlanKanban(
+                                                  travelitenerary: itenerary,
+                                                  traveliteneraryParameters:
+                                                      _travelPlanParameters,
+                                                )));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "Unable to generate travel plan. Please select a different city or try again later.")));
+                                  }
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                isLoading = false;
                               });
                             }
-                          } else {
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        },
-                        text: 'Generate Plan',
-                        iconData: Icons.generating_tokens_outlined,
-                      ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            )
-          ],
+                          },
+                          text: 'Generate Plan',
+                          iconData: Icons.generating_tokens_outlined,
+                        ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );
