@@ -64,6 +64,13 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
     if (picked != null && picked != _endDate) {
       setState(() {
         _endDate = picked;
+
+        daysInterval = _endDate!
+            .difference(_startDate!) // START DATE HERE
+            .inDays;
+
+        debugPrint('Days Interval: $daysInterval');
+
         _selectedDateText = _endDate!.toLocal().toString().split(' ')[0];
         _enddateController.text = _selectedDateText!;
       });
@@ -155,6 +162,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
     return dates;
   }
 
+  int daysInterval = 0;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -163,7 +172,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Responsive.isDesktop(context)
                 ? Row(
@@ -391,13 +400,185 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                       ),
                     ],
                   ),
-            SizedBox(height: 16),
-            Responsive.isDesktop(context)
-                ? Row(
-                    children: [
-                      Container(
-                        width: 250,
-                        child: TextFormField(
+            ////// DAYS
+            Visibility(
+              visible: daysInterval > 0,
+              child: Responsive.isDesktop(context)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30.0),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 20),
+                          itemCount: daysInterval,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 3.0),
+                                  child: Text(
+                                    'Day ${index + 1}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(height: 15),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 250,
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please select starting time";
+                                          } else if (compareTimeOfDay(
+                                                  convertStringToTimeOfDay(
+                                                      value),
+                                                  TimeOfDay(
+                                                      hour: 8, minute: 00)) <
+                                              0) {
+                                            return "Select start time after 8:00 AM";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        onTap: () => _selectStartTime(context),
+                                        onSaved: (value) {
+                                          widget.travelSearchParameters[
+                                                  'startTime'] =
+                                              convertTo24HourFormat(value);
+                                        },
+                                        decoration: InputDecoration(
+                                          labelText: 'Start Time',
+                                          suffixIcon: Icon(
+                                            Icons.access_time,
+                                            color: Colors.white,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                                color: Colors
+                                                    .white), // White border color
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                                color: Colors
+                                                    .blue), // White border color when focused
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                                color: Colors
+                                                    .white), // White border color when enabled
+                                          ),
+                                          labelStyle:
+                                              TextStyle(color: Colors.white),
+                                        ),
+                                        controller: _startTimeController,
+                                        style: TextStyle(
+                                          color: Colors
+                                              .white, // Set text color to white
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          child: TextFormField(
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return "Please select end time";
+                                              } else if (compareTimeOfDay(
+                                                      convertStringToTimeOfDay(
+                                                          value),
+                                                      TimeOfDay(
+                                                          hour: 22,
+                                                          minute: 00)) >
+                                                  0) {
+                                                return "Select end time before 10:00 PM";
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                            onTap: () =>
+                                                _selectEndTime(context),
+                                            onSaved: (value) {
+                                              widget.travelSearchParameters[
+                                                      'endTime'] =
+                                                  convertTo24HourFormat(value);
+                                              for (String days
+                                                  in getDatesInBetween(
+                                                      _startDate!, _endDate!)) {
+                                                widget.travelSearchParameters[
+                                                        'dates']
+                                                    .add(days.toString());
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: 'End Time',
+                                              suffixIcon: Icon(
+                                                Icons.access_time,
+                                                color: Colors.white,
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                borderSide: BorderSide(
+                                                    color: Colors
+                                                        .white), // White border color
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                borderSide: BorderSide(
+                                                    color: Colors
+                                                        .blue), // White border color when focused
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                borderSide: BorderSide(
+                                                    color: Colors
+                                                        .white), // White border color when enabled
+                                              ),
+                                              labelStyle: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            controller: _endTimeController,
+                                            style: TextStyle(
+                                              color: Colors
+                                                  .white, // Set text color to white
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          }),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -406,7 +587,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                     convertStringToTimeOfDay(value),
                                     TimeOfDay(hour: 8, minute: 00)) <
                                 0) {
-                              return "Select start time after 8:00 AM";
+                              return "Select a time above 8:00 AM";
                             } else {
                               return null;
                             }
@@ -446,183 +627,65 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                             color: Colors.white, // Set text color to white
                           ),
                         ),
-                      ),
-                      SizedBox(width: 16),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please select end time";
-                                } else if (compareTimeOfDay(
-                                        convertStringToTimeOfDay(value),
-                                        TimeOfDay(hour: 22, minute: 00)) >
-                                    0) {
-                                  return "Select end time before 10:00 PM";
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onTap: () => _selectEndTime(context),
-                              onSaved: (value) {
-                                widget.travelSearchParameters['endTime'] =
-                                    convertTo24HourFormat(value);
-                                for (String days in getDatesInBetween(
-                                    _startDate!, _endDate!)) {
-                                  widget.travelSearchParameters['dates']
-                                      .add(days.toString());
-                                }
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'End Time',
-                                suffixIcon: Icon(
-                                  Icons.access_time,
-                                  color: Colors.white,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color:
-                                          Colors.white), // White border color
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color: Colors
-                                          .blue), // White border color when focused
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color: Colors
-                                          .white), // White border color when enabled
-                                ),
-                                labelStyle: TextStyle(color: Colors.white),
-                              ),
-                              controller: _endTimeController,
-                              style: TextStyle(
-                                color: Colors.white, // Set text color to white
-                              ),
+                        SizedBox(height: 16),
+                        TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please select end time";
+                            } else if (compareTimeOfDay(
+                                    convertStringToTimeOfDay(value),
+                                    TimeOfDay(hour: 22, minute: 00)) >
+                                0) {
+                              return "Select an end time before 10:00 PM";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onTap: () => _selectEndTime(context),
+                          onSaved: (value) {
+                            widget.travelSearchParameters['endTime'] =
+                                convertTo24HourFormat(value);
+                            for (String days
+                                in getDatesInBetween(_startDate!, _endDate!)) {
+                              widget.travelSearchParameters['dates']
+                                  .add(days.toString());
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'End Time',
+                            suffixIcon: Icon(
+                              Icons.access_time,
+                              color: Colors.white,
                             ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors.white), // White border color
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .blue), // White border color when focused
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .white), // White border color when enabled
+                            ),
+                            labelStyle: TextStyle(color: Colors.white),
                           ),
-                        ],
-                      ),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please select starting time";
-                          } else if (compareTimeOfDay(
-                                  convertStringToTimeOfDay(value),
-                                  TimeOfDay(hour: 8, minute: 00)) <
-                              0) {
-                            return "Select a time above 8:00 AM";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onTap: () => _selectStartTime(context),
-                        onSaved: (value) {
-                          widget.travelSearchParameters['startTime'] =
-                              convertTo24HourFormat(value);
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Start Time',
-                          suffixIcon: Icon(
-                            Icons.access_time,
-                            color: Colors.white,
+                          controller: _endTimeController,
+                          style: TextStyle(
+                            color: Colors.white, // Set text color to white
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors.white), // White border color
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .blue), // White border color when focused
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .white), // White border color when enabled
-                          ),
-                          labelStyle: TextStyle(color: Colors.white),
                         ),
-                        controller: _startTimeController,
-                        style: TextStyle(
-                          color: Colors.white, // Set text color to white
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please select end time";
-                          } else if (compareTimeOfDay(
-                                  convertStringToTimeOfDay(value),
-                                  TimeOfDay(hour: 22, minute: 00)) >
-                              0) {
-                            return "Select an end time before 10:00 PM";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onTap: () => _selectEndTime(context),
-                        onSaved: (value) {
-                          widget.travelSearchParameters['endTime'] =
-                              convertTo24HourFormat(value);
-                          for (String days
-                              in getDatesInBetween(_startDate!, _endDate!)) {
-                            widget.travelSearchParameters['dates']
-                                .add(days.toString());
-                          }
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'End Time',
-                          suffixIcon: Icon(
-                            Icons.access_time,
-                            color: Colors.white,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors.white), // White border color
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .blue), // White border color when focused
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .white), // White border color when enabled
-                          ),
-                          labelStyle: TextStyle(color: Colors.white),
-                        ),
-                        controller: _endTimeController,
-                        style: TextStyle(
-                          color: Colors.white, // Set text color to white
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+            ),
+
             SizedBox(height: 16),
             Responsive.isDesktop(context)
                 ? Row(
