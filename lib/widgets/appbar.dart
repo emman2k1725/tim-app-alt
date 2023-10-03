@@ -1,45 +1,47 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
-import 'package:tim_app/controllers/menuAppController.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/homepage/about_page.dart';
-import 'package:tim_app/pages/homepage/homepage.dart';
 import 'package:tim_app/utils/colors.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
-import '../../backend/firebase/userDataProvider.dart';
-
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
   const CustomAppBar({super.key, required this.title});
 
   @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+  @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  UserModel? user;
+
+  @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
-    if (user == null) {
-      userProvider.loadDataFromSharedPref();
-      user = userProvider.userData;
-    }
     final Authenticate auth = Authenticate();
     final List<String> optionTraveller = ['Account', 'Business', 'Sign out'];
-
-    final List<String> optionBusiness = [
-      'Account',
-      'Option 2',
-      'Option 3',
-      'Option 4'
-    ];
-
     final Map<String, IconData> optionIcons = {
       'Account': Icons.account_circle,
       'Business': Icons.business,
@@ -52,7 +54,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           GoRouter.of(context).go('/traveller-account');
           break;
         case 'Homepage':
-          // navigator.pop();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -123,12 +124,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
                   PopupMenuButton<String>(
-                    child: Container(
-                      child: Center(
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.blue, // Change the icon color
-                        ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.blue, // Change the icon color
                       ),
                     ),
                     itemBuilder: (BuildContext context) {

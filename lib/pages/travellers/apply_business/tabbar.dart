@@ -1,11 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/travellers/profile/profile_edit.dart';
-import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 import 'package:tim_app/pages/travellers/profile/profile_personal_info.dart';
-
-import '../../../utils/constants.dart';
 
 class MyTabBarView extends StatefulWidget {
   const MyTabBarView({super.key});
@@ -60,22 +55,20 @@ class _MyTabBarViewState extends State<MyTabBarView>
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    Container(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                            controller: _tabController,
-                            isScrollable: true,
-                            labelPadding:
-                                const EdgeInsets.only(left: 20, right: 20),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.grey,
-                            tabs: const [
-                              Tab(
-                                text: "Personal Information",
-                              ),
-                            ]),
-                      ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TabBar(
+                          controller: _tabController,
+                          isScrollable: true,
+                          labelPadding:
+                              const EdgeInsets.only(left: 20, right: 20),
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: const [
+                            Tab(
+                              text: "Personal Information",
+                            ),
+                          ]),
                     ),
                     Align(
                       alignment: Alignment.bottomLeft,

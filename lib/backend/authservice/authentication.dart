@@ -94,30 +94,25 @@ class Authenticate {
     return result;
   }
 
-  Future<bool> signOut() async {
+  void signOut() async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
-    bool result = false;
     try {
       await _auth.signOut();
       await _pref.clear();
       await _pref.reload();
 
       _user = null;
-      result = true;
     } catch (e) {
       debugPrint(e.toString());
     }
-    return result;
   }
 
   static bool isAutheticated() {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      debugPrint("false");
       return false;
     } else {
-      debugPrint("true");
       return true;
     }
   }

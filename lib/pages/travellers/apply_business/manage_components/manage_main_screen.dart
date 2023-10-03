@@ -27,12 +27,12 @@ class ManageApplyScreen extends StatefulWidget {
 class _ManageApplyScreenState extends State<ManageApplyScreen> {
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Responsive.isDesktop(context) ? 0 : w / 20,
+            horizontal: Responsive.isDesktop(context) ? 0 : w! / 20,
             vertical: 5),
         child: Responsive.isDesktop(context)
             ? DesktopScreenSize()
@@ -60,10 +60,11 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
   Color shadowColor = Colors.blueAccent;
   loadNewLaunch() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      UserModel _user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
-      user = _user;
-    });
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
   }
 
   @override

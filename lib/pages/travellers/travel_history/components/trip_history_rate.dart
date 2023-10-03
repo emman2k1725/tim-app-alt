@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/reviews_components/reviews_list.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_review_rate.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -17,6 +16,13 @@ class TripHistoryRate extends StatefulWidget {
 
 class _TripHistoryRateState extends State<TripHistoryRate> {
   Color shadowColor = Colors.blueAccent;
+  @override
+  void initState() {
+    super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.all(16.0),
-                      child: Column(
+                      child: const Column(
                         children: [
                           SizedBox(
                             height: 10,

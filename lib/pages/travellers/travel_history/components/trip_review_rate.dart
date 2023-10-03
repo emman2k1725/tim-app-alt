@@ -39,8 +39,6 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
   }
 
   Future<void> loadItems() async {
-    await Future.delayed(Duration(seconds: 1));
-
     List<String> newItems = List.generate(itemsPerPage, (index) {
       int itemNumber = (currentPage - 1) * itemsPerPage + index + 1;
       return 'Item $itemNumber';
@@ -95,7 +93,7 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                           ],
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +147,7 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                           ],
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         flex: 7,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +182,7 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.grey, // Outline color
@@ -201,7 +199,7 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                                     Colors.black, // Button text color
                               ),
                               onPressed: () {},
-                              child: Column(
+                              child: const Column(
                                 children: [
                                   Icon(
                                     Icons.add_a_photo,
@@ -215,42 +213,42 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 16.0),
+                            const SizedBox(height: 16.0),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Rate Experience: ', // Replace with your name or text
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 RatingBar.builder(
                                   minRating: 1,
                                   itemBuilder: (BuildContext context, _) =>
-                                      Icon(
+                                      const Icon(
                                     Icons.star,
                                     color: Colors.amber,
                                   ),
                                   onRatingUpdate: _onRatingUpdate,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
                                   ratingDescription, // Replace with your name or text
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 16.0),
-                            TextField(
+                            const SizedBox(height: 16.0),
+                            const TextField(
                               decoration: InputDecoration(
                                 hintText: 'Enter your comments here...',
                                 border: OutlineInputBorder(),
@@ -267,21 +265,21 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
             );
           } else {
             if (currentPage == 1) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else {
               return Center(
                 child: ElevatedButton(
                   onPressed: loadMoreItems,
-                  child: Text('Load More'),
+                  child: const Text('Load More'),
                 ),
               );
             }
           }
         },
         separatorBuilder: (context, index) {
-          return Divider(); // Divider widget after each ListTile
+          return const Divider(); // Divider widget after each ListTile
         },
       ),
     );

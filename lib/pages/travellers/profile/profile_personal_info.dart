@@ -1,17 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal_address.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal_interest.dart';
-import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
-import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
-import '../../../backend/firebase/userDataProvider.dart';
-import '../../../model/UserModel.dart';
 
 class UserProfileWidget extends StatefulWidget {
   const UserProfileWidget({super.key});
@@ -21,9 +18,20 @@ class UserProfileWidget extends StatefulWidget {
 }
 
 class _UserProfileWidgetState extends State<UserProfileWidget> {
+  UserModel? user;
   @override
   void initState() {
     super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
   }
 
   @override
@@ -46,15 +54,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       return null;
     }
 
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
     final List<dynamic>? cruisines = user?.favCruisine;
     final List<dynamic>? cities = user?.topCities;
     final List<dynamic>? activities = user?.favHangout;
-    String cityCountry =
-        user?.address?['city'] + ',' + user?.address?['country'];
-    String buildingStreet =
-        user?.address?['building'] + ' ' + user?.address?['street'];
+    String? city = user?.address?['city'], country = user?.address?['country'];
+    String? building = user?.address?['building'],
+        street = user?.address?['street'];
+    String cityCountry = "$city, $country";
+    String buildingStreet = "$building, $street";
     return Column(
       children: [
         const SizedBox(
@@ -112,7 +119,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           child: Container(
                             color: Colors.black,
                             child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.add_a_photo_outlined,
                                 color: Colors.white,
                                 size: 14,
@@ -240,16 +247,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user!.lastName!.isEmpty
-                          ? Text(
+                      user?.lastName == null
+                          ? const Text(
                               'Please update your  Last Name',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.lastName ?? '',
+                              user?.lastName ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -286,16 +293,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user.email!.isEmpty
-                          ? Text(
+                      user?.email == null
+                          ? const Text(
                               'Please update your email address',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.email ?? 'Please update your email address',
+                              user?.email ?? 'Please update your email address',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -314,16 +321,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user.mobileNumber!.isEmpty
-                          ? Text(
+                      user?.mobileNumber == null
+                          ? const Text(
                               'Please update your mobile number',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.mobileNumber ?? '',
+                              user?.mobileNumber ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -399,16 +406,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user.address?['country']!.isEmpty
-                          ? Text(
+                      user?.address?['country'] == ""
+                          ? const Text(
                               'Please update your Country',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.address?['country'] ?? '',
+                              user?.address?['country'] ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -428,16 +435,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user.address?['city']!.isEmpty
-                          ? Text(
+                      user?.address?['city'] == ''
+                          ? const Text(
                               'Please update your City',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.address?['city'] ?? '',
+                              user?.address?['city'] ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -474,16 +481,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      user.address?['postal']!.isEmpty
-                          ? Text(
+                      user?.address?['postal'] == ''
+                          ? const Text(
                               'Please update your Postal',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
                             )
                           : Text(
-                              user.address?['postal'] ?? '',
+                              user?.address?['postal'] ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
                               ),
@@ -509,9 +516,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                 fontSize: 15.0,
                               ),
                             )
-                          : Text(
+                          : const Text(
                               'Please update your Building Street',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.red,
                               ),
