@@ -4,10 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tim_app/pages/admin/content_management/components_special_offer/offer_listview.dart';
-import 'package:tim_app/pages/admin/dashboard/admin_dashboard_chart.dart';
 import 'package:tim_app/pages/admin/dashboard/bar_graph/bar_graph.dart';
-import 'package:tim_app/pages/admin/special_offers/offers_paginated.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
@@ -24,11 +21,11 @@ class AdminDashboardScreen extends StatefulWidget {
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return Container(
       margin: EdgeInsets.symmetric(
-          horizontal: Responsive.isDesktop(context) ? 0 : w / 20, vertical: 5),
+          horizontal: Responsive.isDesktop(context) ? 0 : w! / 20, vertical: 5),
       child: Responsive.isDesktop(context)
           ? DesktopScreenSize()
           : Responsive.isTablet(context)

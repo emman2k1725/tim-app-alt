@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/apply_business/apply_components/apply_main_screen.dart';
 import 'package:tim_app/pages/travellers/apply_business/manage_components/manage_main_screen.dart';
@@ -20,15 +21,19 @@ class _ApplyBusinessMainState extends State<ApplyBusinessMain> {
   @override
   void initState() {
     super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
     loadNewLaunch();
   }
 
   loadNewLaunch() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      UserModel _user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
-      user = _user;
-    });
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
   }
 
   @override

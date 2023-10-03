@@ -22,7 +22,7 @@ class _TravellerMainState extends State<TravellerMain> {
     return ChangeNotifierProvider<UserDataProvider>(
         create: (context) => UserDataProvider(),
         child: MaterialApp.router(
-          routerConfig: travellerRouter,
+          routerConfig: router,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(primarySwatch: Colors.indigo),
         ));

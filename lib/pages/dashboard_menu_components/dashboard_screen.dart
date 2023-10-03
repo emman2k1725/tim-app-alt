@@ -1,8 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/UserDataProvider.dart';
 import 'package:tim_app/utils/constants.dart';
 
 class DashboardScreen extends StatelessWidget {

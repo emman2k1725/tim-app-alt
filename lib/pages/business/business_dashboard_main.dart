@@ -1,16 +1,11 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
-import 'package:tim_app/backend/shared-preferences/sharedPreferenceService.dart';
 import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/model/UserModel.dart';
-
-import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
-import 'package:tim_app/pages/dashboard_menu_components/header.dart';
 import 'package:tim_app/utils/constants.dart';
 
 class BusinessScreen extends StatefulWidget {
@@ -27,14 +22,21 @@ class _BusinessScreenState extends State<BusinessScreen> {
   void initState() {
     super.initState();
     loadNewLaunch();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
   }
 
   loadNewLaunch() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      UserModel _user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
-      user = _user;
-    });
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+    if (user?.hasBusiness == false) {
+      GoRouter.of(context).go('/business');
+    }
     fetchBusinessData(user?.docID);
   }
 

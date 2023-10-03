@@ -6,13 +6,26 @@ import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen_bo
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
-class TravellerDashboard extends StatelessWidget {
+class TravellerDashboard extends StatefulWidget {
   const TravellerDashboard({super.key});
+
+  @override
+  State<TravellerDashboard> createState() => _TravellerDashboardState();
+}
+
+class _TravellerDashboardState extends State<TravellerDashboard> {
+  @override
+  void initState() {
+    super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
+  }
 
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Admin Dashboard'),
+      appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(

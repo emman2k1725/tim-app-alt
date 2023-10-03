@@ -60,17 +60,24 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
     "dates": [],
     "userID": ""
   };
+  UserModel? user;
   @override
-  Widget build(BuildContext context) {
-    UserModel? user;
-    void getUserData() async {
-      SharedPreferences pref = await SharedPreferences.getInstance();
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
       setState(() {
         user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
       });
     }
+  }
 
-    getUserData();
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: BlurContainer(
@@ -172,9 +179,9 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                               _formKey.currentState!.save();
 
                               List<List<Map<String, dynamic>>> itenerary =
-                                  await planTravel(user!.favCruisine,
-                                      user!.favHangout, _travelPlanParameters);
-                              _travelPlanParameters['userID'] = user!.docID;
+                                  await planTravel(user?.favCruisine,
+                                      user?.favHangout, _travelPlanParameters);
+                              _travelPlanParameters['userID'] = user?.docID;
                               setState(() {
                                 isLoading = false;
                               });
@@ -244,17 +251,24 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
     "dates": [],
     "userID": ""
   };
-
+  UserModel? user;
   @override
-  Widget build(BuildContext context) {
-    UserModel? user;
-    void getUserData() async {
-      SharedPreferences pref = await SharedPreferences.getInstance();
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
       setState(() {
         user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
       });
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BlurContainer(
         width: double.maxFinite,
         childColumn: Padding(
@@ -318,8 +332,8 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
                           _formKey.currentState!.save();
                           List<List<Map<String, dynamic>>> itenerary =
                               await planTravel(user!.favCruisine,
-                                  user!.favHangout, _travelPlanParameters);
-                          _travelPlanParameters['userID'] = user!.docID;
+                                  user?.favHangout, _travelPlanParameters);
+                          _travelPlanParameters['userID'] = user?.docID;
                           setState(() {
                             isLoading = false;
                           });

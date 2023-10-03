@@ -1,26 +1,30 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:tim_app/backend/firebase/businessDataProvider.dart';
-import 'package:tim_app/backend/firebase/firebaseService.dart';
-import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
-import 'package:tim_app/pages/dashboard_menu_components/header.dart';
-import 'package:tim_app/pages/travellers/traveller_plan/travel_plan_kanban.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/traveller_plan_search.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
-import 'package:tim_app/widgets/blurContainer.dart';
-import 'package:tim_app/widgets/customButtons.dart';
 
-class TravellerPlanScreen extends StatelessWidget {
+class TravellerPlanScreen extends StatefulWidget {
   const TravellerPlanScreen({super.key});
+
+  @override
+  State<TravellerPlanScreen> createState() => _TravellerPlanScreenState();
+}
+
+class _TravellerPlanScreenState extends State<TravellerPlanScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
+  }
 
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Admin Dashboard'),
+      appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(
