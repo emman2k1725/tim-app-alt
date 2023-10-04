@@ -63,13 +63,11 @@ class _BusinessSpecialOfferScreenState
             SizedBox(
               height: 20,
             ),
-            Center(
-                child: isApprove == false
-                    ? Text(
-                        'YOUR ACCOUNT IS NOT YET APPROVE',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    : const BusinessOfferScreen())
+            SingleChildScrollView(
+              child: Column(
+                children: [BusinessOfferScreen()],
+              ),
+            ),
           ],
         ),
       ),

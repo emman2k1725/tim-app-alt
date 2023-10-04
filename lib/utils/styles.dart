@@ -2,10 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/utils/colors.dart';
 
 TextStyle navTextStyle = const TextStyle(
-  fontFamily: 'Poppins', // Specify the font family
-  fontSize: 16.0, // Specify the font size
+  fontFamily: 'Poppins',
+  fontSize: 14.0,
   fontWeight: FontWeight
       .normal, // Specify the font weight (e.g., FontWeight.bold for bold text)
+  fontStyle: FontStyle.normal,
+  letterSpacing: 1.2, // Specify the letter spacing
+  color: Colors.white, // Specify the text color
+  // You can also include other properties like decoration, decorationColor, etc.
+);
+TextStyle tableHeaderStyle = const TextStyle(
+  fontFamily: 'Quicksand', // Specify the font family
+  fontSize: 16.0, // Specify the font size
+  fontWeight: FontWeight.bold,
+  fontStyle: FontStyle
+      .normal, // Specify the font style (e.g., FontStyle.italic for italic text)
+  letterSpacing: 1.2, // Specify the letter spacing
+  color: Colors.blue, // Specify the text color
+  // You can also include other properties like decoration, decorationColor, etc.
+);
+TextStyle tableContentStyle = const TextStyle(
+  fontFamily: 'Quicksand', // Specify the font family
+  fontSize: 14.0, // Specify the font size
   fontStyle: FontStyle
       .normal, // Specify the font style (e.g., FontStyle.italic for italic text)
   letterSpacing: 1.2, // Specify the letter spacing

@@ -37,7 +37,6 @@ class _TravelHistoryTabBarState extends State<TravelHistoryTabBar>
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: 800,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -90,12 +89,22 @@ class _TravelHistoryTabBarState extends State<TravelHistoryTabBar>
                     ),
                     Align(
                       alignment: Alignment.bottomLeft,
-                      child: Container(
-                        width: double.maxFinite,
-                        height: 700,
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [TripHistoryTable(), HistoryRated()],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.blue, // Border color
+                              width: 1.0, // Border width
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          width: double.maxFinite,
+                          height: 700,
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [TripHistoryTable(), HistoryRated()],
+                          ),
                         ),
                       ),
                     )

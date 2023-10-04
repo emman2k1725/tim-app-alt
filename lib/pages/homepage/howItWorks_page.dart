@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 import '../../responsive.dart';
 import '../../utils/appTheme_style.dart';
@@ -20,15 +24,15 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
+    UserModel? user = userProvider.userData;
+    if (user == null) {
+      userProvider.loadDataFromSharedPref();
+      user = userProvider.userData;
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF333334),
-        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
-        elevation: 4,
-        titleSpacing: 0,
-        title: NavBar(),
-      ),
       body: Container(
         width: w,
         height: h,
@@ -41,6 +45,7 @@ class _HowItWorksPageState extends State<HowItWorksPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
                 height: 130,
               ),

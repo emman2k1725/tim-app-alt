@@ -6,7 +6,9 @@ import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/pages/business/business_dashboard_body.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/widgets/appbar.dart';
 
 class BusinessScreen extends StatefulWidget {
   const BusinessScreen({super.key});
@@ -54,35 +56,28 @@ class _BusinessScreenState extends State<BusinessScreen> {
 
   @override
   build(BuildContext context) {
-    bool isApprove = true;
-    return SafeArea(
-      child: Container(
-        width: MediaQuery.sizeOf(context).width * 1.0,
-        height: MediaQuery.sizeOf(context).height * 1.0,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(mainBg),
+    return Scaffold(
+      appBar: const CustomAppBar(title: 'Admin Dashboard'),
+      body: SingleChildScrollView(
+        primary: false,
+        child: Container(
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          height: MediaQuery.sizeOf(context).height * 1.0,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(mainBg),
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 100,
-              ),
-              Center(
-                child: isApprove == false
-                    ? const Text(
-                        'YOUR ACCOUNT IS NOT YET APPROVE',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    : const Text(
-                        'YOUR ACCOUNT IS APPROVE',
-                        style: TextStyle(color: Colors.white),
-                      ),
-              )
-            ],
+          child: const SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                BusinessDashboardBody()
+              ],
+            ),
           ),
         ),
       ),
