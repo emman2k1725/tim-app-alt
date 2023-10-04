@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
 
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
@@ -100,7 +102,6 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                         ],
                       ),
                     ),
-            
             ),
           ),
         ),
