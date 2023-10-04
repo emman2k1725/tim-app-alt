@@ -47,7 +47,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GoRouter _router = travellerRouter;
+  final GoRouter _router = router;
 
   @override
   Widget build(BuildContext context) {

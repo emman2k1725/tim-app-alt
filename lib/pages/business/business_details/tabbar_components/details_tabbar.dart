@@ -12,8 +12,6 @@ import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
-import 'package:tim_app/pages/travellers/profile/components/profile_modal.dart';
-import 'package:tim_app/pages/travellers/profile/components/profile_modal_address.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -138,10 +136,10 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                           ReusableEditButton(
                             onPressed: () async {
                               // Show the modal form and wait for the result
-                              await showDialog(
-                                context: context,
-                                builder: (context) => ModalAddress(),
-                              );
+                              // await showDialog(
+                              //   context: context,
+                              //   builder: (context) => ModalAddress(),
+                              // );
                             },
                             label: 'Edit',
                             icon: Icons.edit_note_outlined,
@@ -246,11 +244,11 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                     ),
                                   ),
                                   SizedBox(height: 8.0),
-                                  Expanded(
-                                    child: Text(
-                                      item['businessDesc'].toString(),
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(),
+                                  Text(
+                                    item['businessDesc']
+                                        .toString(), // Replace with your name or text
+                                    style: TextStyle(
+                                      fontSize: 15.0,
                                     ),
                                   ),
                                 ],
@@ -456,10 +454,10 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                           ReusableEditButton(
                             onPressed: () async {
                               // Show the modal form and wait for the result
-                              await showDialog(
-                                context: context,
-                                builder: (context) => ModalAddress(),
-                              );
+                              // await showDialog(
+                              //   context: context,
+                              //   builder: (context) => ModalAddress(),
+                              // );
                             },
                             label: 'Edit',
                             icon: Icons.edit_note_outlined,

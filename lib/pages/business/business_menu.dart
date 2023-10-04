@@ -18,7 +18,7 @@ class _BusinessMenuState extends State<BusinessMenu> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: businessRouter,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.indigo),
     );

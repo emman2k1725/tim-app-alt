@@ -26,7 +26,7 @@ class _AdminMainState extends State<AdminMain> {
         create: (context) => UserDataProvider(),
         child: MaterialApp.router(
           routerConfig:
-              adminRouter, //Responsive.isDesktop(context) ? goRouter : goRouterMobile,
+              router, //Responsive.isDesktop(context) ? goRouter : goRouterMobile,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(primarySwatch: Colors.indigo),
         ));

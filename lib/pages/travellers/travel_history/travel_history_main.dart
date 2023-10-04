@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/travellers/apply_business/tabbar.dart';
-import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_tabbar.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/widgets/appbar.dart';
 
-class TravelHistoryMain extends StatelessWidget {
+class TravelHistoryMain extends StatefulWidget {
   const TravelHistoryMain({super.key});
+
+  @override
+  State<TravelHistoryMain> createState() => _TravelHistoryMainState();
+}
+
+class _TravelHistoryMainState extends State<TravelHistoryMain> {
+  @override
+  void initState() {
+    super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Custom AppBar'),
+      appBar: const CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
         primary: false,
         child: Container(

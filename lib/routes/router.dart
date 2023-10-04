@@ -51,130 +51,6 @@ import '../pages/homepage/media_page.dart';
 import '../pages/signup/signup_interest_main.dart';
 import '../pages/travellers/travel_history/components/trip_history_rate.dart';
 
-GoRouter createRouter() {
-  return GoRouter(
-    routes: [
-      GoRoute(
-        path: "/",
-        builder: (context, state) => MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => MenuAppController(),
-            ),
-          ],
-          child: const Home(),
-        ),
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const Home()),
-      ),
-      GoRoute(
-        path: "/excel",
-        builder: (context, state) => const ExcelUpload(),
-      ),
-      GoRoute(
-        path: "/login",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const LoginPage()),
-      ),
-      GoRoute(
-        path: "/signup",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const SignupPage()),
-      ),
-      GoRoute(
-        path: "/dashboard",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const TravellerMain()),
-      ),
-
-      GoRoute(
-        path: "/signup-interest",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const InterestMain()),
-      ),
-      GoRoute(
-        path: "/profile",
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: "/about",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const AboutPage()),
-      ),
-      GoRoute(
-        path: "/media",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const MediaPage()),
-      ),
-      GoRoute(
-        path: "/advertise",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const AdvertisePage()),
-      ),
-      GoRoute(
-        path: "/how-it-works",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const HowItWorksPage()),
-      ),
-      GoRoute(
-        path: "/latest-news",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const LatestNewsPage()),
-      ),
-      GoRoute(
-        path: "/special-offers",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const SpecialOffersPage()),
-      ),
-      GoRoute(
-        path: "/city-guide",
-        pageBuilder: (context, state) =>
-            CustomFadeTransition(widgetChild: const CityGuidePage()),
-      ),
-
-      //business dashboard routes
-      GoRoute(
-        path: "/admin-dashboard",
-        builder: (context, state) => const AdminMain(),
-      ),
-      GoRoute(
-        path: "/admin-manage-content",
-        builder: (context, state) => const AdminMain(),
-      ),
-
-      // business routing
-      GoRoute(
-        path: "/business-dashboard",
-        builder: (context, state) => const BusinessMenu(),
-      ),
-      GoRoute(
-        path: '/business-details',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: BusinessMenu(),
-        ),
-      ),
-      GoRoute(
-        path: '/business-advertisement',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: BusinessMenu(),
-        ),
-      ),
-      GoRoute(
-        path: '/business-offers',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: BusinessMenu(),
-        ),
-      ),
-      GoRoute(
-        path: '/business',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: ApplyBusinessMain(),
-        ),
-      ),
-    ],
-  );
-}
-
 // ======== ADMIN DESKTOP ========
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
@@ -182,125 +58,6 @@ final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final travellerKey = GlobalKey<NavigatorState>(debugLabel: 'travellerKey');
 final contentKey = GlobalKey<NavigatorState>(debugLabel: 'contentKey');
 final accountKey = GlobalKey<NavigatorState>(debugLabel: 'accountKey');
-
-final adminRouter = GoRouter(
-  initialLocation:
-      Authenticate.isAutheticated() == true ? '/admin-dashboard' : '/login',
-  navigatorKey: _rootNavigatorKey,
-  debugLogDiagnostics: true,
-  routes: [
-    GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: LoginPage(),
-      ),
-      routes: [],
-    ),
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
-      },
-      branches: [
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorAKey,
-          routes: [
-            GoRoute(
-              path: '/admin-dashboard',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: AdminDashboardMain(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorBKey,
-          routes: [
-            GoRoute(
-              path: '/admin-manage-business',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ManageBusinessMain(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: travellerKey,
-          routes: [
-            GoRoute(
-              path: '/admin-manage-travellers',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ManageTravellerMain(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: contentKey,
-          routes: [
-            // Shopping Cart
-            GoRoute(
-              path: '/admin-manage-content',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ContentManagementMain(),
-              ),
-              routes: [
-                GoRoute(
-                  path: 'offer',
-                  builder: (context, state) => const ManageSpecialOffer(),
-                ),
-                GoRoute(
-                  path: 'advertisement',
-                  builder: (context, state) => const ManageAdvertisement(),
-                ),
-                GoRoute(
-                  path: 'news',
-                  builder: (context, state) => const ManageNewsScreenMain(),
-                ),
-                GoRoute(
-                  path: 'media',
-                  builder: (context, state) => const ManageMediaScreenMain(),
-                ),
-                GoRoute(
-                  path: 'guide',
-                  builder: (context, state) =>
-                      const ManageCityGuideScreenMain(),
-                ),
-                GoRoute(
-                  path: 'about',
-                  builder: (context, state) => const ManageAboutScreenMain(),
-                ),
-                GoRoute(
-                  path: 'how',
-                  builder: (context, state) => const ManageHowScreenMain(),
-                ),
-                GoRoute(
-                  path: 'tour',
-                  builder: (context, state) => const ManageTourScreenMain(),
-                ),
-              ],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: accountKey,
-          routes: [
-            // Shopping Cart
-            GoRoute(
-              path: '/admin-account',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: AdminAccountMain(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
 
 // ======== MOBILE DESKTOP ========
 final _rootNavigatorKeyMobile = GlobalKey<NavigatorState>();
@@ -447,90 +204,6 @@ final businessDetailsNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'businessDetails');
 final paymentDetailsNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'payment');
-
-final GoRouter businessRouter = GoRouter(
-  initialLocation:
-      Authenticate.isAutheticated() == true ? '/business-dashboard' : '/login',
-  navigatorKey: businessNavigatorKey,
-  debugLogDiagnostics: true,
-  routes: [
-    GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: LoginPage(),
-      ),
-      routes: [],
-    ),
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return ScaffoldWithNavigation(navigationShell: navigationShell);
-      },
-      branches: [
-        StatefulShellBranch(
-          navigatorKey: dashboardNavigator,
-          routes: [
-            GoRoute(
-              path: '/business-dashboard',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessScreen(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: adsNavigator,
-          routes: [
-            // Shopping Cart
-            GoRoute(
-              path: '/business-advertisement',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessAdvertisementScreen(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: offersNavigator,
-          routes: [
-            // Shopping Cart
-            GoRoute(
-              path: '/business-offers',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessSpecialOfferScreen(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: businessDetailsNavigator,
-          routes: [
-            // Shopping Cart
-            GoRoute(
-              path: '/business-details',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: BusinessDetailsScreen(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: paymentDetailsNavigator,
-          routes: [
-            GoRoute(
-              path: '/dashboard',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: TravellerMain(),
-              ),
-              routes: [],
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
-
 final travellerNavigatorKey = GlobalKey<NavigatorState>();
 final travellerNavigator = GlobalKey<NavigatorState>(debugLabel: 'dashboard');
 final travelPlanNavigator =
@@ -542,8 +215,9 @@ final travelApplyBusinessNavigator =
 final travelAccountNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
-final travellerRouter = GoRouter(
-  initialLocation: Authenticate.isAutheticated() == true ? '/dashboard' : '/',
+
+final router = GoRouter(
+  initialLocation: "/",
   navigatorKey: travellerNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -621,7 +295,7 @@ final travellerRouter = GoRouter(
           navigatorKey: travellerNavigator,
           routes: [
             GoRoute(
-              path: '/dashboard',
+              path: '/dashboard', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerDashboard(),
               ),
@@ -633,7 +307,7 @@ final travellerRouter = GoRouter(
           navigatorKey: travelPlanNavigator,
           routes: [
             GoRoute(
-              path: '/travel-plan',
+              path: '/travel-plan', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravellerPlanScreen(),
               ),
@@ -645,14 +319,15 @@ final travellerRouter = GoRouter(
           navigatorKey: travelHistoryNavigator,
           routes: [
             GoRoute(
-              path: '/travel-history',
+              path: '/travel-history', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: TravelHistoryMain(),
               ),
               routes: [
                 GoRoute(
                   path: 'history-rate',
-                  builder: (context, state) => const TripHistoryRate(),
+                  builder: (context, state) =>
+                      const TripHistoryRate(), // ROUTE GUARDED
                 ),
               ],
             ),
@@ -662,14 +337,15 @@ final travellerRouter = GoRouter(
           navigatorKey: travelApplyBusinessNavigator,
           routes: [
             GoRoute(
-              path: '/business',
+              path: '/business', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ApplyBusinessMain(),
               ),
               routes: [
                 GoRoute(
                   path: 'apply-business',
-                  builder: (context, state) => const ApplyBusiness(),
+                  builder: (context, state) =>
+                      const ApplyBusiness(), // ROUTE GUARDED
                 ),
               ],
             ),
@@ -679,7 +355,7 @@ final travellerRouter = GoRouter(
           navigatorKey: travelAccountNavigator,
           routes: [
             GoRoute(
-              path: '/traveller-account',
+              path: '/traveller-account', // ROUITE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ProfileScreen(),
               ),
@@ -698,7 +374,7 @@ final travellerRouter = GoRouter(
           navigatorKey: dashboardNavigator,
           routes: [
             GoRoute(
-              path: '/business-dashboard',
+              path: '/business-dashboard', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessScreen(),
               ),
@@ -711,7 +387,7 @@ final travellerRouter = GoRouter(
           routes: [
             // Shopping Cart
             GoRoute(
-              path: '/business-advertisement',
+              path: '/business-advertisement', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessAdvertisementScreen(),
               ),
@@ -723,7 +399,7 @@ final travellerRouter = GoRouter(
           routes: [
             // Shopping Cart
             GoRoute(
-              path: '/business-offers',
+              path: '/business-offers', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessSpecialOfferScreen(),
               ),
@@ -735,10 +411,127 @@ final travellerRouter = GoRouter(
           routes: [
             // Shopping Cart
             GoRoute(
-              path: '/business-details',
+              path: '/business-details', // ROUTE GUARDED
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessDetailsScreen(),
               ),
+            ),
+          ],
+        ),
+
+        StatefulShellBranch(
+          navigatorKey: paymentDetailsNavigator,
+          routes: [
+            GoRoute(
+              path: '/dashboard', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: TravellerMain(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+
+      ],
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorAKey,
+          routes: [
+            GoRoute(
+              path: '/admin-dashboard', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminDashboardMain(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorBKey,
+          routes: [
+            GoRoute(
+              path: '/admin-manage-business', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ManageBusinessMain(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: travellerKey,
+          routes: [
+            GoRoute(
+              path: '/admin-manage-travellers', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ManageTravellerMain(),
+              ),
+              routes: [],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: contentKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-manage-content', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ContentManagementMain(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'offer',
+                  builder: (context, state) => const ManageSpecialOffer(),
+                ),
+                GoRoute(
+                  path: 'advertisement',
+                  builder: (context, state) => const ManageAdvertisement(),
+                ),
+                GoRoute(
+                  path: 'news',
+                  builder: (context, state) => const ManageNewsScreenMain(),
+                ),
+                GoRoute(
+                  path: 'media',
+                  builder: (context, state) => const ManageMediaScreenMain(),
+                ),
+                GoRoute(
+                  path: 'guide',
+                  builder: (context, state) =>
+                      const ManageCityGuideScreenMain(),
+                ),
+                GoRoute(
+                  path: 'about',
+                  builder: (context, state) => const ManageAboutScreenMain(),
+                ),
+                GoRoute(
+                  path: 'how',
+                  builder: (context, state) => const ManageHowScreenMain(),
+                ),
+                GoRoute(
+                  path: 'tour',
+                  builder: (context, state) => const ManageTourScreenMain(),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: accountKey,
+          routes: [
+            // Shopping Cart
+            GoRoute(
+              path: '/admin-account', // ROUTE GUARDED
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminAccountMain(),
+              ),
+              routes: [],
             ),
           ],
         ),

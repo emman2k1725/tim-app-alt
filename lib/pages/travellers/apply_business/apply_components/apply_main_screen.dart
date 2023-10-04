@@ -21,12 +21,12 @@ class ApplyMainScreen extends StatefulWidget {
 class _ApplyMainScreenState extends State<ApplyMainScreen> {
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Responsive.isDesktop(context) ? 0 : w / 20,
+            horizontal: Responsive.isDesktop(context) ? 0 : w! / 20,
             vertical: 5),
         child: Responsive.isDesktop(context)
             ? DesktopScreenSize()

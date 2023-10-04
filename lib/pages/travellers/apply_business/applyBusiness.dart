@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/authservice/authentication.dart';
 import 'package:tim_app/backend/firebase/UserDataProvider.dart';
+import 'package:tim_app/model/UserModel.dart';
 
 import 'components/stepper_business.dart';
 
@@ -15,9 +20,27 @@ class ApplyBusiness extends StatefulWidget {
 
 class _ApplyBusinessState extends State<ApplyBusiness> {
   Color shadowColor = Colors.blueAccent;
+  UserModel? user;
+  @override
+  void initState() {
+    super.initState();
+    if (Authenticate.isAutheticated() == false) {
+      GoRouter.of(context).go('/');
+    }
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -50,7 +73,7 @@ class _ApplyBusinessState extends State<ApplyBusiness> {
               ),
               child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: StepperWidget(userProvider: userProvider.userData)),
+                  child: StepperWidget(userProvider: user)),
             ),
           ),
         ),
