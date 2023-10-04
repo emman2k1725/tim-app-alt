@@ -92,6 +92,18 @@ Future createContent(ContentModel? contentModel) async {
   return result;
 }
 
+Future createAds(Map<String, dynamic> ads, String collectionName) async {
+  final _firestore = FirebaseFirestore.instance.collection(collectionName);
+  String? result;
+  try {
+    await _firestore.doc().set(ads);
+    result = 'success';
+  } catch (e) {
+    result = e.toString();
+  }
+  return result;
+}
+
 Future saveItenerary(Map<String, dynamic> iteneraryData) async {
   final _firestore = FirebaseFirestore.instance.collection('travel-history');
   String? result;

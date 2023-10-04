@@ -5,7 +5,7 @@ import 'package:tim_app/utils/styles.dart';
 class SuccessDialog extends StatelessWidget {
   final String title;
 
-  SuccessDialog({required this.title});
+  const SuccessDialog({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class SuccessDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Success!',
                       style: TextStyle(
                         fontSize: 24,
@@ -32,7 +32,7 @@ class SuccessDialog extends StatelessWidget {
                     ),
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
@@ -56,10 +56,10 @@ class SuccessDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.close),
+              child: const Icon(Icons.close),
               style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(8),
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(8),
               ),
             ),
           ),

@@ -1,15 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_dialog.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
-import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
-import 'package:tim_app/pages/travellers/profile/profile_edit.dart';
-import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
-import 'package:tim_app/pages/travellers/profile/profile_personal_info.dart';
 import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
@@ -24,7 +22,7 @@ class BusinessAdsScreen extends StatefulWidget {
 
 class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
   String? selectedValue;
-
+  BusinessModel? business;
   void _onItemSelected(String? value) {
     setState(() {
       selectedValue = value; // Update the selected value in Class B
@@ -33,8 +31,19 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
 
   @override
   void initState() {
+    loadNewLaunch();
     super.initState();
     // _tabController = TabController(length: 3, vsync: this);
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('business') != null) {
+      setState(() {
+        business = BusinessModel.fromMapWithID(
+            jsonDecode(pref.getString('business')!));
+      });
+    }
   }
 
   Color shadowColor = Colors.blueAccent;
@@ -85,7 +94,8 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
                                 onPressed: () {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => CreateAdsDialog(),
+                                    builder: (context) => CreateAdsDialog(
+                                        businessID: business?.businessID),
                                   );
                                 },
                               ),
