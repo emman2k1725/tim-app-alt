@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tim_app/model/BusinessModel.dart';
-import 'package:tim_app/model/UserModel.dart';
+import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
+
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
+import 'package:tim_app/pages/business/special_offers/components/business_offer_tabbar.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_table.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
@@ -96,36 +96,11 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          BusinessOfferTable(),
+                          BusinessOfferTabbar(),
                         ],
                       ),
                     ),
-              /*Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add New Special Offer',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateOfferDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    const BusinessOfferTable(),
-                  ],
-                ),
-              ),*/
+            
             ),
           ),
         ),

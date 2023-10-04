@@ -34,13 +34,6 @@ class MediaPage extends StatelessWidget {
     }
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF333334),
-        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
-        elevation: 4,
-        titleSpacing: 0,
-        title: NavBar(),
-      ),
       body: Container(
         width: w,
         height: h,

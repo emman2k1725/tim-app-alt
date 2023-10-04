@@ -2,7 +2,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/containers/advertise_container1.dart';
 import 'package:tim_app/pages/homepage/cityGuide_page.dart';
+import 'package:tim_app/pages/homepage/howItWorks_page.dart';
 import 'package:tim_app/pages/homepage/latestNews_page.dart';
 import 'package:tim_app/pages/homepage/media_page.dart';
 import 'package:tim_app/pages/homepage/specialOffers_page.dart';
@@ -14,14 +16,14 @@ import 'package:tim_app/widgets/customButtons.dart';
 import '../../../responsive.dart';
 import '../../../utils/constants.dart';
 
-class TravellerDashboardBody extends StatefulWidget {
-  const TravellerDashboardBody({super.key});
+class BusinessDashboardBody extends StatefulWidget {
+  const BusinessDashboardBody({super.key});
 
   @override
-  State<TravellerDashboardBody> createState() => _TravellerDashboardBodyState();
+  State<BusinessDashboardBody> createState() => _BusinessDashboardBodyState();
 }
 
-class _TravellerDashboardBodyState extends State<TravellerDashboardBody> {
+class _BusinessDashboardBodyState extends State<BusinessDashboardBody> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -71,11 +73,6 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
       'icon': Icons.maps_ugc_outlined,
       'text': 'City Guide',
       'route': '/city-guide',
-    },
-    {
-      'icon': Icons.discount_outlined,
-      'text': 'Special Offers',
-      'route': '/special-offers',
     },
     {
       'icon': Icons.play_circle,
@@ -185,20 +182,136 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.perm_media_outlined,
+                                      Icon(Icons.ads_click,
                                           color: Colors.lightBlueAccent),
                                       SizedBox(width: 5),
                                       Text(
-                                        'Latest Media',
+                                        'Advertise your business',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                    height: 220,
-                                    width: double.maxFinite,
-                                    child: CarouselImage()),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            BlurContainer(
+                                                width: 160,
+                                                childColumn: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.home_filled,
+                                                      color: Colors.white,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'Homepage \nAdvertise',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            BlurContainer(
+                                                width: 160,
+                                                childColumn: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.article_outlined,
+                                                      color: Colors.white,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'Subpage \nAdvertise',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            BlurContainer(
+                                                width: 160,
+                                                childColumn: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.newspaper_outlined,
+                                                      color: Colors.white,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'Newsletter \nAdvertise',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             )),
                       ],
@@ -243,43 +356,46 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                       width: 2, color: Colors.white10),
                                 ),
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    Icon(
+                                      Icons.local_offer,
+                                      color: Colors.blue,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      'Special Offer',
+                                      style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight
+                                            .bold, // Specify the font weight (e.g., FontWeight.bold for bold text)
+
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Container(
-                                          width: 150,
-                                          padding: EdgeInsets.all(16.0),
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.blue, // Background color
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                          ),
-                                          child: Text(
-                                            'Tim your Buddy!',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(
+                                        'Boost your business by offering a special deal that customers can\'t resist, driving more traffic and sales your way.',
+                                        style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 14.0,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
-                                        'Exploring the World\'s Best Cuisines and Places',
-                                        style: AppTextstyle.headerTextStyle,
-                                      ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
-                                        'Journey with Tim to savor global cuisine and explore captivating places.',
-                                        style: AppTextstyle.bodyTextStyle,
-                                      ),
-                                    ),
+                                    CustomButton(
+                                        text: "Create Offer", onPressed: () {}),
                                   ],
                                 ),
                               ),
@@ -398,7 +514,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                SpecialOffersPage()),
+                                                                HowItWorksPage()),
                                                       );
                                                     }
                                                   }),

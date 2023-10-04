@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,7 @@ import 'package:tim_app/pages/business/business_details/tabbar_components/busine
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history_rate.dart';
+import 'package:tim_app/utils/styles.dart';
 
 import '../../../../utils/loading.dart';
 
@@ -40,73 +42,76 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return PaginatedDataTable(
-            header: const Text(
-              'Trip History',
-              style: TextStyle(color: Colors.lightBlueAccent),
+          return
+
+              // Theme(
+              //   data: Theme.of(context)
+              //       .copyWith(cardColor: Colors.white60.withOpacity(0.15)),
+              Theme(
+            data: Theme.of(context).copyWith(
+                cardColor: Colors.white60.withOpacity(0.10),
+                dividerColor: Colors.blue,
+                textTheme:
+                    TextTheme(bodySmall: TextStyle(color: Colors.white))),
+            child: PaginatedDataTable(
+              arrowHeadColor: Colors.white,
+              header: const Text(
+                'Trip History',
+                style: TextStyle(color: Colors.lightBlueAccent),
+              ),
+              rowsPerPage: rowsPerPage,
+              columns: [
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'Title',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Title',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'Start Date',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Start Date',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'End Date',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'End Date',
+                ),
+                DataColumn(
+                  label: Text(
+                    'Days',
+                    style: tableHeaderStyle,
+                  ),
+                  tooltip: 'Days',
+                ),
+                DataColumn(
+                  label: Text(
+                    'Action',
+                    style: tableHeaderStyle,
+                  ),
+                  tooltip: '',
+                ),
+                // Add more columns as needed
+              ],
+              source: _MyDataTableSource(data, context),
             ),
-            rowsPerPage: rowsPerPage,
-            columns: const [
-              DataColumn(
-                label: Row(
-                  children: [
-                    Text(
-                      'Title',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Title',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    Text(
-                      'Start Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Start Date',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    Text(
-                      'End Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'End Date',
-              ),
-              DataColumn(
-                label: Text(
-                  'Days',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: 'Days',
-              ),
-              DataColumn(
-                label: Text(
-                  'Action',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: '',
-              ),
-              // Add more columns as needed
-            ],
-            source: _MyDataTableSource(data, context),
           );
         } else {
           return const Center(child: Text('No data found'));
@@ -129,15 +134,30 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['city'])),
-      DataCell(Text(item['dates'][0])),
-      DataCell(Text(item['dates'][item['dates'].length - 1])),
-      DataCell(Text(item['day'].toString())),
+      DataCell(Text(
+        item['city'],
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['dates'][0],
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['dates'][item['dates'].length - 1],
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['day'].toString(),
+        style: tableContentStyle,
+      )),
       DataCell(
         Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.download_outlined),
+              icon: const Icon(
+                Icons.download_outlined,
+                color: Colors.white,
+              ),
               onPressed: () {
                 _showRowDialog(item, context);
               },
