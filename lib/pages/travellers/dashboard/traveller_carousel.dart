@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tim_app/model/carousel.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_screen_body.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CarouselImage extends StatelessWidget {
   const CarouselImage({super.key});
@@ -41,60 +42,83 @@ class CarouselImage extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Image.network(
-                      item.imageUrl,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return const CircularProgressIndicator();
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 200,
-                          height: 200,
-                          child: const Icon(
-                            Icons.image,
-                            color: Colors.white,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.blue,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        item.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: Colors.white,
+                      SizedBox(
+                        width: 300,
+                        child: Expanded(
+                          child: Text(
+                            item.title,
+                            textAlign: TextAlign.justify,
+                            maxLines: 2, // Limit the text to two lines.
+                            overflow: TextOverflow.ellipsis,
+
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Expanded(
-                        child: Text(
-                          item.description,
-                          overflow: TextOverflow.visible,
+                      SizedBox(
+                        width: 300,
+                        child: Expanded(
+                          child: Text(
+                            item.description,
+                            textAlign: TextAlign.justify,
+                            maxLines: 2, // Limit the text to two lines.
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              height: 1.5,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                      const Spacer(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: Image.network(
+                          item.imageUrl,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              child: const Icon(
+                                Icons.image,
+                                color: Colors.white,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.blue,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       InkWell(
-                        onTap: () {
-                          // _showRowDialog(data[index], context);
+                        onTap: () async {
+                          await launchUrl(item.imageUrl as Uri);
                         },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,

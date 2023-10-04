@@ -187,23 +187,20 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.numbers_outlined,
+                                      Icon(Icons.perm_media_outlined,
                                           color: Colors.lightBlueAccent),
                                       SizedBox(width: 5),
                                       Text(
-                                        'No. of Users Visit',
+                                        'Latest Media',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: SizedBox(
-                                      height: 220,
-                                      width: double.maxFinite,
-                                      child: CarouselImage()),
-                                ),
+                                SizedBox(
+                                    height: 220,
+                                    width: double.maxFinite,
+                                    child: CarouselImage()),
                               ],
                             )),
                       ],

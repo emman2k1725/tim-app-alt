@@ -215,6 +215,7 @@ final travelApplyBusinessNavigator =
 final travelAccountNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
+
 final router = GoRouter(
   initialLocation: "/",
   navigatorKey: travellerNavigatorKey,
@@ -417,6 +418,7 @@ final router = GoRouter(
             ),
           ],
         ),
+
         StatefulShellBranch(
           navigatorKey: paymentDetailsNavigator,
           routes: [
@@ -429,6 +431,7 @@ final router = GoRouter(
             ),
           ],
         ),
+
       ],
     ),
     StatefulShellRoute.indexedStack(

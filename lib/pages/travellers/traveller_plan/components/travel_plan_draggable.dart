@@ -80,14 +80,18 @@ class _DraggableContainer extends State<DraggableContainer> {
         child: DragAndDropLists(
           listPadding: const EdgeInsets.all(16),
           listInnerDecoration: BoxDecoration(
-            color: Theme.of(context).canvasColor,
+            border: Border.all(
+              color: Colors.blue, // Change the border color here
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           axis: Responsive.isDesktop(context) ? Axis.horizontal : Axis.vertical,
           listWidth: 350,
           listDraggingWidth: 150,
           children: lists,
-          itemDivider: Divider(thickness: 2, height: 2, color: backgroundColor),
+          itemDivider:
+              const Divider(thickness: 2, height: 2, color: backgroundColor),
           itemDecorationWhileDragging: const BoxDecoration(
             color: Colors.lightGreen,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
@@ -163,27 +167,35 @@ class _DraggableContainer extends State<DraggableContainer> {
                               ),
                             ),
                           ),
-                          title: Text(item.title),
+                          title: Text(item.title,
+                              style: const TextStyle(color: Colors.white)),
                           subtitle: Column(
                             children: [
                               Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(item.title)),
+                                  child: Text(item.title,
+                                      style: const TextStyle(
+                                          color: Colors.white))),
                               Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(item.timeSchedule)),
+                                  child: Text(item.timeSchedule,
+                                      style: const TextStyle(
+                                          color: Colors.white))),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.rating),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Icon(Icons.star_half, color: Colors.yellow),
+                                  Text(item.rating,
+                                      style:
+                                          const TextStyle(color: Colors.white)),
+                                  const Icon(Icons.star, color: Colors.yellow),
+                                  const Icon(Icons.star, color: Colors.yellow),
+                                  const Icon(Icons.star, color: Colors.yellow),
+                                  const Icon(Icons.star, color: Colors.yellow),
+                                  const Icon(Icons.star_half,
+                                      color: Colors.yellow),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                             ],
@@ -191,11 +203,13 @@ class _DraggableContainer extends State<DraggableContainer> {
                         ),
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Container(
                               child: Text(
                                 item.address,
-                                style: TextStyle(fontSize: 16.0),
+                                style: const TextStyle(
+                                    fontSize: 16.0, color: Colors.white),
                               ),
                             ),
                           ),
@@ -244,7 +258,7 @@ class _DraggableContainer extends State<DraggableContainer> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Close'),
+                child: const Text('Close'),
               ),
             ],
           ),
