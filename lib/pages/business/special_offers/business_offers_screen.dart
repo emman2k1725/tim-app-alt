@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/BusinessModel.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_table.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
@@ -17,10 +21,21 @@ class BusinessOfferScreen extends StatefulWidget {
 }
 
 class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
+  BusinessModel? business;
   @override
   void initState() {
     super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('business') != null) {
+      setState(() {
+        business = BusinessModel.fromMapWithID(
+            jsonDecode(pref.getString('business')!));
+      });
+    }
   }
 
   Color shadowColor = Colors.blueAccent;
@@ -71,7 +86,8 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                                 onPressed: () {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => CreateOfferDialog(),
+                                    builder: (context) => CreateOfferDialog(
+                                        businessID: business?.businessID),
                                   );
                                 },
                               ),
