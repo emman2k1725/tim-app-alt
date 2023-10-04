@@ -53,8 +53,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
   final Map<String, dynamic> _travelPlanParameters = {
     "startDate": "",
     "endDate": "",
-    "startTime": "",
-    "endTime": "",
+    "time": [],
     "city": "",
     "days": "",
     "dates": [],
@@ -177,36 +176,36 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                             await Future.delayed(const Duration(seconds: 1));
                             if (_formKey.currentState!.validate() == true) {
                               _formKey.currentState!.save();
-
-                              List<List<Map<String, dynamic>>> itenerary =
-                                  await planTravel(user?.favCruisine,
-                                      user?.favHangout, _travelPlanParameters);
-                              _travelPlanParameters['userID'] = user?.docID;
-                              setState(() {
-                                isLoading = false;
-                              });
-                              if (itenerary.isNotEmpty) {
-                                iteneraryToDatabase(
-                                        itenerary, _travelPlanParameters)
-                                    .then((value) {
-                                  if (value == true) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                TravelPlanKanban(
-                                                  travelitenerary: itenerary,
-                                                  traveliteneraryParameters:
-                                                      _travelPlanParameters,
-                                                )));
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                "Unable to generate travel plan. Please select a different city or try again later.")));
-                                  }
-                                });
-                              }
+                              debugPrint(_travelPlanParameters.toString());
+                              // List<List<Map<String, dynamic>>> itenerary =
+                              //     await planTravel(user?.favCruisine,
+                              //         user?.favHangout, _travelPlanParameters);
+                              // _travelPlanParameters['userID'] = user?.docID;
+                              // setState(() {
+                              //   isLoading = false;
+                              // });
+                              // if (itenerary.isNotEmpty) {
+                              //   iteneraryToDatabase(
+                              //           itenerary, _travelPlanParameters)
+                              //       .then((value) {
+                              //     if (value == true) {
+                              //       Navigator.push(
+                              //           context,
+                              //           MaterialPageRoute(
+                              //               builder: (context) =>
+                              //                   TravelPlanKanban(
+                              //                     travelitenerary: itenerary,
+                              //                     traveliteneraryParameters:
+                              //                         _travelPlanParameters,
+                              //                   )));
+                              //     } else {
+                              //       ScaffoldMessenger.of(context).showSnackBar(
+                              //           SnackBar(
+                              //               content: Text(
+                              //                   "Unable to generate travel plan. Please select a different city or try again later.")));
+                              //     }
+                              //   });
+                              // }
                             } else {
                               setState(() {
                                 isLoading = false;

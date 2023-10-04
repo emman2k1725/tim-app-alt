@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
+
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_tabbar.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_table.dart';
@@ -19,10 +21,21 @@ class BusinessOfferScreen extends StatefulWidget {
 }
 
 class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
+  BusinessModel? business;
   @override
   void initState() {
     super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('business') != null) {
+      setState(() {
+        business = BusinessModel.fromMapWithID(
+            jsonDecode(pref.getString('business')!));
+      });
+    }
   }
 
   Color shadowColor = Colors.blueAccent;
@@ -73,7 +86,8 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                                 onPressed: () {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => CreateOfferDialog(),
+                                    builder: (context) => CreateOfferDialog(
+                                        businessID: business?.businessID),
                                   );
                                 },
                               ),
@@ -86,32 +100,7 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                         ],
                       ),
                     ),
-              /*Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AddButton(
-                          buttonText: 'Add New Special Offer',
-                          icon: Icons.add,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateOfferDialog(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    const BusinessOfferTable(),
-                  ],
-                ),
-              ),*/
+            
             ),
           ),
         ),

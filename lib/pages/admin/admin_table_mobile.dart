@@ -82,7 +82,9 @@ class _AdminTableListViewState extends State<AdminTableListView> {
                               onPressed: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => CreateAdsDialog(),
+                                  builder: (context) => CreateAdsDialog(
+                                    businessID: null,
+                                  ),
                                 );
                               })
                     ],
@@ -301,7 +303,9 @@ class _AdminTableListView2State extends State<AdminTableListView2> {
                               onPressed: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => CreateAdsDialog(),
+                                  builder: (context) => CreateAdsDialog(
+                                    businessID: null,
+                                  ),
                                 );
                               })
                     ],

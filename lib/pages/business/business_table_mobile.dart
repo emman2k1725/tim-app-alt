@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/BusinessModel.dart';
 
 import '../../widgets/customAddButton.dart';
 import 'advertisement/components/business_ads_dialog.dart';
@@ -25,7 +29,25 @@ class _BusinessDetailsListViewState extends State<BusinessDetailsListView> {
     'Item7',
     'Item8',
   ];
+
+  @override
+  void initState() {
+    loadNewLaunch();
+    super.initState();
+    // _tabController = TabController(length: 3, vsync: this);
+  }
+
+  BusinessModel? business;
   String? selectedValue;
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('business') != null) {
+      setState(() {
+        business = BusinessModel.fromMapWithID(
+            jsonDecode(pref.getString('business')!));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +143,8 @@ class _BusinessDetailsListViewState extends State<BusinessDetailsListView> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => CreateAdsDialog(),
+                      builder: (context) =>
+                          CreateAdsDialog(businessID: business?.businessID),
                     );
                   })
             ],
