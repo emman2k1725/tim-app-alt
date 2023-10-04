@@ -543,8 +543,7 @@ final travelAccountNavigator =
     GlobalKey<NavigatorState>(debugLabel: 'travel-account');
 
 final travellerRouter = GoRouter(
-  initialLocation:
-      Authenticate.isAutheticated() == true ? '/dashboard' : '/login',
+  initialLocation: Authenticate.isAutheticated() == true ? '/dashboard' : '/',
   navigatorKey: travellerNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -740,18 +739,6 @@ final travellerRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: BusinessDetailsScreen(),
               ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: paymentDetailsNavigator,
-          routes: [
-            GoRoute(
-              path: '/dashboard',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: TravellerMain(),
-              ),
-              routes: [],
             ),
           ],
         ),

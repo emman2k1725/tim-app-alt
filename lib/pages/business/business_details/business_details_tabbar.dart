@@ -26,7 +26,7 @@ class _BusinessTabBarViewState extends State<BusinessTabBarView>
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(

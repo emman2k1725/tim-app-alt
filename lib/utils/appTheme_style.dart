@@ -43,7 +43,7 @@ class AppTheme {
     textTheme: TextTheme(
       displayLarge: primaryTextStyle, // Apply the primaryTextStyle to headline1
       bodyLarge: getSecondaryTextStyle(
-          60.0), // Apply the secondaryTextStyle to bodyText1
+          20.0), // Apply the secondaryTextStyle to bodyText1
       // You can define more text styles for different elements
     ),
   );

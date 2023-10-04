@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_draggable.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -26,45 +28,77 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
       appBar: CustomAppBar(title: 'Admin Dashboard'),
       body: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
-        height: MediaQuery.sizeOf(context).height * 1.0,
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage(mainBg),
           ),
         ),
-        child: BlurContainer(
-            width: double.maxFinite,
-            height: 1500,
-            childColumn: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.description_outlined,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'TIM Planning',
-                        style: AppTextstyle.headerTextStyle,
-                      )
+        child: SizedBox(
+          width: double.maxFinite,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.blue.withOpacity(0.30),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8.0,
+                      spreadRadius: 1,
+                      offset: Offset(0, 8.0),
+                    ),
+                  ],
+
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white60.withOpacity(0.10),
+                      Colors.blue.withOpacity(0.10),
                     ],
                   ),
+                  // color: Colors.white.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                DraggableContainer(
-                    travelitenerary: widget.travelitenerary,
-                    traveliteneraryParameters:
-                        widget.traveliteneraryParameters),
-                const SizedBox(
-                  height: 10,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.description_outlined,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'TIM Planning',
+                            style: AppTextstyle.headerTextStyle,
+                          )
+                        ],
+                      ),
+                    ),
+                    DraggableContainer(
+                        travelitenerary: widget.travelitenerary,
+                        traveliteneraryParameters:
+                            widget.traveliteneraryParameters),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
-              ],
-            )),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
