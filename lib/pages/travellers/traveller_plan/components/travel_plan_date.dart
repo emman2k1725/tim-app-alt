@@ -70,8 +70,9 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
         _endDate = picked;
 
         daysInterval = _endDate!
-            .difference(_startDate!) // START DATE HERE
-            .inDays;
+                .difference(_startDate!) // START DATE HERE
+                .inDays +
+            1;
 
         debugPrint('Days Interval: $daysInterval');
         _initializeStartTimes(daysInterval);
@@ -477,8 +478,9 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                             _selectStartTime(context, index),
                                         onSaved: (value) {
                                           widget.travelSearchParameters[
-                                                  'startTime'] =
-                                              convertTo24HourFormat(value);
+                                                  'startTime']
+                                              .add(
+                                                  convertTo24HourFormat(value));
                                         },
                                         decoration: InputDecoration(
                                           labelText: 'Start Time',
@@ -548,8 +550,9 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                                 _selectEndTime(context, index),
                                             onSaved: (value) {
                                               widget.travelSearchParameters[
-                                                      'endTime'] =
-                                                  convertTo24HourFormat(value);
+                                                      'endTime']
+                                                  .add(convertTo24HourFormat(
+                                                      value));
                                               for (String days
                                                   in getDatesInBetween(
                                                       _startDate!, _endDate!)) {
@@ -643,8 +646,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                   },
                                   onTap: () => _selectStartTime(context, index),
                                   onSaved: (value) {
-                                    widget.travelSearchParameters['startTime'] =
-                                        convertTo24HourFormat(value);
+                                    widget.travelSearchParameters['startTime']
+                                        .add(convertTo24HourFormat(value));
                                   },
                                   decoration: InputDecoration(
                                     labelText: 'Start Time',
@@ -696,8 +699,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                                   },
                                   onTap: () => _selectEndTime(context, index),
                                   onSaved: (value) {
-                                    widget.travelSearchParameters['endTime'] =
-                                        convertTo24HourFormat(value);
+                                    widget.travelSearchParameters['endTime']
+                                        .add(convertTo24HourFormat(value));
                                     for (String days in getDatesInBetween(
                                         _startDate!, _endDate!)) {
                                       widget.travelSearchParameters['dates']

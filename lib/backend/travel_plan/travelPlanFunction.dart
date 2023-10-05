@@ -21,11 +21,11 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
       await FirebaseService.fetchHangout();
   try {
     // Hotel to stay
-    Map<String, dynamic> selectedHotel = evaluateParameters(
-        selectHotels, travelItinerary, travelPlanParams['startTime']);
+    Map<String, dynamic> selectedHotel =
+        evaluateParameters(selectHotels, travelItinerary, null);
     for (int x = 0; x < travelPlanParams['days']; x++) {
-      String currentTime = travelPlanParams['startTime'];
-      String endTime = travelPlanParams['endTime'];
+      String currentTime = travelPlanParams['startTime'][x];
+      String endTime = travelPlanParams['endTime'][x];
       List<Map<String, dynamic>> travelItineraryPerDay = [];
       travelItineraryPerDay.add(selectedHotel);
       bool hadBreakfast = false;
@@ -235,7 +235,7 @@ int? getAveTimeSpent(
 }
 
 evaluateParameters(List<Map<String, dynamic>> places,
-    List<List<Map<String, dynamic>>> travelItinerary, String currentTime) {
+    List<List<Map<String, dynamic>>> travelItinerary, String? currentTime) {
   Map<String, dynamic>? chosenPlace;
   if (travelItinerary.isEmpty) {
     // for hotel
@@ -266,16 +266,6 @@ evaluateParameters(List<Map<String, dynamic>> places,
     }
     i++;
   }
-
-  // for (int i = 0; i < places.length; i++) {
-  //   if (traverseToItenerary(places[i], travelItinerary) == false) {
-  //     chosenPlace = places[i];
-  //     break;
-  //   } else {
-  //     debugPrint("${places[i]['businessName']} : true");
-  //     chosenPlace = places[i++];
-  //   }
-  // }
   return chosenPlace;
 }
 
