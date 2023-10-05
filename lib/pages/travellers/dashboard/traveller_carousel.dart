@@ -156,3 +156,88 @@ class CarouselImage extends StatelessWidget {
     );
   }
 }
+
+class FooterCarousel extends StatelessWidget {
+  final Stream<QuerySnapshot<Object?>>? stream;
+
+  const FooterCarousel({super.key, required this.stream});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      // stream: FirebaseFirestore.instance
+      //     .collection('content')
+      //     .where("contentType", isEqualTo: 'Media')
+      //     .snapshots(),
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+              child:
+                  CircularProgressIndicator()); // Show a loading indicator while fetching data.
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Text('No data available');
+        } else {
+          final List<CarouselItem> carouselItems =
+              snapshot.data!.docs.map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            return CarouselItem(
+              title: data['contentTitle'],
+              imageUrl: data['displayImage'],
+              description: data['description'],
+            );
+          }).toList();
+
+          return CarouselSlider.builder(
+            itemCount: carouselItems.length,
+            itemBuilder: (BuildContext context, int index, int realIndex) {
+              final item = carouselItems[index];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.network(
+                    item.imageUrl,
+                    height: 150,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        child: const Icon(
+                          Icons.image,
+                          color: Colors.white,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+            options: CarouselOptions(
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              pauseAutoPlayOnTouch: true,
+            ),
+          );
+        }
+      },
+    );
+  }
+}

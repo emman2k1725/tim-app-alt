@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/travellers/dashboard/traveller_carousel.dart';
 
 class AdsFooter extends StatelessWidget {
   const AdsFooter({super.key});
@@ -11,21 +14,15 @@ class AdsFooter extends StatelessWidget {
       children: [
         SizedBox(height: 50),
         Container(
-          height: 120,
+          height: 200,
+          width: MediaQuery.of(context).size.width,
           color: Colors.blue,
           padding: EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Footer Content',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-              ),
-            ],
-          ),
+          child: FooterCarousel(
+              stream: FirebaseFirestore.instance
+                  .collection('content')
+                  .where("contentType", isEqualTo: 'Media')
+                  .snapshots()),
         ),
       ],
     );
