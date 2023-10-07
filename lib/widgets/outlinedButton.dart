@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
@@ -37,6 +39,7 @@ class _ShadowButtonState extends State<ShadowButton> {
         height: Responsive.isDesktop(context) ? 100.0 : 90.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
+
           // boxShadow: [
           //   for (double i = 1; i < 5; i++)
           //     BoxShadow(
@@ -58,7 +61,7 @@ class _ShadowButtonState extends State<ShadowButton> {
             isPressed = hovered;
           }),
           style: TextButton.styleFrom(
-            side: const BorderSide(color: Colors.white54, width: 2),
+            side: BorderSide(color: shadowColor, width: 2),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -70,6 +73,13 @@ class _ShadowButtonState extends State<ShadowButton> {
               Icon(
                 widget.icon,
                 color: Colors.white70,
+                shadows: [
+                  for (double i = 1; i < (isPressed ? 8 : 4); i++)
+                    Shadow(
+                      color: shadowColor,
+                      blurRadius: 3 * i,
+                    )
+                ],
               ),
               const SizedBox(
                 height: 8.0,
@@ -79,13 +89,20 @@ class _ShadowButtonState extends State<ShadowButton> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Responsive.isDesktop(context) ? 24.0 : 18.0,
-                  // shadows: [
-                  //   for (double i = 1; i < (isPressed ? 8 : 4); i++)
-                  //     Shadow(
-                  //       color: shadowColor,
-                  //       blurRadius: 3 * i,
-                  //     )
-                  // ],
+                  shadows: [
+                    for (double i = 1; i < (isPressed ? 8 : 4); i++)
+                      Shadow(
+                        color: shadowColor,
+                        blurRadius: 3 * i,
+                      )
+                    // Shadow(
+                    //   color: shadowColor, // Choose the color of the shadow
+                    //   blurRadius:
+                    //       8.0, // Adjust the blur radius for the shadow effect
+                    //   offset: Offset(0.0,
+                    //       0.0), // Set the horizontal and vertical offset for the shadow
+                    // ),
+                  ],
                 ),
               ),
             ],
