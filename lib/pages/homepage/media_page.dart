@@ -34,6 +34,13 @@ class MediaPage extends StatelessWidget {
     }
     return Scaffold(
       extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF333334),
+        toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
+        elevation: 4,
+        titleSpacing: 0,
+        title: NavBar(),
+      ),
       body: Container(
         width: w,
         height: h,
@@ -48,7 +55,7 @@ class MediaPage extends StatelessWidget {
             children: [
               user?.docID == null ? NavBar() : CustomAppBar(title: 'hs'),
               SizedBox(
-                height: 130,
+                height: 50,
               ),
               Container(
                 margin: EdgeInsets.symmetric(
@@ -295,15 +302,18 @@ class MobileContainer1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchTableNews('Media'),
+    return StreamBuilder<QuerySnapshot>(
+        stream: fetchTableContent('Media'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error fetching data'));
           } else if (snapshot.hasData) {
-            List<Map<String, dynamic>> data = snapshot.data!;
+            final List<Map<String, dynamic>> data =
+                snapshot.data!.docs.map((DocumentSnapshot document) {
+              return document.data() as Map<String, dynamic>;
+            }).toList();
             return SingleChildScrollView(
               child: Column(
                 children: [
