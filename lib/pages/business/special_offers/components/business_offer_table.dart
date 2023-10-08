@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
@@ -19,17 +24,29 @@ class BusinessOfferTable extends StatefulWidget {
 }
 
 class _BusinessOfferTableDemoState extends State<BusinessOfferTable> {
+  BusinessModel? business;
+  @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('business') != null) {
+      setState(() {
+        business = BusinessModel.fromMapWithID(
+            jsonDecode(pref.getString('business')!));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     const int rowsPerPage = 10;
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
-    if (user == null) {
-      userProvider.loadDataFromSharedPref();
-      user = userProvider.userData;
-    }
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchTravel(user!.docID),
+
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchSpecialOffer(business?.businessID),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -37,12 +54,7 @@ class _BusinessOfferTableDemoState extends State<BusinessOfferTable> {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return
-
-              // Theme(
-              //   data: Theme.of(context)
-              //       .copyWith(cardColor: Colors.white60.withOpacity(0.15)),
-              Theme(
+          return Theme(
             data: Theme.of(context).copyWith(
                 cardColor: Colors.white60.withOpacity(0.10),
                 dividerColor: Colors.blue,
@@ -118,28 +130,31 @@ class _MyDataTableSource extends DataTableSource {
 
   final List<Map<String, dynamic>> data;
   final BuildContext context;
-
   @override
   DataRow? getRow(int index) {
     if (index >= data.length) {
       return null;
     }
     final item = data[index];
+
+    DateTime parsedDate = DateTime.parse(item['createAt']);
+    String formattedDate = DateFormat('MMM dd, yyyy').format(parsedDate);
+
     return DataRow(cells: [
       DataCell(Text(
-        item['city'],
+        item['title'],
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['dates'][0],
+        item['offerCode'],
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['dates'][item['dates'].length - 1],
+        formattedDate,
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['day'].toString(),
+        item['status'].toString(),
         style: tableContentStyle,
       )),
       DataCell(
@@ -147,8 +162,8 @@ class _MyDataTableSource extends DataTableSource {
           children: [
             IconButton(
               icon: const Icon(
-                Icons.download_outlined,
-                color: Colors.white,
+                Icons.visibility,
+                color: Colors.green,
               ),
               onPressed: () {
                 _showRowDialog(item, context);
@@ -156,8 +171,8 @@ class _MyDataTableSource extends DataTableSource {
             ),
             IconButton(
                 icon: const Icon(
-                  Icons.star,
-                  color: Colors.amberAccent,
+                  Icons.archive,
+                  color: Colors.blue,
                 ),
                 onPressed: () {
                   Navigator.push(

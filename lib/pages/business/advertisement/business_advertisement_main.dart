@@ -43,31 +43,30 @@ class _BusinessAdvertisementScreenState
 
   @override
   Widget build(BuildContext context) {
+    Color shadowColor = Colors.red;
+
     bool isApprove = true;
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Custom AppBar'),
-      body: Container(
-        width: MediaQuery.sizeOf(context).width * 1.0,
-        height: MediaQuery.sizeOf(context).height * 1.0,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(mainBg),
+      appBar: CustomAppBar(title: 'Custom AppBar'),
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(mainBg),
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
-              Center(
-                  child: isApprove == false
-                      ? const Text(
-                          'YOUR ACCOUNT IS NOT YET APPROVE',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      : const BusinessAdsScreen())
+              SingleChildScrollView(
+                child: Column(
+                  children: [BusinessAdsScreen()],
+                ),
+              ),
             ],
           ),
         ),

@@ -434,7 +434,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                             trailing: Icon(Icons.arrow_forward,
                                                 color: Colors.blue),
                                             onTap: () => context.go(
-                                                '/admin-manage-content/about'),
+                                                '/admin-manage-content/advertisement'),
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.travel_explore,
@@ -453,10 +453,6 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 25),
-                                    CustomButton(
-                                        text: "Manage Account",
-                                        onPressed: () {}),
                                   ],
                                 ),
                               ),

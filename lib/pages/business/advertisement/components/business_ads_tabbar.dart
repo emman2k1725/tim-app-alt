@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_reviews.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/details_tabbar.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
@@ -13,14 +14,14 @@ import 'package:tim_app/pages/travellers/profile/profile_personal_info.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_rated_list.dart';
 
-class BusinessOfferTabbar extends StatefulWidget {
-  const BusinessOfferTabbar({super.key});
+class BusinessAdsTabbar extends StatefulWidget {
+  const BusinessAdsTabbar({super.key});
 
   @override
-  _BusinessOfferTabbarState createState() => _BusinessOfferTabbarState();
+  _BusinessAdsTabbarState createState() => _BusinessAdsTabbarState();
 }
 
-class _BusinessOfferTabbarState extends State<BusinessOfferTabbar>
+class _BusinessAdsTabbarState extends State<BusinessAdsTabbar>
     with TickerProviderStateMixin {
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _BusinessOfferTabbarState extends State<BusinessOfferTabbar>
                 unselectedLabelColor: Colors.grey,
                 tabs: [
                   Tab(
-                    text: "Special Offers",
+                    text: "Advertisement",
                   ),
                 ]),
           ),
@@ -68,9 +69,7 @@ class _BusinessOfferTabbarState extends State<BusinessOfferTabbar>
                 height: 600,
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
-                    SingleChildScrollView(child: BusinessOfferTable())
-                  ],
+                  children: [SingleChildScrollView(child: BusinessAdsTable())],
                 ),
               ),
             ),
