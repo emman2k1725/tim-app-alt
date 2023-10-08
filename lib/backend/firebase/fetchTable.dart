@@ -37,6 +37,42 @@ Future<List<Map<String, dynamic>>> fetchTravel(String? userID) async {
   return dataList;
 }
 
+Stream<List<Map<String, dynamic>>> fetchSpecialOffer(String? businessID) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('special_offers')
+      .where("business", isEqualTo: businessID);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchAds(String? businessID) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('advertisement')
+      .where("business", isEqualTo: businessID);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
 Future<List<Map<String, dynamic>>> fetchTableNews(String type) async {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('content')

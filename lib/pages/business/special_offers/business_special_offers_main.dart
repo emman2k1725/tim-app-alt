@@ -49,26 +49,27 @@ class _BusinessSpecialOfferScreenState
     bool isApprove = true;
     return Scaffold(
       appBar: CustomAppBar(title: 'Custom AppBar'),
-      body: Container(
-        width: MediaQuery.sizeOf(context).width * 1.0,
-        height: MediaQuery.sizeOf(context).height * 1.0,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(mainBg),
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(mainBg),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: [BusinessOfferScreen()],
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
               ),
-            ),
-          ],
+              SingleChildScrollView(
+                child: Column(
+                  children: [BusinessOfferScreen()],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
