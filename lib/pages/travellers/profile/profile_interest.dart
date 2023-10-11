@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal_interest.dart';
+import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
 import 'package:tim_app/backend/firebase/UserDataProvider.dart';
@@ -26,16 +27,10 @@ class _ProfileInterestState extends State<ProfileInterest> {
         const SizedBox(
           height: 20,
         ),
-        Container(
+        BlurContainer(
           width: double.maxFinite,
           height: 150,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.blue, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+          childColumn: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

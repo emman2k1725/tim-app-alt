@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,81 +74,106 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
     return AppBar(
       backgroundColor: AppColors.primaryBg,
-      elevation: 2,
       actions: [
         Row(
           children: [
-            Container(
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10 / 2,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.primaryText,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                border: Border.all(color: Colors.white10),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipOval(
-                    child: Container(
-                      width:
-                          50, // Set the desired width for the circular avatar
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.blue, // Set the color of the border
-                          width: 1.0, // Set the width of the border
-                        ),
-                        shape: BoxShape.circle,
-                        image: const DecorationImage(
-                          image: AssetImage(
-                              profile), // Replace 'your_image.png' with the actual image path
-                          fit: BoxFit
-                              .cover, // Choose the appropriate fit option for your design
-                        ),
+            SizedBox(
+              width: 200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue.withOpacity(0.30),
+                        width: 2,
                       ),
-                    ),
-                  ),
-                  if (!Responsive.isMobile(context))
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10 / 2),
-                      child: Text(
-                        user?.firstName ?? 'user',
-                        style: const TextStyle(
-                          fontSize: 16.0, // Set the font size
-                          color: Colors.blue, // Set the text color
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 8.0,
+                          spreadRadius: 1,
+                          offset: Offset(0, 8.0),
                         ),
+                      ],
+
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white60.withOpacity(0.10),
+                          Colors.blue.withOpacity(0.10),
+                        ],
                       ),
+                      // color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  PopupMenuButton<String>(
-                    child: const Center(
-                      child: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.blue, // Change the icon color
-                      ),
-                    ),
-                    itemBuilder: (BuildContext context) {
-                      return optionTraveller.map((String option) {
-                        return PopupMenuItem<String>(
-                          value: option,
-                          child: ListTile(
-                            leading: Icon(optionIcons[option]),
-                            title: Text(option),
-                            onTap: () {
-                              _handleOptionSelected(option);
-                            },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ClipOval(
+                          child: Container(
+                            width:
+                                50, // Set the desired width for the circular avatar
+                            height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color:
+                                    Colors.blue, // Set the color of the border
+                                width: 1.0, // Set the width of the border
+                              ),
+                              shape: BoxShape.circle,
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                    profile), // Replace 'your_image.png' with the actual image path
+                                fit: BoxFit
+                                    .cover, // Choose the appropriate fit option for your design
+                              ),
+                            ),
                           ),
-                        );
-                      }).toList();
-                    },
+                        ),
+                        if (!Responsive.isMobile(context))
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10 / 2),
+                            child: Text(
+                              user?.firstName ?? 'user',
+                              style: const TextStyle(
+                                fontSize: 16.0, // Set the font size
+                                color: Colors.white, // Set the text color
+                              ),
+                            ),
+                          ),
+                        PopupMenuButton<String>(
+                          child: const Center(
+                            child: Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.blue, // Change the icon color
+                            ),
+                          ),
+                          itemBuilder: (BuildContext context) {
+                            return optionTraveller.map((String option) {
+                              return PopupMenuItem<String>(
+                                value: option,
+                                child: ListTile(
+                                  leading: Icon(optionIcons[option]),
+                                  title: Text(option),
+                                  onTap: () {
+                                    _handleOptionSelected(option);
+                                  },
+                                ),
+                              );
+                            }).toList();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       ],

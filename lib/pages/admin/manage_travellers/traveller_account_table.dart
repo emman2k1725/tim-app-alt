@@ -3,8 +3,9 @@ import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 
-import '../../../../utils/loading.dart';
+import '../../../utils/loading.dart';
 
 class TravellerAccountTable extends StatefulWidget {
   const TravellerAccountTable({super.key});
@@ -15,88 +16,86 @@ class TravellerAccountTable extends StatefulWidget {
 
 class _TravellerAccountTableState extends State<TravellerAccountTable> {
   @override
+  @override
   Widget build(BuildContext context) {
-    final int rowsPerPage = 10;
+    const int rowsPerPage = 10;
+
     return StreamBuilder<List<Map<String, dynamic>>>(
       stream: fetchTableAdminAccount(false),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error fetching data'));
+          return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
-          final data = snapshot.data;
-
-          return PaginatedDataTable(
-            header: Text(
-              'Traveller Account',
-              style: TextStyle(color: Colors.lightBlueAccent),
+          List<Map<String, dynamic>> data = snapshot.data!;
+          return Theme(
+            data: Theme.of(context).copyWith(
+                cardColor: Colors.white60.withOpacity(0.10),
+                dividerColor: Colors.blue,
+                textTheme:
+                    TextTheme(bodySmall: TextStyle(color: Colors.white))),
+            child: PaginatedDataTable(
+              header: Text(
+                'Traveller Account',
+                style: TextStyle(color: Colors.lightBlueAccent),
+              ),
+              rowsPerPage: rowsPerPage,
+              columns: [
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'Traveller Name',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Traveller Name',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'Traveller Email',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Traveller Email',
+                ),
+                DataColumn(
+                  label: Row(
+                    children: [
+                      Text(
+                        'Phone Number',
+                        style: tableHeaderStyle,
+                      ),
+                    ],
+                  ),
+                  tooltip: 'Phone Number',
+                ),
+                DataColumn(
+                  label: Text(
+                    'Country',
+                    style: tableHeaderStyle,
+                  ),
+                  tooltip: 'Country',
+                ),
+                DataColumn(
+                  label: Text(
+                    'Action',
+                    style: tableHeaderStyle,
+                  ),
+                  tooltip: 'Action',
+                ),
+                // Add more columns as needed
+              ],
+              source: _MyDataTableSource(data, context),
             ),
-            rowsPerPage: rowsPerPage,
-            columns: [
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Traveller Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Traveller Name',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Traveller Email',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Traveller Email',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Phone Number',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Phone Number',
-              ),
-              DataColumn(
-                label: Text(
-                  'Country',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: 'Country',
-              ),
-              DataColumn(
-                label: Text(
-                  'Action',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                tooltip: 'Action',
-              ),
-              // Add more columns as needed
-            ],
-            source: _MyDataTableSource(data!, context),
           );
         } else {
-          return Center(child: Text('No data found'));
+          return const Center(child: Text('No data found'));
         }
       },
     );
@@ -116,22 +115,37 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['firstName'].toString())),
-      DataCell(Text(item['email'].toString())),
-      DataCell(Text(item['mobileNumber'].toString())),
-      DataCell(Text(item['nationality'].toString())),
+      DataCell(Text(
+        item['firstName'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['email'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['mobileNumber'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['nationality'].toString(),
+        style: tableContentStyle,
+      )),
       DataCell(
         Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.no_accounts),
+              icon: const Icon(Icons.no_accounts, color: Colors.white),
               onPressed: () {
                 // Call the onActionIconSelected callback when the icon is clicked
                 _showRowDialog(item, context);
               },
             ),
             IconButton(
-              icon: const Icon(Icons.visibility),
+              icon: const Icon(
+                Icons.visibility,
+                color: Colors.white,
+              ),
               onPressed: () {},
             ),
           ],
