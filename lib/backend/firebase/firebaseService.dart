@@ -147,3 +147,36 @@ Future<Map<String, dynamic>> fetchBusiness(String? ownerID) async {
     return {};
   }
 }
+
+Future<List<Map<String, dynamic>>> getBusinessesQuery(
+    String interest, String city, String findWhat) async {
+  Query query = FirebaseFirestore.instance.collection('businesses');
+  if (findWhat == 'Restaurant') {
+    query = query
+        .where('rating', isNotEqualTo: null)
+        .where('businessAddress.city', isEqualTo: city)
+        .where('businessSector', isNotEqualTo: findWhat)
+        .where('cruisine', isEqualTo: interest)
+        .orderBy('businessSector', descending: false)
+        .orderBy('rating', descending: false)
+        .limit(20);
+  } else {
+    query = query
+        .where('rating', isNotEqualTo: null)
+        .where('businessAddress.city', isEqualTo: city)
+        .where('businessSector', isNotEqualTo: interest)
+        .orderBy('businessSector', descending: false)
+        .orderBy('rating', descending: false)
+        .limit(20);
+  }
+  QuerySnapshot querySnapshot = await query.get();
+
+  List<Map<String, dynamic>> documentsList = [];
+
+  querySnapshot.docs.forEach((document) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    data['placeID'] = document.id;
+    documentsList.add(data);
+  });
+  return documentsList;
+}
