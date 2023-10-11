@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tim_app/data/draggable_lists.dart';
 import 'package:tim_app/model/draggable_model.dart';
 
@@ -30,10 +31,10 @@ class _DraggableContainer extends State<DraggableContainer> {
     List<DraggableList> generateDraggableLists(
         List<List<Map<String, dynamic>>> travelitenerary) {
       List<DraggableList> draggableLists = [];
-      int x = 1;
+      int x = 0;
       for (List<Map<String, dynamic>> dayData in travelitenerary) {
-        String header = "Day $x";
-        String subText = widget.traveliteneraryParameters['dates'][x - 1];
+        String header = "Day ${x + 1}";
+        String subText = widget.traveliteneraryParameters['dates'][x];
         x++;
         List<DraggableListItem> items = [];
         for (int i = 0; i < dayData.length; i++) {
@@ -161,8 +162,8 @@ class _DraggableContainer extends State<DraggableContainer> {
                               },
                               child: Image.network(
                                 item.urlImage,
-                                width: 40,
-                                height: 40,
+                                width: 30,
+                                height: 30,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -187,12 +188,18 @@ class _DraggableContainer extends State<DraggableContainer> {
                                   Text(item.rating,
                                       style:
                                           const TextStyle(color: Colors.white)),
-                                  const Icon(Icons.star, color: Colors.yellow),
-                                  const Icon(Icons.star, color: Colors.yellow),
-                                  const Icon(Icons.star, color: Colors.yellow),
-                                  const Icon(Icons.star, color: Colors.yellow),
-                                  const Icon(Icons.star_half,
-                                      color: Colors.yellow),
+                                  RatingBar.builder(
+                                      initialRating: double.parse(item.rating),
+                                      ignoreGestures: true,
+                                      minRating: 0,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 20.0,
+                                      itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.yellow),
+                                      onRatingUpdate: (rating) {}),
                                 ],
                               ),
                               const SizedBox(

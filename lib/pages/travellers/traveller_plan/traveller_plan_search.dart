@@ -246,6 +246,7 @@ class _MobileScreenSizeState extends State<MobileScreenSize> {
     "endTime": "",
     "lat": "",
     "long": "",
+    "days": "",
     "city": "",
     "dates": [],
     "userID": ""

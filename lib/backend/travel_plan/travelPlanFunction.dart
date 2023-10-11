@@ -16,7 +16,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
   List<List<Map<String, dynamic>>> travelItinerary =
       createDynamicColumn2DArray(travelPlanParams['days']);
   List<Map<String, dynamic>> selectHotels =
-      await fetchPlaces('Hotel', lat, long);
+      await fetchPlaces('Hotel', lat, long, travelPlanParams['city'], 'Hotel');
   List<Map<String, dynamic>> hangoutPlaces =
       await FirebaseService.fetchHangout();
   try {
@@ -37,12 +37,15 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
           String hangOutPlace = getRandomElement(cruisines!);
           Map<String, dynamic> getPlaceParams = {
             'hangoutPlace': hangOutPlace,
+            'findWhat': 'Restaurant',
+            'city': travelPlanParams['city'],
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
+
           currentTime = addMinutesToTime(currentTime,
               getAveTimeSpent(hangoutPlaces, 'hangout', 'Restaurant')!);
           hadBreakfast = true;
@@ -51,6 +54,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
           String hangOutPlace = getRandomElement(cruisines!);
           Map<String, dynamic> getPlaceParams = {
             'hangoutPlace': hangOutPlace,
+            'findWhat': 'Restaurant',
+            'city': travelPlanParams['city'],
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
@@ -65,6 +70,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
           String hangOutPlace = getRandomElement(cruisines!);
           Map<String, dynamic> getPlaceParams = {
             'hangoutPlace': hangOutPlace,
+            'city': travelPlanParams['city'],
+            'findWhat': 'Restaurant',
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
@@ -78,6 +85,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
           String hangOutPlace = getRandomElement(hangouts!);
           Map<String, dynamic> getPlaceParams = {
             'hangoutPlace': hangOutPlace,
+            'city': travelPlanParams['city'],
+            'findWhat': 'Hangout',
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
@@ -92,6 +101,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
           String hangOutPlace = getRandomElement(hangouts!);
           Map<String, dynamic> getPlaceParams = {
             'hangoutPlace': hangOutPlace,
+            'city': travelPlanParams['city'],
+            'findWhat': 'Hangout',
             'long': long,
             'lat': lat,
             'currentTime': endTime,
@@ -103,6 +114,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
         }
       }
     }
+
     return travelItinerary;
   } catch (e) {
     debugPrint(e.toString());
@@ -114,10 +126,18 @@ Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
     List<List<Map<String, dynamic>>> travelItinerary) async {
   List<Map<String, dynamic>>? tempList;
   Map<String, dynamic>? temp;
-  tempList = await fetchPlaces(fetchPlaceParams['hangoutPlace'],
-      fetchPlaceParams['lat'], fetchPlaceParams['long']);
+  debugPrint(fetchPlaceParams.toString());
+  debugPrint(travelItinerary.toString());
+  tempList = await fetchPlaces(
+      fetchPlaceParams['hangoutPlace'],
+      fetchPlaceParams['lat'],
+      fetchPlaceParams['long'],
+      fetchPlaceParams['city'],
+      fetchPlaceParams['findWhat']);
+
   temp = evaluateParameters(
       tempList, travelItinerary, fetchPlaceParams['currentTime']);
+
   if (temp == null) {}
   temp!['timeSchedule'] = fetchPlaceParams['currentTime'];
   return temp;
@@ -154,48 +174,87 @@ bool isTimeInRange(String timeToCheck, String startTime, String endTime) {
   return time.isAfter(start) && time.isBefore(end);
 }
 
-Future<List<Map<String, dynamic>>> fetchPlaces(
-    String find, double latitude, double longtitude) async {
+Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
+    double longtitude, String city, String findWhat) async {
   List<Map<String, dynamic>> places = [];
+  List<Map<String, dynamic>> dataBusiness = [];
+  Map<String, dynamic> placeResult = {
+    "businessName": "",
+    "address": "",
+    "city": "",
+    "rating": "",
+    "openingHours": "",
+    "displayImage": "",
+    "business_status": "",
+    "timeSchedule": "",
+    "placeID": "",
+  };
   try {
-    GoogleMapsPlaces _places =
-        GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
-    PlacesSearchResponse response = await _places.searchByText(find,
-        location: Location(lat: latitude, lng: longtitude));
-    String? displayImage, photoReference;
-    dynamic openingHours;
-    String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
-    for (var result in response.results) {
-      if (result.permanentlyClosed == false) {
-        List<String> splitAddress = result.formattedAddress!.split(',');
-        if (result.photos.isEmpty) {
-          displayImage = result.icon;
-        } else {
-          photoReference = result.photos[0].photoReference;
-          displayImage =
-              "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
+    if (findWhat == 'Hangout') {
+      dataBusiness = await getBusinessesQuery(find, city, 'Hangout');
+    } else if (findWhat == 'Restaurant') {
+      dataBusiness = await getBusinessesQuery(find, city, 'Restaurant');
+    }
+    if (dataBusiness.isNotEmpty) {
+      debugPrint("true");
+      for (int index = 0; index < dataBusiness.length; index++) {
+        debugPrint(" ${index}: ${dataBusiness[index]['businessName']}");
+
+        // placeResult = {
+        //   "businessName": dataBusiness[index]['businessName'],
+        //   "address":
+        //       "${dataBusiness[index]['businessName']['building']} ${dataBusiness[index]['businessName']['street']} ${dataBusiness[index]['businessName']['city']} ${dataBusiness[index]['businessName']['country']}",
+        //   "city": dataBusiness[index]['businessName']['city'],
+        //   "rating": dataBusiness[index]['rating'],
+        //   "openingHours": "",
+        //   "displayImage": dataBusiness[index]['businessImages']['image1'],
+        //   "business_status": dataBusiness[index]['status'],
+        //   "timeSchedule": "",
+        //   "placeID": dataBusiness[index]['placeID'],
+        // };
+
+        // places.add(placeResult);
+      }
+    } else {
+      debugPrint("false");
+      String? displayImage, photoReference;
+      dynamic openingHours;
+      GoogleMapsPlaces _places =
+          GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
+      PlacesSearchResponse response = await _places.searchByText(find,
+          location: Location(lat: latitude, lng: longtitude));
+      String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
+      for (var result in response.results) {
+        if (result.permanentlyClosed == false) {
+          List<String> splitAddress = result.formattedAddress!.split(',');
+          if (result.photos.isEmpty) {
+            displayImage = result.icon;
+          } else {
+            photoReference = result.photos[0].photoReference;
+            displayImage =
+                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
+          }
+          if (result.openingHours is Object) {
+            openingHours = null;
+          } else {
+            openingHours = result.openingHours.toString();
+          }
+          placeResult = {
+            "businessName": result.name,
+            "address": result.formattedAddress,
+            "city": splitAddress[2],
+            "rating": result.rating,
+            "openingHours": openingHours,
+            "displayImage": displayImage,
+            "business_status": result.permanentlyClosed,
+            "timeSchedule": "",
+            "placeID": result.placeId,
+          };
+          places.add(placeResult);
         }
-        if (result.openingHours is Object) {
-          openingHours = null;
-        } else {
-          openingHours = result.openingHours.toString();
-        }
-        Map<String, dynamic> placeResult = {
-          "businessName": result.name,
-          "address": result.formattedAddress,
-          "city": splitAddress[2],
-          "rating": result.rating,
-          "openingHours": openingHours,
-          "displayImage": displayImage,
-          "business_status": result.permanentlyClosed,
-          "timeSchedule": "",
-          "placeID": result.placeId,
-        };
-        places.add(placeResult);
       }
     }
     places.sort((a, b) => b['rating'].compareTo(a['rating']));
-    return places;
   } catch (e) {
     debugPrint(e.toString());
   }
@@ -248,8 +307,6 @@ evaluateParameters(List<Map<String, dynamic>> places,
     for (int x = 0; x < travelItinerary.length; x++) {
       for (int y = 0; y < travelItinerary[x].length; y++) {
         if (place['placeID'] == travelItinerary[x][y]['placeID']) {
-          debugPrint(
-              "${place['businessName']} is == ${travelItinerary[x][y]['businessName']} in [$x][$y]");
           flag = true;
           break;
         }

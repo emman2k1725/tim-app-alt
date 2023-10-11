@@ -7,7 +7,6 @@ import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_d
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/appbar.dart';
-import 'package:tim_app/widgets/blurContainer.dart';
 
 class TravelPlanKanban extends StatefulWidget {
   final List<List<Map<String, dynamic>>> travelitenerary;
