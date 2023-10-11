@@ -317,6 +317,9 @@ abstract class MenuItems {
       case MenuItems.advertisement:
         GoRouter.of(context).go('/advertise');
         break;
+      case MenuItems.getStarted:
+        GoRouter.of(context).go('/login');
+        break;
     }
   }
 }
