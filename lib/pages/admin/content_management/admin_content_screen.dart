@@ -548,7 +548,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                             trailing: Icon(Icons.edit,
                                                 color: Colors.blue),
                                             onTap: () => context.go(
-                                                '/admin-manage-content/how'),
+                                                '/admin-manage-content/setting'),
                                           ),
                                         ],
                                       ),
