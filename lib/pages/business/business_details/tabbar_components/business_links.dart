@@ -46,12 +46,12 @@ class BusinessLinks extends StatelessWidget {
                   width: 30, // Set the desired width
                   height: 20, // Set the desired height
                   colorFilter:
-                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
                   item['businessLinks']['facebook'],
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 18,
                   ),
                 ),
@@ -78,14 +78,14 @@ class BusinessLinks extends StatelessWidget {
                 SvgPicture.asset(
                   "/icons/insta.svg",
                   width: 30,
-                  height: 20,
+                  height: 30,
                   colorFilter:
-                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
                   item['businessLinks']['instagram'],
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 18,
                   ),
                 ),
@@ -114,12 +114,12 @@ class BusinessLinks extends StatelessWidget {
                   width: 30,
                   height: 20,
                   colorFilter:
-                      const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
                   item['businessLinks']['googleMap'],
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 18,
                   ),
                 ),

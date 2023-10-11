@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,90 +37,77 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
           }).toList();
           return Padding(
             padding: const EdgeInsets.all(10.0),
-            child: PaginatedDataTable(
-              header: Text('List of Newsletter'),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () {
-                    // Add your refresh logic here
-                  },
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                  cardColor: Colors.white60.withOpacity(0.10),
+                  dividerColor: Colors.blue,
+                  textTheme:
+                      TextTheme(bodySmall: TextStyle(color: Colors.white))),
+              child: PaginatedDataTable(
+                header: Text(
+                  'List of Newsletter',
+                  style: TextStyle(color: Colors.white),
                 ),
-              ],
-              arrowHeadColor: Colors.blue,
-              controller: ScrollController(),
-              primary: false,
-              columnSpacing: columnSpacing,
-              horizontalMargin: horizontalMargin,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'NEWS TITLE',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                arrowHeadColor: Colors.blue,
+                controller: ScrollController(),
+                primary: false,
+                columnSpacing: columnSpacing,
+                horizontalMargin: horizontalMargin,
+                columns: [
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'NEWS TITLE',
+                          style: tableHeaderStyle,
                         ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'News Title',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'DATE POSTED',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Date posted',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'LINK',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Website Link',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'Preview',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Preview News',
-                ),
-                const DataColumn(
-                  label: const Text(
-                    'ACTION',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
+                    tooltip: 'News Title',
                   ),
-                  tooltip: '',
-                ),
-              ],
-              source: _MyDataTableSource(data, context),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'DATE POSTED',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Date posted',
+                  ),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'LINK',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Website Link',
+                  ),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'Preview',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Preview News',
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'ACTION',
+                      style: tableHeaderStyle,
+                    ),
+                    tooltip: '',
+                  ),
+                ],
+                source: _MyDataTableSource(data, context),
+              ),
             ),
           );
         } else {
@@ -147,6 +135,7 @@ class _MyDataTableSource extends DataTableSource {
         item['contentTitle'].toString(),
         overflow: TextOverflow.visible,
         softWrap: true,
+        style: tableContentStyle,
       )),
       DataCell(
         Container(
@@ -157,7 +146,7 @@ class _MyDataTableSource extends DataTableSource {
             overflow: TextOverflow
                 .ellipsis, // Show ellipsis (...) when text overflows
             maxLines: 2, // Limit text to two lines, adjust as needed
-            style: TextStyle(),
+            style: tableContentStyle,
           ),
         ),
       ),
@@ -167,7 +156,10 @@ class _MyDataTableSource extends DataTableSource {
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
               color: Colors.black54,
-              icon: const Icon(Icons.link_rounded),
+              icon: const Icon(
+                Icons.link_rounded,
+                color: Colors.white,
+              ),
               onPressed: () async {
                 Uri url = Uri.parse(item['website'].toString());
                 var urllaunchable = await canLaunchUrl(
@@ -186,7 +178,7 @@ class _MyDataTableSource extends DataTableSource {
           target: LinkTarget.blank,
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
-              color: Colors.black54,
+              color: Colors.white,
               icon: const Icon(Icons.visibility),
               onPressed: () async {
                 _showRowDialog(item, context);
@@ -197,7 +189,7 @@ class _MyDataTableSource extends DataTableSource {
         Row(
           children: [
             IconButton(
-              color: Colors.grey,
+              color: Colors.white,
               icon: const Icon(Icons.edit),
               onPressed: () {
                 // actionImage(index);

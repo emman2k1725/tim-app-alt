@@ -390,7 +390,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                           alignment: Alignment.topLeft,
                                           child: Row(
                                             children: [
-                                              Icon(Icons.approval_rounded,
+                                              Icon(Icons.more_horiz,
                                                   color:
                                                       Colors.lightBlueAccent),
                                               SizedBox(width: 5),
@@ -434,7 +434,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                             trailing: Icon(Icons.arrow_forward,
                                                 color: Colors.blue),
                                             onTap: () => context.go(
-                                                '/admin-manage-content/advertisement'),
+                                                '/admin-manage-content/about'),
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.travel_explore,
@@ -449,6 +449,106 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                                 color: Colors.blue),
                                             onTap: () => context.go(
                                                 '/admin-manage-content/tour'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.approval_rounded,
+                                                  color:
+                                                      Colors.lightBlueAccent),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                'Approve Content',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: ListView(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.ads_click,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'Advertisement',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/how'),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.local_offer,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'Special Offers',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.arrow_forward,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/about'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.settings,
+                                                  color:
+                                                      Colors.lightBlueAccent),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                'Set Content',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: ListView(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(
+                                                Icons.settings_applications,
+                                                color: Colors
+                                                    .white), // Icon on the left
+                                            title: Text(
+                                              'Modify Content',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            trailing: Icon(Icons.edit,
+                                                color: Colors.blue),
+                                            onTap: () => context.go(
+                                                '/admin-manage-content/how'),
                                           ),
                                         ],
                                       ),

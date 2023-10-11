@@ -16,6 +16,7 @@ import 'package:tim_app/pages/travellers/apply_business/components/stepper_three
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
+import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
 import '../../../../backend/firebase/firebaseService.dart';
@@ -109,45 +110,43 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
             Map<String, dynamic> item = snapshot.data!;
             return Column(
               children: [
-                Container(
+                BlurContainer(
                   width: double.maxFinite,
                   height: 220,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+                  childColumn: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Business Information', // Replace with your name or text
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Business Information', // Replace with your name or text
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          ReusableEditButton(
-                            onPressed: () async {
-                              // Show the modal form and wait for the result
-                              // await showDialog(
-                              //   context: context,
-                              //   builder: (context) => ModalAddress(),
-                              // );
-                            },
-                            label: 'Edit',
-                            icon: Icons.edit_note_outlined,
-                          ),
-                        ],
+                            ReusableEditButton(
+                              onPressed: () async {
+                                // Show the modal form and wait for the result
+                                // await showDialog(
+                                //   context: context,
+                                //   builder: (context) => ModalAddress(),
+                                // );
+                              },
+                              label: 'Edit',
+                              icon: Icons.edit_note_outlined,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,6 +232,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                     style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   SizedBox(height: 8.0),
@@ -241,6 +241,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                         .toString(), // Replace with your name or text
                                     style: TextStyle(
                                       fontSize: 15.0,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   SizedBox(height: 8.0),
@@ -248,6 +249,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                     item['businessDesc']
                                         .toString(), // Replace with your name or text
                                     style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 15.0,
                                     ),
                                   ),
@@ -265,6 +267,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                 item['businessSector']
                                     .toString(), // Replace with your name or text
                                 style: TextStyle(
+                                  color: Colors.white,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -274,6 +277,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                 item['businessAddress']['country']
                                     .toString(), // Replace with your name or text
                                 style: TextStyle(
+                                  color: Colors.white,
                                   fontSize: 15.0,
                                 ),
                               ),
@@ -284,6 +288,7 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                                     item['businessPhoneNumber']['number']
                                         .toString(), // Replace with your name or text
                                 style: TextStyle(
+                                  color: Colors.white,
                                   fontSize: 15.0,
                                 ),
                               ),
@@ -297,35 +302,35 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
+                BlurContainer(
                   width: double.maxFinite,
                   height: 220,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+                  childColumn: Column(
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Business Thumbnails',
-                              style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Upload your 3 business thumbnails here',
-                              style: TextStyle(
-                                fontSize: 14,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Business Thumbnails',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 10),
+                              Text(
+                                'Upload your 3 business thumbnails here',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -427,169 +432,181 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                BlurContainer(
                   width: double.maxFinite,
                   height: 330,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blue, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+                  childColumn: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Business Information', // Replace with your name or text
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Business Information', // Replace with your name or text
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          ReusableEditButton(
-                            onPressed: () async {
-                              // Show the modal form and wait for the result
-                              // await showDialog(
-                              //   context: context,
-                              //   builder: (context) => ModalAddress(),
-                              // );
-                            },
-                            label: 'Edit',
-                            icon: Icons.edit_note_outlined,
-                          ),
-                        ],
+                            ReusableEditButton(
+                              onPressed: () async {
+                                // Show the modal form and wait for the result
+                                // await showDialog(
+                                //   context: context,
+                                //   builder: (context) => ModalAddress(),
+                                // );
+                              },
+                              label: 'Edit',
+                              icon: Icons.edit_note_outlined,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 500,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Country', // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 500,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Country', // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  item['businessAddress'][
-                                      'country'], // Replace with your name or text
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'City', // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  item['businessAddress'][
-                                      'city'], // Replace with your name or text
-                                  style: TextStyle(
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    item['businessAddress'][
+                                        'country'], // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 15.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 500,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Postal Code', // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  item['businessAddress'][
-                                      'postal'], // Replace with your name or text
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Building Address', // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'City', // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  item['businessAddress'][
-                                      'building'], // Replace with your name or text
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    item['businessAddress'][
+                                        'city'], // Replace with your name or text
+                                    style: TextStyle(
+                                        fontSize: 15.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Business Links', // Replace with your name or text
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 500,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Postal Code', // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    item['businessAddress'][
+                                        'postal'], // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Building Address', // Replace with your name or text
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    item['businessAddress'][
+                                        'building'], // Replace with your name or text
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Business Links', // Replace with your name or text
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
                       BusinessLinks(item: item),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 10.0),
                       // Align(
                       //     alignment: Alignment.topLeft,
                       //     child: OperatingHours(
@@ -601,7 +618,13 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
               ],
             );
           } else {
-            return Center(child: Text('No data found'));
+            return Center(
+                child: Text(
+              'No data found',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ));
           }
         });
   }

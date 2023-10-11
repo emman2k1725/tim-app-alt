@@ -18,8 +18,8 @@ class ReusableEditButton extends StatelessWidget {
       label: Text(label),
       icon: Icon(icon),
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.grey,
-        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(

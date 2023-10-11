@@ -377,6 +377,7 @@ class ImageUploadCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.transparent,
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -397,6 +398,7 @@ class ImageUploadCard extends StatelessWidget {
             Text(
               description,
               style: const TextStyle(
+                color: Colors.white,
                 decoration: TextDecoration.underline,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,

@@ -89,18 +89,22 @@ class _ReviewsListState extends State<ReviewsList> {
                               children: [
                                 Text(
                                   'Traveller', // Replace with your name or text
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 Text(
                                   'John Doe', // Replace with your name or text
                                   style: TextStyle(
                                     fontSize: 16.0,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
                                   'john@gmail.com', // Replace with your name or text
                                   style: TextStyle(
+                                    color: Colors.white,
                                     fontSize: 14.0,
                                   ),
                                 ),
@@ -139,6 +143,7 @@ class _ReviewsListState extends State<ReviewsList> {
                                   Text(
                                     '2023-08-02', // Replace with your name or text
                                     style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 12.0,
                                     ),
                                   ),
@@ -148,6 +153,7 @@ class _ReviewsListState extends State<ReviewsList> {
                                   textAlign: TextAlign.left,
                                   softWrap: true,
                                   style: TextStyle(
+                                    color: Colors.white,
                                     fontSize: 12.0,
                                   ),
                                   // Other text style properties can be added here

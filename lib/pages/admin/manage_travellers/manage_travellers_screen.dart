@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tim_app/pages/admin/account/components/admin_account_table.dart';
 import 'package:tim_app/pages/admin/account/components/admin_create_account.dart';
 import 'package:tim_app/pages/admin/account/components/business_account_table.dart';
-import 'package:tim_app/pages/admin/account/components/traveller_account_table.dart';
+import 'package:tim_app/pages/admin/manage_travellers/traveller_account_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_approved_table.dart';
 import 'package:tim_app/pages/admin/manage_business/components/admin_declined_table.dart';
