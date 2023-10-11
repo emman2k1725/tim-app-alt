@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,74 +44,62 @@ class _ManageMediaTableState extends State<ManageMediaTable> {
                     style: TextStyle(color: Colors.white),
                   ),
                 )
-              : PaginatedDataTable(
-                  header: const Text('List of Media'),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: () {
-                        // Add your refresh logic here
-                      },
+              : Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Colors.white60.withOpacity(0.10),
+                      dividerColor: Colors.blue,
+                      textTheme:
+                          TextTheme(bodySmall: TextStyle(color: Colors.white))),
+                  child: PaginatedDataTable(
+                    header: const Text(
+                      'List of Media',
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ],
-                  arrowHeadColor: Colors.blue,
-                  controller: ScrollController(),
-                  primary: false,
-                  columnSpacing: columnSpacing,
-                  horizontalMargin: horizontalMargin,
-                  columns: [
-                    const DataColumn(
-                      label: Text(
-                        'MEDIA TITLE',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                    actions: [],
+                    arrowHeadColor: Colors.blue,
+                    controller: ScrollController(),
+                    primary: false,
+                    columnSpacing: columnSpacing,
+                    horizontalMargin: horizontalMargin,
+                    columns: [
+                      DataColumn(
+                        label: Text(
+                          'MEDIA TITLE',
+                          style: tableHeaderStyle,
                         ),
+                        tooltip: 'MEDIA Title',
                       ),
-                      tooltip: 'MEDIA Title',
-                    ),
-                    const DataColumn(
-                      label: Text(
-                        'DATE',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      DataColumn(
+                        label: Text(
+                          'DATE',
+                          style: tableHeaderStyle,
                         ),
+                        tooltip: 'DATE',
                       ),
-                      tooltip: 'DATE',
-                    ),
-                    const DataColumn(
-                      label: Text(
-                        'LINK',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      DataColumn(
+                        label: Text(
+                          'LINK',
+                          style: tableHeaderStyle,
                         ),
+                        tooltip: 'LINK',
                       ),
-                      tooltip: 'LINK',
-                    ),
-                    const DataColumn(
-                      label: Text(
-                        'PREVIEW',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      DataColumn(
+                        label: Text(
+                          'PREVIEW',
+                          style: tableHeaderStyle,
                         ),
+                        tooltip: 'PREVIEW',
                       ),
-                      tooltip: 'PREVIEW',
-                    ),
-                    const DataColumn(
-                      label: Text(
-                        'ACTION',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      DataColumn(
+                        label: Text(
+                          'ACTION',
+                          style: tableHeaderStyle,
                         ),
+                        tooltip: 'ACTION',
                       ),
-                      tooltip: 'ACTION',
-                    ),
-                  ],
-                  source: _MyDataTableSource(data, context),
+                    ],
+                    source: _MyDataTableSource(data, context),
+                  ),
                 );
         } else {
           return const Center(child: Text('No data found'));
@@ -137,6 +126,7 @@ class _MyDataTableSource extends DataTableSource {
         item['contentTitle'].toString(),
         overflow: TextOverflow.visible,
         softWrap: true,
+        style: tableContentStyle,
       )),
       DataCell(
         Container(
@@ -145,9 +135,7 @@ class _MyDataTableSource extends DataTableSource {
             item['description'].toString(),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: const TextStyle(
-                // Customize text style further if needed
-                ),
+            style: tableContentStyle,
           ),
         ),
       ),
@@ -156,7 +144,7 @@ class _MyDataTableSource extends DataTableSource {
           target: LinkTarget.blank,
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
-              color: Colors.black54,
+              color: Colors.white,
               icon: const Icon(Icons.link_rounded),
               onPressed: () async {
                 Uri url = Uri.parse(item['website'].toString());
@@ -176,7 +164,7 @@ class _MyDataTableSource extends DataTableSource {
           target: LinkTarget.blank,
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
-              color: Colors.black54,
+              color: Colors.white,
               icon: const Icon(Icons.visibility),
               onPressed: () async {
                 _showRowDialog(item, context);
@@ -187,7 +175,7 @@ class _MyDataTableSource extends DataTableSource {
         Row(
           children: [
             IconButton(
-              color: Colors.grey,
+              color: Colors.white,
               icon: const Icon(Icons.edit),
               onPressed: () {
                 // actionImage(index);

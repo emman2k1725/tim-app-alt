@@ -24,7 +24,7 @@ class _ManageTourTableState extends State<ManageTourTable> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: fetchTableContent('How'),
+      stream: fetchTableContent('HowItWorks'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

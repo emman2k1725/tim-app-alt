@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,90 +38,77 @@ class _ManageCityGuideTableState extends State<ManageCityGuideTable> {
 
           return Padding(
             padding: const EdgeInsets.all(10.0),
-            child: PaginatedDataTable(
-              header: Text('List of City Guide'),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () {
-                    // Add your refresh logic here
-                  },
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                  cardColor: Colors.white60.withOpacity(0.10),
+                  dividerColor: Colors.blue,
+                  textTheme:
+                      TextTheme(bodySmall: TextStyle(color: Colors.white))),
+              child: PaginatedDataTable(
+                header: Text(
+                  'List of City Guide',
+                  style: TextStyle(color: Colors.white),
                 ),
-              ],
-              arrowHeadColor: Colors.blue,
-              controller: ScrollController(),
-              primary: false,
-              columnSpacing: columnSpacing,
-              horizontalMargin: horizontalMargin,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'MEDIA TITLE',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                arrowHeadColor: Colors.blue,
+                controller: ScrollController(),
+                primary: false,
+                columnSpacing: columnSpacing,
+                horizontalMargin: horizontalMargin,
+                columns: [
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'MEDIA TITLE',
+                          style: tableHeaderStyle,
                         ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'MEDIA Title',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'DATE POSTED',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Date posted',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'LINK',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Website Link',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      const Text(
-                        'PREVIEW',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  tooltip: 'Preview MEDIA',
-                ),
-                const DataColumn(
-                  label: const Text(
-                    'ACTION',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
+                    tooltip: 'MEDIA Title',
                   ),
-                  tooltip: '',
-                ),
-              ],
-              source: _MyDataTableSource(data, context),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'DATE POSTED',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Date posted',
+                  ),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'LINK',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Website Link',
+                  ),
+                  DataColumn(
+                    label: Row(
+                      children: [
+                        Text(
+                          'PREVIEW',
+                          style: tableHeaderStyle,
+                        ),
+                      ],
+                    ),
+                    tooltip: 'Preview MEDIA',
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'ACTION',
+                      style: tableHeaderStyle,
+                    ),
+                    tooltip: '',
+                  ),
+                ],
+                source: _MyDataTableSource(data, context),
+              ),
             ),
           );
         } else {
@@ -148,6 +136,7 @@ class _MyDataTableSource extends DataTableSource {
         item['contentTitle'].toString(),
         overflow: TextOverflow.visible,
         softWrap: true,
+        style: tableContentStyle,
       )),
       DataCell(
         Container(
@@ -156,9 +145,7 @@ class _MyDataTableSource extends DataTableSource {
             item['description'].toString(),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: TextStyle(
-                // Customize text style further if needed
-                ),
+            style: tableContentStyle,
           ),
         ),
       ),
@@ -167,7 +154,7 @@ class _MyDataTableSource extends DataTableSource {
           target: LinkTarget.blank,
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
-              color: Colors.black54,
+              color: Colors.white,
               icon: const Icon(Icons.link_rounded),
               onPressed: () async {
                 Uri url = Uri.parse(item['website'].toString());
@@ -187,7 +174,7 @@ class _MyDataTableSource extends DataTableSource {
           target: LinkTarget.blank,
           uri: Uri.parse('https://pub.dev/packages/url_launcher'),
           builder: (context, followLink) => IconButton(
-              color: Colors.black54,
+              color: Colors.white,
               icon: const Icon(Icons.visibility),
               onPressed: () async {
                 _showRowDialog(item, context);
@@ -198,7 +185,7 @@ class _MyDataTableSource extends DataTableSource {
         Row(
           children: [
             IconButton(
-              color: Colors.grey,
+              color: Colors.white,
               icon: const Icon(Icons.edit),
               onPressed: () {
                 // actionImage(index);

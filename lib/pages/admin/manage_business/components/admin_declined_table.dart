@@ -4,6 +4,7 @@ import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 
 import '../../../../utils/loading.dart';
 
@@ -35,73 +36,70 @@ class _BusinessDeclinedTableState extends State<BusinessDeclinedTable> {
                     style: TextStyle(color: Colors.white),
                   ),
                 )
-              : PaginatedDataTable(
-                  header: Text(
-                    'Declined Business',
-                    style: TextStyle(color: Colors.redAccent),
+              : Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Colors.white60.withOpacity(0.10),
+                      dividerColor: Colors.blue,
+                      textTheme:
+                          TextTheme(bodySmall: TextStyle(color: Colors.white))),
+                  child: PaginatedDataTable(
+                    header: Text(
+                      'Declined Business',
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                    rowsPerPage: rowsPerPage,
+                    columns: [
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Business Name',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Business Name',
+                      ),
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Business Email',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Business Email',
+                      ),
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Business Sector',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Business Sector',
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Country',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: 'Country',
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Action',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: '',
+                      ),
+                      // Add more columns as needed
+                    ],
+                    source: _MyDataTableSource(data, context),
                   ),
-                  rowsPerPage: rowsPerPage,
-                  columns: [
-                    DataColumn(
-                      label: Row(
-                        children: [
-                          const Text(
-                            'Business Name',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      tooltip: 'Business Name',
-                    ),
-                    DataColumn(
-                      label: Row(
-                        children: [
-                          const Text(
-                            'Business Email',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      tooltip: 'Business Email',
-                    ),
-                    DataColumn(
-                      label: Row(
-                        children: [
-                          const Text(
-                            'Business Sector',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      tooltip: 'Business Sector',
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Country',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      tooltip: 'Country',
-                    ),
-                    const DataColumn(
-                      label: Text(
-                        'Action',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      tooltip: '',
-                    ),
-                    // Add more columns as needed
-                  ],
-                  source: _MyDataTableSource(data, context),
                 );
         } else {
           return Center(child: Text('No data found'));
@@ -124,13 +122,28 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['businessName'].toString())),
-      DataCell(Text(item['businessEmail'].toString())),
-      DataCell(Text(item['businessSector'].toString())),
-      DataCell(Text(item['businessAddress']['country'].toString())),
+      DataCell(Text(
+        item['businessName'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['businessEmail'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['businessSector'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['businessAddress']['country'].toString(),
+        style: tableContentStyle,
+      )),
       DataCell(
         IconButton(
-          icon: const Icon(Icons.visibility),
+          icon: const Icon(
+            Icons.visibility,
+            color: Colors.white,
+          ),
           onPressed: () {
             // Call the onActionIconSelected callback when the icon is clicked
             _showRowDialog(item, context);
