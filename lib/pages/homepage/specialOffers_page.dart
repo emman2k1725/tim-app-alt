@@ -511,6 +511,14 @@ class _MobileContainer1State extends State<MobileContainer1> {
   int itemsPerPage = 1;
   int currentPage = 1;
 
+  List<Map<String, dynamic>> data = [];
+
+  List<Map<String, dynamic>> get paginatedItems {
+    final startIndex = (currentPage - 1) * itemsPerPage;
+    final endIndex = startIndex + itemsPerPage;
+    return data.sublist(startIndex, endIndex.clamp(0, data.length));
+  }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -525,8 +533,7 @@ class _MobileContainer1State extends State<MobileContainer1> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error fetching data'));
           } else if (snapshot.hasData) {
-            final List<Map<String, dynamic>> data =
-                snapshot.data!.docs.map((DocumentSnapshot document) {
+            data = snapshot.data!.docs.map((DocumentSnapshot document) {
               return document.data() as Map<String, dynamic>;
             }).toList();
             return Column(
@@ -560,111 +567,118 @@ class _MobileContainer1State extends State<MobileContainer1> {
                 SizedBox(height: 30),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: data.length,
+                  itemCount: (paginatedItems.length / 1).ceil(),
                   itemBuilder: (context, index) {
-                    return Row(children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 15.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: h / 2.5,
-                                  child: Center(
-                                    child: Image.network(
-                                      data[index]['imageURL'] ?? '',
-                                      fit: BoxFit.cover,
+                    final startIndex = index * 1;
+                    final endIndex = startIndex + 1;
+                    final currentPageItems = paginatedItems.sublist(
+                        startIndex, endIndex.clamp(0, paginatedItems.length));
+
+                    return Row(
+                      children: currentPageItems.map((item) {
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 15.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    height: h / 2.5,
+                                    child: Center(
+                                      child: Image.network(
+                                        item['imageURL'] ?? '',
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: h / 2.5,
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 15),
-                                        SizedBox(
-                                          width: 250,
-                                          child: Text(
-                                            data[index]['offerCode'] ?? '',
-                                            textAlign: TextAlign.justify,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                        SizedBox(height: 15),
-                                        SizedBox(
-                                          width: 250,
-                                          child: Text(
-                                            data[index]['description'] ?? '',
-                                            textAlign: TextAlign.justify,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                        SizedBox(height: 20),
-                                        Spacer(),
-                                        Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: SizedBox(
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    height: h / 2.5,
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 15),
+                                          SizedBox(
                                             width: 250,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _showRowDialog('', context);
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    'View',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
+                                            child: Text(
+                                              item['offerCode'] ?? '',
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          SizedBox(height: 15),
+                                          SizedBox(
+                                            width: 250,
+                                            child: Text(
+                                              item['description'] ?? '',
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Spacer(),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: SizedBox(
+                                              width: 250,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  _showRowDialog('', context);
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      'View',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 15,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        _showRowDialog(
-                                                            '', context);
-                                                      },
-                                                      icon: Icon(
-                                                          Icons
-                                                              .arrow_forward_ios_rounded,
-                                                          color: Colors.black,
-                                                          size: 15)),
-                                                ],
+                                                    IconButton(
+                                                        onPressed: () {
+                                                          _showRowDialog(
+                                                              '', context);
+                                                        },
+                                                        icon: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios_rounded,
+                                                            color: Colors.black,
+                                                            size: 15)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 25,
-                              )
-                            ],
+                                SizedBox(
+                                  width: 25,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ]);
+                        );
+                      }).toList(),
+                    );
                   },
                 ),
                 SizedBox(height: 30),
@@ -679,10 +693,8 @@ class _MobileContainer1State extends State<MobileContainer1> {
                     ),
                     SizedBox(width: 16),
                     ElevatedButton(
-                      onPressed: currentPage * itemsPerPage < data.length
-                          ? () => setState(() {
-                                currentPage++;
-                              })
+                      onPressed: paginatedItems.length == itemsPerPage
+                          ? () => setState(() => currentPage++)
                           : null,
                       child: Icon(Icons.arrow_forward),
                     ),

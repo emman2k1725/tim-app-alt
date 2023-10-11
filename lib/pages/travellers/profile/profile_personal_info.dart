@@ -8,6 +8,7 @@ import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal_address.dart';
 import 'package:tim_app/pages/travellers/profile/components/profile_modal_interest.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
 class UserProfileWidget extends StatefulWidget {
@@ -216,6 +217,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
                         'First Name', // Replace with your name or text
@@ -232,58 +234,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           fontSize: 15.0,
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Last Name', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      user?.lastName == null
-                          ? const Text(
-                              'Please update your  Last Name',
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.red,
-                              ),
-                            )
-                          : Text(
-                              user?.lastName ?? '',
-                              style: const TextStyle(
-                                fontSize: 15.0,
-                              ),
-                            ),
-                    ],
-                  ),
-                  const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                  const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                      const SizedBox(height: 20.0),
                       const Text(
                         'Email Address',
                         style: TextStyle(
@@ -310,8 +261,34 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     ],
                   ),
                   Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const Text(
+                        'Last Name', // Replace with your name or text
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      user?.lastName == null
+                          ? const Text(
+                              'Please update your  Last Name',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user?.lastName ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                      const SizedBox(height: 20.0),
                       const Text(
                         'Phone Number',
                         style: TextStyle(
@@ -338,15 +315,18 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     ],
                   ),
                   const Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
                   ),
                   const Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [],
                   ),
                 ],
               ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
@@ -355,7 +335,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         ),
         Container(
           width: double.maxFinite,
-          height: 220,
+          //height: 220,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.blue, width: 2),
@@ -396,6 +376,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
                         'Country', // Replace with your name or text
@@ -407,10 +388,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       user?.address?['country'] == ""
-                          ? const Text(
+                          ? Text(
                               'Please update your Country',
                               style: TextStyle(
-                                fontSize: 15.0,
+                                fontSize:
+                                    Responsive.isMobile(context) ? 11.5 : 15.0,
                                 color: Colors.red,
                               ),
                             )
@@ -420,11 +402,37 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                 fontSize: 15.0,
                               ),
                             ),
+                      const SizedBox(height: 20.0),
+                      const Text(
+                        'Postal Code',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      user?.address?['postal'] == ''
+                          ? Text(
+                              'Please update your Postal',
+                              style: TextStyle(
+                                fontSize:
+                                    Responsive.isMobile(context) ? 11.5 : 15.0,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(
+                              user?.address?['postal'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
                     ],
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
                         'City', // Replace with your name or text
@@ -436,10 +444,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       const SizedBox(height: 10.0),
                       user?.address?['city'] == ''
-                          ? const Text(
+                          ? Text(
                               'Please update your City',
                               style: TextStyle(
-                                fontSize: 15.0,
+                                fontSize:
+                                    Responsive.isMobile(context) ? 11.5 : 15.0,
                                 color: Colors.red,
                               ),
                             )
@@ -447,6 +456,31 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                               user?.address?['city'] ?? '',
                               style: const TextStyle(
                                 fontSize: 15.0,
+                              ),
+                            ),
+                      const SizedBox(height: 20.0),
+                      const Text(
+                        'Building Address', // Replace with your name or text
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      buildingStreet.isEmpty
+                          ? Text(
+                              buildingStreet,
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            )
+                          : Text(
+                              'Please update your Building Street',
+                              style: TextStyle(
+                                fontSize:
+                                    Responsive.isMobile(context) ? 11.5 : 15.0,
+                                color: Colors.red,
                               ),
                             ),
                     ],
@@ -464,77 +498,6 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Postal Code',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      user?.address?['postal'] == ''
-                          ? const Text(
-                              'Please update your Postal',
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.red,
-                              ),
-                            )
-                          : Text(
-                              user?.address?['postal'] ?? '',
-                              style: const TextStyle(
-                                fontSize: 15.0,
-                              ),
-                            ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Building Address', // Replace with your name or text
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      buildingStreet.isEmpty
-                          ? Text(
-                              buildingStreet,
-                              style: const TextStyle(
-                                fontSize: 15.0,
-                              ),
-                            )
-                          : const Text(
-                              'Please update your Building Street',
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.red,
-                              ),
-                            ),
-                    ],
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
-                  ),
-                ],
-              ),
             ],
           ),
         ),
@@ -545,7 +508,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             ),
             Container(
               width: double.maxFinite,
-              height: 150,
+              //height: 150,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.blue, width: 2),
@@ -558,7 +521,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Favourite Cruisines', // Replace with your name or text
+                        'Favourite Cuisines', // Replace with your name or text
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -576,36 +539,33 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Center(
-                        child: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: cruisines!
-                              .map((tag) => Chip(
-                                    label: Text(
-                                      tag,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    backgroundColor: Colors.blue,
-                                    padding: const EdgeInsets.all(
-                                        8.0), // Overall padding around the Chip
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: cruisines!
+                          .map((tag) => Chip(
+                                label: Text(
+                                  tag,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                backgroundColor: Colors.blue,
+                                padding: const EdgeInsets.all(
+                                    8.0), // Overall padding around the Chip
+                                labelPadding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ],
               ),
@@ -615,7 +575,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             ),
             Container(
               width: double.maxFinite,
-              height: 150,
+              //height: 150,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.blue, width: 2),
@@ -646,36 +606,33 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Center(
-                        child: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: cities!
-                              .map((tag) => Chip(
-                                    label: Text(
-                                      tag,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    backgroundColor: Colors.blue,
-                                    padding: const EdgeInsets.all(
-                                        8.0), // Overall padding around the Chip
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: cities!
+                          .map((tag) => Chip(
+                                label: Text(
+                                  tag,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                backgroundColor: Colors.blue,
+                                padding: const EdgeInsets.all(
+                                    8.0), // Overall padding around the Chip
+                                labelPadding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ],
               ),
@@ -685,7 +642,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             ),
             Container(
               width: double.maxFinite,
-              height: 150,
+              //height: 150,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.blue, width: 2),
@@ -717,36 +674,33 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Center(
-                        child: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: activities!
-                              .map((tag) => Chip(
-                                    label: Text(
-                                      tag,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    backgroundColor: Colors.blue,
-                                    padding: const EdgeInsets.all(
-                                        8.0), // Overall padding around the Chip
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: activities!
+                          .map((tag) => Chip(
+                                label: Text(
+                                  tag,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                backgroundColor: Colors.blue,
+                                padding: const EdgeInsets.all(
+                                    8.0), // Overall padding around the Chip
+                                labelPadding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ],
               ),

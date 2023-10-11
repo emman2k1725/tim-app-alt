@@ -148,7 +148,7 @@ class DesktopContainer1 extends StatelessWidget {
                             child: ElevatedButton(
                               style: elevatedButtonStyle,
                               onPressed: () {
-                                GoRouter.of(context).go('/about');
+                                GoRouter.of(context).go('/signup');
                               },
                               child: const Text(
                                 'SIGN UP',
@@ -268,7 +268,7 @@ class MobileContainer1 extends StatelessWidget {
                         child: ElevatedButton(
                           style: elevatedButtonStyle,
                           onPressed: () {
-                            GoRouter.of(context).go('/about');
+                            GoRouter.of(context).go('/signup');
                           },
                           child: const Text(
                             'SIGN UP',
