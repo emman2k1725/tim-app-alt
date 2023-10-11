@@ -1,14 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tim_app/pages/admin/content_management/manage_about/components/manage_about_table.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_dialog.dart';
-import 'package:tim_app/pages/admin/content_management/manage_media/components/manage_media_table.dart';
-import 'package:tim_app/utils/styles.dart';
-import 'package:tim_app/widgets/customAddButton.dart';
-
-import 'components/manage_how_dialog.dart';
-import 'components/manage_how_table.dart';
+import 'package:tim_app/pages/admin/content_management/manage_settings/components/manage_setting_table.dart';
 
 class ManageSettingScreen extends StatefulWidget {
   const ManageSettingScreen({super.key});
@@ -24,7 +17,7 @@ class _ManageSettingScreenState extends State<ManageSettingScreen> {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: 800,
+        width: double.maxFinite,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(
@@ -55,7 +48,7 @@ class _ManageSettingScreenState extends State<ManageSettingScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    const ManageHowTable(),
+                    const ManageSettingTable(),
                   ],
                 ),
               ),
