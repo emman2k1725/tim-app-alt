@@ -166,3 +166,69 @@ Future<String> businessPendingAction(String docID, String action) async {
   }
   return result;
 }
+
+Stream<List<Map<String, dynamic>>> fetchCitiesStream() {
+  return FirebaseFirestore.instance
+      .collection('dropdownCollection')
+      .doc('cities')
+      .snapshots()
+      .map((querySnapshot) {
+    if (querySnapshot.exists) {
+      return List<Map<String, dynamic>>.from(querySnapshot.data()?['choices']);
+    } else {
+      return <Map<String, dynamic>>[];
+    }
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchTravellerTypeStream() {
+  return FirebaseFirestore.instance
+      .collection('dropdownCollection')
+      .doc('travellerType')
+      .snapshots()
+      .map((querySnapshot) {
+    if (querySnapshot.exists) {
+      return List<Map<String, dynamic>>.from(querySnapshot.data()?['choices']);
+    } else {
+      return <Map<String, dynamic>>[];
+    }
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchHangoutStream() {
+  return FirebaseFirestore.instance
+      .collection('dropdownCollection')
+      .doc('hangout')
+      .snapshots()
+      .map((querySnapshot) {
+    if (querySnapshot.exists) {
+      return List<Map<String, dynamic>>.from(querySnapshot.data()?['choices']);
+    } else {
+      return <Map<String, dynamic>>[];
+    }
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchCruisinesStream() {
+  List<Map<String, dynamic>> data = [];
+  Map<String, dynamic> dataString = {};
+  return FirebaseFirestore.instance
+      .collection('dropdownCollection')
+      .doc('cruisines')
+      .snapshots()
+      .map((querySnapshot) {
+    if (querySnapshot.exists) {
+      for (int x = 0;
+          x < List<String>.from(querySnapshot.data()?['choices']).length;
+          x++) {
+        dataString = {
+          'cruisine': List<String>.from(querySnapshot.data()?['choices'])[x]
+        };
+        data.add(dataString);
+      }
+      return data;
+    } else {
+      return data;
+    }
+  });
+}

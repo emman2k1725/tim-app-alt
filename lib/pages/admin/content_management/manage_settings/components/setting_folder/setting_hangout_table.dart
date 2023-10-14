@@ -7,16 +7,15 @@ import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class SettingCityTable extends StatefulWidget {
-  const SettingCityTable({super.key});
+class SettingHangoutTable extends StatefulWidget {
+  const SettingHangoutTable({super.key});
 
   @override
-  State<SettingCityTable> createState() => _SettingCityTableState();
+  State<SettingHangoutTable> createState() => _SettingHangoutTableState();
 }
 
-class _SettingCityTableState extends State<SettingCityTable>
+class _SettingHangoutTableState extends State<SettingHangoutTable>
     with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
@@ -61,7 +60,7 @@ class _SettingCityTableState extends State<SettingCityTable>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               AddButton(
-                                buttonText: 'Add New City',
+                                buttonText: 'Add New Hangout',
                                 icon: Icons.add,
                                 onPressed: () {
                                   // showDialog(
@@ -90,7 +89,7 @@ class _SettingCityTableState extends State<SettingCityTable>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "List of Cities",
+                                text: "List of Hangout Places",
                               ),
                             ]),
                       ),
@@ -100,8 +99,8 @@ class _SettingCityTableState extends State<SettingCityTable>
                         controller: tabController,
                         children: [
                           SingleChildScrollView(
-                              child: StreamBuilder<QuerySnapshot>(
-                            stream: fetchTableContent('Media'),
+                              child: StreamBuilder(
+                            stream: fetchHangoutStream(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -111,14 +110,9 @@ class _SettingCityTableState extends State<SettingCityTable>
                                 return const Center(
                                     child: Text('Error fetching data'));
                               } else if (snapshot.hasData) {
-                                final List<Map<String, dynamic>> data = snapshot
-                                    .data!.docs
-                                    .map((DocumentSnapshot document) {
-                                  return document.data()
-                                      as Map<String, dynamic>;
-                                }).toList();
+                                final data = snapshot.data;
 
-                                return data.isEmpty
+                                return data!.isEmpty
                                     ? const Padding(
                                         padding: EdgeInsets.all(16.0),
                                         child: Text(
@@ -141,24 +135,17 @@ class _SettingCityTableState extends State<SettingCityTable>
                                           columns: [
                                             DataColumn(
                                               label: Text(
-                                                'City Name',
+                                                'Hangout Place',
                                                 style: tableHeaderStyle,
                                               ),
-                                              tooltip: 'City Name',
+                                              tooltip: 'Hangout Place',
                                             ),
                                             DataColumn(
                                               label: Text(
-                                                'Latitude',
+                                                'Average Time Spent',
                                                 style: tableHeaderStyle,
                                               ),
-                                              tooltip: 'Latitude',
-                                            ),
-                                            DataColumn(
-                                              label: Text(
-                                                'Longitude',
-                                                style: tableHeaderStyle,
-                                              ),
-                                              tooltip: 'Longitude',
+                                              tooltip: 'Average Time',
                                             ),
                                           ],
                                           source:
@@ -199,7 +186,7 @@ class _MyDataTableSource extends DataTableSource {
     final item = data[index];
     return DataRow(cells: [
       DataCell(Text(
-        item['contentTitle'].toString(),
+        item['hangout'].toString(),
         overflow: TextOverflow.visible,
         softWrap: true,
         style: tableContentStyle,
@@ -208,31 +195,11 @@ class _MyDataTableSource extends DataTableSource {
         Container(
           constraints: const BoxConstraints(maxWidth: 150),
           child: Text(
-            item['description'].toString(),
+            item['ave_time_mins'].toString(),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: tableContentStyle,
           ),
-        ),
-      ),
-      DataCell(
-        Link(
-          target: LinkTarget.blank,
-          uri: Uri.parse('https://pub.dev/packages/url_launcher'),
-          builder: (context, followLink) => IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.link_rounded),
-              onPressed: () async {
-                Uri url = Uri.parse(item['website'].toString());
-                var urllaunchable = await canLaunchUrl(
-                    url); //canLaunch is from url_launcher package
-                if (urllaunchable) {
-                  await launchUrl(
-                      url); //launch is from url_launcher package to launch URL
-                } else {
-                  print("URL can't be launched.");
-                }
-              }),
         ),
       ),
     ]);
