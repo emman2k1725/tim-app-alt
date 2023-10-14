@@ -37,6 +37,23 @@ class FirebaseService {
     return [];
   }
 
+  Stream<List<Map<String, dynamic>>> fetchCitiesStream() {
+    CollectionReference citiesCollection = FirebaseFirestore.instance
+        .collection('dropdownCollection')
+        .doc('cities')
+        .collection('choices');
+
+    return citiesCollection.snapshots().map((querySnapshot) {
+      List<Map<String, dynamic>> data = [];
+
+      for (var document in querySnapshot.docs) {
+        data.add(document.data() as Map<String, dynamic>);
+      }
+
+      return data;
+    });
+  }
+
   static Future<List<Map<String, dynamic>>> fetchHangout() async {
     try {
       final querySnapshot = await FirebaseFirestore.instance
