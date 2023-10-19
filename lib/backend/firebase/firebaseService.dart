@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tim_app/model/city_model.dart';
 import 'package:tim_app/model/content_model.dart';
 import '../../model/UserModel.dart';
 
@@ -89,6 +90,49 @@ Future createContent(ContentModel? contentModel) async {
   } catch (e) {
     result = e.toString();
   }
+  return result;
+}
+
+Future<String> createSetting(
+    List<Map<String, dynamic>> newData, String document) async {
+  final firestore =
+      FirebaseFirestore.instance.collection("dropdownCollection").doc(document);
+  String result = '';
+
+  try {
+    firestore.update({'choices': newData});
+    result = 'success';
+  } catch (e) {
+    result = 'Error: $e';
+  }
+
+  return result;
+}
+
+Future<String> updateSetting(String newData, String document) async {
+  final firestore =
+      FirebaseFirestore.instance.collection("dropdownCollection").doc(document);
+  String result = '';
+
+  try {
+    // Fetch the current "choices" array from Firestore
+    final DocumentSnapshot docSnapshot = await firestore.get();
+    if (docSnapshot.exists) {
+      List<dynamic> currentChoices =
+          List<dynamic>.from(docSnapshot['choices'] ?? []);
+      // Append the new data to the array
+      currentChoices.add(newData);
+
+      // Update the Firestore document with the modified "choices" array
+      await firestore.update({'choices': currentChoices});
+      result = 'success';
+    } else {
+      result = 'Document not found';
+    }
+  } catch (e) {
+    result = 'Error: $e';
+  }
+
   return result;
 }
 

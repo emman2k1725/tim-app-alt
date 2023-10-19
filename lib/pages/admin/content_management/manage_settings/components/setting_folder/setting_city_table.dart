@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_dialogs/setting_city_dialog.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
@@ -18,9 +19,11 @@ class SettingCityTable extends StatefulWidget {
 class _SettingCityTableState extends State<SettingCityTable>
     with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
+
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 1, vsync: this);
+    List<Map<String, dynamic>>? cityData;
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -63,10 +66,12 @@ class _SettingCityTableState extends State<SettingCityTable>
                                 buttonText: 'Add New City',
                                 icon: Icons.add,
                                 onPressed: () {
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (context) => CreateMediaDialog(),
-                                  // );
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => SettingCityDialog(
+                                      cityData: cityData,
+                                    ),
+                                  );
                                 },
                               ),
                             ],
@@ -112,6 +117,8 @@ class _SettingCityTableState extends State<SettingCityTable>
                               } else if (snapshot.hasData) {
                                 final data = snapshot.data;
 
+                                cityData = data;
+                                debugPrint(data.toString());
                                 return data!.isEmpty
                                     ? const Padding(
                                         padding: EdgeInsets.all(16.0),

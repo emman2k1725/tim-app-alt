@@ -8,23 +8,21 @@ import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 import 'package:url_launcher/link.dart';
 
-import '../setting_dialogs/setting_cruisines_dialog.dart';
+import '../setting_dialogs/setting_advert_dialog.dart';
 
-class SettingCruisinesTable extends StatefulWidget {
-  const SettingCruisinesTable({super.key});
+class SettingAdTypeTable extends StatefulWidget {
+  const SettingAdTypeTable({super.key});
 
   @override
-  State<SettingCruisinesTable> createState() => _SettingCruisinesTableState();
+  State<SettingAdTypeTable> createState() => _SettingAdTypeTableState();
 }
 
-class _SettingCruisinesTableState extends State<SettingCruisinesTable>
+class _SettingAdTypeTableState extends State<SettingAdTypeTable>
     with TickerProviderStateMixin {
   Color shadowColor = Colors.blueAccent;
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 1, vsync: this);
-
-    List<Map<String, dynamic>>? cruisinesData;
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -64,15 +62,13 @@ class _SettingCruisinesTableState extends State<SettingCruisinesTable>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               AddButton(
-                                buttonText: 'Add New Cruisines',
+                                buttonText: 'Add New Type',
                                 icon: Icons.add,
                                 onPressed: () {
                                   showDialog(
                                     context: context,
                                     builder: (context) =>
-                                        SettingCruisinesDialog(
-                                      cruisinesData: cruisinesData,
-                                    ),
+                                        const SettingAdvertDialog(),
                                   );
                                 },
                               ),
@@ -96,7 +92,7 @@ class _SettingCruisinesTableState extends State<SettingCruisinesTable>
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "List of Cruisines",
+                                text: "List of Advertisement Type",
                               ),
                             ]),
                       ),
@@ -107,7 +103,7 @@ class _SettingCruisinesTableState extends State<SettingCruisinesTable>
                         children: [
                           SingleChildScrollView(
                               child: StreamBuilder(
-                            stream: fetchChoicesStream('cruisines'),
+                            stream: fetchChoicesStream('advertTypes'),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -118,8 +114,6 @@ class _SettingCruisinesTableState extends State<SettingCruisinesTable>
                                     child: Text('Error fetching data'));
                               } else if (snapshot.hasData) {
                                 final data = snapshot.data;
-
-                                cruisinesData = data;
 
                                 return data!.isEmpty
                                     ? const Padding(
@@ -144,10 +138,10 @@ class _SettingCruisinesTableState extends State<SettingCruisinesTable>
                                           columns: [
                                             DataColumn(
                                               label: Text(
-                                                'Cruisines',
+                                                'Advertisement Type',
                                                 style: tableHeaderStyle,
                                               ),
-                                              tooltip: 'Cruisines',
+                                              tooltip: 'Advertisement Type',
                                             ),
                                           ],
                                           source:

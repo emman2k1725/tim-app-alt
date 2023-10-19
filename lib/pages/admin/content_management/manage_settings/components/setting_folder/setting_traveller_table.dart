@@ -6,6 +6,8 @@ import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
+import '../setting_dialogs/setting_travellerType_dialog.dart';
+
 class SettingTravellerTable extends StatefulWidget {
   const SettingTravellerTable({super.key});
 
@@ -58,37 +60,40 @@ class _SettingTravellerTableState extends State<SettingTravellerTable>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               AddButton(
-                                buttonText: 'Add Type City',
+                                buttonText: 'Add New Type',
                                 icon: Icons.add,
                                 onPressed: () {
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (context) => CreateMediaDialog(),
-                                  // );
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        SettingTravellerTypeDialog(),
+                                  );
                                 },
                               ),
                             ],
                           )
-                        : const SizedBox(height: 0),
+                        : SizedBox(height: 0),
                     SizedBox(
                       height: Responsive.isDesktop(context) ? 10 : 0,
                     ),
-                    Align(
-                      alignment: Responsive.isDesktop(context)
-                          ? Alignment.centerLeft
-                          : Alignment.center,
-                      child: TabBar(
-                          controller: tabController,
-                          isScrollable: true,
-                          labelPadding:
-                              const EdgeInsets.only(left: 20, right: 20),
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.grey,
-                          tabs: const [
-                            Tab(
-                              text: "List of traveller type",
-                            ),
-                          ]),
+                    Container(
+                      child: Align(
+                        alignment: Responsive.isDesktop(context)
+                            ? Alignment.centerLeft
+                            : Alignment.center,
+                        child: TabBar(
+                            controller: tabController,
+                            isScrollable: true,
+                            labelPadding:
+                                const EdgeInsets.only(left: 20, right: 20),
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.grey,
+                            tabs: [
+                              Tab(
+                                text: "List of Traveller Type",
+                              ),
+                            ]),
+                      ),
                     ),
                     Expanded(
                       child: TabBarView(
@@ -96,15 +101,18 @@ class _SettingTravellerTableState extends State<SettingTravellerTable>
                         children: [
                           SingleChildScrollView(
                               child: StreamBuilder(
-                            stream: fetchTravellerTypeStream(),
+                            stream: fetchChoicesStream('travellerType'),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return const Center(
                                     child: CircularProgressIndicator());
-                              } else {
+                              } else if (snapshot.hasError) {
+                                return const Center(
+                                    child: Text('Error fetching data'));
+                              } else if (snapshot.hasData) {
                                 final data = snapshot.data;
-                                debugPrint(data.toString());
+
                                 return data!.isEmpty
                                     ? const Padding(
                                         padding: EdgeInsets.all(16.0),
@@ -118,7 +126,7 @@ class _SettingTravellerTableState extends State<SettingTravellerTable>
                                             cardColor: Colors.white60
                                                 .withOpacity(0.10),
                                             dividerColor: Colors.blue,
-                                            textTheme: const TextTheme(
+                                            textTheme: TextTheme(
                                                 bodySmall: TextStyle(
                                                     color: Colors.white))),
                                         child: PaginatedDataTable(
@@ -128,30 +136,19 @@ class _SettingTravellerTableState extends State<SettingTravellerTable>
                                           columns: [
                                             DataColumn(
                                               label: Text(
-                                                'City Name',
+                                                'Traveller Type',
                                                 style: tableHeaderStyle,
                                               ),
-                                              tooltip: 'City Name',
-                                            ),
-                                            DataColumn(
-                                              label: Text(
-                                                'Latitude',
-                                                style: tableHeaderStyle,
-                                              ),
-                                              tooltip: 'Latitude',
-                                            ),
-                                            DataColumn(
-                                              label: Text(
-                                                'Longitude',
-                                                style: tableHeaderStyle,
-                                              ),
-                                              tooltip: 'Longitude',
+                                              tooltip: 'Traveller Type',
                                             ),
                                           ],
                                           source:
                                               _MyDataTableSource(data, context),
                                         ),
                                       );
+                              } else {
+                                return const Center(
+                                    child: Text('No data found'));
                               }
                             },
                           ))
@@ -180,30 +177,15 @@ class _MyDataTableSource extends DataTableSource {
     if (index >= data.length) {
       return null;
     }
+
     final item = data[index];
+
     return DataRow(cells: [
-      DataCell(Text(
-        item['city'].toString(),
-        overflow: TextOverflow.visible,
-        softWrap: true,
-        style: tableContentStyle,
-      )),
       DataCell(
         Container(
           constraints: const BoxConstraints(maxWidth: 150),
           child: Text(
-            item['lat'].toString(),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: tableContentStyle,
-          ),
-        ),
-      ),
-      DataCell(
-        Container(
-          constraints: const BoxConstraints(maxWidth: 150),
-          child: Text(
-            item['long'].toString(),
+            item['choice'],
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: tableContentStyle,
