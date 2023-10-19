@@ -3,6 +3,7 @@ import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/utils/styles.dart';
 
 import '../../../../utils/loading.dart';
 
@@ -27,66 +28,77 @@ class _AdminAccountTableState extends State<AdminAccountTable> {
         } else if (snapshot.hasData) {
           final data = snapshot.data;
 
-          return PaginatedDataTable(
-            header: Text(
-              'Admin Account',
-              style: TextStyle(color: Colors.lightBlueAccent),
-            ),
-            rowsPerPage: rowsPerPage,
-            columns: [
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Name',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Email',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Email',
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    const Text(
-                      'Phone Number',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                tooltip: 'Phone Number',
-              ),
-              DataColumn(
-                label: Text(
-                  'Position',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
+          return data!.isEmpty
+              ? const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'No data available.',
+                    style: TextStyle(color: Colors.white),
                   ),
-                ),
-                tooltip: 'Position',
-              ),
-
-              // Add more columns as needed
-            ],
-            source: _MyDataTableSource(data!, context),
-          );
+                )
+              : Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Colors.white60.withOpacity(0.10),
+                      dividerColor: Colors.blue,
+                      textTheme:
+                          TextTheme(bodySmall: TextStyle(color: Colors.white))),
+                  child: PaginatedDataTable(
+                    header: Text(
+                      'Admin Account',
+                      style: TextStyle(color: Colors.lightBlueAccent),
+                    ),
+                    rowsPerPage: rowsPerPage,
+                    columns: [
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Name',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Name',
+                      ),
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Email',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Email',
+                      ),
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Phone Number',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Phone Number',
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Position',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: 'Position',
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Action',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: 'Action',
+                      ),
+                    ],
+                    source: _MyDataTableSource(data!, context),
+                  ));
         } else {
           return Center(child: Text('No data found'));
         }
@@ -108,10 +120,35 @@ class _MyDataTableSource extends DataTableSource {
     }
     final item = data[index];
     return DataRow(cells: [
-      DataCell(Text(item['firstName'].toString())),
-      DataCell(Text(item['email'].toString())),
-      DataCell(Text(item['mobileNumber'].toString())),
-      DataCell(Text(item['nationality'].toString())),
+      DataCell(Text(
+        item['firstName'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['email'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['mobileNumber'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(Text(
+        item['nationality'].toString(),
+        style: tableContentStyle,
+      )),
+      DataCell(
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.visibility,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
     ]);
   }
 

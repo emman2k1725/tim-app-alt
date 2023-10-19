@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
+import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_dialogs/setting_hangout_dialog.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
@@ -21,6 +22,7 @@ class _SettingHangoutTableState extends State<SettingHangoutTable>
   @override
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 1, vsync: this);
+    List<Map<String, dynamic>>? hangoutData;
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
@@ -63,10 +65,12 @@ class _SettingHangoutTableState extends State<SettingHangoutTable>
                                 buttonText: 'Add New Hangout',
                                 icon: Icons.add,
                                 onPressed: () {
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (context) => CreateMediaDialog(),
-                                  // );
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => SettingHangoutDialog(
+                                      hangoutData: hangoutData,
+                                    ),
+                                  );
                                 },
                               ),
                             ],
@@ -111,6 +115,8 @@ class _SettingHangoutTableState extends State<SettingHangoutTable>
                                     child: Text('Error fetching data'));
                               } else if (snapshot.hasData) {
                                 final data = snapshot.data;
+
+                                hangoutData = data;
 
                                 return data!.isEmpty
                                     ? const Padding(

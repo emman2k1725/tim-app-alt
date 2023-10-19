@@ -209,26 +209,26 @@ Stream<List<Map<String, dynamic>>> fetchHangoutStream() {
   });
 }
 
-Stream<List<Map<String, dynamic>>> fetchCruisinesStream() {
-  List<Map<String, dynamic>> data = [];
-  Map<String, dynamic> dataString = {};
+Stream<List<Map<String, dynamic>>> fetchChoicesStream(String documentName) {
   return FirebaseFirestore.instance
       .collection('dropdownCollection')
-      .doc('cruisines')
+      .doc(documentName) // Replace with the correct document name
       .snapshots()
       .map((querySnapshot) {
     if (querySnapshot.exists) {
-      for (int x = 0;
-          x < List<String>.from(querySnapshot.data()?['choices']).length;
-          x++) {
-        dataString = {
-          'cruisine': List<String>.from(querySnapshot.data()?['choices'])[x]
+      final List<String> choices =
+          List<String>.from(querySnapshot.data()?['choices'] ?? []);
+
+      // Map the List of strings to List of Maps
+      final transformedData = choices.map((choice) {
+        return {
+          'choice': choice,
         };
-        data.add(dataString);
-      }
-      return data;
+      }).toList();
+
+      return transformedData;
     } else {
-      return data;
+      return <Map<String, dynamic>>[];
     }
   });
 }

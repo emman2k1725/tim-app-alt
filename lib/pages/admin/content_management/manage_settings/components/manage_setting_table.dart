@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/pages/admin/content_management/manage_about/components/manage_video.dart';
+import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_folder/setting_advertisementType_table.dart';
 import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_folder/setting_city_table.dart';
 import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_folder/setting_cruisines_table.dart';
 import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_folder/setting_hangout_table.dart';
+import 'package:tim_app/pages/admin/content_management/manage_settings/components/setting_folder/setting_traveller_table.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 import 'package:url_launcher/link.dart';
@@ -54,6 +56,10 @@ class _ManageSettingTableState extends State<ManageSettingTable> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ExpansionTile(
+            leading: Icon(
+              Icons.location_city,
+              color: Colors.blue,
+            ),
             collapsedIconColor: Colors.white,
             title: Text(
               'City Content',
@@ -76,6 +82,10 @@ class _ManageSettingTableState extends State<ManageSettingTable> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ExpansionTile(
+            leading: Icon(
+              Icons.restaurant,
+              color: Colors.blue,
+            ),
             collapsedIconColor: Colors.white,
             title: Text(
               'Cruisines Content',
@@ -98,6 +108,10 @@ class _ManageSettingTableState extends State<ManageSettingTable> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ExpansionTile(
+            leading: Icon(
+              Icons.place,
+              color: Colors.blue,
+            ),
             collapsedIconColor: Colors.white,
             title: Text(
               'Hangout Content',
@@ -120,40 +134,17 @@ class _ManageSettingTableState extends State<ManageSettingTable> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ExpansionTile(
-            collapsedIconColor: Colors.white,
-            title: Text(
-              'Business Type',
-              style: tableHeaderStyle,
-            ),
-            children: const <Widget>[
-              ListTile(
-                title: Text(
-                  'items.description',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
+            leading: Icon(
+              Icons.ads_click,
               color: Colors.blue,
-              width: 2.0,
             ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ExpansionTile(
             collapsedIconColor: Colors.white,
             title: Text(
               'Advertisement Type',
               style: tableHeaderStyle,
             ),
             children: const <Widget>[
-              SettingCityTable(),
+              SettingAdTypeTable(),
             ],
           ),
         ),
@@ -169,35 +160,17 @@ class _ManageSettingTableState extends State<ManageSettingTable> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ExpansionTile(
-            collapsedIconColor: Colors.white,
-            title: Text(
-              'Traveller Type',
-              style: tableHeaderStyle,
-            ),
-            children: const <Widget>[
-              SettingCityTable(),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
+            leading: Icon(
+              Icons.luggage,
               color: Colors.blue,
-              width: 2.0,
             ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ExpansionTile(
             collapsedIconColor: Colors.white,
             title: Text(
-              'Interest Content',
+              'Traveller & Business Type',
               style: tableHeaderStyle,
             ),
             children: const <Widget>[
-              SettingCityTable(),
+              SettingTravellerTable(),
             ],
           ),
         ),

@@ -41,7 +41,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 600,
       height: 600,
       child: Center(
@@ -62,7 +62,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         color: Colors.transparent,
                         child: isPlaying
                             ? Container()
-                            : Icon(
+                            : const Icon(
                                 Icons.play_arrow,
                                 size: 100.0,
                                 color: Colors.white,
@@ -72,7 +72,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     VideoProgressIndicator(
                       _controller,
                       allowScrubbing: true,
-                      padding: EdgeInsets.all(8.0), // Add padding for tap area
+                      padding:
+                          const EdgeInsets.all(8.0), // Add padding for tap area
                     ),
                   ],
                 )
@@ -100,7 +101,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 //   ],
                 // ),
                 )
-            : CircularProgressIndicator(), // Show a loading indicator until the video is initialized
+            : const CircularProgressIndicator(), // Show a loading indicator until the video is initialized
       ),
     );
   }
