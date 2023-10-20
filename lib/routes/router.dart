@@ -39,6 +39,7 @@ import 'package:tim_app/pages/login.dart';
 import 'package:provider/provider.dart';
 import 'package:tim_app/pages/signup.dart';
 import 'package:tim_app/pages/travellers/apply_business/apply_components/apply_main_screen.dart';
+import 'package:tim_app/pages/travellers/travel_history/components/trip_history.dart';
 import 'package:tim_app/pages/travellers/travel_history/travel_history_main.dart';
 import 'package:tim_app/pages/travellers/traveller_main_screen.dart';
 import 'package:tim_app/pages/travellers/dashboard/traveller_dashboard_main.dart';
@@ -326,7 +327,7 @@ final router = GoRouter(
                 GoRoute(
                   path: 'history-rate',
                   builder: (context, state) =>
-                      const TripHistoryRate(), // ROUTE GUARDED
+                      const TripHistoryTable(), // ROUTE GUARDED
                 ),
               ],
             ),

@@ -5,6 +5,7 @@ double? w;
 const String logo = 'assets/images/logo.png';
 const String logoIcon = 'assets/images/logo_icon.png';
 const String homepageTim = 'assets/images/TIM4.png';
+const String emptyImage = 'assets/images/empty-placeholder.png';
 const String tim3 = 'assets/images/TIM_3.png';
 const String mainBg = 'assets/images/bacground_tim.png';
 const String timHand = 'assets/images/Timhand.png';

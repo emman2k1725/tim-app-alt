@@ -8,7 +8,8 @@ import 'package:tim_app/widgets/appbar.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 
 class TripHistoryRate extends StatefulWidget {
-  const TripHistoryRate({super.key});
+  final Map<String, dynamic> tripDetails;
+  const TripHistoryRate({super.key, required this.tripDetails});
 
   @override
   State<TripHistoryRate> createState() => _TripHistoryRateState();
@@ -55,12 +56,12 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.all(16.0),
-                      child: const Column(
+                      child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Align(
+                          const Align(
                             alignment: Alignment.topLeft,
                             child: Text(
                               'Review', // Replace with your name or text
@@ -70,7 +71,7 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                                   color: Colors.blueAccent),
                             ),
                           ),
-                          Align(
+                          const Align(
                             alignment: Alignment.topLeft,
                             child: Text(
                               'Give feedback to recent trip', // Replace with your name or text
@@ -79,7 +80,7 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Row(
@@ -89,23 +90,24 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Trip Details', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      '3 days', // Replace with your name or text
-                                      style: TextStyle(
+                                      widget.tripDetails['day']
+                                          .toString(), // Replace with your name or text
+                                      style: const TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       'days you went on a trip', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
@@ -114,7 +116,7 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                                   ],
                                 ),
                               ),
-                              VerticalDivider(
+                              const VerticalDivider(
                                 color: Colors.black,
                                 thickness: 2,
                               ),
@@ -123,25 +125,26 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Visited City', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(children: [
                                       Text(
-                                        'Rome', // Replace with your name or text
-                                        style: TextStyle(
+                                        widget.tripDetails['city']
+                                            .toString(), // Replace with your name or text
+                                        style: const TextStyle(
                                           fontSize: 24.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ]),
-                                    Text(
+                                    const Text(
                                       'where you went', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
@@ -155,23 +158,23 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Trip Date', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      '01/20/23 - 01/23/23', // Replace with your name or text
-                                      style: TextStyle(
+                                      "${widget.tripDetails['dates'][0]} - ${widget.tripDetails['dates'][widget.tripDetails['dates'].length - 1]}", // Replace with your name or text
+                                      style: const TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       'Date of your trip', // Replace with your name or text
                                       style: TextStyle(
                                         fontSize: 14.0,
@@ -182,14 +185,14 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Divider(),
-                          SizedBox(
+                          const Divider(),
+                          const SizedBox(
                             height: 10,
                           ),
-                          HistoryReviewsList(),
+                          const HistoryReviewsList(),
                         ],
                       ),
                     ),

@@ -28,10 +28,10 @@ class _HistoryRatedState extends State<HistoryRated> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Text(
               'Recent Rated', // Replace with your name or text
@@ -41,7 +41,7 @@ class _HistoryRatedState extends State<HistoryRated> {
                   color: Colors.blueAccent),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
             child: Text(
               'Your feedback to your recent visited place', // Replace with your name or text
@@ -50,10 +50,10 @@ class _HistoryRatedState extends State<HistoryRated> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ReviewsList(),
