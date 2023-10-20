@@ -18,13 +18,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl);
-    _controller.addListener(() {
-      setState(() {});
-    });
+    _controller.initialize();
+    _controller.setVolume(0.0);
     _controller.setLooping(true);
-    _controller.initialize().then((_) {
-      setState(() {});
-    });
     _controller.play();
   }
 

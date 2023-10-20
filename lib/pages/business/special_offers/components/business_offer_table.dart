@@ -11,6 +11,7 @@ import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
+import 'package:tim_app/pages/travellers/travel_history/components/trip_history.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history_rate.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/loading.dart';
@@ -178,7 +179,7 @@ class _MyDataTableSource extends DataTableSource {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TripHistoryRate()),
+                        builder: (context) => const TripHistoryTable()),
                   );
                 }),
           ],

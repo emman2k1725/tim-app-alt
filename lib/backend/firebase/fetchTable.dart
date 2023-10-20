@@ -18,23 +18,22 @@ Future<List<Map<String, dynamic>>> fetchData(String collection) async {
   return data;
 }
 
-Future<List<Map<String, dynamic>>> fetchTravel(String? userID) async {
-  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+Stream<List<Map<String, dynamic>>> fetchTravel(String? userID) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('travel-history')
-      .where('ownedBy', isEqualTo: userID)
-      .get();
+      .where("ownedBy", isEqualTo: userID);
 
-  List<Map<String, dynamic>> dataList = [];
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
 
-  querySnapshot.docs.forEach((doc) {
-    String documentID = doc.id;
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-    data['docID'] = documentID; // Add documentID to the data map
-
-    dataList.add(data);
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
   });
-  return dataList;
 }
 
 Stream<List<Map<String, dynamic>>> fetchSpecialOffer(String? businessID) {

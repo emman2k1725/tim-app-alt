@@ -197,30 +197,26 @@ Future<List<Map<String, dynamic>>> getBusinessesQuery(
   Query query = FirebaseFirestore.instance.collection('businesses');
   if (findWhat == 'Restaurant') {
     query = query
-        .where('rating', isNotEqualTo: null)
         .where('businessAddress.city', isEqualTo: city)
-        .where('businessSector', isNotEqualTo: findWhat)
+        .where('businessSector', isEqualTo: findWhat)
         .where('cruisine', isEqualTo: interest)
-        .orderBy('businessSector', descending: false)
-        .orderBy('rating', descending: false)
-        .limit(20);
+        .limit(10);
   } else {
     query = query
-        .where('rating', isNotEqualTo: null)
         .where('businessAddress.city', isEqualTo: city)
-        .where('businessSector', isNotEqualTo: interest)
-        .orderBy('businessSector', descending: false)
-        .orderBy('rating', descending: false)
-        .limit(20);
+        .where('businessSector', isEqualTo: interest)
+        .limit(10);
   }
   QuerySnapshot querySnapshot = await query.get();
 
   List<Map<String, dynamic>> documentsList = [];
 
-  querySnapshot.docs.forEach((document) {
+  for (var document in querySnapshot.docs) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    data['placeID'] = document.id;
-    documentsList.add(data);
-  });
+    if (data.isNotEmpty) {
+      data['placeID'] = document.id;
+      documentsList.add(data);
+    }
+  }
   return documentsList;
 }

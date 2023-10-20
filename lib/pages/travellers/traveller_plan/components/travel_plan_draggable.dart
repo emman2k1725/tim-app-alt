@@ -160,12 +160,19 @@ class _DraggableContainer extends State<DraggableContainer> {
                               onTap: () {
                                 _showImagePopUp(context);
                               },
-                              child: Image.network(
-                                item.urlImage,
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                              ),
+                              child: item.urlImage.isEmpty == true
+                                  ? Image.asset(
+                                      emptyImage,
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      item.urlImage,
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                           title: Text(item.title,

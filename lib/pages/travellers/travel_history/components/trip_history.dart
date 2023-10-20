@@ -24,17 +24,27 @@ class TripHistoryTable extends StatefulWidget {
 }
 
 class _TripHistoryTableState extends State<TripHistoryTable> {
+  UserModel? user;
+  @override
+  void initState() {
+    super.initState();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     const int rowsPerPage = 10;
-    UserDataProvider userProvider = Provider.of<UserDataProvider>(context);
-    UserModel? user = userProvider.userData;
-    if (user == null) {
-      userProvider.loadDataFromSharedPref();
-      user = userProvider.userData;
-    }
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchTravel(user!.docID),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchTravel(user!.docID),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -171,7 +181,9 @@ class _MyDataTableSource extends DataTableSource {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TripHistoryRate()),
+                        builder: (context) => TripHistoryRate(
+                              tripDetails: item,
+                            )),
                   );
                 }),
           ],
