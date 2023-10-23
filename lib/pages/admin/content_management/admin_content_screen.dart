@@ -492,7 +492,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                             trailing: Icon(Icons.arrow_forward,
                                                 color: Colors.blue),
                                             onTap: () => context.go(
-                                                '/admin-manage-content/how'),
+                                                '/admin-manage-content/advertisement'),
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.local_offer,
@@ -506,7 +506,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                             trailing: Icon(Icons.arrow_forward,
                                                 color: Colors.blue),
                                             onTap: () => context.go(
-                                                '/admin-manage-content/about'),
+                                                '/admin-manage-content/offer'),
                                           ),
                                         ],
                                       ),

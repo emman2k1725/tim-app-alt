@@ -73,6 +73,52 @@ Stream<List<Map<String, dynamic>>> fetchAds(String? businessID) {
   });
 }
 
+Stream<List<Map<String, dynamic>>> fetchTableCollection(String? collection) {
+  Query<Map<String, dynamic>> itemsCollection =
+      FirebaseFirestore.instance.collection(collection!);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      Map<String, dynamic> documentData = document.data();
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+// Stream<List<Map<String, dynamic>>?> fetchDataForBusiness(String businessId) {
+//   final CollectionReference businessCollection =
+//       FirebaseFirestore.instance.collection('business');
+//   final CollectionReference dataCollection =
+//       FirebaseFirestore.instance.collection('data');
+
+//   return businessCollection
+//       .doc(businessId)
+//       .snapshots()
+//       .asyncMap((businessSnapshot) {
+//     if (!businessSnapshot.exists) {
+//       return null; // Business document doesn't exist, return null or handle as needed
+//     }
+
+//     final businessData = businessSnapshot.data();
+//     if (businessData == null || !businessData.containsKey('businessId')) {
+//       return null; // Business document is missing 'businessId', return null or handle as needed
+//     }
+
+//     final String businessId = businessData['businessId'];
+
+//     return dataCollection
+//         .where('businessId', isEqualTo: businessId)
+//         .get()
+//         .then((querySnapshot) {
+//       final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+//       return data;
+//     });
+//   });
+// }
+
 Future<List<Map<String, dynamic>>> fetchTableNews(String type) async {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('content')
