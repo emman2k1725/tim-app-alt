@@ -70,13 +70,13 @@ class _ManageAdvertisementTabBarViewState
                             unselectedLabelColor: Colors.grey,
                             tabs: [
                               Tab(
-                                text: "Pending Offers",
+                                text: "Pending Advertisement",
                               ),
                               Tab(
-                                text: "Approved Offers",
+                                text: "Approved Advertisement",
                               ),
                               Tab(
-                                text: "Declined Offers",
+                                text: "Declined Advertisement",
                               )
                             ]),
                       ),
@@ -91,7 +91,6 @@ class _ManageAdvertisementTabBarViewState
                           children: [
                             ManageAdvertisementTable(),
                             const ProfileInterest(),
-                            // PaginatedDataTableDemo(),
                             const ProfileInterest(),
                           ],
                         ),
