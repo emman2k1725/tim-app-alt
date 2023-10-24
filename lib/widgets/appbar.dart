@@ -42,13 +42,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     final Authenticate auth = Authenticate();
-    final List<String> optionTraveller = ['Account', 'Business', 'Sign out'];
+    final List<String> optionTraveller = ['Account', 'Sign out'];
     final Map<String, IconData> optionIcons = {
       'Account': Icons.account_circle,
-      'Business': Icons.business,
       'Sign out': Icons.logout,
     };
-    void _handleOptionSelected(String option) {
+    void handleOptionSelected(String option) {
       // You can perform different actions for each option here
       switch (option) {
         case 'Account':
@@ -77,8 +76,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       actions: [
         Row(
           children: [
-            SizedBox(
-              width: 200,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
                 child: BackdropFilter(
@@ -161,7 +160,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   leading: Icon(optionIcons[option]),
                                   title: Text(option),
                                   onTap: () {
-                                    _handleOptionSelected(option);
+                                    handleOptionSelected(option);
                                   },
                                 ),
                               );

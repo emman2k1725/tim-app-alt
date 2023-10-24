@@ -753,7 +753,8 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                return Center(
+                                    child: CircularProgressIndicator());
                               }
                               List<Map<String, dynamic>> dropdownItems =
                                   snapshot.data!;
@@ -832,7 +833,7 @@ class _DateRangePickerTextFieldState extends State<DateRangePickerTextField> {
                     future: _fetchDropDownCities,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Center(child: CircularProgressIndicator());
                       }
                       List<Map<String, dynamic>> dropdownItems = snapshot.data!;
                       return DropdownButtonFormField<Map<String, dynamic>>(

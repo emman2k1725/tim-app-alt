@@ -94,10 +94,9 @@ class _DraggableContainer extends State<DraggableContainer> {
           itemDivider:
               const Divider(thickness: 2, height: 2, color: backgroundColor),
           itemDecorationWhileDragging: const BoxDecoration(
-            color: Colors.lightGreen,
+            color: Colors.white,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
-          listDragHandle: buildDragHandle(isList: true),
           itemDragHandle: buildDragHandle(isList: true),
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,

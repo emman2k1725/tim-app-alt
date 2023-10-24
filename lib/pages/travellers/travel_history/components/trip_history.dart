@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/backend/firebase/userDataProvider.dart';
@@ -143,17 +144,22 @@ class _MyDataTableSource extends DataTableSource {
       return null;
     }
     final item = data[index];
+    DateTime startTime = DateTime.parse(item['dates'][0]);
+    DateTime endTime = DateTime.parse(item['dates'][item['dates'].length - 1]);
+
+    String startDate = DateFormat('MMM dd, y').format(startTime);
+    String endDate = DateFormat('MMM dd, y').format(endTime);
     return DataRow(cells: [
       DataCell(Text(
         item['city'],
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['dates'][0],
+        startDate,
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['dates'][item['dates'].length - 1],
+        endDate,
         style: tableContentStyle,
       )),
       DataCell(Text(
