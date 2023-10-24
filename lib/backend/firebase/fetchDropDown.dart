@@ -55,19 +55,13 @@ class FirebaseService {
   }
 
   static Future<List<Map<String, dynamic>>> fetchHangout() async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('dropdownCollection')
-          .doc('hangout')
-          .get();
-      if (querySnapshot.exists) {
-        final dropdownItems =
-            List<Map<String, dynamic>>.from(querySnapshot.data()?['choices']);
-        return dropdownItems;
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-    return [];
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('dropdownCollection')
+        .doc('hangout')
+        .get();
+
+    final dropdownItems =
+        List<Map<String, dynamic>>.from(querySnapshot.data()?['choices']);
+    return dropdownItems;
   }
 }

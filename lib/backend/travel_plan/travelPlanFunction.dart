@@ -118,7 +118,6 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
 
     return travelItinerary;
   } catch (e) {
-    debugPrint("Error: planTravel");
     debugPrint(e.toString());
   }
 
@@ -129,6 +128,7 @@ Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
     List<List<Map<String, dynamic>>> travelItinerary) async {
   List<Map<String, dynamic>>? tempList;
   Map<String, dynamic>? temp;
+
   tempList = await fetchPlaces(
       fetchPlaceParams['hangoutPlace'],
       fetchPlaceParams['lat'],
@@ -140,8 +140,7 @@ Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
       tempList, travelItinerary, fetchPlaceParams['currentTime']);
 
   temp!['timeSchedule'] = fetchPlaceParams['currentTime'];
-  debugPrint(fetchPlaceParams.toString());
-  debugPrint(temp.toString());
+
   return temp;
 }
 
@@ -181,73 +180,73 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
   List<Map<String, dynamic>> places = [];
   List<Map<String, dynamic>> dataBusiness = [];
   try {
-    // if (findWhat == 'Hangout') {
-    //   dataBusiness = await getBusinessesQuery(find, city, 'Hangout');
-    // } else if (findWhat == 'Restaurant') {
-    //   dataBusiness = await getBusinessesQuery(find, city, 'Restaurant');
-    // }
-
-    // if (dataBusiness.isNotEmpty) {
-    //   for (int index = 0; index < dataBusiness.length; index++) {
-    //     Map<String, dynamic> placeResult = {
-    //       "businessName": dataBusiness[index]['businessName'],
-    //       "address":
-    //           "${dataBusiness[index]['businessAddress']['building']} ${dataBusiness[index]['businessAddress']['street']} ${dataBusiness[index]['businessAddress']['city']} ${dataBusiness[index]['businessAddress']['country']}",
-    //       "city": dataBusiness[index]['businessAddress']['city'],
-    //       "rating": dataBusiness[index]['rating'],
-    //       "openingHours": "",
-    //       "displayImage": dataBusiness[index]['businessImages']['image1'],
-    //       "business_status": dataBusiness[index]['status'],
-    //       "timeSchedule": "",
-    //       "placeID": dataBusiness[index]['placeID'],
-    //       "source": "local"
-    //     };
-    //     places.add(placeResult);
-    //   }
-    // } else {
-    String? displayImage, photoReference;
-    dynamic openingHours;
-    GoogleMapsPlaces _places =
-        GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
-    PlacesSearchResponse response = await _places.searchByText(find,
-        location: Location(lat: latitude, lng: longtitude));
-    String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
-    for (var result in response.results) {
-      if (result.permanentlyClosed == false) {
-        List<String> splitAddress = result.formattedAddress!.split(',');
-        if (result.photos.isEmpty) {
-          displayImage = result.icon;
-        } else {
-          photoReference = result.photos[0].photoReference;
-          displayImage =
-              "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
-        }
-        if (result.openingHours == null || result.openingHours is Object) {
-          openingHours = "";
-        } else {
-          openingHours = result.openingHours;
-        }
-
-        Map<String, dynamic> placeResult = {
-          "businessName": result.name,
-          "address": result.formattedAddress,
-          "city": splitAddress[2],
-          "rating": result.rating,
-          // "openingHours": openingHours.toString(),
-          "displayImage": displayImage,
-          // "business_status": "",
-          "timeSchedule": "",
-          "placeID": result.placeId,
-          "source": "google"
-        };
-        places.add(placeResult);
-        places.sort((a, b) => b['rating'].compareTo(a['rating']));
-      }
+    if (findWhat == 'Hangout') {
+      dataBusiness = await getBusinessesQuery(find, city, 'Hangout');
+    } else if (findWhat == 'Restaurant') {
+      dataBusiness = await getBusinessesQuery(find, city, 'Restaurant');
+      find = 'Restaurant';
     }
 
-    //}
+    if (dataBusiness.isNotEmpty) {
+      for (int index = 0; index < dataBusiness.length; index++) {
+        Map<String, dynamic> placeResult = {
+          "businessName": dataBusiness[index]['businessName'],
+          "address":
+              "${dataBusiness[index]['businessAddress']['building']} ${dataBusiness[index]['businessAddress']['street']} ${dataBusiness[index]['businessAddress']['city']} ${dataBusiness[index]['businessAddress']['country']}",
+          "city": city,
+          "rating": dataBusiness[index]['rating'],
+          "openingHours": "",
+          "sector": find,
+          "displayImage": dataBusiness[index]['businessImages']['image1'],
+          "business_status": dataBusiness[index]['status'],
+          "timeSchedule": "",
+          "placeID": dataBusiness[index]['placeID'],
+          "source": "local"
+        };
+        places.add(placeResult);
+      }
+    } else {
+      String? displayImage, photoReference;
+      dynamic openingHours;
+      GoogleMapsPlaces _places =
+          GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
+      PlacesSearchResponse response = await _places.searchByText(find,
+          location: Location(lat: latitude, lng: longtitude));
+      String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
+      for (var result in response.results) {
+        if (result.permanentlyClosed == false) {
+          if (result.photos.isEmpty) {
+            displayImage = result.icon;
+          } else {
+            photoReference = result.photos[0].photoReference;
+            displayImage =
+                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
+          }
+          if (result.openingHours == null || result.openingHours is Object) {
+            openingHours = "";
+          } else {
+            openingHours = result.openingHours;
+          }
+
+          Map<String, dynamic> placeResult = {
+            "businessName": result.name,
+            "address": result.formattedAddress,
+            "city": city,
+            "rating": result.rating,
+            "openingHours": openingHours.toString(),
+            "displayImage": displayImage,
+            "business_status": "",
+            "sector": find,
+            "timeSchedule": "",
+            "placeID": result.placeId,
+            "source": "google"
+          };
+          places.add(placeResult);
+          places.sort((a, b) => b['rating'].compareTo(a['rating']));
+        }
+      }
+    }
   } catch (e) {
-    debugPrint("Error: fetchPlaces");
     debugPrint(e.toString());
   }
   return places;

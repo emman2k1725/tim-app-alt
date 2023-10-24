@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tim_app/backend/firebase/fetchDropDown.dart';
+import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/data/draggable_lists.dart';
 import 'package:tim_app/model/draggable_model.dart';
 
@@ -219,12 +221,10 @@ class _DraggableContainer extends State<DraggableContainer> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Container(
-                              child: Text(
-                                item.address,
-                                style: const TextStyle(
-                                    fontSize: 16.0, color: Colors.white),
-                              ),
+                            child: Text(
+                              item.address,
+                              style: const TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
                             ),
                           ),
                         ],
@@ -242,9 +242,14 @@ class _DraggableContainer extends State<DraggableContainer> {
     setState(() {
       final oldListItems = lists[oldListIndex].children;
       final newListItems = lists[newListIndex].children;
-
       final movedItem = oldListItems.removeAt(oldItemIndex);
       newListItems.insert(newItemIndex, movedItem);
+      // Update Time and Database
+      Map<String, dynamic> temp =
+          widget.travelitenerary[oldListIndex][oldItemIndex];
+      widget.travelitenerary[oldListIndex].removeAt(oldItemIndex);
+      widget.travelitenerary[newListIndex].insert(newItemIndex, temp);
+      fixTimeArrangement();
     });
   }
 
@@ -256,6 +261,36 @@ class _DraggableContainer extends State<DraggableContainer> {
       final movedList = lists.removeAt(oldListIndex);
       lists.insert(newListIndex, movedList);
     });
+  }
+
+  void fixTimeArrangement() async {
+    try {
+      List<Map<String, dynamic>> hangoutPlaces =
+          await FirebaseService.fetchHangout();
+
+      for (int i = 0;
+          i < widget.traveliteneraryParameters['startTime'].length;
+          i++) {
+        String currentTime = widget.traveliteneraryParameters['startTime'][i];
+        for (int y = 1; y <= widget.travelitenerary[i].length - 1; y++) {
+          if (y == widget.travelitenerary[i].length) {
+            widget.travelitenerary[i][y]['timeSchedule'] ==
+                widget.traveliteneraryParameters['endTime'][i];
+          }
+          setState(() {
+            widget.travelitenerary[i][y]['timeSchedule'] = currentTime;
+          });
+
+          currentTime = addMinutesToTime(
+              currentTime,
+              getAveTimeSpent(hangoutPlaces, 'hangout',
+                  widget.travelitenerary[i][y]['sector'])!);
+        }
+      }
+      debugPrint(widget.travelitenerary.toString());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   void _showImagePopUp(BuildContext context) {
