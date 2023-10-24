@@ -42,7 +42,10 @@ class _TravellerPlanScreenState extends State<TravellerPlanScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                TravelPlanSearch()
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TravelPlanSearch(),
+                )
               ],
             ),
           ),

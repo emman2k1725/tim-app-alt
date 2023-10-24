@@ -26,6 +26,7 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Admin Dashboard'),
       body: Container(
+        padding: EdgeInsets.all(8.0),
         width: MediaQuery.sizeOf(context).width * 1.0,
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -92,11 +93,74 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
                     const SizedBox(
                       height: 10,
                     ),
+                    Container(
+                      color: Colors
+                          .transparent, // Set the background color for the footer
+                      child: Center(
+                        child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButtonWithText(
+                                  text: 'Save',
+                                  iconData: Icons.save_alt,
+                                  onPressed: () {
+                                    // Add your onPressed callback logic here
+                                    //   print('Button Pressed!');
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                IconButtonWithText(
+                                  text: 'Share',
+                                  iconData: Icons.share,
+                                  onPressed: () {
+                                    // Add your onPressed callback logic here
+                                    //   print('Button Pressed!');
+                                  },
+                                ),
+                              ],
+                            )),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class IconButtonWithText extends StatelessWidget {
+  final String text;
+  final IconData iconData;
+  final VoidCallback onPressed;
+
+  IconButtonWithText({
+    required this.text,
+    required this.iconData,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(iconData),
+            SizedBox(width: 8), // Adjust the spacing between the icon and text
+            Text(text),
+          ],
         ),
       ),
     );
