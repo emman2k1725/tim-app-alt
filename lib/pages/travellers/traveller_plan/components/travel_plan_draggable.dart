@@ -47,7 +47,20 @@ class _DraggableContainer extends State<DraggableContainer> {
               rating: dayData[i]['rating'].toString(),
               timeSchedule: dayData[i]['timeSchedule']));
         }
-
+        items.add(DraggableListItem(
+          title: "",
+          urlImage: "",
+          address: "",
+          rating: "0.0",
+          timeSchedule: "",
+        ));
+        items.add(DraggableListItem(
+          title: "",
+          urlImage: "",
+          address: "",
+          rating: "0.0",
+          timeSchedule: "",
+        ));
         DraggableList draggableList = DraggableList(
           header: header,
           subText: subText,
@@ -180,11 +193,6 @@ class _DraggableContainer extends State<DraggableContainer> {
                               style: const TextStyle(color: Colors.white)),
                           subtitle: Column(
                             children: [
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(item.title,
-                                      style: const TextStyle(
-                                          color: Colors.white))),
                               Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(item.timeSchedule,

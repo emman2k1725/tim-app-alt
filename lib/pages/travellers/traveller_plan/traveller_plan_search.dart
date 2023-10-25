@@ -191,19 +191,14 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                               }
 
                               if (flag == false) {
-                                iteneraryToDatabase(
-                                        itenerary, _travelPlanParameters)
-                                    .then((value) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TravelPlanKanban(
-                                                travelitenerary: itenerary,
-                                                traveliteneraryParameters:
-                                                    _travelPlanParameters,
-                                              )));
-                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TravelPlanKanban(
+                                              travelitenerary: itenerary,
+                                              traveliteneraryParameters:
+                                                  _travelPlanParameters,
+                                            )));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     content: Text(
