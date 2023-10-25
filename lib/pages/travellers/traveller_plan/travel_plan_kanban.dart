@@ -3,10 +3,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/pages/travellers/traveller_plan/components/travel_plan_draggable.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/utils/loading.dart';
 import 'package:tim_app/utils/styles.dart';
 import 'package:tim_app/widgets/appbar.dart';
+import 'package:tim_app/widgets/dialogs/failed_dialog.dart';
+import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
 class TravelPlanKanban extends StatefulWidget {
   final List<List<Map<String, dynamic>>> travelitenerary;
@@ -106,9 +110,22 @@ class _TravelPlanKanbanState extends State<TravelPlanKanban> {
                                 IconButtonWithText(
                                   text: 'Save',
                                   iconData: Icons.save_alt,
-                                  onPressed: () {
-                                    // Add your onPressed callback logic here
-                                    //   print('Button Pressed!');
+                                  onPressed: () async {
+                                    showCustomLoadingDialog(
+                                        context, "Saving itenerary...");
+                                    bool result = await iteneraryToDatabase(
+                                        widget.travelitenerary,
+                                        widget.traveliteneraryParameters);
+
+                                    if (result == true) {
+                                      SuccessDialog(
+                                          title:
+                                              'Itenerary Successfully Saved!');
+                                    } else {
+                                      FailedDialog(
+                                          title:
+                                              "Error occured. Please try again");
+                                    }
                                   },
                                 ),
                                 SizedBox(
