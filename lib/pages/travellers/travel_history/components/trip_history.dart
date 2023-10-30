@@ -53,12 +53,7 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return
-
-              // Theme(
-              //   data: Theme.of(context)
-              //       .copyWith(cardColor: Colors.white60.withOpacity(0.15)),
-              Theme(
+          return Theme(
             data: Theme.of(context).copyWith(
                 cardColor: Colors.white60.withOpacity(0.10),
                 dividerColor: Colors.blue,

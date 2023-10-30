@@ -27,6 +27,8 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
       String currentTime = travelPlanParams['startTime'][x];
       String endTime = travelPlanParams['endTime'][x];
       List<Map<String, dynamic>> travelItineraryPerDay = [];
+      selectedHotel['dateSchedule'] = travelPlanParams['dates'][x];
+      selectedHotel['ifRated'] = false;
       travelItineraryPerDay.add(selectedHotel);
       bool hadBreakfast = false;
       bool hadLunch = false;
@@ -42,6 +44,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
+            'date': travelPlanParams['dates'][x],
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
@@ -59,6 +62,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
+            'date': travelPlanParams['dates'][x],
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
@@ -75,6 +79,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
+            'date': travelPlanParams['dates'][x],
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
@@ -90,6 +95,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'long': long,
             'lat': lat,
             'currentTime': currentTime,
+            'date': travelPlanParams['dates'][x],
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
@@ -106,6 +112,7 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
             'long': long,
             'lat': lat,
             'currentTime': endTime,
+            'date': travelPlanParams['dates'][x],
           };
           travelItineraryPerDay
               .add(await getPlace(getPlaceParams, travelItinerary));
@@ -140,6 +147,8 @@ Future<Map<String, dynamic>> getPlace(Map<String, dynamic> fetchPlaceParams,
       tempList, travelItinerary, fetchPlaceParams['currentTime']);
 
   temp!['timeSchedule'] = fetchPlaceParams['currentTime'];
+  temp['dateSchedule'] = fetchPlaceParams['date'];
+  temp['ifRated'] = false;
 
   return temp;
 }
@@ -162,7 +171,6 @@ bool isTime1BeforeTime2(String time1, String time2) {
   final inputFormat = DateFormat('HH:mm');
   DateTime dateTime1 = inputFormat.parse(time1);
   DateTime dateTime2 = inputFormat.parse(time2);
-
   return dateTime1.isBefore(dateTime2);
 }
 
@@ -177,6 +185,7 @@ bool isTimeInRange(String timeToCheck, String startTime, String endTime) {
 
 Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
     double longtitude, String city, String findWhat) async {
+  String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
   List<Map<String, dynamic>> places = [];
   List<Map<String, dynamic>> dataBusiness = [];
   try {
@@ -194,12 +203,15 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
           "address":
               "${dataBusiness[index]['businessAddress']['building']} ${dataBusiness[index]['businessAddress']['street']} ${dataBusiness[index]['businessAddress']['city']} ${dataBusiness[index]['businessAddress']['country']}",
           "city": city,
-          "rating": dataBusiness[index]['rating'],
+          "rating": dataBusiness[index]['rating'] is String
+              ? double.parse(dataBusiness[index]['rating'])
+              : dataBusiness[index]['rating'],
           "openingHours": "",
           "sector": find,
           "displayImage": dataBusiness[index]['businessImages']['image1'],
           "business_status": dataBusiness[index]['status'],
           "timeSchedule": "",
+          "description": dataBusiness[index]['businessDesc'],
           "placeID": dataBusiness[index]['placeID'],
           "source": "local"
         };
@@ -208,8 +220,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
     } else {
       String? displayImage, photoReference;
       dynamic openingHours;
-      GoogleMapsPlaces _places =
-          GoogleMapsPlaces(apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0');
+      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
       PlacesSearchResponse response = await _places.searchByText(find,
           location: Location(lat: latitude, lng: longtitude));
       String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
@@ -220,7 +231,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
           } else {
             photoReference = result.photos[0].photoReference;
             displayImage =
-                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0";
+                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=$apiKey";
           }
           if (result.openingHours == null || result.openingHours is Object) {
             openingHours = "";
@@ -237,6 +248,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
             "displayImage": displayImage,
             "business_status": "",
             "sector": find,
+            "description": "",
             "timeSchedule": "",
             "placeID": result.placeId,
             "source": "google"

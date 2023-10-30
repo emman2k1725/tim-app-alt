@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 
@@ -13,11 +17,21 @@ class _ReviewsListState extends State<ReviewsList> {
   final int itemsPerPage = 10; // Number of items to load per page
   int currentPage = 1;
   List<String> items = [];
-
+  UserModel? user;
   @override
   void initState() {
     super.initState();
     loadItems();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
   }
 
   // Simulated API call to fetch items for the current page
@@ -94,7 +108,7 @@ class _ReviewsListState extends State<ReviewsList> {
                                   ),
                                 ),
                                 Text(
-                                  'John Doe', // Replace with your name or text
+                                  "${user!.firstName!} ${user!.lastName!}", // Replace with your name or text
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.white,
@@ -102,7 +116,8 @@ class _ReviewsListState extends State<ReviewsList> {
                                   ),
                                 ),
                                 Text(
-                                  'john@gmail.com', // Replace with your name or text
+                                  user!
+                                      .email!, // Replace with your name or text
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.0,

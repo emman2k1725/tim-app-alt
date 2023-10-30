@@ -1,9 +1,27 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/firebase/firebaseService.dart';
+import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
+import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/constants.dart';
+import 'package:tim_app/utils/loading.dart';
+import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
 class HistoryReviewsList extends StatefulWidget {
-  const HistoryReviewsList({super.key});
+  final placeVisited;
+  final fromDocID;
+  final tripHistory;
+  const HistoryReviewsList(
+      {super.key,
+      required this.tripHistory,
+      required this.placeVisited,
+      required this.fromDocID});
 
   @override
   _HistoryReviewsListState createState() => _HistoryReviewsListState();
@@ -15,7 +33,11 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
   List<String> items = [];
   double rating = 0;
   String ratingDescription = '';
-
+  String? comment;
+  UserModel? user;
+  File? _pickedImage;
+  Uint8List? _webPickedImage;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final Map<double, String> ratingDescriptions = {
     0: '',
     1: 'Poor',
@@ -36,6 +58,48 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
   void initState() {
     super.initState();
     loadItems();
+    loadNewLaunch();
+  }
+
+  loadNewLaunch() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getString('user') != null) {
+      setState(() {
+        user = UserModel.fromMap(jsonDecode(pref.getString('user')!));
+      });
+    }
+  }
+
+  Future<bool> updatedRate(
+      String placeID, String docID, String date, dynamic itenerary) async {
+    bool flag = false;
+    try {
+      for (int x = 0; x < itenerary.length; x++) {
+        if (date == itenerary[x]['dateSchedule'] &&
+            placeID == itenerary[x]['placeID']) {
+          itenerary[x]['ifRated'] = true;
+          flag = true;
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    bool updatedIteneraryRes = await updateItenerary(itenerary, docID);
+    return updatedIteneraryRes;
+  }
+
+  Future<Uint8List?> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var f = await image.readAsBytes();
+
+      setState(() {
+        _webPickedImage = f;
+        _pickedImage = File('a');
+      });
+    }
+    return null;
   }
 
   Future<void> loadItems() async {
@@ -59,7 +123,8 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
     return Container(
       height: 400,
       child: ListView.separated(
-        itemCount: items.length + 1, // Add 1 for loading indicator at the end
+        itemCount: widget
+            .placeVisited.length, // Add 1 for loading indicator at the end
         itemBuilder: (context, index) {
           if (index < items.length) {
             return ExpansionTile(
@@ -93,14 +158,15 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                           ],
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Seafood Unli', // Replace with your name or text
-                              style: TextStyle(
+                              widget.placeVisited[index][
+                                  'businessName'], // Replace with your name or text
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -108,37 +174,38 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.star,
                                   color: Colors.yellow,
                                   size: 15,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.star,
                                   color: Colors.yellow,
                                   size: 15,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.star,
                                   color: Colors.yellow,
                                   size: 15,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.star,
                                   color: Colors.yellow,
                                   size: 15,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.star_half,
                                   color: Colors.yellow,
                                   size: 15,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
-                                  '4.5', // Replace with your name or text
-                                  style: TextStyle(
+                                  widget.placeVisited[index]['rating']
+                                      .toString(), // Replace with your name or text
+                                  style: const TextStyle(
                                     fontSize: 10.0,
                                   ),
                                 ),
@@ -147,24 +214,24 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                           ],
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         flex: 7,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(children: [
                               Text(
-                                'Visited time: 8:00 AM', // Replace with your name or text
-                                style: TextStyle(
+                                'Visited time and date: ${widget.placeVisited[index]['dateSchedule']} at ${widget.placeVisited[index]['timeSchedule']}', // Replace with your name or text
+                                style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
                               ),
                             ]),
                             Text(
-                              'What a delightful seafood experience! The freshness of the catch truly shines through in every dish, and the flavors are a true testament to their culinary expertise',
+                              widget.placeVisited[index]['description'],
                               textAlign: TextAlign.left,
                               softWrap: true,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12.0,
                               ),
                               // Other text style properties can be added here
@@ -189,73 +256,136 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                             width: 1.0, // Outline width
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.white, // Button background color
-                                foregroundColor:
-                                    Colors.black, // Button text color
-                              ),
-                              onPressed: () {},
-                              child: const Column(
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              _pickedImage == null
+                                  ? ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors
+                                            .white, // Button background color
+                                        foregroundColor:
+                                            Colors.black, // Button text color
+                                      ),
+                                      onPressed: () {
+                                        _pickImage();
+                                      },
+                                      child: const Column(
+                                        children: [
+                                          Icon(
+                                            Icons.add_a_photo,
+                                            size: 48.0, // Icon size
+                                          ),
+                                          SizedBox(height: 8.0),
+                                          Text(
+                                            'Add Photo',
+                                            style: TextStyle(fontSize: 16.0),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Image.memory(_webPickedImage!,
+                                      fit: BoxFit.fill,
+                                      width: 140,
+                                      height: 110),
+                              const SizedBox(height: 16.0),
+                              Row(
                                 children: [
-                                  Icon(
-                                    Icons.add_a_photo,
-                                    size: 48.0, // Icon size
+                                  const Text(
+                                    'Rate Experience: ', // Replace with your name or text
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  SizedBox(height: 8.0),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  RatingBar.builder(
+                                    minRating: 1,
+                                    itemBuilder: (BuildContext context, _) =>
+                                        const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: _onRatingUpdate,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Text(
-                                    'Add Photo',
-                                    style: TextStyle(fontSize: 16.0),
+                                    ratingDescription, // Replace with your name or text
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Rate Experience: ', // Replace with your name or text
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              const SizedBox(height: 16.0),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter your comments here...',
+                                  border: OutlineInputBorder(),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                RatingBar.builder(
-                                  minRating: 1,
-                                  itemBuilder: (BuildContext context, _) =>
-                                      const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: _onRatingUpdate,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  ratingDescription, // Replace with your name or text
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16.0),
-                            const TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Enter your comments here...',
-                                border: OutlineInputBorder(),
+                                maxLines: 3,
+                                onSaved: (value) {
+                                  value == null
+                                      ? comment = ""
+                                      : comment = value;
+                                },
                               ),
-                              maxLines: 3,
-                            ),
-                          ],
+                              const SizedBox(height: 16.0),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  showCustomLoadingDialog(
+                                      context, 'Posting your review...');
+                                  formKey.currentState!.save();
+                                  String? photoURL;
+                                  // PhotoUpload and get URL
+                                  if (_webPickedImage != null) {
+                                    photoURL = (await uploadReviewImage(
+                                        _webPickedImage,
+                                        "reviews/${user!.docID}"))!;
+                                  }
+
+                                  Map<String, dynamic> ratingData = {
+                                    "rating": rating,
+                                    "comment": comment,
+                                    "placeID": widget.placeVisited[index]
+                                        ['placeID'],
+                                    "nameOfRater":
+                                        "${user?.firstName} ${user?.lastName}",
+                                    "idOfRater": user?.docID,
+                                    "photoURL": photoURL
+                                  };
+                                  bool ratePlaceRes =
+                                      await ratePlace(ratingData);
+                                  if (ratePlaceRes == true) {
+                                    updatedRate(
+                                            widget.placeVisited[index]
+                                                ['placeID'],
+                                            widget.fromDocID,
+                                            widget.placeVisited[index]
+                                                ['dateSchedule'],
+                                            widget.tripHistory)
+                                        .then((value) {
+                                      if (value == true) {
+                                        Navigator.pop(context);
+                                        const SuccessDialog(
+                                            title:
+                                                'Review successfully posted!');
+                                      }
+                                    });
+                                  } else {
+                                    // error dialog here
+                                  }
+                                },
+                                child: const Text('Submit'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
