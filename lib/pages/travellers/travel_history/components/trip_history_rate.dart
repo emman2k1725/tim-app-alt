@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/backend/authservice/authentication.dart';
+import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_review_rate.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -27,6 +28,35 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime timeNow = DateTime.now();
+    List<Map<String, dynamic>> placesVisited = [];
+    String formattedTime =
+        "${timeNow.hour.toString().padLeft(2, '0')}:${timeNow.minute.toString().padLeft(2, '0')}";
+
+    for (int y = 0; y < widget.tripDetails['itenerary'].length; y++) {
+      // TRY TO COMBINE DATE AND TIME IN A SINGLE VARIABLE FIRST BEFORE COMPARING
+      String date = widget.tripDetails['itenerary'][y]['dateSchedule'];
+      String time = widget.tripDetails['itenerary'][y]['timeSchedule'];
+      List<String> dateSplit = date.split('-');
+      List<String> timeSplit = time.split(':');
+      int year = int.parse(dateSplit[0]),
+          month = int.parse(dateSplit[1]),
+          day = int.parse(dateSplit[2]);
+      int hour = 0, minute = 0;
+      if (time.isNotEmpty) {
+        hour = int.parse(timeSplit[0]);
+        minute = int.parse(timeSplit[1]);
+      }
+      debugPrint(DateTime(year, month, day, hour, minute)
+          .isBefore(DateTime.now())
+          .toString());
+      if ((DateTime(year, month, day, hour, minute).isBefore(DateTime.now()) ==
+              true) &&
+          widget.tripDetails['itenerary'][y]['source'] == 'local' &&
+          widget.tripDetails['itenerary'][y]['ifRated'] == false) {
+        placesVisited.add(widget.tripDetails['itenerary'][y]);
+      }
+    }
     return Scaffold(
       appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
@@ -192,7 +222,11 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
                           const SizedBox(
                             height: 10,
                           ),
-                          const HistoryReviewsList(),
+                          HistoryReviewsList(
+                            tripHistory: widget.tripDetails['itenerary'],
+                            placeVisited: placesVisited,
+                            fromDocID: widget.tripDetails['docID'],
+                          ),
                         ],
                       ),
                     ),

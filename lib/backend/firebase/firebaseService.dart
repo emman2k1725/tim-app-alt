@@ -81,6 +81,21 @@ Future<String?> uploadImage(Uint8List? image, String? folderName) async {
   return result;
 }
 
+Future<String?> uploadReviewImage(Uint8List? image, String? folderName) async {
+  String? result;
+  try {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference storageReference =
+        FirebaseStorage.instance.ref().child('$folderName/${fileName}.jpg');
+    await storageReference.putData(image!);
+    String imageUrl = await storageReference.getDownloadURL();
+    result = imageUrl;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return result;
+}
+
 Future createContent(ContentModel? contentModel) async {
   final _firestore = FirebaseFirestore.instance.collection('content');
   String? result;
@@ -161,6 +176,62 @@ Future saveItenerary(Map<String, dynamic> iteneraryData) async {
   return result;
 }
 
+Future<bool> ratePlace(Map<String, dynamic> ratingData) async {
+  bool result = false;
+  try {
+    final _firestore = FirebaseFirestore.instance
+        .collection('businesses')
+        .doc(ratingData['placeID']);
+    _firestore.collection('ratings').add(ratingData);
+    //Check if ratings are 0
+    bool updateRatingRes =
+        await updateRating(ratingData['placeID'], ratingData['rating']);
+    result = updateRatingRes;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return result;
+}
+
+Future<bool> updateRating(String docID, double rating) async {
+  bool result = false;
+  final _firestore =
+      FirebaseFirestore.instance.collection('businesses').doc(docID);
+  try {
+    DocumentSnapshot<Map<String, dynamic>> doc = await _firestore.get();
+    if (doc.data()?['rating'] is String) {
+      double ratingVal = double.parse(doc.data()?['rating']);
+      bool incRes = await increment(ratingVal, rating, docID);
+      result = incRes;
+    } else {
+      double ratingVal = doc.data()?['rating'];
+      bool incRes = await increment(ratingVal, rating, docID);
+      result = incRes;
+    }
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return result;
+}
+
+Future<bool> increment(double ratingVal, double rating, String docID) async {
+  final _firestore =
+      FirebaseFirestore.instance.collection('businesses').doc(docID);
+  bool flag = false;
+  if (ratingVal == 0.0 || ratingVal == 0) {
+    ratingVal = (ratingVal + rating) / 1;
+    _firestore
+        .update({"reviewCount": FieldValue.increment(1), "rating": ratingVal});
+    flag = true;
+  } else {
+    ratingVal = (ratingVal + rating) / 2;
+    _firestore
+        .update({"reviewCount": FieldValue.increment(1), "rating": ratingVal});
+    flag = true;
+  }
+  return flag;
+}
+
 Future updateContent(String? docID, ContentModel? contentModel) async {
   final _firestore = FirebaseFirestore.instance.collection('content');
   try {
@@ -219,4 +290,21 @@ Future<List<Map<String, dynamic>>> getBusinessesQuery(
     }
   }
   return documentsList;
+}
+
+Future<bool> updateItenerary(dynamic itenerary, String docID) async {
+  List<Map<String, dynamic>> finalItenerary = [];
+  for (int x = 0; x < itenerary.length; x++) {
+    finalItenerary.add(itenerary[x]);
+  }
+  final _firestore =
+      FirebaseFirestore.instance.collection('travel-history').doc(docID);
+  try {
+    _firestore.update({"itenerary": finalItenerary}).catchError((error) {
+      debugPrint(error.toString());
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
