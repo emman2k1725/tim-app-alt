@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -15,7 +17,10 @@ import 'package:tim_app/pages/travellers/travel_history/components/trip_history.
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history_rate.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/loading.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
+
+import '../../../../widgets/blurContainer.dart';
 
 class BusinessOfferTable extends StatefulWidget {
   const BusinessOfferTable({super.key});
@@ -55,69 +60,218 @@ class _BusinessOfferTableDemoState extends State<BusinessOfferTable> {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return Theme(
-            data: Theme.of(context).copyWith(
-                cardColor: Colors.white60.withOpacity(0.10),
-                dividerColor: Colors.blue,
-                textTheme:
-                    TextTheme(bodySmall: TextStyle(color: Colors.white))),
-            child: PaginatedDataTable(
-              arrowHeadColor: Colors.white,
-              rowsPerPage: rowsPerPage,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Title',
-                        style: tableHeaderStyle,
+          return Responsive.isDesktop(context)
+              ? Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Colors.white60.withOpacity(0.10),
+                      dividerColor: Colors.blue,
+                      textTheme:
+                          TextTheme(bodySmall: TextStyle(color: Colors.white))),
+                  child: PaginatedDataTable(
+                    arrowHeadColor: Colors.white,
+                    rowsPerPage: rowsPerPage,
+                    columns: [
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Title',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Title',
                       ),
-                    ],
-                  ),
-                  tooltip: 'Title',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Offer Code',
-                        style: tableHeaderStyle,
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Offer Code',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Offer Code',
                       ),
-                    ],
-                  ),
-                  tooltip: 'Offer Code',
-                ),
-                DataColumn(
-                  label: Text(
-                    'Date Created',
-                    style: tableHeaderStyle,
-                  ),
-                  tooltip: 'Date Created',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Status',
-                        style: tableHeaderStyle,
+                      DataColumn(
+                        label: Text(
+                          'Date Created',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: 'Date Created',
                       ),
-                    ],
-                  ),
-                  tooltip: 'Status',
-                ),
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Status',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Status',
+                      ),
 
-                DataColumn(
-                  label: Text(
-                    'Action',
-                    style: tableHeaderStyle,
+                      DataColumn(
+                        label: Text(
+                          'Action',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: '',
+                      ),
+                      // Add more columns as needed
+                    ],
+                    source: _MyDataTableSource(data, context),
                   ),
-                  tooltip: '',
-                ),
-                // Add more columns as needed
-              ],
-              source: _MyDataTableSource(data, context),
-            ),
-          );
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0, vertical: 25),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListView.separated(
+                          shrinkWrap: true,
+                          separatorBuilder: ((context, index) =>
+                              const SizedBox(height: 15)),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            DateTime parsedDate =
+                                DateTime.parse(data[index]['createAt']);
+                            String formattedDate =
+                                DateFormat('MMM dd, yyyy').format(parsedDate);
+                            return BlurContainer(
+                                childColumn: Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Title',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            data[index]['title'],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Text(
+                                            'Offer Code',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            data[index]['offerCode'],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Date Created',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            formattedDate,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Text(
+                                            'Status',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            data[index]['status'].toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Divider(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Action',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.visibility,
+                                              color: Colors.green,
+                                            ),
+                                            onPressed: () {
+                                              _showRowDialog(
+                                                  data[index], context);
+                                            },
+                                          ),
+                                          IconButton(
+                                              icon: const Icon(
+                                                Icons.archive,
+                                                color: Colors.blue,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const TripHistoryTable()),
+                                                );
+                                              }),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ));
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                );
         } else {
           return const Center(child: Text('No data found'));
         }
