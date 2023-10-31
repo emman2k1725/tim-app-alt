@@ -11,6 +11,7 @@ import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/loading.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
 class HistoryReviewsList extends StatefulWidget {
@@ -120,298 +121,597 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      child: ListView.separated(
-        itemCount: widget
-            .placeVisited.length, // Add 1 for loading indicator at the end
-        itemBuilder: (context, index) {
-          if (index < items.length) {
-            return ExpansionTile(
-              onExpansionChanged: (value) {},
-              title: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.blue,
-                                    width: 1.0,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  image: const DecorationImage(
-                                    image: AssetImage(profile),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.placeVisited[index][
-                                  'businessName'], // Replace with your name or text
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Row(
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount:
+          widget.placeVisited.length, // Add 1 for loading indicator at the end
+      itemBuilder: (context, index) {
+        if (index < items.length) {
+          return Responsive.isDesktop(context)
+              ? ExpansionTile(
+                  iconColor: Colors.white,
+                  collapsedIconColor: Colors.white,
+                  onExpansionChanged: (value) {},
+                  title: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star_half,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  widget.placeVisited[index]['rating']
-                                      .toString(), // Replace with your name or text
-                                  style: const TextStyle(
-                                    fontSize: 10.0,
+                                ClipOval(
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.blue,
+                                        width: 1.0,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      image: const DecorationImage(
+                                        image: AssetImage(profile),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 7,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(children: [
-                              Text(
-                                'Visited time and date: ${widget.placeVisited[index]['dateSchedule']} at ${widget.placeVisited[index]['timeSchedule']}', // Replace with your name or text
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ]),
-                            Text(
-                              widget.placeVisited[index]['description'],
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                              // Other text style properties can be added here
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey, // Outline color
-                            width: 1.0, // Outline width
                           ),
-                        ),
-                        child: Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              _pickedImage == null
-                                  ? ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors
-                                            .white, // Button background color
-                                        foregroundColor:
-                                            Colors.black, // Button text color
-                                      ),
-                                      onPressed: () {
-                                        _pickImage();
-                                      },
-                                      child: const Column(
-                                        children: [
-                                          Icon(
-                                            Icons.add_a_photo,
-                                            size: 48.0, // Icon size
-                                          ),
-                                          SizedBox(height: 8.0),
-                                          Text(
-                                            'Add Photo',
-                                            style: TextStyle(fontSize: 16.0),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Image.memory(_webPickedImage!,
-                                      fit: BoxFit.fill,
-                                      width: 140,
-                                      height: 110),
-                              const SizedBox(height: 16.0),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Rate Experience: ', // Replace with your name or text
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.placeVisited[index][
+                                      'businessName'], // Replace with your name or text
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  RatingBar.builder(
-                                    minRating: 1,
-                                    itemBuilder: (BuildContext context, _) =>
-                                        const Icon(
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Icon(
                                       Icons.star,
-                                      color: Colors.amber,
+                                      color: Colors.yellow,
+                                      size: 15,
                                     ),
-                                    onRatingUpdate: _onRatingUpdate,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 15,
+                                    ),
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 15,
+                                    ),
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 15,
+                                    ),
+                                    const Icon(
+                                      Icons.star_half,
+                                      color: Colors.yellow,
+                                      size: 15,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      widget.placeVisited[index]['rating']
+                                          .toString(), // Replace with your name or text
+                                      style: const TextStyle(
+                                        fontSize: 10.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
                                   Text(
-                                    ratingDescription, // Replace with your name or text
+                                    'Visited time and date: ${widget.placeVisited[index]['dateSchedule']} at ${widget.placeVisited[index]['timeSchedule']}', // Replace with your name or text
                                     style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                      color: Colors.white,
                                     ),
+                                  ),
+                                ]),
+                                Text(
+                                  widget.placeVisited[index]['description'],
+                                  textAlign: TextAlign.left,
+                                  softWrap: true,
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.white,
+                                  ),
+                                  // Other text style properties can be added here
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey, // Outline color
+                                width: 1.0, // Outline width
+                              ),
+                            ),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  _pickedImage == null
+                                      ? ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors
+                                                .white, // Button background color
+                                            foregroundColor: Colors
+                                                .black, // Button text color
+                                          ),
+                                          onPressed: () {
+                                            _pickImage();
+                                          },
+                                          child: const Column(
+                                            children: [
+                                              Icon(
+                                                Icons.add_a_photo,
+                                                size: 48.0, // Icon size
+                                              ),
+                                              SizedBox(height: 8.0),
+                                              Text(
+                                                'Add Photo',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Image.memory(_webPickedImage!,
+                                          fit: BoxFit.fill,
+                                          width: 140,
+                                          height: 110),
+                                  const SizedBox(height: 16.0),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Rate Experience: ', // Replace with your name or text
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      RatingBar.builder(
+                                        minRating: 1,
+                                        itemBuilder:
+                                            (BuildContext context, _) =>
+                                                const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: _onRatingUpdate,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        ratingDescription, // Replace with your name or text
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your comments here...',
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                    ),
+                                    maxLines: 3,
+                                    onSaved: (value) {
+                                      value == null
+                                          ? comment = ""
+                                          : comment = value;
+                                    },
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      showCustomLoadingDialog(
+                                          context, 'Posting your review...');
+                                      formKey.currentState!.save();
+                                      String? photoURL;
+                                      // PhotoUpload and get URL
+                                      if (_webPickedImage != null) {
+                                        photoURL = (await uploadReviewImage(
+                                            _webPickedImage,
+                                            "reviews/${user!.docID}"))!;
+                                      }
+
+                                      Map<String, dynamic> ratingData = {
+                                        "rating": rating,
+                                        "comment": comment,
+                                        "placeID": widget.placeVisited[index]
+                                            ['placeID'],
+                                        "nameOfRater":
+                                            "${user?.firstName} ${user?.lastName}",
+                                        "idOfRater": user?.docID,
+                                        "photoURL": photoURL
+                                      };
+                                      bool ratePlaceRes =
+                                          await ratePlace(ratingData);
+                                      if (ratePlaceRes == true) {
+                                        updatedRate(
+                                                widget.placeVisited[index]
+                                                    ['placeID'],
+                                                widget.fromDocID,
+                                                widget.placeVisited[index]
+                                                    ['dateSchedule'],
+                                                widget.tripHistory)
+                                            .then((value) {
+                                          if (value == true) {
+                                            Navigator.pop(context);
+                                            const SuccessDialog(
+                                                title:
+                                                    'Review successfully posted!');
+                                          }
+                                        });
+                                      } else {
+                                        // error dialog here
+                                      }
+                                    },
+                                    child: const Text('Submit'),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 16.0),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter your comments here...',
-                                  border: OutlineInputBorder(),
-                                ),
-                                maxLines: 3,
-                                onSaved: (value) {
-                                  value == null
-                                      ? comment = ""
-                                      : comment = value;
-                                },
-                              ),
-                              const SizedBox(height: 16.0),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  showCustomLoadingDialog(
-                                      context, 'Posting your review...');
-                                  formKey.currentState!.save();
-                                  String? photoURL;
-                                  // PhotoUpload and get URL
-                                  if (_webPickedImage != null) {
-                                    photoURL = (await uploadReviewImage(
-                                        _webPickedImage,
-                                        "reviews/${user!.docID}"))!;
-                                  }
-
-                                  Map<String, dynamic> ratingData = {
-                                    "rating": rating,
-                                    "comment": comment,
-                                    "placeID": widget.placeVisited[index]
-                                        ['placeID'],
-                                    "nameOfRater":
-                                        "${user?.firstName} ${user?.lastName}",
-                                    "idOfRater": user?.docID,
-                                    "photoURL": photoURL
-                                  };
-                                  bool ratePlaceRes =
-                                      await ratePlace(ratingData);
-                                  if (ratePlaceRes == true) {
-                                    updatedRate(
-                                            widget.placeVisited[index]
-                                                ['placeID'],
-                                            widget.fromDocID,
-                                            widget.placeVisited[index]
-                                                ['dateSchedule'],
-                                            widget.tripHistory)
-                                        .then((value) {
-                                      if (value == true) {
-                                        Navigator.pop(context);
-                                        const SuccessDialog(
-                                            title:
-                                                'Review successfully posted!');
-                                      }
-                                    });
-                                  } else {
-                                    // error dialog here
-                                  }
-                                },
-                                child: const Text('Submit'),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 )
-              ],
+              : ExpansionTile(
+                  iconColor: Colors.white,
+                  collapsedIconColor: Colors.white,
+                  onExpansionChanged: (value) {},
+                  title: ListTile(
+                    title: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.blue,
+                                        width: 1.0,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      image: const DecorationImage(
+                                        image: AssetImage(profile),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.placeVisited[index][
+                                        'businessName'], // Replace with your name or text
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 15,
+                                      ),
+                                      const Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 15,
+                                      ),
+                                      const Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 15,
+                                      ),
+                                      const Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 15,
+                                      ),
+                                      const Icon(
+                                        Icons.star_half,
+                                        color: Colors.yellow,
+                                        size: 15,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        widget.placeVisited[index]['rating']
+                                            .toString(), // Replace with your name or text
+                                        style: const TextStyle(
+                                          fontSize: 10.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(children: [
+                                    Text(
+                                      'Visited time and date: ${widget.placeVisited[index]['dateSchedule']} at ${widget.placeVisited[index]['timeSchedule']}', // Replace with your name or text
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ]),
+                                  Text(
+                                    widget.placeVisited[index]['description'],
+                                    textAlign: TextAlign.left,
+                                    softWrap: true,
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.white,
+                                    ),
+                                    // Other text style properties can be added here
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey, // Outline color
+                                width: 1.0, // Outline width
+                              ),
+                            ),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  _pickedImage == null
+                                      ? ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors
+                                                .white, // Button background color
+                                            foregroundColor: Colors
+                                                .black, // Button text color
+                                          ),
+                                          onPressed: () {
+                                            _pickImage();
+                                          },
+                                          child: const Column(
+                                            children: [
+                                              Icon(
+                                                Icons.add_a_photo,
+                                                size: 48.0, // Icon size
+                                              ),
+                                              SizedBox(height: 8.0),
+                                              Text(
+                                                'Add Photo',
+                                                style:
+                                                    TextStyle(fontSize: 16.0),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Image.memory(_webPickedImage!,
+                                          fit: BoxFit.fill,
+                                          width: 140,
+                                          height: 110),
+                                  const SizedBox(height: 16.0),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Rate Experience: ', // Replace with your name or text
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      RatingBar.builder(
+                                        minRating: 1,
+                                        itemBuilder:
+                                            (BuildContext context, _) =>
+                                                const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: _onRatingUpdate,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        ratingDescription, // Replace with your name or text
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your comments here...',
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                    ),
+                                    maxLines: 3,
+                                    onSaved: (value) {
+                                      value == null
+                                          ? comment = ""
+                                          : comment = value;
+                                    },
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      showCustomLoadingDialog(
+                                          context, 'Posting your review...');
+                                      formKey.currentState!.save();
+                                      String? photoURL;
+                                      // PhotoUpload and get URL
+                                      if (_webPickedImage != null) {
+                                        photoURL = (await uploadReviewImage(
+                                            _webPickedImage,
+                                            "reviews/${user!.docID}"))!;
+                                      }
+
+                                      Map<String, dynamic> ratingData = {
+                                        "rating": rating,
+                                        "comment": comment,
+                                        "placeID": widget.placeVisited[index]
+                                            ['placeID'],
+                                        "nameOfRater":
+                                            "${user?.firstName} ${user?.lastName}",
+                                        "idOfRater": user?.docID,
+                                        "photoURL": photoURL
+                                      };
+                                      bool ratePlaceRes =
+                                          await ratePlace(ratingData);
+                                      if (ratePlaceRes == true) {
+                                        updatedRate(
+                                                widget.placeVisited[index]
+                                                    ['placeID'],
+                                                widget.fromDocID,
+                                                widget.placeVisited[index]
+                                                    ['dateSchedule'],
+                                                widget.tripHistory)
+                                            .then((value) {
+                                          if (value == true) {
+                                            Navigator.pop(context);
+                                            const SuccessDialog(
+                                                title:
+                                                    'Review successfully posted!');
+                                          }
+                                        });
+                                      } else {
+                                        // error dialog here
+                                      }
+                                    },
+                                    child: const Text('Submit'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+        } else {
+          if (currentPage == 1) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           } else {
-            if (currentPage == 1) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: loadMoreItems,
-                  child: const Text('Load More'),
-                ),
-              );
-            }
+            return Center(
+              child: ElevatedButton(
+                onPressed: loadMoreItems,
+                child: const Text('Load More'),
+              ),
+            );
           }
-        },
-        separatorBuilder: (context, index) {
-          return const Divider(); // Divider widget after each ListTile
-        },
-      ),
+        }
+      },
+      separatorBuilder: (context, index) {
+        return const Divider(); // Divider widget after each ListTile
+      },
     );
   }
 }
