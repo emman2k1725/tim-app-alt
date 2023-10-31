@@ -87,6 +87,36 @@ Stream<List<Map<String, dynamic>>> fetchTableCollection(String? collection) {
   });
 }
 
+Future<String> queryBusinessStatus(businessID) async {
+  final CollectionReference businessesCollection =
+      FirebaseFirestore.instance.collection('businesses');
+  try {
+    QuerySnapshot querySnapshot = await businessesCollection
+        .where(FieldPath.documentId, isEqualTo: businessID)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      QueryDocumentSnapshot doc = querySnapshot.docs.first;
+      String status = doc['status'];
+
+      switch (status) {
+        case 'pending':
+          return 'Pending';
+        case 'approved':
+          return 'Approved';
+        case 'declined':
+          return 'Declined';
+        default:
+          return 'Unknown Status'; // Handle other status values if needed
+      }
+    } else {
+      return 'No documents found matching the query.';
+    }
+  } catch (e) {
+    return 'Error querying Firestore: $e';
+  }
+}
+
 // Stream<List<Map<String, dynamic>>?> fetchDataForBusiness(String businessId) {
 //   final CollectionReference businessCollection =
 //       FirebaseFirestore.instance.collection('business');

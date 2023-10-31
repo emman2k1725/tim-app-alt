@@ -66,7 +66,7 @@ class _BusinessAdsTabbarState extends State<BusinessAdsTabbar>
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 width: double.maxFinite,
-                height: 600,
+                height: ((MediaQuery.of(context).size.height) * 0.80),
                 child: TabBarView(
                   controller: _tabController,
                   children: [SingleChildScrollView(child: BusinessAdsTable())],

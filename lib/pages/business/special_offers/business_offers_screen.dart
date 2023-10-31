@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tim_app/model/BusinessModel.dart';
-import 'package:tim_app/pages/business/business_details/business_details_tabbar.dart';
 
 import 'package:tim_app/pages/business/special_offers/components/business_offer_dialog.dart';
 import 'package:tim_app/pages/business/special_offers/components/business_offer_tabbar.dart';
-import 'package:tim_app/pages/business/special_offers/components/business_offer_table.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
 import '../../../responsive.dart';
@@ -37,6 +36,37 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
         business = BusinessModel.fromMapWithID(
             jsonDecode(pref.getString('business')!));
       });
+    }
+  }
+
+  final CollectionReference businessesCollection =
+      FirebaseFirestore.instance.collection('businesses');
+
+  Future<String> queryBusinessStatus() async {
+    try {
+      QuerySnapshot querySnapshot = await businessesCollection
+          .where(FieldPath.documentId, isEqualTo: business?.businessID)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        QueryDocumentSnapshot doc = querySnapshot.docs.first;
+        String status = doc['status'];
+
+        switch (status) {
+          case 'Pending':
+            return 'Pending';
+          case 'Approved':
+            return 'Approved';
+          case 'Declined':
+            return 'Declined';
+          default:
+            return 'Unknown Status';
+        }
+      } else {
+        return 'No documents found matching the query.';
+      }
+    } catch (e) {
+      return 'Error querying Firestore: $e';
     }
   }
 
@@ -74,32 +104,84 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                   border: Border.all(width: 2, color: Colors.white10),
                 ),
                 child: Responsive.isMobile(context)
-                    ? BusinessDetailsListView()
-                    : Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                AddButton(
-                                  buttonText: 'Add new offer',
-                                  icon: Icons.add,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => CreateOfferDialog(
-                                          businessID: business?.businessID),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SingleChildScrollView(child: BusinessOfferTabbar())
-                          ],
+                    ? const BusinessDetailsListView()
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: FutureBuilder<String>(
+                            future: queryBusinessStatus(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: const Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                if (snapshot.data == 'Approved') {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            AddButton(
+                                              buttonText: 'Add new offer',
+                                              icon: Icons.add,
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      CreateOfferDialog(
+                                                          businessID: business
+                                                              ?.businessID),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const SingleChildScrollView(
+                                            child: BusinessOfferTabbar())
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return SizedBox(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.approval_outlined,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Your Business Application Is In ${snapshot.data} Status',
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                          ),
                         ),
                       ),
               ),

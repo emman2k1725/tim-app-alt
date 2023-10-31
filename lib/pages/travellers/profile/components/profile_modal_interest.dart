@@ -48,7 +48,7 @@ class _ModalInterestCruisineState extends State<ModalInterestCruisine> {
             future: _dropdownCruisines,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
               List<String> fetchedItems = snapshot.data ?? [];
               List<MultiSelectItem<String>> dropdownCruisineItems = fetchedItems
@@ -168,7 +168,7 @@ class _ModalInterestCityState extends State<ModalInterestCity> {
             future: _dropdowncities,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
               List<String> fetchedItems = snapshot.data ?? [];
               List<MultiSelectItem<String>> dropdownCitiesItems = fetchedItems
@@ -288,7 +288,7 @@ class _ModalInterestActivityState extends State<ModalInterestActivity> {
             future: _dropdownInterests,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
               List<String> fetchedItems = snapshot.data ?? [];
               List<MultiSelectItem<String>> dropdownInterestsItems =

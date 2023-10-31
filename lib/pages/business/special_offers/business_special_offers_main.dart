@@ -44,11 +44,8 @@ class _BusinessSpecialOfferScreenState
 
   @override
   Widget build(BuildContext context) {
-    Color shadowColor = Colors.red;
-
-    bool isApprove = true;
     return Scaffold(
-      appBar: CustomAppBar(title: 'Custom AppBar'),
+      appBar: const CustomAppBar(title: 'Custom AppBar'),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
@@ -58,16 +55,12 @@ class _BusinessSpecialOfferScreenState
               image: AssetImage(mainBg),
             ),
           ),
-          child: Column(
+          child: const Column(
             children: [
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [BusinessOfferScreen()],
-                ),
-              ),
+              BusinessOfferScreen(),
             ],
           ),
         ),

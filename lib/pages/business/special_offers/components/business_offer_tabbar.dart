@@ -53,26 +53,19 @@ class _BusinessOfferTabbarState extends State<BusinessOfferTabbar>
           SizedBox(
             height: 10,
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue, // Border color
-                    width: 1.0, // Border width
-                  ),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                width: double.maxFinite,
-                height: 600,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    SingleChildScrollView(child: BusinessOfferTable())
-                  ],
-                ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue, // Border color
+                width: 1.0, // Border width
               ),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            width: double.maxFinite,
+            height: ((MediaQuery.of(context).size.height) * 0.80),
+            child: TabBarView(
+              controller: _tabController,
+              children: [SingleChildScrollView(child: BusinessOfferTable())],
             ),
           ),
         ],

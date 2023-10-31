@@ -72,6 +72,55 @@ class BlurImageContainer extends StatelessWidget {
   }
 }
 
+class BlurExpanded extends StatelessWidget {
+  final double? width;
+  final Widget childColumn;
+
+  const BlurExpanded({Key? key, this.width, required this.childColumn})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue.withOpacity(0.30),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 8.0,
+                  spreadRadius: 1,
+                  offset: Offset(0, 8.0),
+                ),
+              ],
+
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white60.withOpacity(0.10),
+                  Colors.blue.withOpacity(0.10),
+                ],
+              ),
+              // color: Colors.white.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: childColumn,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class BlurContainer extends StatelessWidget {
   final double? height;
   final double? width;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 import 'package:tim_app/backend/travel_plan/travelPlanFunction.dart';
@@ -39,13 +40,23 @@ class _DraggableContainer extends State<DraggableContainer> {
         String subText = widget.traveliteneraryParameters['dates'][x];
         x++;
         List<DraggableListItem> items = [];
-        for (int i = 0; i < dayData.length; i++) {
-          items.add(DraggableListItem(
-              title: dayData[i]['businessName'],
-              urlImage: dayData[i]['displayImage'],
-              address: dayData[i]['address'],
-              rating: dayData[i]['rating'].toString(),
-              timeSchedule: dayData[i]['timeSchedule']));
+
+        for (int i = 0; i < dayData.length + 1; i++) {
+          if (i < dayData.length) {
+            items.add(DraggableListItem(
+                title: dayData[i]['businessName'],
+                urlImage: dayData[i]['displayImage'],
+                address: dayData[i]['address'],
+                rating: dayData[i]['rating'].toString(),
+                timeSchedule: dayData[i]['timeSchedule']));
+          } else {
+            // items.add(DraggableListItem(
+            //     title: '',
+            //     urlImage: '',
+            //     address: '',
+            //     rating: (4.1).toString(),
+            //     timeSchedule: ''));
+          }
         }
         items.add(DraggableListItem(
           title: "",
@@ -109,12 +120,16 @@ class _DraggableContainer extends State<DraggableContainer> {
           itemDivider:
               const Divider(thickness: 2, height: 2, color: backgroundColor),
           itemDecorationWhileDragging: const BoxDecoration(
-            color: Colors.white,
+            color: Colors.blue,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
           itemDragHandle: buildDragHandle(isList: true),
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,
+          lastItemTargetHeight: 300, // Set the height of the last item target
+          addLastItemTargetHeightToTop:
+              false, // If true, add the target height to the top, otherwise to the bottom
+          lastListTargetSize: 110, // Set the size of the last list target
         ),
       ),
     );
@@ -139,32 +154,35 @@ class _DraggableContainer extends State<DraggableContainer> {
   }
 
   DragAndDropList buildList(DraggableList list) => DragAndDropList(
-        header: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                list.header,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-              Text(
-                list.subText,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12),
-              ),
-            ],
+        header: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  list.header,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
+                Text(
+                  list.subText,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12),
+                ),
+              ],
+            ),
           ),
         ),
         children: list.items
             .map((item) => DragAndDropItem(
                   child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
                       child: ExpansionTile(
                         onExpansionChanged: (value) {},
                         title: ListTile(
@@ -235,7 +253,9 @@ class _DraggableContainer extends State<DraggableContainer> {
                             ),
                           ),
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
                 ))
             .toList(),
       );
@@ -304,7 +324,7 @@ class _DraggableContainer extends State<DraggableContainer> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           width: 300,
           height: 150,
           child: AlertDialog(

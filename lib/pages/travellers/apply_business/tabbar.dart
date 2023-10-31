@@ -24,7 +24,6 @@ class _MyTabBarViewState extends State<MyTabBarView>
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: SizedBox(
-        height: 1500,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: BackdropFilter(

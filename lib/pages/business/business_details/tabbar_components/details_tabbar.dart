@@ -7,16 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/model/BusinessModel.dart';
-import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
-import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
-import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
+import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/widgets/buttonEdit.dart';
 
 import '../../../../backend/firebase/firebaseService.dart';
@@ -110,9 +107,8 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
             Map<String, dynamic> item = snapshot.data!;
             return Column(
               children: [
-                BlurContainer(
+                BlurExpanded(
                   width: double.maxFinite,
-                  height: 220,
                   childColumn: Column(
                     children: [
                       Padding(
@@ -432,9 +428,8 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                 const SizedBox(
                   height: 10,
                 ),
-                BlurContainer(
+                BlurExpanded(
                   width: double.maxFinite,
-                  height: 330,
                   childColumn: Column(
                     children: [
                       Padding(
@@ -607,11 +602,27 @@ class _DetailsTabbarState extends State<DetailsTabbar> {
                       SizedBox(height: 10.0),
                       BusinessLinks(item: item),
                       SizedBox(height: 10.0),
-                      // Align(
-                      //     alignment: Alignment.topLeft,
-                      //     child: OperatingHours(
-                      //       operatingHours: item['businessHours'][], closingTime: null, openingTime: null,
-                      //     )),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Operating Hours', // Replace with your name or text
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: OperatingHours(
+                            operatingHours: item['businessHours'],
+                          )),
+                      SizedBox(height: 10.0),
                     ],
                   ),
                 ),

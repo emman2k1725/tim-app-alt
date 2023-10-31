@@ -74,8 +74,7 @@ class _CreateOfferDialogState extends State<CreateOfferDialog> {
         child: Column(
           children: [
             Container(
-                width: double.maxFinite,
-                height: 320,
+                width: ((MediaQuery.of(context).size.width) * 0.60),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.blue, width: 2),
@@ -180,8 +179,7 @@ class _CreateOfferDialogState extends State<CreateOfferDialog> {
               height: 20,
             ),
             Container(
-                width: double.maxFinite,
-                height: 300,
+                width: ((MediaQuery.of(context).size.width) * 0.70),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.blue, width: 2),
