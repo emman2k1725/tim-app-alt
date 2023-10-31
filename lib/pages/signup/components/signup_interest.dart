@@ -128,7 +128,8 @@ class _InterestSignupState extends State<InterestSignup> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
+                                  return const Center(
+                                      child: CircularProgressIndicator());
                                 }
                                 List<String> fetchedItems = snapshot.data ?? [];
                                 List<MultiSelectItem<String>>
@@ -202,7 +203,8 @@ class _InterestSignupState extends State<InterestSignup> {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return const CircularProgressIndicator();
+                                    return const Center(
+                                        child: CircularProgressIndicator());
                                   }
                                   List<Map<String, dynamic>> dropdownItems =
                                       snapshot.data!;
@@ -279,7 +281,8 @@ class _InterestSignupState extends State<InterestSignup> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                             List<Map<String, dynamic>> dropdownItems =
                                 snapshot.data!;
@@ -376,7 +379,8 @@ class _InterestSignupState extends State<InterestSignup> {
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
+                                      return const Center(
+                                          child: CircularProgressIndicator());
                                     }
 
                                     final dropdownItems = snapshot.data ?? [];
@@ -488,7 +492,7 @@ void evaluateResult(String result, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(result),
       backgroundColor: Colors.red,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     ));
   }
 }

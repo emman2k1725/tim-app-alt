@@ -20,12 +20,7 @@ class _ReviewsListState extends State<ReviewsList> {
     loadItems();
   }
 
-  // Simulated API call to fetch items for the current page
   Future<void> loadItems() async {
-    // Simulated delay to mimic API call
-    await Future.delayed(Duration(seconds: 1));
-
-    // Replace this with your actual API call or data loading logic
     List<String> newItems = List.generate(itemsPerPage, (index) {
       int itemNumber = (currentPage - 1) * itemsPerPage + index + 1;
       return 'Item $itemNumber';

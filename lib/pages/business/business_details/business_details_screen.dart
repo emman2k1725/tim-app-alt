@@ -47,7 +47,6 @@ class _BusinessDetailsScreenState extends State<BusinessDetailsScreen> {
         primary: false,
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
-          height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: const BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,

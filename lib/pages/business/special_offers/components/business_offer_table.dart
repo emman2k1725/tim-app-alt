@@ -202,327 +202,99 @@ void _showRowDialog(Map<String, dynamic> item, BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      DateTime parsedDate = DateTime.parse(item['createAt']);
+      String formattedDate = DateFormat('MMM dd, yyyy').format(parsedDate);
+
       return AlertDialog(
-        title: const Text('Business Details'),
-        actions: [
-          ElevatedButton.icon(
-            onPressed: () async {
-              showCustomLoadingDialog(context, 'Loading...');
-              String result =
-                  await businessPendingAction(item['docID'], 'Approved');
-              evaluateResult(result, context);
-            },
-            icon: const Icon(Icons.check),
-            label: const Text('Approve'),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: const EdgeInsets.all(20)),
-          ),
-          const SizedBox(width: 8), // Add some space between the buttons
-          ElevatedButton.icon(
-            onPressed: () async {
-              showCustomLoadingDialog(context, 'Loading...');
-              String result =
-                  await businessPendingAction(item['docID'], 'Declined');
-              evaluateResult(result, context);
-            },
-            icon: const Icon(Icons.close),
-            label: const Text('Decline'),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, padding: const EdgeInsets.all(20)),
-          ),
-        ],
+        title: const Text('Offer Preview'),
+        actions: [],
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: double.maxFinite,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.blue, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    ClipOval(
-                      child: Container(
-                        width:
-                            100, // Set the desired width for the circular avatar
-                        height: 80,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.blue, // Set the color of the border
-                            width: 1.0, // Set the width of the border
-                          ),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: Image.network(item['businessImages']
-                                        ['logo'] ??
-                                    'assets/images/empty-placeholder.png')
-                                .image, // Replace 'your_image.png' with the actual image path
-                            fit: BoxFit
-                                .cover, // Choose the appropriate fit option for your design
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blue, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 1.0,
+                              ),
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                image: Image.network(item['imageURL'] ??
+                                        'assets/images/empty-placeholder.png')
+                                    .image,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                      height: 15,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['businessName']
-                              .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          item['businessEmail']
-                              .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          item['businessDesc']
-                              .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['businessSector']
-                              .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          item['businessAddress']['country']
-                              .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          item['businessPhoneNumber']['countryCode']
-                                  .toString() +
-                              item['businessPhoneNumber']['number']
-                                  .toString(), // Replace with your name or text
-                          style: const TextStyle(
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.maxFinite,
-                height: 220,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.blue, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Business Thumbnail', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ImageRowPage(item: item),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.maxFinite,
-                height: 330,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.blue, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Business Address', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 500,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Country', // Replace with your name or text
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
+                      Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item['title'],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                item['businessAddress'][
-                                    'country'], // Replace with your name or text
-                                style: const TextStyle(
-                                  fontSize: 15.0,
+                                Text(
+                                  formattedDate,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'City', // Replace with your name or text
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                item['businessAddress']
-                                    ['city'], // Replace with your name or text
-                                style: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 500,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Postal Code', // Replace with your name or text
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  item['offerCode'],
+                                  overflow: TextOverflow.visible,
+                                  softWrap: true,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                item['businessAddress'][
-                                    'postal'], // Replace with your name or text
-                                style: const TextStyle(
-                                  fontSize: 15.0,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Building Address', // Replace with your name or text
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  item['description'],
+                                  overflow: TextOverflow.visible,
+                                  softWrap: true,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                item['businessAddress'][
-                                    'building'], // Replace with your name or text
-                                style: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),
-                    const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Business Links', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    BusinessLinks(item: item),
-                    const SizedBox(height: 20.0),
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: OperatingHours(
-                          operatingHours: item['businessHours'],
-                        )),
-                  ],
+                              ],
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
               ),
             ],

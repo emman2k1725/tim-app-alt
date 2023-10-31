@@ -58,8 +58,7 @@ class _CreateAdsDialogState extends State<CreateAdsDialog> {
         child: Column(
           children: [
             Container(
-                width: double.maxFinite,
-                height: 320,
+                width: ((MediaQuery.of(context).size.width) * 0.60),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.blue, width: 2),
@@ -166,8 +165,7 @@ class _CreateAdsDialogState extends State<CreateAdsDialog> {
               height: 20,
             ),
             Container(
-                width: double.maxFinite,
-                height: 200,
+                width: ((MediaQuery.of(context).size.width) * 0.60),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.blue, width: 2),

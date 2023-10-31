@@ -180,9 +180,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         const SizedBox(
           height: 20,
         ),
-        BlurContainer(
+        BlurExpanded(
           width: double.maxFinite,
-          height: 230,
           childColumn: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -217,68 +216,66 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'First Name', // Replace with your name or text
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text(
-                          user?.firstName ??
-                              '', // Replace with your name or text
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Last Name', // Replace with your name or text
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        user?.lastName == null
-                            ? const Text(
-                                'Please update your  Last Name',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.lastName ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.0,
-                                ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'First Name', // Replace with your name or text
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ],
+                            ),
+                            const SizedBox(height: 10.0),
+                            Text(
+                              user?.firstName ??
+                                  '', // Replace with your name or text
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Last Name', // Replace with your name or text
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.lastName == null
+                                ? const Text(
+                                    'update your  Last Name',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.lastName ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -287,73 +284,73 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Email Address',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Phone Number',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.mobileNumber == null
+                                ? const Text(
+                                    'update your mobile number',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.mobileNumber ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
                         ),
-                        const SizedBox(height: 10.0),
-                        user?.email == null
-                            ? const Text(
-                                'Please update your email address',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.email ??
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Email Address',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.email == null
+                                ? const Text(
                                     'Please update your email address',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Phone Number',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.email ??
+                                        'Please update your email address',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
                         ),
-                        const SizedBox(height: 10.0),
-                        user?.mobileNumber == null
-                            ? const Text(
-                                'Please update your mobile number',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.mobileNumber ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                      ],
-                    ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
-                    ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
+                      ),
                     ),
                   ],
                 ),
@@ -401,73 +398,71 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Country', // Replace with your name or text
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        user?.address?['country'] == ""
-                            ? const Text(
-                                'Please update your Country',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.address?['country'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Country', // Replace with your name or text
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'City', // Replace with your name or text
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.address?['country'] == ""
+                                ? const Text(
+                                    'Update your Country',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.address?['country'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
                         ),
-                        const SizedBox(height: 10.0),
-                        user?.address?['city'] == ''
-                            ? const Text(
-                                'Please update your City',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.address?['city'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'City', // Replace with your name or text
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ],
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.address?['city'] == ''
+                                ? const Text(
+                                    'Update your City',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.address?['city'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -476,70 +471,70 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Postal Code',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        user?.address?['postal'] == ''
-                            ? const Text(
-                                'Please update your Postal',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Text(
-                                user?.address?['postal'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Postal Code',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Building Address', // Replace with your name or text
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            user?.address?['postal'] == ''
+                                ? const Text(
+                                    'Update your Postal',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Text(
+                                    user?.address?['postal'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                          ],
                         ),
-                        const SizedBox(height: 10.0),
-                        buildingStreet.isEmpty
-                            ? Text(
-                                buildingStreet,
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                ),
-                              )
-                            : const Text(
-                                'Please update your Building Street',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.red,
-                                ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Building Address', // Replace with your name or text
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                      ],
-                    ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
-                    ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
+                            ),
+                            const SizedBox(height: 10.0),
+                            buildingStreet.isEmpty
+                                ? Text(
+                                    buildingStreet,
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Update your Bldg. Street',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -552,9 +547,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             const SizedBox(
               height: 20,
             ),
-            BlurContainer(
+            BlurExpanded(
               width: double.maxFinite,
-              height: 150,
               childColumn: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -583,10 +577,13 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Center(
+                        Expanded(
                           child: Wrap(
                             spacing: 8.0,
                             runSpacing: 8.0,
@@ -615,6 +612,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    )
                   ],
                 ),
               ),
@@ -622,9 +622,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             const SizedBox(
               height: 20,
             ),
-            BlurContainer(
+            BlurExpanded(
               width: double.maxFinite,
-              height: 150,
               childColumn: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -652,10 +651,13 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Center(
+                        Expanded(
                           child: Wrap(
                             spacing: 8.0,
                             runSpacing: 8.0,
@@ -684,6 +686,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    )
                   ],
                 ),
               ),
@@ -691,9 +696,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             const SizedBox(
               height: 20,
             ),
-            BlurContainer(
+            BlurExpanded(
               width: double.maxFinite,
-              height: 150,
               childColumn: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -723,10 +727,13 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Center(
+                        Expanded(
                           child: Wrap(
                             spacing: 8.0,
                             runSpacing: 8.0,
@@ -755,6 +762,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    )
                   ],
                 ),
               ),

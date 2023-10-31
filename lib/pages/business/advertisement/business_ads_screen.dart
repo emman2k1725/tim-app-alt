@@ -3,13 +3,16 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_dialog.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_tabbar.dart';
 import 'package:tim_app/pages/business/advertisement/components/business_ads_table.dart';
 import 'package:tim_app/utils/responsive.dart';
+import 'package:tim_app/widgets/blurContainer.dart';
 import 'package:tim_app/widgets/customAddButton.dart';
 
 import '../business_table_mobile.dart';
@@ -36,6 +39,37 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
         business = BusinessModel.fromMapWithID(
             jsonDecode(pref.getString('business')!));
       });
+    }
+  }
+
+  final CollectionReference businessesCollection =
+      FirebaseFirestore.instance.collection('businesses');
+
+  Future<String> queryBusinessStatus() async {
+    try {
+      QuerySnapshot querySnapshot = await businessesCollection
+          .where(FieldPath.documentId, isEqualTo: business?.businessID)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        QueryDocumentSnapshot doc = querySnapshot.docs.first;
+        String status = doc['status'];
+
+        switch (status) {
+          case 'Pending':
+            return 'Pending';
+          case 'Approved':
+            return 'Approved';
+          case 'Declined':
+            return 'Declined';
+          default:
+            return 'Unknown Status'; // Handle other status values if needed
+        }
+      } else {
+        return 'No documents found matching the query.';
+      }
+    } catch (e) {
+      return 'Error querying Firestore: $e';
     }
   }
 
@@ -74,31 +108,78 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
                 ),
                 child: Responsive.isMobile(context)
                     ? BusinessDetailsListView()
-                    : Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                AddButton(
-                                  buttonText: 'Create new ads',
-                                  icon: Icons.add,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => CreateAdsDialog(
-                                          businessID: business?.businessID),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SingleChildScrollView(child: BusinessAdsTabbar())
-                          ],
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: FutureBuilder<String>(
+                            future: queryBusinessStatus(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                if (snapshot.data == 'Approved') {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            AddButton(
+                                              buttonText: 'Create new ads',
+                                              icon: Icons.add,
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      CreateAdsDialog(
+                                                          businessID: business
+                                                              ?.businessID),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        BusinessAdsTabbar()
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  // Display a Text widget when status is not "Approved."
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.approval_outlined,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Your Business Application Is In ${snapshot.data} Status',
+                                        style: TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              }
+                            },
+                          ),
                         ),
                       ),
               ),

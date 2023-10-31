@@ -8,7 +8,7 @@ class OperatingHoursPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Operating Hours'),
+      title: const Text('Operating Hours'),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: ListView.builder(
@@ -32,7 +32,7 @@ class OperatingHoursPopup extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Close'),
+          child: const Text('Close'),
         ),
       ],
     );
@@ -57,7 +57,17 @@ class OperatingHours extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         onPressed: () => _showOperatingHoursPopup(context),
-        child: Text('View Operating Hours'),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(16.0),
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.hourglass_bottom),
+            SizedBox(width: 8.0),
+            Text('View Operating Hours'),
+          ],
+        ),
       ),
     );
   }
