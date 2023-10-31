@@ -7,6 +7,7 @@ import 'package:tim_app/pages/travellers/apply_business/components/stepper_one.d
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 import 'package:tim_app/utils/loading.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 class StepperWidget extends StatefulWidget {
   final UserModel? userProvider;
@@ -45,7 +46,9 @@ class _StepperWidgetState extends State<StepperWidget> {
         children: [
           Expanded(
             child: Stepper(
-              type: StepperType.horizontal,
+              type: Responsive.isDesktop(context)
+                  ? StepperType.horizontal
+                  : StepperType.vertical,
               currentStep: currentStep,
               onStepContinue: () async {
                 if (currentStep == 0) {

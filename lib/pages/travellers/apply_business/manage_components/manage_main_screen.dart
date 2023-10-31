@@ -323,51 +323,186 @@ class MobileScreenSize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlurContainer(
-        height: h!,
-        width: w!,
+        // height: h!,
+        // width: w!,
         childColumn: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                BlurContainer(
-                  height: 220,
-                  width: double.maxFinite,
-                  childColumn: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [],
-                  ),
+      padding: EdgeInsets.all(20.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            BlurContainer(
+              //height: 220,
+              width: double.maxFinite,
+              childColumn: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 15),
+                    const Text('Manage Your Business To TIM',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        )),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Applying to TIM opens the door to unparalleled opportunities for business growth, innovation, and global recognition',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(height: 15),
+                    CustomButton(
+                      text: "Manage your business",
+                      onPressed: () {
+                        GoRouter.of(context).go('/business-dashboard');
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                  ],
                 ),
-                SizedBox(height: 15),
-                BlurContainer(
-                  height: 220,
-                  width: double.maxFinite,
-                  childColumn: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [],
-                  ),
-                ),
-                SizedBox(height: 15),
-                BlurContainer(
-                  height: 220,
-                  width: double.maxFinite,
-                  childColumn: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [],
-                  ),
-                ),
-                SizedBox(height: 15),
-                BlurContainer(
-                  height: 220,
-                  width: double.maxFinite,
-                  childColumn: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ));
+            SizedBox(height: 15),
+            BlurContainer(
+                //height: 220,
+                width: double.maxFinite,
+                childColumn: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.source, color: Colors.lightBlueAccent),
+                            SizedBox(width: 5),
+                            Text(
+                              'Content',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                BlurContainer(
+                                    height: 200,
+                                    width: 170,
+                                    childColumn: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.discount_outlined,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Showcase your\nSpecial Offers',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                BlurContainer(
+                                    height: 200,
+                                    width: 170,
+                                    childColumn: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.ads_click_outlined,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Advertise Your\nBusiness',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                BlurContainer(
+                                    height: 200,
+                                    width: 170,
+                                    childColumn: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.ads_click_outlined,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Reach More\nTourists',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )),
+            SizedBox(height: 15),
+          ],
+        ),
+      ),
+    ));
   }
 }

@@ -55,145 +55,142 @@ class _ReviewsListState extends State<ReviewsList> {
   Widget build(BuildContext context) {
     return !Responsive.isDesktop(context)
         ? mobileScreenSize()
-        : Container(
-            height: 400,
-            child: ListView.separated(
-              itemCount:
-                  items.length + 1, // Add 1 for loading indicator at the end
-              itemBuilder: (context, index) {
-                if (index < items.length) {
-                  return ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipOval(
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.blue,
-                                        width: 1.0,
-                                      ),
-                                      shape: BoxShape.circle,
-                                      image: const DecorationImage(
-                                        image: AssetImage(profile),
-                                        fit: BoxFit.cover,
-                                      ),
+        : ListView.separated(
+            shrinkWrap: true,
+            itemCount:
+                items.length + 1, // Add 1 for loading indicator at the end
+            itemBuilder: (context, index) {
+              if (index < items.length) {
+                return ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipOval(
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                      width: 1.0,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: const DecorationImage(
+                                      image: AssetImage(profile),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Traveller', // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Traveller', // Replace with your name or text
+                                style: TextStyle(
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  "${user!.firstName!} ${user!.lastName!}", // Replace with your name or text
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              Text(
+                                "${user!.firstName!} ${user!.lastName!}", // Replace with your name or text
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
-                                  user!
-                                      .email!, // Replace with your name or text
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                  ),
+                              ),
+                              Text(
+                                user!.email!, // Replace with your name or text
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.0,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  ),
-                                  Icon(
-                                    Icons.star_half_sharp,
-                                    color: Colors.yellow,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '2023-08-02', // Replace with your name or text
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ]),
+                        ),
+                        Expanded(
+                          flex: 7,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_half_sharp,
+                                  color: Colors.yellow,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(
-                                  'What a delightful seafood experience! The freshness of the catch truly shines through in every dish, and the flavors are a true testament to their culinary expertise',
-                                  textAlign: TextAlign.left,
-                                  softWrap: true,
+                                  '2023-08-02', // Replace with your name or text
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12.0,
                                   ),
-                                  // Other text style properties can be added here
                                 ),
-                              ],
-                            ),
+                              ]),
+                              Text(
+                                'What a delightful seafood experience! The freshness of the catch truly shines through in every dish, and the flavors are a true testament to their culinary expertise',
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                ),
+                                // Other text style properties can be added here
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
+                );
+              } else {
+                if (currentPage == 1) {
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 } else {
-                  if (currentPage == 1) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return Center(
-                      child: ElevatedButton(
-                        onPressed: loadMoreItems,
-                        child: Text('Load More'),
-                      ),
-                    );
-                  }
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: loadMoreItems,
+                      child: Text('Load More'),
+                    ),
+                  );
                 }
-              },
-              separatorBuilder: (context, index) {
-                return Divider(); // Divider widget after each ListTile
-              },
-            ),
+              }
+            },
+            separatorBuilder: (context, index) {
+              return Divider(); // Divider widget after each ListTile
+            },
           );
   }
 
@@ -237,18 +234,22 @@ class _ReviewsListState extends State<ReviewsList> {
                       children: [
                         Text(
                           'Traveller', // Replace with your name or text
-                          style: TextStyle(),
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                         Text(
-                          'John Doe', // Replace with your name or text
+                          "${user!.firstName!} ${user!.lastName!}", // Replace with your name or text
                           style: TextStyle(
                             fontSize: 16.0,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'john@gmail.com', // Replace with your name or text
+                          user!.email!, // Replace with your name or text
                           style: TextStyle(
+                            color: Colors.white,
                             fontSize: 14.0,
                           ),
                         ),
@@ -285,6 +286,7 @@ class _ReviewsListState extends State<ReviewsList> {
                               '2023-08-02', // Replace with your name or text
                               style: TextStyle(
                                 fontSize: 12.0,
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -296,6 +298,7 @@ class _ReviewsListState extends State<ReviewsList> {
                           softWrap: true,
                           style: TextStyle(
                             fontSize: 12.0,
+                            color: Colors.white,
                           ),
                           // Other text style properties can be added here
                         ),

@@ -26,7 +26,7 @@ class CustomButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           backgroundColor: AppColors.primary,
         ),
-        child: Text(text),
+        child: Text(text, textAlign: TextAlign.center),
       ),
     );
   }
@@ -40,13 +40,11 @@ class BlueElevatedButton extends StatelessWidget {
   BlueElevatedButton({
     required this.text,
     required this.iconData,
-
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(iconData),

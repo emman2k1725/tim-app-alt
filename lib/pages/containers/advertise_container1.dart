@@ -42,20 +42,25 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Responsive.isDesktop(context) ? w! / 30 : w! / 30,
+            horizontal: Responsive.isDesktop(context) ? w / 20 : w / 20,
             vertical: 5),
         child: Responsive.isDesktop(context)
-            ? desktopContainer1()
-            : mobileContainer1(Responsive.isTablet(context) ? h! / 2 : h! / 4),
+            ? desktopContainer1(context)
+            : mobileContainer1(
+                context, Responsive.isTablet(context) ? h / 2 : h / 4),
       ),
     );
   }
 
   //============== DESKTOP =============
-  Widget desktopContainer1() {
+  Widget desktopContainer1(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,7 +85,7 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
           height: 15,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: w! / 6),
+          padding: EdgeInsets.symmetric(horizontal: w / 6),
           child: Divider(
             color: Colors.white,
           ),
@@ -111,7 +116,7 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
           runSpacing: 30,
           children: List.generate(title.length, (index) {
             return SizedBox(
-              width: w! / 5,
+              width: w / 5,
               child: BlurContainer(
                 childColumn: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -121,8 +126,8 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          height: h! / 4,
-                          width: w! / 6,
+                          height: h / 4,
+                          width: w / 6,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               image: DecorationImage(
@@ -140,7 +145,7 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
                         ),
                         SizedBox(height: 20),
                         SizedBox(
-                          width: w! / 6,
+                          width: w / 6,
                           child: Text(
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus justo est, quis fringilla sapien maximus sed. Aliquam elit neque, feugiat et dolor sed, blandit imperdiet leo.",
                             textAlign: TextAlign.justify,
@@ -187,8 +192,11 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
   }
 
   //================ MOBILE ===============
-  Widget mobileContainer1(double imageHeight) {
+  Widget mobileContainer1(BuildContext context, double imageHeight) {
+    //double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Column(
+      //mainAxisSize: MainAxisSize.min,
       children: [
         Center(
           child: Text(
@@ -237,7 +245,7 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: h! / 4),
+              padding: EdgeInsets.symmetric(vertical: h / 4),
               child: IconButton(
                 icon:
                     Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
@@ -250,11 +258,11 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
               child: CarouselSlider(
                 items: images.map((item) {
                   int index = images.indexOf(item);
-                  return carouselItem(item, title[index], imageHeight);
+                  return carouselItem(context, item, title[index], imageHeight);
                 }).toList(),
                 carouselController: carouselController,
                 options: CarouselOptions(
-                  height: h!,
+                  height: h,
                   onPageChanged: (index, reason) {
                     setState(() {
                       currentIndex = index;
@@ -273,7 +281,7 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: h! / 4),
+              padding: EdgeInsets.symmetric(vertical: h / 4),
               child: IconButton(
                 icon:
                     Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
@@ -291,7 +299,10 @@ class _AdvertiseContainer1State extends State<AdvertiseContainer1> {
     );
   }
 
-  Widget carouselItem(String images, String title, double imageHeight) {
+  Widget carouselItem(
+      BuildContext context, String images, String title, double imageHeight) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return SizedBox(
       width: w! / 1,
       child: Padding(
