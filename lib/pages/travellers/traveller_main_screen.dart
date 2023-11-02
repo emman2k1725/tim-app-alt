@@ -79,19 +79,27 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: [
+        destinations: const [
           NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/dashboard.svg")),
+              label: 'Dashboard',
+              icon: Icon(
+                Icons.explore_outlined, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/travel.svg")),
+              label: 'Trip Plan',
+              icon: Icon(
+                Icons.explore_outlined, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/history.svg")),
+              label: 'History',
+              icon: Icon(
+                Icons.history, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/business.svg")),
-          NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/profile.svg")),
-          NavigationDestination(
-              label: '', icon: SvgPicture.asset("/icons/logout.svg")),
+              label: 'Business',
+              icon: Icon(
+                Icons.work, // Example: Use a Facebook icon
+              )),
         ],
         onDestinationSelected: onDestinationSelected,
       ),
@@ -162,23 +170,19 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
               destinations: <NavigationRailDestination>[
                 NavigationRailDestination(
                   icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 0
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/dashboard.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 0 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
-                  // selectedIcon: Icon(Icons.home),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        color: selectedIndex == 0
+                            ? Colors.blue
+                            : AppColors.primaryBg,
+                      ),
+                      child: Icon(
+                        Icons.dashboard, // Example: Use a Facebook icon
+                        size: 24,
+                        color: selectedIndex == 0 ? Colors.white : Colors.blue,
+                      )),
                   label: Text(
                     'Dashboard',
                     style: navTextStyle,
@@ -186,22 +190,19 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                 ),
                 NavigationRailDestination(
                   icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 1
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/travel.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 1 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        color: selectedIndex == 1
+                            ? Colors.blue
+                            : AppColors.primaryBg,
+                      ),
+                      child: Icon(
+                        Icons.explore_outlined, // Example: Use a Facebook icon
+                        size: 24,
+                        color: selectedIndex == 1 ? Colors.white : Colors.blue,
+                      )),
                   // selectedIcon: Icon(Icons.home),
                   label: Text(
                     'Travel Plan',
@@ -210,22 +211,19 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                 ),
                 NavigationRailDestination(
                   icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 2
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/history.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 2 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        color: selectedIndex == 2
+                            ? Colors.blue
+                            : AppColors.primaryBg,
+                      ),
+                      child: Icon(
+                        Icons.history, // Example: Use a Facebook icon
+                        size: 24,
+                        color: selectedIndex == 2 ? Colors.white : Colors.blue,
+                      )),
                   // selectedIcon: Icon(Icons.home),
                   label: Text(
                     'Travel History',
@@ -234,22 +232,19 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                 ),
                 NavigationRailDestination(
                   icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 3
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/business.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 3 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        color: selectedIndex == 3
+                            ? Colors.blue
+                            : AppColors.primaryBg,
+                      ),
+                      child: Icon(
+                        Icons.work, // Example: Use a Facebook icon
+                        size: 24,
+                        color: selectedIndex == 3 ? Colors.white : Colors.blue,
+                      )),
                   // selectedIcon: Icon(Icons.home),
                   label: Text(
                     'Business',
@@ -258,22 +253,19 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                 ),
                 NavigationRailDestination(
                   icon: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: selectedIndex == 4
-                          ? Colors.blue
-                          : AppColors.primaryBg,
-                    ),
-                    child: SvgPicture.asset(
-                      "/icons/profile.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 4 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        color: selectedIndex == 4
+                            ? Colors.blue
+                            : AppColors.primaryBg,
+                      ),
+                      child: Icon(
+                        Icons.account_box, // Example: Use a Facebook icon
+                        size: 24,
+                        color: selectedIndex == 4 ? Colors.white : Colors.blue,
+                      )),
                   // selectedIcon: Icon(Icons.home),
                   label: Text(
                     'Account',
@@ -289,13 +281,10 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                           ? Colors.blue
                           : AppColors.primaryBg,
                     ),
-                    child: SvgPicture.asset(
-                      "/icons/logout.svg",
-                      colorFilter: ColorFilter.mode(
-                          selectedIndex == 5 ? Colors.white : Colors.blue,
-                          BlendMode.srcIn),
-                      height: 18,
-                      width: 18, // Set the desired width
+                    child: Icon(
+                      Icons.logout, // Example: Use a Facebook icon
+                      size: 24,
+                      color: selectedIndex == 5 ? Colors.white : Colors.blue,
                     ),
                   ),
                   // selectedIcon: Icon(Icons.home),

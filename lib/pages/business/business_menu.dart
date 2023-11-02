@@ -88,42 +88,30 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: [
+        destinations: const [
           NavigationDestination(
-            label: '',
-            tooltip: 'Dashboard',
-            icon: SvgPicture.asset(
-              "/icons/dashboard.svg",
-            ),
-          ),
+              label: 'Dashboard',
+              icon: Icon(
+                Icons.explore_outlined, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Advertisement',
-            icon: SvgPicture.asset(
-              "/icons/travel.svg",
-            ),
-          ),
+              label: 'Ads',
+              tooltip: 'Advertisements',
+              icon: Icon(
+                Icons.ads_click, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Special Offers',
-            icon: SvgPicture.asset(
-              "/icons/discount.svg",
-            ),
-          ),
+              label: 'Offers',
+              tooltip: 'Special Offers',
+              icon: Icon(
+                Icons.discount_outlined, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Business Details',
-            icon: SvgPicture.asset(
-              "/icons/business.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Logout',
-            icon: SvgPicture.asset(
-              "/icons/logout.svg",
-            ),
-          ),
+              label: 'Business',
+              tooltip: 'Business Details',
+              icon: Icon(
+                Icons.work, // Example: Use a Facebook icon
+              )),
         ],
         onDestinationSelected: onDestinationSelected,
       ),
@@ -170,10 +158,10 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                           radius: 30,
                           child: Image.asset(logoIcon),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Text('TIM DIGITAL',
+                        const Text('TIM DIGITAL',
                             style: TextStyle(
                               fontFamily: 'Researcher',
                               fontSize: 17.0,
@@ -183,7 +171,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.white,
                     thickness: 1,
                     indent: 20,

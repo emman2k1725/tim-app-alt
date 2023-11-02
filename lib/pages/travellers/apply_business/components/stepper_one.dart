@@ -26,7 +26,7 @@ class _StepperOneState extends State<StepperOne> {
     TextEditingController phoneNumberController = TextEditingController();
 
     return Container(
-      color: Colors.white, // Set the background color of Step 1
+      color: Colors.transparent, // Set the background color of Step 1
       child: Form(
         key: widget.formKey,
         child: Column(
@@ -35,6 +35,7 @@ class _StepperOneState extends State<StepperOne> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Company Name',
                       hintText: 'Company Name',
@@ -58,6 +59,7 @@ class _StepperOneState extends State<StepperOne> {
                 ),
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Name of Business *',
                       hintText: 'Name of Business',
@@ -89,6 +91,7 @@ class _StepperOneState extends State<StepperOne> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Business Email *',
                       hintText: 'Business Email',
@@ -155,6 +158,7 @@ class _StepperOneState extends State<StepperOne> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Country *',
                       hintText: 'Country',
@@ -181,6 +185,7 @@ class _StepperOneState extends State<StepperOne> {
                 ),
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'City *',
                       hintText: 'City/Municipality/Town',
@@ -206,6 +211,7 @@ class _StepperOneState extends State<StepperOne> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Building Address',
                 hintText: 'Room No./Bldg. No. ',
@@ -224,6 +230,7 @@ class _StepperOneState extends State<StepperOne> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Street Address *',
                       hintText: 'Blk. No./Str No.',
@@ -247,6 +254,7 @@ class _StepperOneState extends State<StepperOne> {
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'State *',
                       hintText: 'State/Province/Region',
@@ -274,6 +282,7 @@ class _StepperOneState extends State<StepperOne> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Postal code *',
                       hintText: 'Postal Code',

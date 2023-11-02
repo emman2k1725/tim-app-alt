@@ -39,107 +39,94 @@ class CarouselImage extends StatelessWidget {
             itemCount: carouselItems.length,
             itemBuilder: (BuildContext context, int index, int realIndex) {
               final item = carouselItems[index];
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 300,
-                        child: Expanded(
-                          child: Text(
-                            item.title,
-                            textAlign: TextAlign.justify,
-                            maxLines: 2, // Limit the text to two lines.
-                            overflow: TextOverflow.ellipsis,
+                  Text(
+                    item.title,
+                    textAlign: TextAlign.justify,
+                    maxLines: 2, // Limit the text to two lines.
+                    overflow: TextOverflow.ellipsis,
 
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.white,
-                            ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      item.description,
+                      textAlign: TextAlign.justify,
+                      maxLines: 2, // Limit the text to two lines.
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        height: 1.5,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.network(
+                    item.imageUrl,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        child: const Icon(
+                          Icons.image,
+                          color: Colors.white,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 2.0,
                           ),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: 300,
-                        child: Expanded(
-                          child: Text(
-                            item.description,
-                            textAlign: TextAlign.justify,
-                            maxLines: 2, // Limit the text to two lines.
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                              height: 1.5,
-                              color: Colors.white,
-                            ),
-                          ),
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await launchUrl(item.imageUrl as Uri);
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Continue reading",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.white),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                        child: Image.network(
-                          item.imageUrl,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return const CircularProgressIndicator();
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: 100,
-                              height: 100,
-                              child: const Icon(
-                                Icons.image,
-                                color: Colors.white,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await launchUrl(item.imageUrl as Uri);
-                        },
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Continue reading",
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 15,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 15,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
                   ),
                 ],
               );
@@ -165,16 +152,10 @@ class FooterCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      // stream: FirebaseFirestore.instance
-      //     .collection('content')
-      //     .where("contentType", isEqualTo: 'Media')
-      //     .snapshots(),
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child:
-                  CircularProgressIndicator()); // Show a loading indicator while fetching data.
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
