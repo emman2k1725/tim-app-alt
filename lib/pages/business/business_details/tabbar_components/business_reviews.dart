@@ -226,15 +226,8 @@ class MobileScreenSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: w,
-      height: h, //Responsive.isMobile(context) ? h : 230,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.blue, width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: SingleChildScrollView(
+    return BlurContainer(
+      childColumn: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -246,39 +239,26 @@ class MobileScreenSize extends StatelessWidget {
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent),
+                  color: Colors.white),
             ),
             Text(
               'Check travellers feedback', // Replace with your name or text
-              style: TextStyle(
-                fontSize: 14.0,
-              ),
+              style: TextStyle(fontSize: 14.0, color: Colors.white),
             ),
             SizedBox(
               height: 30,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                width: w,
-                height: h, //Responsive.isMobile(context) ? h : 230,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
+              child: BlurContainer(
+                childColumn: Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Total Reviews', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -286,25 +266,21 @@ class MobileScreenSize extends StatelessWidget {
                       Text(
                         '10.0k', // Replace with your name or text
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       Text(
                         'Growth in reviews this year', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Divider(),
+                        child: Divider(color: Colors.white),
                       ),
                       Text(
                         'Average Rating', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -312,9 +288,9 @@ class MobileScreenSize extends StatelessWidget {
                       Text(
                         '4.5', // Replace with your name or text
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       SizedBox(
                         height: 5,
@@ -345,19 +321,15 @@ class MobileScreenSize extends StatelessWidget {
                           ]),
                       Text(
                         'Travellers Rating', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Divider(),
+                        child: Divider(color: Colors.white),
                       ),
                       Text(
                         'Total Reviews', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
@@ -365,15 +337,13 @@ class MobileScreenSize extends StatelessWidget {
                       Text(
                         '10.0k', // Replace with your name or text
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       Text(
                         'Growth in reviews this year', // Replace with your name or text
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                     ],
                   ),

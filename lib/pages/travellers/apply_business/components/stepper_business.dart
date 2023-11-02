@@ -7,6 +7,7 @@ import 'package:tim_app/pages/travellers/apply_business/components/stepper_one.d
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_three.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_two.dart';
 import 'package:tim_app/utils/loading.dart';
+import 'package:tim_app/utils/responsive.dart';
 
 class StepperWidget extends StatefulWidget {
   final UserModel? userProvider;
@@ -37,6 +38,7 @@ class _StepperWidgetState extends State<StepperWidget> {
       child: Column(
         children: [
           Expanded(
+
             child: Theme(
               data: ThemeData(
                 canvasColor: Colors.transparent,
@@ -57,32 +59,36 @@ class _StepperWidgetState extends State<StepperWidget> {
                   ),
                 ),
               ),
-              child: Stepper(
-                type: StepperType.horizontal,
-                currentStep: currentStep,
-                onStepContinue: () async {
-                  if (currentStep == 0) {
-                    if (formKey1.currentState?.validate() == true) {
-                      setState(() {
-                        currentStep++;
-                      });
-                    }
-                  } else if (currentStep == 1) {
-                    if (formKey2.currentState?.validate() == true) {
-                      setState(() {
-                        currentStep++;
-                      });
-                    }
-                  } else if (currentStep == 2) {
-                    debugPrint(widget.userProvider!.docID);
-                    if (formKey3.currentState?.validate() == true) {
-                      showCustomLoadingDialog(context, 'Applying business...');
-                      formKey1.currentState!.save();
-                      formKey2.currentState!.save();
-                      formKey3.currentState!.save();
-                      business.firstName = widget.userProvider?.firstName;
-                      business.lastName = widget.userProvider?.lastName;
-                      business.businessOwner = widget.userProvider?.docID;
+
+            child: Stepper(
+              type: Responsive.isDesktop(context)
+                  ? StepperType.horizontal
+                  : StepperType.vertical,
+              currentStep: currentStep,
+              onStepContinue: () async {
+                if (currentStep == 0) {
+                  if (formKey1.currentState?.validate() == true) {
+                    setState(() {
+                      currentStep++;
+                    });
+                  }
+                } else if (currentStep == 1) {
+                  if (formKey2.currentState?.validate() == true) {
+                    setState(() {
+                      currentStep++;
+                    });
+                  }
+                } else if (currentStep == 2) {
+                  debugPrint(widget.userProvider!.docID);
+                  if (formKey3.currentState?.validate() == true) {
+                    showCustomLoadingDialog(context, 'Applying business...');
+                    formKey1.currentState!.save();
+                    formKey2.currentState!.save();
+                    formKey3.currentState!.save();
+                    business.firstName = widget.userProvider?.firstName;
+                    business.lastName = widget.userProvider?.lastName;
+                    business.businessOwner = widget.userProvider?.docID;
+
 
                       business.businessImages?['logo'] = uploadImage(
                           business.pickedLogo, business.businessName);

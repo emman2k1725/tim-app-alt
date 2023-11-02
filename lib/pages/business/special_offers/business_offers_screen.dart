@@ -103,87 +103,81 @@ class _BusinessOfferScreenViewState extends State<BusinessOfferScreen> {
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(width: 2, color: Colors.white10),
                 ),
-                child: Responsive.isMobile(context)
-                    ? const BusinessDetailsListView()
-                    : SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: FutureBuilder<String>(
-                            future: queryBusinessStatus(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: const Center(
-                                      child: CircularProgressIndicator()),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                if (snapshot.data == 'Approved') {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            AddButton(
-                                              buttonText: 'Add new offer',
-                                              icon: Icons.add,
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      CreateOfferDialog(
-                                                          businessID: business
-                                                              ?.businessID),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        const SingleChildScrollView(
-                                            child: BusinessOfferTabbar())
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.approval_outlined,
-                                          color: Colors.white,
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Your Business Application Is In ${snapshot.data} Status',
-                                          style: const TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: FutureBuilder<String>(
+                      future: queryBusinessStatus(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            child: const Center(
+                                child: CircularProgressIndicator()),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.data == 'Approved') {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      AddButton(
+                                        buttonText: 'Add new offer',
+                                        icon: Icons.add,
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                CreateOfferDialog(
+                                                    businessID:
+                                                        business?.businessID),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const SingleChildScrollView(
+                                      child: BusinessOfferTabbar())
+                                ],
+                              ),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.approval_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Your Business Application Is In ${snapshot.data} Status',
+                                    style: const TextStyle(
+                                        fontSize: 24, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

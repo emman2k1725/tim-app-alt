@@ -70,11 +70,12 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         ),
         BlurContainer(
           width: double.maxFinite,
-          height: 150,
+          //height: 150,
           childColumn: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 25),
                 child: Row(
                   children: [
                     SizedBox(
@@ -183,12 +184,12 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         BlurExpanded(
           width: double.maxFinite,
           childColumn: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       'Personal Information', // Replace with your name or text
@@ -363,14 +364,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         ),
         BlurContainer(
           width: double.maxFinite,
-          height: 220,
+          //height: 220,
           childColumn: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       'Address', // Replace with your name or text
@@ -550,7 +551,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             BlurExpanded(
               width: double.maxFinite,
               childColumn: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     Row(
@@ -578,7 +579,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -625,7 +626,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             BlurExpanded(
               width: double.maxFinite,
               childColumn: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     Row(
@@ -652,7 +653,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -699,7 +700,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             BlurExpanded(
               width: double.maxFinite,
               childColumn: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     Row(
@@ -728,7 +729,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

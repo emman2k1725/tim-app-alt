@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:convert';
 import 'dart:ui';
 
@@ -13,7 +15,9 @@ import 'package:tim_app/pages/business/business_details/tabbar_components/busine
 import 'package:tim_app/pages/business/business_details/tabbar_components/thumbnail.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/pages/travellers/travel_history/components/trip_history_rate.dart';
+import 'package:tim_app/utils/responsive.dart';
 import 'package:tim_app/utils/styles.dart';
+import 'package:tim_app/widgets/blurContainer.dart';
 
 import '../../../../utils/loading.dart';
 
@@ -53,72 +57,238 @@ class _TripHistoryTableState extends State<TripHistoryTable> {
           return const Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
           List<Map<String, dynamic>> data = snapshot.data!;
-          return Theme(
-            data: Theme.of(context).copyWith(
-                cardColor: Colors.white60.withOpacity(0.10),
-                dividerColor: Colors.blue,
-                textTheme:
-                    TextTheme(bodySmall: TextStyle(color: Colors.white))),
-            child: PaginatedDataTable(
-              arrowHeadColor: Colors.white,
-              header: const Text(
-                'Trip History',
-                style: TextStyle(color: Colors.lightBlueAccent),
-              ),
-              rowsPerPage: rowsPerPage,
-              columns: [
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Title',
-                        style: tableHeaderStyle,
+          return Responsive.isDesktop(context)
+              ? Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Colors.white60.withOpacity(0.10),
+                      dividerColor: Colors.blue,
+                      textTheme:
+                          TextTheme(bodySmall: TextStyle(color: Colors.white))),
+                  child: PaginatedDataTable(
+                    arrowHeadColor: Colors.white,
+                    header: const Text(
+                      'Trip History',
+                      style: TextStyle(color: Colors.lightBlueAccent),
+                    ),
+                    rowsPerPage: rowsPerPage,
+                    columns: [
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Title',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Title',
                       ),
-                    ],
-                  ),
-                  tooltip: 'Title',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Start Date',
-                        style: tableHeaderStyle,
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Start Date',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'Start Date',
                       ),
-                    ],
-                  ),
-                  tooltip: 'Start Date',
-                ),
-                DataColumn(
-                  label: Row(
-                    children: [
-                      Text(
-                        'End Date',
-                        style: tableHeaderStyle,
+                      DataColumn(
+                        label: Row(
+                          children: [
+                            Text(
+                              'End Date',
+                              style: tableHeaderStyle,
+                            ),
+                          ],
+                        ),
+                        tooltip: 'End Date',
                       ),
+                      DataColumn(
+                        label: Text(
+                          'Days',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: 'Days',
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Action',
+                          style: tableHeaderStyle,
+                        ),
+                        tooltip: '',
+                      ),
+                      // Add more columns as needed
                     ],
+                    source: _MyDataTableSource(data, context),
                   ),
-                  tooltip: 'End Date',
-                ),
-                DataColumn(
-                  label: Text(
-                    'Days',
-                    style: tableHeaderStyle,
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0, vertical: 25),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Trip History',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 20),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          separatorBuilder: ((context, index) =>
+                              const SizedBox(height: 15)),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            DateTime startTime =
+                                DateTime.parse(data[index]['dates'][0]);
+                            DateTime endTime = DateTime.parse(data[index]
+                                ['dates'][data[index]['dates'].length - 1]);
+
+                            String startDate =
+                                DateFormat('MMM dd, y').format(startTime);
+                            String endDate =
+                                DateFormat('MMM dd, y').format(endTime);
+
+                            return BlurContainer(
+                                childColumn: Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Title',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            data[index]['city'],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Text(
+                                            'Days',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            data[index]['day'].toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Start Date',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            startDate,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 30),
+                                          Text(
+                                            'End Date',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            endDate,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Divider(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Action',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.download_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              _showRowDialog(
+                                                  data[index], context);
+                                            },
+                                          ),
+                                          IconButton(
+                                              icon: const Icon(
+                                                Icons.star,
+                                                color: Colors.amberAccent,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TripHistoryRate(
+                                                            tripDetails:
+                                                                data[index],
+                                                          )),
+                                                );
+                                              }),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ));
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                  tooltip: 'Days',
-                ),
-                DataColumn(
-                  label: Text(
-                    'Action',
-                    style: tableHeaderStyle,
-                  ),
-                  tooltip: '',
-                ),
-                // Add more columns as needed
-              ],
-              source: _MyDataTableSource(data, context),
-            ),
-          );
+                );
         } else {
           return const Center(child: Text('No data found'));
         }

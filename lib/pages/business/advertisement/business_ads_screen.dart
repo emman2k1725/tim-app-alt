@@ -106,82 +106,77 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(width: 2, color: Colors.white10),
                 ),
-                child: Responsive.isMobile(context)
-                    ? BusinessDetailsListView()
-                    : SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: FutureBuilder<String>(
-                            future: queryBusinessStatus(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Center(
-                                      child: CircularProgressIndicator()),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                if (snapshot.data == 'Approved') {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            AddButton(
-                                              buttonText: 'Create new ads',
-                                              icon: Icons.add,
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      CreateAdsDialog(
-                                                          businessID: business
-                                                              ?.businessID),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        BusinessAdsTabbar()
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  // Display a Text widget when status is not "Approved."
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: FutureBuilder<String>(
+                      future: queryBusinessStatus(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.data == 'Approved') {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Icon(
-                                        Icons.approval_outlined,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Your Business Application Is In ${snapshot.data} Status',
-                                        style: TextStyle(
-                                            fontSize: 24, color: Colors.white),
+                                      AddButton(
+                                        buttonText: 'Create new ads',
+                                        icon: Icons.add,
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                CreateAdsDialog(
+                                                    businessID:
+                                                        business?.businessID),
+                                          );
+                                        },
                                       ),
                                     ],
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  BusinessAdsTabbar()
+                                ],
+                              ),
+                            );
+                          } else {
+                            // Display a Text widget when status is not "Approved."
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.approval_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Your Business Application Is In ${snapshot.data} Status',
+                                  style: TextStyle(
+                                      fontSize: 24, color: Colors.white),
+                                ),
+                              ],
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

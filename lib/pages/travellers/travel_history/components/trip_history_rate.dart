@@ -60,183 +60,368 @@ class _TripHistoryRateState extends State<TripHistoryRate> {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Admin Dashboard'),
       body: SingleChildScrollView(
-        primary: false,
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(mainBg),
+          primary: false,
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(mainBg),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BlurContainer(
-              height: 900,
-              width: double.maxFinite,
-              childColumn: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      width: double.maxFinite,
-                      height: Responsive.isMobile(context) ? h : 750,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blue, width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Review', // Replace with your name or text
-                              style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent),
-                            ),
-                          ),
-                          const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Give feedback to recent trip', // Replace with your name or text
-                              style: TextStyle(
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
+            child: Padding(
+                padding:
+                    EdgeInsets.all(Responsive.isDesktop(context) ? 30.0 : 15),
+                child: Responsive.isDesktop(context)
+                    ? BlurContainer(
+                        height: MediaQuery.of(context).size.height, //900,
+                        width: double.maxFinite,
+                        childColumn: SingleChildScrollView(
+                          child: Column(
                             children: [
-                              Expanded(
-                                flex: 3,
+                              Padding(
+                                padding: const EdgeInsets.all(30),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Trip Details', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      widget.tripDetails['day']
-                                          .toString(), // Replace with your name or text
-                                      style: const TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
+                                    const Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        'Review', // Replace with your name or text
+                                        style: TextStyle(
+                                            fontSize: 24.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blueAccent),
                                       ),
                                     ),
-                                    const Text(
-                                      'days you went on a trip', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const VerticalDivider(
-                                color: Colors.black,
-                                thickness: 2,
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Visited City', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(children: [
-                                      Text(
-                                        widget.tripDetails['city']
-                                            .toString(), // Replace with your name or text
-                                        style: const TextStyle(
-                                          fontSize: 24.0,
-                                          fontWeight: FontWeight.bold,
+                                    const Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        'Give feedback to recent trip', // Replace with your name or text
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ]),
-                                    const Text(
-                                      'where you went', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Trip Date', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Trip Details', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                widget.tripDetails['day']
+                                                    .toString(), // Replace with your name or text
+                                                style: const TextStyle(
+                                                  fontSize: 24.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const Text(
+                                                'days you went on a trip', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 2,
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Visited City', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(children: [
+                                                Text(
+                                                  widget.tripDetails['city']
+                                                      .toString(), // Replace with your name or text
+                                                  style: const TextStyle(
+                                                    fontSize: 24.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ]),
+                                              const Text(
+                                                'where you went', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Trip Date', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                "${widget.tripDetails['dates'][0]} - ${widget.tripDetails['dates'][widget.tripDetails['dates'].length - 1]}", // Replace with your name or text
+                                                style: const TextStyle(
+                                                  fontSize: 24.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const Text(
+                                                'Date of your trip', // Replace with your name or text
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Divider(
+                                      color: Colors.white,
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      "${widget.tripDetails['dates'][0]} - ${widget.tripDetails['dates'][widget.tripDetails['dates'].length - 1]}", // Replace with your name or text
-                                      style: const TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Date of your trip', // Replace with your name or text
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
+                                    HistoryReviewsList(
+                                      tripHistory:
+                                          widget.tripDetails['itenerary'],
+                                      placeVisited: placesVisited,
+                                      fromDocID: widget.tripDetails['docID'],
                                     ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 20,
+                        ),
+                      )
+                    : BlurContainer(
+                        //height: MediaQuery.of(context).size.height, //900,
+                        width: double.maxFinite,
+                        childColumn: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      'Review', // Replace with your name or text
+                                      style: TextStyle(
+                                          fontSize: 24.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent),
+                                    ),
+                                    const Text(
+                                      'Give feedback to recent trip', // Replace with your name or text
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    BlurContainer(
+                                      childColumn: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Trip Details', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  widget.tripDetails['day']
+                                                      .toString(), // Replace with your name or text
+                                                  style: const TextStyle(
+                                                    fontSize: 24.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  'days you went on a trip', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 12.0),
+                                              child: Divider(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Visited City', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  widget.tripDetails['city']
+                                                      .toString(), // Replace with your name or text
+                                                  style: const TextStyle(
+                                                    fontSize: 24.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  'where you went', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 12.0),
+                                              child: Divider(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Trip Date', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  "${widget.tripDetails['dates'][0]} - ${widget.tripDetails['dates'][widget.tripDetails['dates'].length - 1]}", // Replace with your name or text
+                                                  style: const TextStyle(
+                                                    fontSize: 24.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  'Date of your trip', // Replace with your name or text
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    HistoryReviewsList(
+                                      tripHistory:
+                                          widget.tripDetails['itenerary'],
+                                      placeVisited: placesVisited,
+                                      fromDocID: widget.tripDetails['docID'],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          const Divider(),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          HistoryReviewsList(
-                            tripHistory: widget.tripDetails['itenerary'],
-                            placeVisited: placesVisited,
-                            fromDocID: widget.tripDetails['docID'],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+                        ),
+                      )),
+          )),
     );
   }
 }
