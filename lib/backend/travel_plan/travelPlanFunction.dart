@@ -28,9 +28,9 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
       String currentTime = travelPlanParams['startTime'][x];
       String endTime = travelPlanParams['endTime'][x];
       List<Map<String, dynamic>> travelItineraryPerDay = [];
-      selectedHotel['dateSchedule'] = travelPlanParams['dates'][x];
       selectedHotel['ifRated'] = false;
       travelItineraryPerDay.add(selectedHotel);
+      travelItineraryPerDay[0]['dateSchedule'] = travelPlanParams['dates'][x];
       bool hadBreakfast = false;
       bool hadLunch = false;
       bool hadDinner = false;
