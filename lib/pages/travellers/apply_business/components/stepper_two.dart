@@ -61,7 +61,7 @@ class _StepperTwoState extends State<StepperTwo> {
       child: Container(
         width: 900,
         height: 950,
-        color: Colors.white,
+        color: Colors.transparent,
         child: Column(
           children: <Widget>[
             const Align(
@@ -272,6 +272,7 @@ class _StepperTwoState extends State<StepperTwo> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Business Description',
                 hintText: 'Business Description max of 150 letters',
@@ -308,6 +309,7 @@ class _StepperTwoState extends State<StepperTwo> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Google Map Link',
                 hintText: 'Google Map Link',
@@ -329,6 +331,7 @@ class _StepperTwoState extends State<StepperTwo> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Facebook Link',
                 hintText: 'Facebook Link',
@@ -344,6 +347,7 @@ class _StepperTwoState extends State<StepperTwo> {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Instagram Link',
                 hintText: 'Instagram Link',

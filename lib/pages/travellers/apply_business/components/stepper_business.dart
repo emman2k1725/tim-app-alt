@@ -28,23 +28,38 @@ class _StepperWidgetState extends State<StepperWidget> {
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     BusinessModel? business = BusinessModel.withDefaultValues();
     return Container(
       width: 900,
       height: 950,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.white, // Border color
-          width: 2.0, // Border width
-        ),
-        borderRadius: BorderRadius.circular(10.0), // Border radius
-      ),
       child: Column(
         children: [
           Expanded(
+
+            child: Theme(
+              data: ThemeData(
+                canvasColor: Colors.transparent,
+                hintColor: Colors.white,
+                primarySwatch: Colors.blue,
+                colorScheme: ColorScheme.light(primary: Colors.blue),
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: TextStyle(color: Colors.white),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide:
+                        BorderSide(color: Colors.blue), // Set the border color
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide:
+                        BorderSide(color: Colors.grey), // Set the border color
+                  ),
+                ),
+              ),
+
             child: Stepper(
               type: Responsive.isDesktop(context)
                   ? StepperType.horizontal
@@ -74,90 +89,91 @@ class _StepperWidgetState extends State<StepperWidget> {
                     business.lastName = widget.userProvider?.lastName;
                     business.businessOwner = widget.userProvider?.docID;
 
-                    business.businessImages?['logo'] =
-                        uploadImage(business.pickedLogo, business.businessName);
-                    business.businessImages?['image1'] = await uploadImage(
-                        business.pickedImage1, business.businessName);
-                    business.businessImages?['image2'] = await uploadImage(
-                        business.pickedImage2, business.businessName);
-                    business.businessImages?['image3'] = await uploadImage(
-                        business.pickedImage3, business.businessName);
 
-                    await applyBusiness(business).then((value) {
-                      if (value == 'success') {
-                        GoRouter.of(context).go('/dashboard');
-                      } else {
-                        debugPrint(value);
-                      }
-                    });
-                    // ADD Navigation: fix missing parameters in firestore (businessAddress, hours, links, phonenumber, businessSector, status)
+                      business.businessImages?['logo'] = uploadImage(
+                          business.pickedLogo, business.businessName);
+                      business.businessImages?['image1'] = await uploadImage(
+                          business.pickedImage1, business.businessName);
+                      business.businessImages?['image2'] = await uploadImage(
+                          business.pickedImage2, business.businessName);
+                      business.businessImages?['image3'] = await uploadImage(
+                          business.pickedImage3, business.businessName);
+
+                      await applyBusiness(business).then((value) {
+                        if (value == 'success') {
+                          GoRouter.of(context).go('/dashboard');
+                        } else {
+                          debugPrint(value);
+                        }
+                      });
+                    }
                   }
-                }
-              },
-              onStepCancel: () {
-                setState(() {
-                  if (currentStep > 0) {
-                    currentStep--;
+                },
+                onStepCancel: () {
+                  setState(() {
+                    if (currentStep > 0) {
+                      currentStep--;
+                    }
+                  });
+                },
+                onStepTapped: (step) {
+                  if (currentStep == 0) {
+                    if (formKey1.currentState?.validate() == true) {
+                      formKey1.currentState!.save();
+                      setState(() {
+                        currentStep = step;
+                      });
+                    }
+                  } else if (currentStep == 1) {
+                    if (formKey2.currentState?.validate() == true) {
+                      formKey2.currentState!.save();
+                      setState(() {
+                        currentStep = step;
+                      });
+                    }
                   }
-                });
-              },
-              onStepTapped: (step) {
-                if (currentStep == 0) {
-                  if (formKey1.currentState?.validate() == true) {
-                    formKey1.currentState!.save();
-                    setState(() {
-                      currentStep = step;
-                    });
-                  }
-                } else if (currentStep == 1) {
-                  if (formKey2.currentState?.validate() == true) {
-                    formKey2.currentState!.save();
-                    setState(() {
-                      currentStep = step;
-                    });
-                  }
-                }
-              },
-              steps: [
-                Step(
-                  title: const Text(
-                    'Business Profile',
-                    style: TextStyle(
-                      fontSize: 18.0, // Set the font size
-                      color: Colors.blue, // Set the text color
+                },
+                steps: [
+                  Step(
+                    title: const Text(
+                      'Business Profile',
+                      style: TextStyle(
+                        fontSize: 18.0, // Set the font size
+                        color: Colors.blue, // Set the text color
+                      ),
                     ),
+                    content:
+                        StepperOne(formKey: formKey1, businessModel: business),
+                    isActive: currentStep == 0,
                   ),
-                  content:
-                      StepperOne(formKey: formKey1, businessModel: business),
-                  isActive: currentStep == 0,
-                ),
-                Step(
-                  title: const Text(
-                    'Business Details',
-                    style: TextStyle(
-                      fontSize: 18.0, // Set the font size
-                      color: Colors.blue, // Set the text color
+                  Step(
+                    title: const Text(
+                      'Business Details',
+                      style: TextStyle(
+                        fontSize: 18.0, // Set the font size
+                        color: Colors.blue, // Set the text color
+                      ),
                     ),
-                  ),
-                  content: StepperTwo(
-                    formKey: formKey2,
-                    businessModel: business,
-                  ),
-                  isActive: currentStep == 1,
-                ),
-                Step(
-                  title: const Text(
-                    'Operating Hours',
-                    style: TextStyle(
-                      fontSize: 18.0, // Set the font size
-                      color: Colors.blue, // Set the text color
+                    content: StepperTwo(
+                      formKey: formKey2,
+                      businessModel: business,
                     ),
+                    isActive: currentStep == 1,
                   ),
-                  content:
-                      StepperThree(formKey: formKey3, businessModel: business),
-                  isActive: currentStep == 2,
-                ),
-              ],
+                  Step(
+                    title: const Text(
+                      'Operating Hours',
+                      style: TextStyle(
+                        fontSize: 18.0, // Set the font size
+                        color: Colors.blue, // Set the text color
+                      ),
+                    ),
+                    content: StepperThree(
+                        formKey: formKey3, businessModel: business),
+                    isActive: currentStep == 2,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

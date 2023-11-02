@@ -128,9 +128,9 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                               width: double.maxFinite,
                               child: Align(
                                 alignment: Alignment.topLeft,
-                                child: Image.network(
+                                child: Image.asset(
                                   homepageTim,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

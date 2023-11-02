@@ -99,52 +99,35 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
         selectedIndex: selectedIndex,
         destinations: [
           NavigationDestination(
-            label: '',
-            tooltip: 'Dashboard',
-            icon: SvgPicture.asset(
-              "/icons/dashboard.svg",
-            ),
-          ),
+              label: 'Dashboard',
+              tooltip: 'Dashboard',
+              icon: Icon(
+                Icons.explore_outlined, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Manage Business',
-            icon: SvgPicture.asset(
-              "/icons/business.svg",
-            ),
-          ),
+              label: 'Businesses',
+              tooltip: 'Manage Business',
+              icon: Icon(
+                Icons.work, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Manage Travellers',
-            icon: SvgPicture.asset(
-              "/icons/travel.svg",
-            ),
-          ),
+              label: 'Travellers',
+              tooltip: 'Manage Travellers',
+              icon: Icon(
+                Icons.travel_explore, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Content Management',
-            icon: SvgPicture.asset(
-              "/icons/business.svg",
-            ),
-          ),
+              label: 'Content',
+              tooltip: 'Content Management',
+              icon: Icon(
+                Icons.note, // Example: Use a Facebook icon
+              )),
           NavigationDestination(
-            label: '',
-            tooltip: 'Accounts',
-            icon: SvgPicture.asset(
-              "/icons/business.svg",
-            ),
-          ),
-          NavigationDestination(
-            label: '',
-            tooltip: 'Logout',
-            icon: SvgPicture.asset(
-              "/icons/logout.svg",
-            ),
-          ),
-          /*NavigationDestination(
-            label: '',
-            tooltip: 'More',
-            icon: Icon(Icons.more_vert_rounded),
-          ),*/
+              label: 'Accounts',
+              tooltip: 'Accounts',
+              icon: Icon(
+                Icons.account_box, // Example: Use a Facebook icon
+              )),
         ],
         onDestinationSelected: onDestinationSelected,
       ),

@@ -155,22 +155,10 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                           onPressed: () {}),
                                     ],
                                   ),
-                                  Container(
-                                    height: 200,
-                                    child: Image.network(
-                                      homepageTim, // Replace this URL with your image URL
-
-                                      fit:
-                                          BoxFit.fill, // Set the image fit mode
-                                    ),
-                                  ),
                                 ],
                               )
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                         SizedBox(
                           height: 10,
@@ -195,10 +183,7 @@ class _DesktopScreenSizeState extends State<DesktopScreenSize> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                    height: 220,
-                                    width: double.maxFinite,
-                                    child: CarouselImage()),
+                                CarouselImage()
                               ],
                             )),
                       ],

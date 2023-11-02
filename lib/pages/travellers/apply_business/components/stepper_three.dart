@@ -47,7 +47,7 @@ class _StepperThreeState extends State<StepperThree> {
       child: Container(
         width: 900,
         height: 700,
-        color: Colors.white,
+        color: Colors.transparent,
         child: ListView.builder(
           itemCount: daysOfWeek.length,
           itemBuilder: (context, index) {
