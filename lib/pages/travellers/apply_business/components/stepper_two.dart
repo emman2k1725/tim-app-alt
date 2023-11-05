@@ -119,7 +119,8 @@ class _StepperTwoState extends State<StepperTwo> {
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
                             onTap: () async {
-                              await _pickImage('logo');
+                              _pickImage('logo');
+                              widget.businessModel?.pickedLogo = _webPickedLogo;
                             },
                             child: _pickedLogo == null
                                 ? ImageUploadCard(
