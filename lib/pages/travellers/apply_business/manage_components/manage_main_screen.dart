@@ -322,6 +322,18 @@ class MobileScreenSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<IconData> icons = [
+      Icons.discount_outlined,
+      Icons.ads_click_outlined,
+      Icons.ads_click_outlined,
+    ];
+
+    List<String> title = [
+      'Showcase Your Special Offers',
+      'Advertise Your Business',
+      'Reach More Tourists',
+    ];
+
     return BlurContainer(
         // height: h!,
         // width: w!,
@@ -395,102 +407,40 @@ class MobileScreenSize extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                BlurContainer(
-                                    height: 200,
-                                    width: 170,
-                                    childColumn: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.discount_outlined,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Showcase your\nSpecial Offers',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 3,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.blue,
+                                              width: 2,
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                SizedBox(
-                                  height: 15,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: ListTile(
+                                            leading: Icon(
+                                              icons[index],
+                                              color: Colors.white,
+                                            ),
+                                            title: Text(
+                                              title[index],
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            // trailing: const Icon(
+                                            //   Icons.arrow_right,
+                                            //   size: 30,
+                                            //   color: Colors.blueAccent,
+                                            // ),
+                                            onTap: () {}),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                BlurContainer(
-                                    height: 200,
-                                    width: 170,
-                                    childColumn: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.ads_click_outlined,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Advertise Your\nBusiness',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                BlurContainer(
-                                    height: 200,
-                                    width: 170,
-                                    childColumn: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.ads_click_outlined,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Reach More\nTourists',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
                               ],
                             ),
                           )
