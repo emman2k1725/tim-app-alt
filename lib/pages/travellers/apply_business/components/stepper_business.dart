@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tim_app/backend/firebase/applyBusiness.dart';
+import 'package:tim_app/backend/shared-preferences/sharedPreferenceService.dart';
 import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/travellers/apply_business/components/stepper_one.dart';
@@ -38,7 +39,6 @@ class _StepperWidgetState extends State<StepperWidget> {
       child: Column(
         children: [
           Expanded(
-
             child: Theme(
               data: ThemeData(
                 canvasColor: Colors.transparent,
@@ -59,51 +59,66 @@ class _StepperWidgetState extends State<StepperWidget> {
                   ),
                 ),
               ),
+              child: Stepper(
+                type: Responsive.isDesktop(context)
+                    ? StepperType.horizontal
+                    : StepperType.vertical,
+                currentStep: currentStep,
+                onStepContinue: () async {
+                  if (currentStep == 0) {
+                    if (formKey1.currentState?.validate() == true) {
+                      setState(() {
+                        currentStep++;
+                      });
+                    }
+                  } else if (currentStep == 1) {
+                    if (formKey2.currentState?.validate() == true) {
+                      setState(() {
+                        currentStep++;
+                      });
+                    }
+                  } else if (currentStep == 2) {
+                    if (formKey3.currentState?.validate() == true) {
+                      showCustomLoadingDialog(context, 'Applying business...');
+                      formKey1.currentState!.save();
+                      formKey2.currentState!.save();
+                      formKey3.currentState!.save();
+                      business.firstName = widget.userProvider?.firstName;
+                      business.lastName = widget.userProvider?.lastName;
+                      business.businessOwner = widget.userProvider?.docID;
 
-            child: Stepper(
-              type: Responsive.isDesktop(context)
-                  ? StepperType.horizontal
-                  : StepperType.vertical,
-              currentStep: currentStep,
-              onStepContinue: () async {
-                if (currentStep == 0) {
-                  if (formKey1.currentState?.validate() == true) {
-                    setState(() {
-                      currentStep++;
-                    });
-                  }
-                } else if (currentStep == 1) {
-                  if (formKey2.currentState?.validate() == true) {
-                    setState(() {
-                      currentStep++;
-                    });
-                  }
-                } else if (currentStep == 2) {
-                  debugPrint(widget.userProvider!.docID);
-                  if (formKey3.currentState?.validate() == true) {
-                    showCustomLoadingDialog(context, 'Applying business...');
-                    formKey1.currentState!.save();
-                    formKey2.currentState!.save();
-                    formKey3.currentState!.save();
-                    business.firstName = widget.userProvider?.firstName;
-                    business.lastName = widget.userProvider?.lastName;
-                    business.businessOwner = widget.userProvider?.docID;
-
-
-                      business.businessImages?['logo'] = uploadImage(
-                          business.pickedLogo, business.businessName);
-                      business.businessImages?['image1'] = await uploadImage(
-                          business.pickedImage1, business.businessName);
-                      business.businessImages?['image2'] = await uploadImage(
-                          business.pickedImage2, business.businessName);
-                      business.businessImages?['image3'] = await uploadImage(
-                          business.pickedImage3, business.businessName);
+                      business.pickedLogo == null
+                          ? business.businessImages!['logo'] = null
+                          : business.businessImages?['logo'] = uploadImage(
+                              business.pickedLogo, business.businessName);
+                      business.pickedImage1 == null
+                          ? business.businessImages!['image1'] = null
+                          : business.businessImages?['image1'] = uploadImage(
+                              business.pickedImage1, business.businessName);
+                      business.pickedImage2 == null
+                          ? business.businessImages!['image2'] = null
+                          : business.businessImages?['image2'] = uploadImage(
+                              business.pickedImage2, business.businessName);
+                      business.pickedImage3 == null
+                          ? business.businessImages!['image3'] = null
+                          : business.businessImages?['image3'] = uploadImage(
+                              business.pickedImage3, business.businessName);
 
                       await applyBusiness(business).then((value) {
                         if (value == 'success') {
-                          GoRouter.of(context).go('/dashboard');
-                        } else {
-                          debugPrint(value);
+                          widget.userProvider?.hasBusiness = true;
+                          PrefService pref = PrefService();
+                          pref.createCache(widget.userProvider!);
+                          changeHasBusiness(widget.userProvider!.docID,
+                                  widget.userProvider)
+                              .then((value) {
+                            if (value == 'success') {
+                              Navigator.pop(context);
+                              GoRouter.of(context).go('/dashboard');
+                            } else {
+                              debugPrint(value.toString());
+                            }
+                          });
                         }
                       });
                     }

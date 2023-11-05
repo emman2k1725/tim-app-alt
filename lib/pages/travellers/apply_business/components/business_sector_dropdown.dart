@@ -21,7 +21,6 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
     super.initState();
     // _dropdownTravelCat = FirebaseService.fetchDropdownItems('travellerType');
     _dropdownCruisines = FirebaseService.fetchDropdownItems('cruisines');
-    _dropdownSector = FirebaseService.fetchDropdownItems('hangout');
   }
 
   @override
@@ -32,19 +31,20 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FutureBuilder(
-            future: _dropdownSector,
+            future: FirebaseService.fetchHangout(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               }
-              List<String> fetchedItems = snapshot.data ?? [];
+              List<Map<String, dynamic>> fetchedItems =
+                  snapshot.data as List<Map<String, dynamic>>;
 
               return DropdownButtonFormField<String>(
                 value: selectedBusinessSector,
                 items: fetchedItems.map((sector) {
                   return DropdownMenuItem<String>(
-                    value: sector,
-                    child: Text(sector),
+                    value: sector['hangout'],
+                    child: Text(sector['hangout']),
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -61,6 +61,7 @@ class _BUsinessDropdownState extends State<BUsinessDropdown> {
                     selectedCruisine =
                         null; // Reset the selected cuisine when business sector changes
                   });
+                  debugPrint(selectedBusinessSector.toString());
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
