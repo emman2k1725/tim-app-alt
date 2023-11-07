@@ -143,8 +143,7 @@ class _BusinessDetailsListViewState extends State<BusinessDetailsListView> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) =>
-                          CreateAdsDialog(businessID: business?.businessID),
+                      builder: (context) => CreateAdsDialog(business: business),
                     );
                   })
             ],
