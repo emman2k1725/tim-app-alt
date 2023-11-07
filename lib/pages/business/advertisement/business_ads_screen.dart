@@ -137,8 +137,7 @@ class _BusinessAdsScreenViewState extends State<BusinessAdsScreen> {
                                             context: context,
                                             builder: (context) =>
                                                 CreateAdsDialog(
-                                                    businessID:
-                                                        business?.businessID),
+                                                    business: business),
                                           );
                                         },
                                       ),

@@ -83,7 +83,7 @@ class _AdminTableListViewState extends State<AdminTableListView> {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CreateAdsDialog(
-                                    businessID: null,
+                                    business: null,
                                   ),
                                 );
                               })
@@ -304,7 +304,7 @@ class _AdminTableListView2State extends State<AdminTableListView2> {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CreateAdsDialog(
-                                    businessID: null,
+                                    business: null,
                                   ),
                                 );
                               })
