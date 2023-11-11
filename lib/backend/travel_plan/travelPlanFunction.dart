@@ -28,9 +28,9 @@ Future<List<List<Map<String, dynamic>>>> planTravel(List<dynamic>? cruisines,
       String currentTime = travelPlanParams['startTime'][x];
       String endTime = travelPlanParams['endTime'][x];
       List<Map<String, dynamic>> travelItineraryPerDay = [];
-      selectedHotel['dateSchedule'] = travelPlanParams['dates'][x];
       selectedHotel['ifRated'] = false;
       travelItineraryPerDay.add(selectedHotel);
+      travelItineraryPerDay[0]['dateSchedule'] = travelPlanParams['dates'][x];
       bool hadBreakfast = false;
       bool hadLunch = false;
       bool hadDinner = false;
@@ -186,7 +186,6 @@ bool isTimeInRange(String timeToCheck, String startTime, String endTime) {
 
 Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
     double longtitude, String city, String findWhat) async {
-  String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
   List<Map<String, dynamic>> places = [];
   List<Map<String, dynamic>> dataBusiness = [];
   try {
@@ -219,14 +218,10 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
         places.add(placeResult);
       }
     } else {
+      String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
       String? displayImage, photoReference;
       dynamic openingHours;
-      GoogleMapsPlaces _places = GoogleMapsPlaces(
-        apiKey: apiKey,
-        baseUrl: kIsWeb
-            ? 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api'
-            : null,
-      );
+      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
       PlacesSearchResponse response = await _places.searchByText(find,
           location: Location(lat: latitude, lng: longtitude));
       String baseURL = "https://maps.googleapis.com/maps/api/place/photo";

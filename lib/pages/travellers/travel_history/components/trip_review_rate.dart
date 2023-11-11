@@ -373,6 +373,11 @@ class _HistoryReviewsListState extends State<HistoryReviewsList> {
                                       Map<String, dynamic> ratingData = {
                                         "rating": rating,
                                         "comment": comment,
+                                        "businessName":
+                                            widget.placeVisited[index]
+                                                ['businessName'],
+                                        "createdAt":
+                                            DateTime.timestamp().toString(),
                                         "placeID": widget.placeVisited[index]
                                             ['placeID'],
                                         "nameOfRater":

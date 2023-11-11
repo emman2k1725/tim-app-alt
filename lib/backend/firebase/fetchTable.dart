@@ -54,7 +54,32 @@ Stream<List<Map<String, dynamic>>> fetchSpecialOffer(String? businessID) {
   });
 }
 
-Stream<List<Map<String, dynamic>>> fetchAds(status) {
+
+Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
+  try {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    return firestore
+        .collectionGroup('ratings')
+        .where('idOfRater', isEqualTo: userID)
+        .snapshots()
+        .map((QuerySnapshot querySnapshot) {
+      List<Map<String, dynamic>> list = [];
+
+      querySnapshot.docs.forEach((DocumentSnapshot doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        list.add(data);
+      });
+
+      return list;
+    });
+  } catch (e) {
+    // Handle any potential errors here
+    print("Error: $e");
+    return Stream.value([]); // Return an empty stream in case of error
+  }
+}
+
+Stream<List<Map<String, dynamic>>> fetchAds(String? businessID) {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('advertisement')
       .where("status", isEqualTo: status);

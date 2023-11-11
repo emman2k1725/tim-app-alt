@@ -3,12 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
+import 'package:tim_app/model/BusinessModel.dart';
 import 'package:tim_app/utils/loading.dart';
 import 'package:tim_app/widgets/dialogs/success_dialog.dart';
 
 class CreateAdsDialog extends StatefulWidget {
-  final businessID;
-  const CreateAdsDialog({super.key, required this.businessID});
+  final BusinessModel? business;
+  const CreateAdsDialog({super.key, required this.business});
 
   @override
   State<CreateAdsDialog> createState() => _CreateAdsDialogState();
@@ -24,6 +25,7 @@ class _CreateAdsDialogState extends State<CreateAdsDialog> {
     "description": null,
     "imageURL": null,
     "business": null,
+    "businessName": null,
     "createAt": DateTime.now().toString(),
     "status": "Pending"
   };
@@ -254,7 +256,8 @@ class _CreateAdsDialogState extends State<CreateAdsDialog> {
             if (_formKey.currentState!.validate() == true) {
               _formKey.currentState!.save();
               showCustomLoadingDialog(context, 'Creating advertisement....');
-              advertData['business'] = widget.businessID;
+              advertData['business'] = widget.business?.businessID;
+              advertData['businessName'] = widget.business?.businessName;
               // Upload Image
               uploadImage(webPickedImage, 'business_offers').then((value) => {
                     if (value != null)

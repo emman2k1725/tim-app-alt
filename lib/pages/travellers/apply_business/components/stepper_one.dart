@@ -126,24 +126,27 @@ class _StepperOneState extends State<StepperOne> {
               height: 10,
             ),
             IntlPhoneField(
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.blue),
-                    borderRadius:
-                        BorderRadius.circular(20.0), // Set the border radius
-                  ),
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.blue),
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Set the border radius
                 ),
-                initialCountryCode: 'PH', // Set the initial country code
-                controller: phoneNumberController,
-                onChanged: (phone) {
-                  phoneNumber = phone.completeNumber;
-                  countryCode = phone.countryCode;
-                  widget.businessModel?.businessPhoneNumber?['number'] =
-                      phoneNumber;
-                  widget.businessModel?.businessPhoneNumber?['countryCode'] =
-                      countryCode;
-                }),
+              ),
+              initialCountryCode: 'PH', // Set the initial country code
+              controller: phoneNumberController,
+              onChanged: (phone) {
+                phoneNumber = phone.completeNumber.toString();
+                countryCode = phone.countryCode.toString();
+              },
+              onSaved: (newValue) {
+                widget.businessModel?.businessPhoneNumber?['number'] =
+                    phoneNumber;
+                widget.businessModel?.businessPhoneNumber?['countryCode'] =
+                    countryCode;
+              },
+            ),
             const Align(
               alignment: Alignment.topLeft,
               child: Text(

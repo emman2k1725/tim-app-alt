@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tim_app/backend/firebase/userDataProvider.dart';
+import 'package:tim_app/backend/travel_plan/PdfService.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/pages/admin/manage_business/operating_hours.dart';
 import 'package:tim_app/pages/business/business_details/tabbar_components/business_links.dart';
@@ -340,7 +340,9 @@ class _MyDataTableSource extends DataTableSource {
                 color: Colors.white,
               ),
               onPressed: () {
-                _showRowDialog(item, context);
+                // Generated PDF
+                debugPrint('Generate PDF');
+                PdfService().printPdf(item);
               },
             ),
             IconButton(
