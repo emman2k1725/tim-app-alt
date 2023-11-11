@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
+
+import 'manage_ads_modal.dart';
 
 class ManageAdvertisementTable extends StatefulWidget {
   const ManageAdvertisementTable({super.key});
@@ -16,7 +19,7 @@ class _ManageAdvertisementTableState extends State<ManageAdvertisementTable> {
   Widget build(BuildContext context) {
     final int rowsPerPage = 10;
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchTableCollection('advertisement'),
+      stream: fetchAds('Pending'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -40,51 +43,47 @@ class _ManageAdvertisementTableState extends State<ManageAdvertisementTable> {
                       textTheme:
                           TextTheme(bodySmall: TextStyle(color: Colors.white))),
                   child: PaginatedDataTable(
-                    header: Text(
-                      'Admin Account',
-                      style: TextStyle(color: Colors.lightBlueAccent),
-                    ),
                     rowsPerPage: rowsPerPage,
                     columns: [
                       DataColumn(
                         label: Row(
                           children: [
                             Text(
-                              'Name',
+                              'Business Name',
                               style: tableHeaderStyle,
                             ),
                           ],
                         ),
-                        tooltip: 'Name',
+                        tooltip: 'Business Name',
                       ),
                       DataColumn(
                         label: Row(
                           children: [
                             Text(
-                              'Email',
+                              'Title',
                               style: tableHeaderStyle,
                             ),
                           ],
                         ),
-                        tooltip: 'Email',
+                        tooltip: 'title',
                       ),
                       DataColumn(
                         label: Row(
                           children: [
                             Text(
-                              'Phone Number',
+                              'Ads Placement',
                               style: tableHeaderStyle,
                             ),
                           ],
                         ),
-                        tooltip: 'Phone Number',
+                        tooltip: 'Ads Placement',
                       ),
                       DataColumn(
                         label: Text(
-                          'Position',
+                          'Created At',
                           style: tableHeaderStyle,
                         ),
-                        tooltip: 'Position',
+                        tooltip: 'Created At',
                       ),
                       DataColumn(
                         label: Text(
@@ -116,9 +115,13 @@ class _MyDataTableSource extends DataTableSource {
       return null;
     }
     final item = data[index];
+
+    DateTime parsedDate = DateTime.parse(item['createAt']);
+    String formattedDate = DateFormat('MMM dd, yyyy').format(parsedDate);
+
     return DataRow(cells: [
       DataCell(Text(
-        item['business'].toString(),
+        item['businessName'].toString(),
         style: tableContentStyle,
       )),
       DataCell(Text(
@@ -130,7 +133,7 @@ class _MyDataTableSource extends DataTableSource {
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['createAt'].toString(),
+        formattedDate,
         style: tableContentStyle,
       )),
       DataCell(
@@ -141,7 +144,16 @@ class _MyDataTableSource extends DataTableSource {
                 Icons.visibility,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ManageAdsModal(
+                      item: item,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

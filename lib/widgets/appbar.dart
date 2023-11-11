@@ -124,12 +124,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 width: 1.0, // Set the width of the border
                               ),
                               shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                    profile), // Replace 'your_image.png' with the actual image path
-                                fit: BoxFit
-                                    .cover, // Choose the appropriate fit option for your design
-                              ),
+                            ),
+                            child: Image.network(
+                              profile,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.person,
+                                );
+                              },
                             ),
                           ),
                         ),

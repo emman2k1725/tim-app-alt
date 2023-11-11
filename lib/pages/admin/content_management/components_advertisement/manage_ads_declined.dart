@@ -4,21 +4,21 @@ import 'package:tim_app/backend/firebase/fetchTable.dart';
 import 'package:tim_app/utils/constants.dart';
 import 'package:tim_app/utils/styles.dart';
 
-import 'manage_offer_modal.dart';
+import 'manage_ads_modal.dart';
 
-class ManagePendingOffer extends StatefulWidget {
-  const ManagePendingOffer({super.key});
+class ManageDeclinedAds extends StatefulWidget {
+  const ManageDeclinedAds({super.key});
 
   @override
-  _ManagePendingOfferState createState() => _ManagePendingOfferState();
+  _ManageDeclinedAdsState createState() => _ManageDeclinedAdsState();
 }
 
-class _ManagePendingOfferState extends State<ManagePendingOffer> {
+class _ManageDeclinedAdsState extends State<ManageDeclinedAds> {
   @override
   Widget build(BuildContext context) {
     final int rowsPerPage = 10;
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchOffers('Pending'),
+      stream: fetchAds('Declined'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -70,12 +70,12 @@ class _ManagePendingOfferState extends State<ManagePendingOffer> {
                         label: Row(
                           children: [
                             Text(
-                              'Offer Code',
+                              'Ads Placement',
                               style: tableHeaderStyle,
                             ),
                           ],
                         ),
-                        tooltip: 'Offer Code',
+                        tooltip: 'Ads Placement',
                       ),
                       DataColumn(
                         label: Text(
@@ -128,7 +128,7 @@ class _MyDataTableSource extends DataTableSource {
         style: tableContentStyle,
       )),
       DataCell(Text(
-        item['offerCode'].toString(),
+        item['placement'].toString(),
         style: tableContentStyle,
       )),
       DataCell(Text(
@@ -147,7 +147,7 @@ class _MyDataTableSource extends DataTableSource {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return ManageOfferModal(
+                    return ManageAdsModal(
                       item: item,
                     );
                   },

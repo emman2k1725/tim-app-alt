@@ -243,6 +243,24 @@ Future updateContent(String? docID, ContentModel? contentModel) async {
   }
 }
 
+Future updateBusinessContent(
+    String docID, String collectionName, String status) async {
+  final _firestore = FirebaseFirestore.instance.collection(collectionName);
+
+  debugPrint(docID);
+  try {
+    Map<String, dynamic> dataToUpdate = {
+      'status': status,
+    };
+
+    await _firestore.doc(docID).update(dataToUpdate);
+    return 'success';
+  } catch (e) {
+    print(e.toString());
+    return null;
+  }
+}
+
 Future<Map<String, dynamic>> fetchBusiness(String? ownerID) async {
   try {
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore

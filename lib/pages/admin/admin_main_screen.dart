@@ -97,7 +97,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        destinations: [
+        destinations: const [
           NavigationDestination(
               label: 'Dashboard',
               tooltip: 'Dashboard',
