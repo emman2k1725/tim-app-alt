@@ -54,7 +54,6 @@ Stream<List<Map<String, dynamic>>> fetchSpecialOffer(String? businessID) {
   });
 }
 
-
 Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
   try {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -79,7 +78,7 @@ Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
   }
 }
 
-Stream<List<Map<String, dynamic>>> fetchAds(String? businessID) {
+Stream<List<Map<String, dynamic>>> fetchAds(String status) {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('advertisement')
       .where("status", isEqualTo: status);
