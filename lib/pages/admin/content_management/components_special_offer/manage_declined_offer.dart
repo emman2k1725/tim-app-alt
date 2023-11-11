@@ -6,19 +6,19 @@ import 'package:tim_app/utils/styles.dart';
 
 import 'manage_offer_modal.dart';
 
-class ManagePendingOffer extends StatefulWidget {
-  const ManagePendingOffer({super.key});
+class ManageDeclinedOffer extends StatefulWidget {
+  const ManageDeclinedOffer({super.key});
 
   @override
-  _ManagePendingOfferState createState() => _ManagePendingOfferState();
+  _ManageDeclinedOfferState createState() => _ManageDeclinedOfferState();
 }
 
-class _ManagePendingOfferState extends State<ManagePendingOffer> {
+class _ManageDeclinedOfferState extends State<ManageDeclinedOffer> {
   @override
   Widget build(BuildContext context) {
     final int rowsPerPage = 10;
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchOffers('Pending'),
+      stream: fetchOffers('Declined'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

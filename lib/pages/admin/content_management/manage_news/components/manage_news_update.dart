@@ -1,21 +1,27 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tim_app/backend/firebase/applyBusiness.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
 import 'package:tim_app/model/content_model.dart';
 import 'package:tim_app/widgets/blurContainer.dart';
 
-class CreateNewsDialog extends StatefulWidget {
-  const CreateNewsDialog({
+import '../../../../../widgets/dialogs/success_dialog.dart';
+
+class UpdateNewsDialog extends StatefulWidget {
+  final Map<String, dynamic> newsData;
+  const UpdateNewsDialog({
     super.key,
+    required this.newsData,
   });
 
   @override
-  State<CreateNewsDialog> createState() => _CreateNewsDialogState();
+  State<UpdateNewsDialog> createState() => _UpdateNewsDialogState();
 }
 
-class _CreateNewsDialogState extends State<CreateNewsDialog> {
+class _UpdateNewsDialogState extends State<UpdateNewsDialog> {
   File? _pickedImage;
   Uint8List? _webPickedImage;
 
@@ -39,6 +45,12 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
   @override
   Widget build(BuildContext context) {
     ContentModel? contentModel = ContentModel();
+    TextEditingController title =
+        TextEditingController(text: widget.newsData['contentTitle']);
+    TextEditingController content =
+        TextEditingController(text: widget.newsData['description']);
+    TextEditingController newsLink =
+        TextEditingController(text: widget.newsData['website']);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -89,6 +101,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: title,
                           decoration: InputDecoration(
                             labelText: 'Title *',
                             hintText: 'Title of News',
@@ -108,11 +121,13 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           onSaved: (value) {
                             contentModel.contentTitle = value;
                           },
+                          style: TextStyle(color: Colors.white),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
+                          controller: content,
                           decoration: InputDecoration(
                             labelText: 'Content of news *',
                             hintText: 'Content of news ',
@@ -132,11 +147,13 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           onSaved: (value) {
                             contentModel.description = value;
                           },
+                          style: TextStyle(color: Colors.white),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
+                          controller: newsLink,
                           decoration: InputDecoration(
                             labelText: 'News Link *',
                             hintText: 'News Link ',
@@ -156,6 +173,7 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           onSaved: (value) {
                             contentModel.website = value;
                           },
+                          style: TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -187,48 +205,20 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
-                              onTap: () async {
-                                await _pickImage('logo');
-                              },
-                              child: _pickedImage == null
-                                  ? Container(
-                                      width: 400,
-                                      height: 209,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Colors.blue, width: 2),
-                                      ),
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons
-                                                .cloud_upload_outlined, // Replace with the icon you want to use
-                                            color: Colors.white, // Icon color
-                                            size: 30, // Icon size
-                                          ),
-                                          SizedBox(
-                                              width:
-                                                  10), // Optional: Add spacing between icon and text
-                                          Text(
-                                            'upload a 400px x 209px image  ', // Replace with your custom text
-                                            style: TextStyle(
-                                              color: Colors.white, // Text color
-                                              fontSize: 18, // Text font size
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Image.memory(_webPickedImage!,
-                                      fit: BoxFit.fill,
-                                      width: 140,
-                                      height: 110),
-                            ),
+                                onTap: () async {
+                                  await _pickImage('logo');
+                                },
+                                child: _pickedImage == null
+                                    ? Image.network(
+                                        widget.newsData['displayImage'],
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.memory(_webPickedImage!,
+                                        fit: BoxFit.fill,
+                                        width: 140,
+                                        height: 110)),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -245,23 +235,50 @@ class _CreateNewsDialogState extends State<CreateNewsDialog> {
         ElevatedButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              contentModel.displayImage =
-                  await uploadImage(_webPickedImage, 'Newsletter');
+              if (_webPickedImage == null) {
+                contentModel.displayImage = widget.newsData['displayImage'];
+              } else {
+                deleteOldVideo();
+                contentModel.displayImage =
+                    await uploadVideo(_webPickedImage, 'News');
+              }
               contentModel.contentType = 'News';
               contentModel.createdAt = DateTime.now();
               _formKey.currentState!.save();
-              await createContent(contentModel).then((value) {
+              await updateContent(widget.newsData['docID'], contentModel)
+                  .then((value) {
                 if (value == 'success') {
-                  debugPrint('Okay na');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SuccessDialog(
+                        title: 'You updated the content',
+                      );
+                    },
+                  );
                 } else {
+                  // Non success action
                   debugPrint('Di pa okay');
                 }
               });
+              // Navigator.of(context).pop();
             }
           },
-          child: const Text('Create'),
+          child: const Text('Update News'),
         ),
       ],
     );
+  }
+
+  void deleteOldVideo() async {
+    try {
+      Reference storageReference =
+          FirebaseStorage.instance.ref(widget.newsData['displayImage']);
+      await storageReference.delete();
+      debugPrint('Successfully deleted old video');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
