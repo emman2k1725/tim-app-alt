@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/manage_business/components_view_business/tabbar_business_reviews.dart';
+import 'package:tim_app/widgets/blurContainer.dart';
 
 import 'tabbar_business_details.dart';
+import 'tabbar_transaction.dart';
 
 class ModalTabbarBusiness extends StatefulWidget {
   final Map<String, dynamic> item;
@@ -24,11 +27,11 @@ class _ModalTabbarBusinessState extends State<ModalTabbarBusiness>
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.item['businessName'].toString()),
-      content: SizedBox(
+      backgroundColor: Colors.transparent,
+      content: BlurContainer(
         width: MediaQuery.of(context).size.width * 0.80,
         height: MediaQuery.of(context).size.height,
-        child: Column(
+        childColumn: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TabBar(
@@ -39,24 +42,26 @@ class _ModalTabbarBusinessState extends State<ModalTabbarBusiness>
               tabs: [
                 Tab(text: 'Business Details'),
                 Tab(text: 'Business Reviews'),
-                Tab(text: 'Tab 3'),
+                Tab(text: 'Business Transaction'),
               ],
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.80,
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.70,
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  //tabbar 1
                   SingleChildScrollView(
                     child: Column(children: [TabbarDetails(item: widget.item)]),
                   ),
-                  // SingleChildScrollView(
-                  //     child: TabbarDetails(item: widget.item)),
-
-                  Center(child: Text('Content for Tab 2')),
-                  Center(child: Text('Content for Tab 3')),
+                  SingleChildScrollView(
+                    child: Column(
+                        children: [ViewBusinessReviews(item: widget.item)]),
+                  ),
+                  SingleChildScrollView(
+                    child:
+                        Column(children: [TransactionView(item: widget.item)]),
+                  ),
                 ],
               ),
             ),

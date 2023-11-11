@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_approved_offer.dart';
+import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_declined_offer.dart';
 import 'package:tim_app/pages/admin/content_management/components_special_offer/manage_special_offer_table.dart';
 
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
@@ -88,10 +90,10 @@ class _SpecialOfferTabBarViewState extends State<SpecialOfferTabBarView>
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [
-                            ManageOfferTable(),
-                            BusinessApplicationTable(),
-                            const ProfileInterest(),
+                          children: const [
+                            ManagePendingOffer(),
+                            ManageApprovedOffer(),
+                            ManageDeclinedOffer(),
                           ],
                         ),
                       ),

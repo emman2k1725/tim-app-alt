@@ -54,6 +54,7 @@ Stream<List<Map<String, dynamic>>> fetchSpecialOffer(String? businessID) {
   });
 }
 
+
 Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
   try {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -81,7 +82,25 @@ Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
 Stream<List<Map<String, dynamic>>> fetchAds(String? businessID) {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('advertisement')
-      .where("business", isEqualTo: businessID);
+      .where("status", isEqualTo: status);
+
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchOffers(status) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('special_offers')
+      .where("status", isEqualTo: status);
 
   return itemsCollection.snapshots().map((querySnapshot) {
     List<Map<String, dynamic>> data = [];
@@ -100,6 +119,24 @@ Stream<List<Map<String, dynamic>>> fetchTableCollection(String? collection) {
   Query<Map<String, dynamic>> itemsCollection =
       FirebaseFirestore.instance.collection(collection!);
 
+  return itemsCollection.snapshots().map((querySnapshot) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchTransaction(
+    String collection, String documentID) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection(collection)
+      .where("business", isEqualTo: documentID);
   return itemsCollection.snapshots().map((querySnapshot) {
     List<Map<String, dynamic>> data = [];
 
@@ -197,10 +234,10 @@ Stream<QuerySnapshot> fetchTableContent(String type) {
   return itemsCollection.snapshots();
 }
 
-Stream<List<Map<String, dynamic>>> fetchTableBusiness(String collection) {
+Stream<List<Map<String, dynamic>>> fetchTableContentNews(String type) {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
-      .collection('businesses')
-      .where("status", isEqualTo: collection);
+      .collection('content')
+      .where("contentType", isEqualTo: type);
 
   return itemsCollection.snapshots().map((querySnapshot) {
     List<Map<String, dynamic>> data = [];
@@ -209,6 +246,34 @@ Stream<List<Map<String, dynamic>>> fetchTableBusiness(String collection) {
       String docID = document.id;
       Map<String, dynamic> documentData = document.data();
       documentData['docID'] = docID;
+      data.add(documentData);
+    }
+    return data;
+  });
+}
+
+Stream<List<Map<String, dynamic>>> fetchTableBusiness(String collection) {
+  Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
+      .collection('businesses')
+      .where("status", isEqualTo: collection);
+
+  return itemsCollection.snapshots().asyncMap((querySnapshot) async {
+    List<Map<String, dynamic>> data = [];
+
+    for (var document in querySnapshot.docs) {
+      String docID = document.id;
+      Map<String, dynamic> documentData = document.data();
+      documentData['docID'] = docID;
+
+      // Fetch the ratings subcollection for the current business
+      QuerySnapshot ratingsSnapshot =
+          await document.reference.collection('ratings').get();
+      List<Object?> ratingsData = ratingsSnapshot.docs.map((ratingDoc) {
+        return ratingDoc.data();
+      }).toList();
+
+      documentData['ratings'] = ratingsData;
+
       data.add(documentData);
     }
     return data;

@@ -22,8 +22,8 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
   Uint8List? _webPickedImage;
 
   Future<Uint8List?> _pickImage(String imageType) async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       var f = await image.readAsBytes();
       if (imageType == 'logo') {
@@ -52,9 +52,9 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
   @override
   Widget build(BuildContext context) {
     ContentModel? contentModel = ContentModel();
-    TextEditingController _contentTitleController =
+    TextEditingController contentTitleController =
         TextEditingController(text: widget.aboutDataUpdate['contentTitle']);
-    TextEditingController _contentDescController =
+    TextEditingController contentDescController =
         TextEditingController(text: widget.aboutDataUpdate['description']);
 
     return AlertDialog(
@@ -76,7 +76,7 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: _contentTitleController,
+                        controller: contentTitleController,
                         decoration: InputDecoration(
                           labelText: 'Title *',
                           hintText: 'Title of Media',
@@ -101,7 +101,7 @@ class _CreateHowDialogState extends State<CreateHowDialog> {
                         height: 20,
                       ),
                       TextFormField(
-                        controller: _contentDescController,
+                        controller: contentDescController,
                         decoration: InputDecoration(
                           labelText: 'Content of media *',
                           hintText: 'Content of media ',

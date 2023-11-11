@@ -49,7 +49,9 @@ class BusinessLinks extends StatelessWidget {
                       const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
-                  item['businessLinks']['facebook'] ?? '',
+                  item['businessLinks']['facebook'].isNotEmpty
+                      ? item['businessLinks']['facebook']
+                      : ' No Facebook Link',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -83,7 +85,9 @@ class BusinessLinks extends StatelessWidget {
                       const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
-                  item['businessLinks']['instagram'] ?? '',
+                  item['businessLinks']['instagram'].isNotEmpty
+                      ? item['businessLinks']['instagram']
+                      : ' No Instagram Link',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -117,7 +121,9 @@ class BusinessLinks extends StatelessWidget {
                       const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
                 Text(
-                  item['businessLinks']['googleMap'] ?? '',
+                  item['businessLinks']['googleMap'].isNotEmpty
+                      ? item['businessLinks']['googleMap']
+                      : ' No Google Map Link',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

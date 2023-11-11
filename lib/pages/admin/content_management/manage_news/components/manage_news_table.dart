@@ -6,6 +6,8 @@ import 'package:tim_app/utils/styles.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'manage_news_update.dart';
+
 class ManageNewsTable extends StatefulWidget {
   const ManageNewsTable({super.key});
 
@@ -23,18 +25,15 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
     final columnSpacing = screenWidth >= 600 ? 100.0 : 10.0;
     final horizontalMargin = screenWidth > 600 ? 10.0 : 5.0;
 
-    return StreamBuilder<QuerySnapshot>(
-      stream: fetchTableContent('News'),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: fetchTableContentNews('News'),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error fetching data'));
         } else if (snapshot.hasData) {
-          final List<Map<String, dynamic>> data =
-              snapshot.data!.docs.map((DocumentSnapshot document) {
-            return document.data() as Map<String, dynamic>;
-          }).toList();
+          final data = snapshot.data;
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: Theme(
@@ -106,7 +105,7 @@ class _ManageNewsTableState extends State<ManageNewsTable> {
                     tooltip: '',
                   ),
                 ],
-                source: _MyDataTableSource(data, context),
+                source: _MyDataTableSource(data!, context),
               ),
             ),
           );
@@ -189,19 +188,14 @@ class _MyDataTableSource extends DataTableSource {
         Row(
           children: [
             IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                // actionImage(index);
-              },
-            ),
-            IconButton(
-              color: Colors.green,
-              icon: const Icon(Icons.archive_outlined),
-              onPressed: () {
-                // onActionIconSelected(index);
-              },
-            ),
+                color: Colors.white,
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => UpdateNewsDialog(newsData: item),
+                  );
+                }),
           ],
         ),
       ),

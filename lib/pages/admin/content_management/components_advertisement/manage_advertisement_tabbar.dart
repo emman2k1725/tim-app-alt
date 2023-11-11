@@ -5,6 +5,9 @@ import 'package:tim_app/pages/admin/content_management/components_advertisement/
 import 'package:tim_app/pages/admin/manage_business/components/admin_application_table.dart';
 import 'package:tim_app/pages/travellers/profile/profile_interest.dart';
 
+import 'manage_ads_approved.dart';
+import 'manage_ads_declined.dart';
+
 class ManageAdvertisementTabBarView extends StatefulWidget {
   const ManageAdvertisementTabBarView({super.key});
 
@@ -68,7 +71,7 @@ class _ManageAdvertisementTabBarViewState
                                 const EdgeInsets.only(left: 20, right: 20),
                             labelColor: Colors.white,
                             unselectedLabelColor: Colors.grey,
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 text: "Pending Advertisement",
                               ),
@@ -88,10 +91,10 @@ class _ManageAdvertisementTabBarViewState
                         height: 700,
                         child: TabBarView(
                           controller: _tabController,
-                          children: [
+                          children: const [
                             ManageAdvertisementTable(),
-                            const ProfileInterest(),
-                            const ProfileInterest(),
+                            ManageApprovedAds(),
+                            ManageDeclinedAds(),
                           ],
                         ),
                       ),
