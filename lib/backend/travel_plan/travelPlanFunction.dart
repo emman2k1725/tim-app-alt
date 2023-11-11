@@ -218,14 +218,10 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
         places.add(placeResult);
       }
     } else {
+      String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
       String? displayImage, photoReference;
       dynamic openingHours;
-      GoogleMapsPlaces _places = GoogleMapsPlaces(
-        apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0',
-        baseUrl: kIsWeb
-            ? 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api'
-            : null,
-      );
+      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
       PlacesSearchResponse response = await _places.searchByText(find,
           location: Location(lat: latitude, lng: longtitude));
       String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
@@ -236,7 +232,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
           } else {
             photoReference = result.photos[0].photoReference;
             displayImage =
-                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key='AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0'";
+                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=$apiKey";
           }
           if (result.openingHours == null || result.openingHours is Object) {
             openingHours = "";
