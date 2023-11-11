@@ -221,7 +221,12 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
       String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
       String? displayImage, photoReference;
       dynamic openingHours;
-      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
+      GoogleMapsPlaces _places = GoogleMapsPlaces(
+        apiKey: apiKey,
+        baseUrl: kIsWeb
+            ? 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api'
+            : null,
+      );
       PlacesSearchResponse response = await _places.searchByText(find,
           location: Location(lat: latitude, lng: longtitude));
       String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
