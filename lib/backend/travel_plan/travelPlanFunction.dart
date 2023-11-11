@@ -186,7 +186,6 @@ bool isTimeInRange(String timeToCheck, String startTime, String endTime) {
 
 Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
     double longtitude, String city, String findWhat) async {
-  String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
   List<Map<String, dynamic>> places = [];
   List<Map<String, dynamic>> dataBusiness = [];
   try {
@@ -222,7 +221,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
       String? displayImage, photoReference;
       dynamic openingHours;
       GoogleMapsPlaces _places = GoogleMapsPlaces(
-        apiKey: apiKey,
+        apiKey: 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0',
         baseUrl: kIsWeb
             ? 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api'
             : null,
@@ -237,7 +236,7 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
           } else {
             photoReference = result.photos[0].photoReference;
             displayImage =
-                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=$apiKey";
+                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key='AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0'";
           }
           if (result.openingHours == null || result.openingHours is Object) {
             openingHours = "";
