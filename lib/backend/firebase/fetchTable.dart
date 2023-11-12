@@ -78,10 +78,10 @@ Stream<List<Map<String, dynamic>>> getRecentReviews(String? userID) {
   }
 }
 
-Stream<List<Map<String, dynamic>>> fetchAds(String status) {
+Stream<List<Map<String, dynamic>>> fetchAds(String businessID) {
   Query<Map<String, dynamic>> itemsCollection = FirebaseFirestore.instance
       .collection('advertisement')
-      .where("status", isEqualTo: status);
+      .where("business", isEqualTo: businessID);
 
   return itemsCollection.snapshots().map((querySnapshot) {
     List<Map<String, dynamic>> data = [];
