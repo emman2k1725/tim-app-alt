@@ -204,7 +204,7 @@ class _NavBarState extends State<NavBar> {
 
   Widget navLogo() {
     return Container(
-      width: 70,
+      width: 100,
       //margin: EdgeInsets.only(bottom: 12),
       decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage(logo), fit: BoxFit.contain)),

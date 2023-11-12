@@ -25,60 +25,25 @@ class _ImageCarouselState extends State<ImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: fetchTableContent('HowItWorks'),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error fetching data'));
-          } else if (snapshot.hasData) {
-            final List<Map<String, dynamic>> data =
-                snapshot.data!.docs.map((QueryDocumentSnapshot document) {
-              Map<String, dynamic> documentData =
-                  document.data() as Map<String, dynamic>;
-              documentData['id'] =
-                  document.id; // Add the document ID to the data map
-              return documentData;
-            }).toList();
-
-            final aboutData = data[0];
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
-              child: Responsive.isDesktop(context)
-                  ? Row(
-                      children: [
-                        SizedBox(
-                            height: 300,
-                            child: VideoPlayerScreen(
-                                videoUrl: aboutData['displayImage'])),
-                        const SizedBox(
-                          width: 100,
-                        ),
-                        TabletButtonContainers(),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: w! / 10),
-                          child: SizedBox(
-                            height: 300,
-                            child: VideoPlayerScreen(
-                                videoUrl: aboutData['displayImage']),
-                          ),
-                        ),
-                        SizedBox(height: 40),
-                        Responsive.isTablet(context)
-                            ? TabletButtonContainers()
-                            : MobileButtonContainers(),
-                      ],
-                    ),
-            );
-          } else {
-            return const Center(child: Text('No data found'));
-          }
-        });
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: w! / 10, vertical: 20),
+      child: Responsive.isDesktop(context)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TabletButtonContainers(),
+              ],
+            )
+          : Column(
+              children: [
+                SizedBox(height: 40),
+                Responsive.isTablet(context)
+                    ? TabletButtonContainers()
+                    : MobileButtonContainers(),
+              ],
+            ),
+    );
   }
 }
 
@@ -87,56 +52,40 @@ class TabletButtonContainers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShadowButton(
-              icon: Icons.book_outlined,
-              text: 'How It Works',
-              onPressed: () {
-                GoRouter.of(context).go('/how-it-works');
-              },
-            ),
-            const SizedBox(
-              width: 50,
-            ),
-            ShadowButton(
-              icon: Icons.newspaper_outlined,
-              text: 'Latest News',
-              onPressed: () {
-                GoRouter.of(context).go('/latest-news');
-              },
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShadowButton(
-              icon: Icons.discount_outlined,
-              text: 'Special Offer',
-              onPressed: () {
-                GoRouter.of(context).go('/special-offers');
-              },
-            ),
-            const SizedBox(
-              width: 50,
-            ),
-            ShadowButton(
-              icon: Icons.travel_explore_outlined,
-              text: 'City Guide',
-              onPressed: () {
-                GoRouter.of(context).go('/city-guide');
-              },
-            ),
-          ],
-        ),
-      ],
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ShadowButton(
+            icon: Icons.book_outlined,
+            text: 'How It Works',
+            onPressed: () {
+              GoRouter.of(context).go('/how-it-works');
+            },
+          ),
+          ShadowButton(
+            icon: Icons.newspaper_outlined,
+            text: 'Latest News',
+            onPressed: () {
+              GoRouter.of(context).go('/latest-news');
+            },
+          ),
+          ShadowButton(
+            icon: Icons.discount_outlined,
+            text: 'Special Offer',
+            onPressed: () {
+              GoRouter.of(context).go('/special-offers');
+            },
+          ),
+          ShadowButton(
+            icon: Icons.travel_explore_outlined,
+            text: 'City Guide',
+            onPressed: () {
+              GoRouter.of(context).go('/city-guide');
+            },
+          ),
+        ],
+      ),
     );
   }
 }

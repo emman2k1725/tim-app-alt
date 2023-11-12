@@ -43,7 +43,7 @@ class _BusinessAdsTableState extends State<BusinessAdsTable> {
     const int rowsPerPage = 10;
 
     return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: fetchAds(business?.businessID),
+      stream: fetchAds(''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
