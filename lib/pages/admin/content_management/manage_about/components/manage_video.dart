@@ -38,8 +38,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 600,
-      height: 600,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Center(
         child: _controller.value.isInitialized
             ? AspectRatio(
