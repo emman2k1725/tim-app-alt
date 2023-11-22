@@ -1,10 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_maps_webservice/places.dart';
 import 'package:tim_app/backend/firebase/fetchDropDown.dart';
 import 'package:tim_app/backend/firebase/firebaseService.dart';
@@ -221,37 +220,42 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
       String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
       String? displayImage, photoReference;
       dynamic openingHours;
-      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
-      PlacesSearchResponse response = await _places.searchByText(find,
-          location: Location(lat: latitude, lng: longtitude));
+      final response = await http.get(Uri.http('localhost:8080', '/places', {
+        'lat': latitude.toString(),
+        'long': longtitude.toString(),
+        'find': find,
+      }));
+      Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       String baseURL = "https://maps.googleapis.com/maps/api/place/photo";
-      for (var result in response.results) {
-        if (result.permanentlyClosed == false) {
-          if (result.photos.isEmpty) {
-            displayImage = result.icon;
+      for (var result in jsonResponse['results']) {
+        if (result['permanently_closed'] == false) {
+          if (result['photos'].isEmpty) {
+            displayImage = result['icon'];
           } else {
-            photoReference = result.photos[0].photoReference;
-            displayImage =
-                "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=$apiKey";
+            photoReference = result['photos'][0]['photo_reference'];
+            displayImage = result['icon'];
+            // displayImage =
+            //     "$baseURL?maxwidth=400&maxheight=400&photoreference=$photoReference&key=$apiKey";
           }
-          if (result.openingHours == null || result.openingHours is Object) {
+          if (result['opening_hours'] == null ||
+              result['opening_hours'] is Object) {
             openingHours = "";
           } else {
-            openingHours = result.openingHours;
+            openingHours = result['opening_hours'];
           }
 
           Map<String, dynamic> placeResult = {
-            "businessName": result.name,
-            "address": result.formattedAddress,
+            "businessName": result['name'],
+            "address": result['formatted_address'],
             "city": city,
-            "rating": result.rating,
+            "rating": result['rating'],
             "openingHours": openingHours.toString(),
             "displayImage": displayImage,
             "business_status": "",
             "sector": find,
             "description": "",
             "timeSchedule": "",
-            "placeID": result.placeId,
+            "placeID": result['place_id'],
             "source": "google"
           };
           places.add(placeResult);
