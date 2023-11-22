@@ -58,20 +58,6 @@ class _DraggableContainer extends State<DraggableContainer> {
             //     timeSchedule: ''));
           }
         }
-        items.add(DraggableListItem(
-          title: "",
-          urlImage: "",
-          address: "",
-          rating: "0.0",
-          timeSchedule: "",
-        ));
-        items.add(DraggableListItem(
-          title: "",
-          urlImage: "",
-          address: "",
-          rating: "0.0",
-          timeSchedule: "",
-        ));
         DraggableList draggableList = DraggableList(
           header: header,
           subText: subText,
