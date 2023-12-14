@@ -28,10 +28,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Color(0xFF333334),
-          toolbarHeight: Responsive.isDesktop(context) ? 78 : 65,
-          elevation: 4,
-          titleSpacing: 0,
+          backgroundColor: Colors.transparent,
+          toolbarHeight: Responsive.isDesktop(context) ? 85 : 65,
+          // elevation: 4,
+          // titleSpacing: 0,
           title: NavBar(),
         ),
         body: StreamBuilder<QuerySnapshot>(
@@ -65,7 +65,16 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Container(
-                      color: Colors.black54,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(99, 25, 31, 211),
+                            Color.fromARGB(45, 111, 64, 212),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
                     ),
                     SingleChildScrollView(
                       child: Column(
@@ -77,7 +86,7 @@ class _HomeState extends State<Home> {
                           const SizedBox(
                             height: 40,
                           ),
-                          ImageCarousel(),
+                          // ImageCarousel(),
                           const SizedBox(
                             height: 20,
                           ),

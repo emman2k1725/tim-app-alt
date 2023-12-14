@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:tim_app/atoms/button.dart';
 import 'package:tim_app/responsive.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/colors.dart';
@@ -88,23 +89,30 @@ class _Container1State extends State<Container1> {
                     child: const Text('Plan Now'),
                   ),
                 ),
-                SizedBox(
-                  height: 45,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      elevation: 0,
-                      side: const BorderSide(
-                        width: 1.0,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                    icon: const Icon(Icons.play_arrow_outlined),
-                    label: const Text('How it works'),
-                  ),
+                GradientButton(
+                  text: 'Get Started',
+                  onPressed: () {
+                    // Your button click logic here
+                    print('Button clicked');
+                  },
                 ),
+                // SizedBox(
+                //   height: 45,
+                //   child: ElevatedButton.icon(
+                //     onPressed: () {},
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: Colors.white,
+                //       foregroundColor: Colors.black,
+                //       elevation: 0,
+                //       side: const BorderSide(
+                //         width: 1.0,
+                //         color: Colors.transparent,
+                //       ),
+                //     ),
+                //     icon: const Icon(Icons.play_arrow_outlined),
+                //     label: const Text('How it works'),
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 10),
@@ -207,48 +215,16 @@ class _Container1State extends State<Container1> {
               ),
               Text(
                 'Capturing the Perfect Shots in Picture-Perfect Destinations',
-                style: TextStyle(color: Colors.grey.shade400, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                children: [
-                  SizedBox(
-                    height: 60,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                        style: elevatedButtonStyle,
-                        onPressed: () {
-                          GoRouter.of(context).go('/login');
-                        },
-                        child: const Text(
-                          'Get Started',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  SizedBox(
-                    height: 45,
-                    child: ElevatedButton.icon(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            side: const BorderSide(
-                              width: 1.0,
-                              color: Colors.transparent,
-                            )),
-                        icon: const Icon(Icons.play_arrow_outlined),
-                        label: const Text('How it works')),
-                  ),
-                ],
+              GradientButton(
+                text: 'Start Planning',
+                onPressed: () {
+                  GoRouter.of(context).go('/login');
+                },
               ),
             ],
           ),

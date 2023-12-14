@@ -43,6 +43,7 @@ dependencies:
   chewie: ^1.7.1
   syncfusion_flutter_pdf: ^23.1.43
   flutter_google_places_sdk: ^0.3.2+9
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:
