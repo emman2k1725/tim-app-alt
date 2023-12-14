@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tim_app/atoms/button.dart';
 import 'package:tim_app/model/UserModel.dart';
 import 'package:tim_app/utils/appTheme_style.dart';
 import 'package:tim_app/utils/constants.dart';
@@ -241,8 +242,8 @@ class _LoginContainerState extends State<LoginContainer> {
                                     ),
                                     const SizedBox(height: 16.0),
                                     Center(
-                                      child: CustomButton(
-                                        text: 'Sign in',
+                                      child: GradientButton(
+                                        text: 'Sign In Account',
                                         onPressed: () async {
                                           if (_formKey.currentState!
                                               .validate()) {
@@ -287,79 +288,79 @@ class _LoginContainerState extends State<LoginContainer> {
                                       ),
                                     ),
                                     const SizedBox(height: 16.0),
-                                    const Center(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 10),
-                                        child: Text(
-                                          '- OR -',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            letterSpacing: 1.5,
-                                            wordSpacing: 2.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: Colors.blue,
-                                          ),
-                                          height: 40,
-                                          width: 200,
-                                          child: ElevatedButton.icon(
-                                            onPressed: () {
-                                              // Handle the login with Facebook action
-                                            },
-                                            icon: Image.asset(
-                                              fbLogo,
-                                              width: 30.0,
-                                              height: 30.0,
-                                            ),
-                                            label: const Text(
-                                                'Login with Facebook'),
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.white,
-                                              onPrimary: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 16.0),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.blue,
-                                          ),
-                                          height: 40,
-                                          width: 180,
-                                          child: ElevatedButton.icon(
-                                            onPressed: () {
-                                              // Handle the login with Facebook action
-                                            },
-                                            icon: Image.asset(
-                                              googleLogo,
-                                              width: 30.0,
-                                              height: 30.0,
-                                            ),
-                                            label:
-                                                const Text('Login with Google'),
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.white,
-                                              onPrimary: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16.0),
+                                    // const Center(
+                                    //   child: Padding(
+                                    //     padding: EdgeInsetsDirectional.fromSTEB(
+                                    //         10, 0, 0, 10),
+                                    //     child: Text(
+                                    //       '- OR -',
+                                    //       style: TextStyle(
+                                    //         color: Colors.white,
+                                    //         fontSize: 12.0,
+                                    //         letterSpacing: 1.5,
+                                    //         wordSpacing: 2.0,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.center,
+                                    //   children: [
+                                    //     Container(
+                                    //       decoration: BoxDecoration(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20),
+                                    //         color: Colors.blue,
+                                    //       ),
+                                    //       height: 40,
+                                    //       width: 200,
+                                    //       child: ElevatedButton.icon(
+                                    //         onPressed: () {
+                                    //           // Handle the login with Facebook action
+                                    //         },
+                                    //         icon: Image.asset(
+                                    //           fbLogo,
+                                    //           width: 30.0,
+                                    //           height: 30.0,
+                                    //         ),
+                                    //         label: const Text(
+                                    //             'Login with Facebook'),
+                                    //         style: ElevatedButton.styleFrom(
+                                    //           primary: Colors.white,
+                                    //           onPrimary: Colors.black,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     const SizedBox(width: 16.0),
+                                    //     Container(
+                                    //       decoration: BoxDecoration(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(10),
+                                    //         color: Colors.blue,
+                                    //       ),
+                                    //       height: 40,
+                                    //       width: 180,
+                                    //       child: ElevatedButton.icon(
+                                    //         onPressed: () {
+                                    //           // Handle the login with Facebook action
+                                    //         },
+                                    //         icon: Image.asset(
+                                    //           googleLogo,
+                                    //           width: 30.0,
+                                    //           height: 30.0,
+                                    //         ),
+                                    //         label:
+                                    //             const Text('Login with Google'),
+                                    //         style: ElevatedButton.styleFrom(
+                                    //           primary: Colors.white,
+                                    //           onPrimary: Colors.black,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+
                                     Center(
                                       child: RichText(
                                         text: TextSpan(

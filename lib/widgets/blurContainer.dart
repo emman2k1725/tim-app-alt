@@ -21,7 +21,7 @@ class BlurImageContainer extends StatelessWidget {
       height: height,
       width: width,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        // borderRadius: BorderRadius.circular(25),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
@@ -44,7 +44,7 @@ class BlurImageContainer extends StatelessWidget {
                 ],
               ),
               // color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(25),
+              //  borderRadius: BorderRadius.circular(25),
               border: Border.all(width: 2, color: Colors.white10),
             ),
             child: Column(
@@ -84,7 +84,7 @@ class BlurExpanded extends StatelessWidget {
     return SizedBox(
       width: width,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        // borderRadius: BorderRadius.circular(25),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
           child: Container(
@@ -111,7 +111,7 @@ class BlurExpanded extends StatelessWidget {
                 ],
               ),
               // color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(25),
+              // borderRadius: BorderRadius.circular(25),
             ),
             child: childColumn,
           ),
@@ -136,7 +136,7 @@ class BlurContainer extends StatelessWidget {
       height: height,
       width: width,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        // borderRadius: BorderRadius.circular(25),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
           child: Container(
@@ -163,7 +163,7 @@ class BlurContainer extends StatelessWidget {
                 ],
               ),
               // color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(25),
+              //     borderRadius: BorderRadius.circular(25),
             ),
             child: childColumn,
           ),
