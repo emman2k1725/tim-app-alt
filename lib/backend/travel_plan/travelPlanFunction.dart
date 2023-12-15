@@ -218,9 +218,10 @@ Future<List<Map<String, dynamic>>> fetchPlaces(String find, double latitude,
       }
     } else {
       String apiKey = 'AIzaSyC_tT3e0KsDdyQ0VhjRi8-xhlFsdUztbB0';
+      String middleWare = 'tim-app-api-nhmcmkstfq-zf.a.run.app';
       String? displayImage, photoReference;
       dynamic openingHours;
-      final response = await http.get(Uri.http('localhost:8080', '/places', {
+      final response = await http.get(Uri.http(middleWare, '/places', {
         'lat': latitude.toString(),
         'long': longtitude.toString(),
         'find': find,
